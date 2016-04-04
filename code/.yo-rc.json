@@ -1,0 +1,24 @@
+{
+  "generator-jhipster": {
+    "baseName": "storii",
+    "packageName": "storii.app",
+    "packageFolder": "storii/app",
+    "authenticationType": "session",
+    "hibernateCache": "ehcache",
+    "clusteredHttpSession": "no",
+    "websocket": "no",
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "mysql",
+    "searchEngine": "no",
+    "useSass": false,
+    "buildTool": "maven",
+    "frontendBuilder": "gulp",
+    "enableTranslation": true,
+    "enableSocialSignIn": false,
+    "rememberMeKey": "c16d721555c7027e7e4dd9f3b341b9036cebc39f",
+    "testFrameworks": [
+      "gatling"
+    ]
+  }
+}
