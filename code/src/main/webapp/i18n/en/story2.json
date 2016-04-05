@@ -1,0 +1,23 @@
+{
+    "storiiApp": {
+        "story2" : {
+            "home": {
+                "title": "Story2s",
+                "createLabel": "Create a new Story2",
+                "createOrEditLabel": "Create or edit a Story2",
+                "search": "Search for Story2"
+            },
+            "created": "A new Story2 is created with identifier {{ param }}",
+            "updated": "A Story2 is updated with identifier {{ param }}",
+            "deleted": "A Story2 is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Story2 {{ id }}?"
+            },
+            "detail": {
+                "title": "Story2"
+            },
+            "meh": "Meh",
+            "af": "Af"
+        }
+    }
+}

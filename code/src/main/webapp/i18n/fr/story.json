@@ -1,0 +1,24 @@
+{
+    "storiiApp": {
+        "story" : {
+            "home": {
+                "title": "Storys",
+                "createLabel": "Créer un nouveau Story",
+                "createOrEditLabel": "Créer ou éditer un Story",
+                "search": "Search for Story"
+            },
+            "created": "Un nouveau Story a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Story avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Story avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Story {{ id }} ?"
+            },
+            "detail": {
+                "title": "Story"
+            },
+            "name": "Name",
+            "description": "Description"
+        }
+    }
+}
+

@@ -50,7 +50,7 @@ jhipster:
     security:
         rememberme:
             # security key (this key should be unique for your application, and kept secret)
-            key: c16d721555c7027e7e4dd9f3b341b9036cebc39f
+            key: 54eeff5699df37ad4e475874fc768612e300a216
     swagger:
         title: storii API
         description: storii API documentation

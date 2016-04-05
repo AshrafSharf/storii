@@ -8,7 +8,7 @@
     "clusteredHttpSession": "no",
     "websocket": "no",
     "databaseType": "sql",
-    "devDatabaseType": "h2Disk",
+    "devDatabaseType": "mysql",
     "prodDatabaseType": "mysql",
     "searchEngine": "no",
     "useSass": false,
@@ -16,7 +16,7 @@
     "frontendBuilder": "gulp",
     "enableTranslation": true,
     "enableSocialSignIn": false,
-    "rememberMeKey": "c16d721555c7027e7e4dd9f3b341b9036cebc39f",
+    "rememberMeKey": "54eeff5699df37ad4e475874fc768612e300a216",
     "testFrameworks": [
       "gatling"
     ]

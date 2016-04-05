@@ -1,4 +1,4 @@
-// Generated on 2016-04-04 using generator-jhipster 2.27.2
+// Generated on 2016-04-05 using generator-jhipster 2.27.2
 /* jshint camelcase: false */
 'use strict';
 
@@ -104,8 +104,7 @@ gulp.task('serve', function() {
             '/swagger-resources',
             '/metrics',
             '/websocket/tracker',
-            '/dump',
-            '/console/'
+            '/dump'
         ];
 
         var requireTrailingSlash = proxyRoutes.filter(function (r) {
