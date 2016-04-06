@@ -7,8 +7,8 @@
 */
 (function(factory) {
     if (typeof define === 'function' && define.amd) {
-        define(['jquery', 'lodash', 'jquery-ui/core', 'jquery-ui/widget', 'jquery-ui/mouse', 'jquery-ui/draggable',
-            'jquery-ui/resizable'], factory);
+        define(['jquery.min-1.12', 'lodash', 'jquery-ui.js/core', 'jquery-ui.js/widget', 'jquery-ui.js/mouse', 'jquery-ui.js/draggable',
+            'jquery-ui.js/resizable'], factory);
     } else if (typeof exports !== 'undefined') {
         try { jQuery = require('jquery'); } catch (e) {}
         try { _ = require('lodash'); } catch (e) {}
