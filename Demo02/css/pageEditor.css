@@ -7,7 +7,7 @@ body {
 }
 
 textarea{
-    width:100%;
+    width:90%;
     height:100%;
 }
 .hidden{
@@ -41,6 +41,7 @@ img{
     text-align: center;
     background: #eeeeee;
     overflow-y: hidden!important;
+    border: 1px solid rgba(83, 99, 121, 0.21);
 }
 
 .pageEditorFrameContainer {
@@ -65,11 +66,15 @@ img{
     padding: 20px;
     text-align: center;
     width:auto;
-
+    display:none;
 }
 
 .sidebar > div:first-of-type{
     border: 2px dotted black;
+}
+
+.widgets{
+    display:inline;
 }
 
 
@@ -95,7 +100,7 @@ img{
 
 .trash {
     font-size:1.4em;
-    width: 200px;
+    width: 400px;
     margin: 0 20px 0 0;
     padding:10px;
     text-align: center;
@@ -111,9 +116,10 @@ img{
     border: 2px dotted black;
 }
 
-.link > .grid-stack-item-content{
+.grid-stack .link > .grid-stack-item-content{
     padding:10px;
     background:#96C3CC;
+    line-height: 2.3em;
 }
 
 .sidebar .link .grid-stack-item-content {
@@ -121,7 +127,16 @@ img{
 }
 
 
-.link > .grid-stack-item-content > div:first-of-type {
+.grid-stack .link > .grid-stack-item-content > div:first-of-type {
     border: 2px black dotted;
     height:100%;
+}
+
+.grid-stack a{
+    font-size: 18px;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
 }

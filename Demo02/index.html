@@ -26,14 +26,23 @@
 
     <div id="links">
         <a id="edit" href="#">Edit</a>
+        <a id="clear-grid" class="" href="#">Clear</a>
+        <a id="load-grid" class="" href="#">Load</a>
     </div>
+    <!--<textarea id="saved-data" cols="100" rows="20" readonly="readonly"></textarea>-->
 
     <div class="sidebar">
         <div>
-                <div class="image grid-stack-item"><div class="grid-stack-item-content">ADD IMAGE</div></div>
-                <div class="text grid-stack-item"><div class="grid-stack-item-content">ADD TEXT</div></div>
-                <div class="link grid-stack-item"><div class="grid-stack-item-content">ADD LINK</div></div>
-                <div class="trash"><div>XXX</div></div>
+            <div class="widgets" id="imageWidget">
+                <div class="image grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content">ADD IMAGE</div></div>
+            </div>
+            <div class="widgets" id="textWidget">
+                <div class="text grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content">ADD TEXT</div></div>
+            </div>
+            <div class="widgets" id="linkWidget">
+                <div class="link grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content"><div><a href="#">ADD LINK</a></div></div></div>
+            </div>
+                <div class="trash"><div>DELETE</div></div>
         </div>
     </div>
 
