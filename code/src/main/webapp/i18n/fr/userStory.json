@@ -1,0 +1,26 @@
+{
+    "storiiApp": {
+        "userStory" : {
+            "home": {
+                "title": "UserStorys",
+                "createLabel": "Créer un nouveau UserStory",
+                "createOrEditLabel": "Créer ou éditer un UserStory",
+                "search": "Search for UserStory"
+            },
+            "created": "Un nouveau UserStory a été créé avec l'identifiant {{ param }}",
+            "updated": "Le UserStory avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le UserStory avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le UserStory {{ id }} ?"
+            },
+            "detail": {
+                "title": "UserStory"
+            },
+            "name": "Name",
+            "author_name": "Author_name",
+            "co_author_name": "Co_author_name",
+            "isPublished": "IsPublished"
+        }
+    }
+}
+

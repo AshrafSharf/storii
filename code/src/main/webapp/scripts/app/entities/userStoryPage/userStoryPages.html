@@ -1,0 +1,64 @@
+<div>
+    <h2 translate="storiiApp.userStoryPage.home.title">UserStoryPages</h2>
+    <jh-alert></jh-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="userStoryPage.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span 
+                        translate="storiiApp.userStoryPage.home.createLabel">Create new UserStoryPage
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span translate="global.field.id">ID</span></th>
+                    <th><span translate="storiiApp.userStoryPage.name">Name</span></th>
+                    <th><span translate="storiiApp.userStoryPage.level">Level</span></th>
+                    <th><span translate="storiiApp.userStoryPage.position">Position</span></th>
+                    <th><span translate="storiiApp.userStoryPage.title">Title</span></th>
+                    <th><span translate="storiiApp.userStoryPage.serialized_content">Serialized_content</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="userStoryPage in userStoryPages track by userStoryPage.id">
+                    <td><a ui-sref="userStoryPage.detail({id:userStoryPage.id})">{{userStoryPage.id}}</a></td>
+                    <td>{{userStoryPage.name}}</td>
+                    <td>{{userStoryPage.level}}</td>
+                    <td>{{userStoryPage.position}}</td>
+                    <td>{{userStoryPage.title}}</td>
+                    <td>{{userStoryPage.serialized_content}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="userStoryPage.detail({id:userStoryPage.id})"
+                                    class="btn btn-info btn-sm"> 
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="userStoryPage.edit({id:userStoryPage.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="userStoryPage.delete({id:userStoryPage.id})"
+                                    class="btn btn-danger btn-sm">                                    
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

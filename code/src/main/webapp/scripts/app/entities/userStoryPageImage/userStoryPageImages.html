@@ -1,0 +1,58 @@
+<div>
+    <h2 translate="storiiApp.userStoryPageImage.home.title">UserStoryPageImages</h2>
+    <jh-alert></jh-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="userStoryPageImage.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span 
+                        translate="storiiApp.userStoryPageImage.home.createLabel">Create new UserStoryPageImage
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span translate="global.field.id">ID</span></th>
+                    <th><span translate="storiiApp.userStoryPageImage.name">Name</span></th>
+                    <th><span translate="storiiApp.userStoryPageImage.path">Path</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="userStoryPageImage in userStoryPageImages track by userStoryPageImage.id">
+                    <td><a ui-sref="userStoryPageImage.detail({id:userStoryPageImage.id})">{{userStoryPageImage.id}}</a></td>
+                    <td>{{userStoryPageImage.name}}</td>
+                    <td>{{userStoryPageImage.path}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="userStoryPageImage.detail({id:userStoryPageImage.id})"
+                                    class="btn btn-info btn-sm"> 
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="userStoryPageImage.edit({id:userStoryPageImage.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="userStoryPageImage.delete({id:userStoryPageImage.id})"
+                                    class="btn btn-danger btn-sm">                                    
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

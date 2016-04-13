@@ -1,0 +1,24 @@
+{
+    "storiiApp": {
+        "userStoryPageImage" : {
+            "home": {
+                "title": "UserStoryPageImages",
+                "createLabel": "Créer un nouveau UserStoryPageImage",
+                "createOrEditLabel": "Créer ou éditer un UserStoryPageImage",
+                "search": "Search for UserStoryPageImage"
+            },
+            "created": "Un nouveau UserStoryPageImage a été créé avec l'identifiant {{ param }}",
+            "updated": "Le UserStoryPageImage avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le UserStoryPageImage avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le UserStoryPageImage {{ id }} ?"
+            },
+            "detail": {
+                "title": "UserStoryPageImage"
+            },
+            "name": "Name",
+            "path": "Path"
+        }
+    }
+}
+

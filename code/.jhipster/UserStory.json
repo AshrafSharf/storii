@@ -1,0 +1,29 @@
+{
+    "relationships": [],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "author_name",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "co_author_name",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "isPublished",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20160413164555",
+    "dto": "no",
+    "service": "no",
+    "pagination": "no"
+}

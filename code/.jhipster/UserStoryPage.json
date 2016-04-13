@@ -1,0 +1,34 @@
+{
+    "relationships": [],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "level",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "position",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldId": 5,
+            "fieldName": "serialized_content",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20160413164719",
+    "dto": "no",
+    "service": "no",
+    "pagination": "no"
+}

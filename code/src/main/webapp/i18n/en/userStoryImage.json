@@ -1,0 +1,23 @@
+{
+    "storiiApp": {
+        "userStoryImage" : {
+            "home": {
+                "title": "UserStoryImages",
+                "createLabel": "Create a new UserStoryImage",
+                "createOrEditLabel": "Create or edit a UserStoryImage",
+                "search": "Search for UserStoryImage"
+            },
+            "created": "A new UserStoryImage is created with identifier {{ param }}",
+            "updated": "A UserStoryImage is updated with identifier {{ param }}",
+            "deleted": "A UserStoryImage is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete UserStoryImage {{ id }}?"
+            },
+            "detail": {
+                "title": "UserStoryImage"
+            },
+            "name": "Name",
+            "path": "Path"
+        }
+    }
+}

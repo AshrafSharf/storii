@@ -9,6 +9,11 @@
                 "main": "Entities",
                 "story": "Story",
                 "story2": "Story2",
+                "userStory": "UserStory",
+                "userStoryPage": "UserStoryPage",
+                "userImage": "UserImage",
+                "userStoryImage": "UserStoryImage",
+                "userStoryPageImage": "UserStoryPageImage",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

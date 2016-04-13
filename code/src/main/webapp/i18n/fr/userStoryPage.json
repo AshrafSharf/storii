@@ -1,0 +1,27 @@
+{
+    "storiiApp": {
+        "userStoryPage" : {
+            "home": {
+                "title": "UserStoryPages",
+                "createLabel": "Créer un nouveau UserStoryPage",
+                "createOrEditLabel": "Créer ou éditer un UserStoryPage",
+                "search": "Search for UserStoryPage"
+            },
+            "created": "Un nouveau UserStoryPage a été créé avec l'identifiant {{ param }}",
+            "updated": "Le UserStoryPage avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le UserStoryPage avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le UserStoryPage {{ id }} ?"
+            },
+            "detail": {
+                "title": "UserStoryPage"
+            },
+            "name": "Name",
+            "level": "Level",
+            "position": "Position",
+            "title": "Title",
+            "serialized_content": "Serialized_content"
+        }
+    }
+}
+
