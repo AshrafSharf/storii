@@ -64,6 +64,15 @@ public class StoriiUser {
 
 	@OneToOne(mappedBy = "userId", cascade = CascadeType.ALL)
 	private UserImage userImage;
+	
+	/**
+	 * defines a one to many relation with the task-entity
+	 */
+
+	@Autowired
+	@JsonIdentityReference(alwaysAsId=true)
+	@OneToMany(mappedBy = "parentUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Story> stories;
 
 
 	/**
@@ -83,6 +92,10 @@ public class StoriiUser {
 		this.email = "";
 		this.tutorialDone = false;
 	}
+	
+	/**
+	 * getters and setters
+	 */
 
 	public long getId() {
 		return id;
@@ -132,9 +145,6 @@ public class StoriiUser {
 		this.userImage = userImage;
 	}
 	
-	/**
-	 * getters and setters
-	 */
 	
 	
 

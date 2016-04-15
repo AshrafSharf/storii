@@ -22,7 +22,7 @@ import storii.models.StoriiUser;
 class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
   @Autowired
-  StoriiUserDAO accountRepository;
+  StoriiUserDAO storiiUserDAO;
 
   @Override
   public void init(AuthenticationManagerBuilder auth) throws Exception {
@@ -39,7 +39,7 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
       @Override
       public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-    	StoriiUser account = accountRepository.findByName(name);
+    	StoriiUser account = storiiUserDAO.findByName(name);
         if(account != null) {
         return new User(account.getName(), account.getPassword(), true, true, true, true,
                 AuthorityUtils.createAuthorityList("USER"));
