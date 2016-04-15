@@ -1,0 +1,1098 @@
+@import url("https://fonts.googleapis.com/css?family=Architects+Daughter");
+@import url("https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300");
+FLOAT CLEARFIX
+.clearfix:after {
+  content: "." !important;
+  clear: both !important;
+  display: block !important;
+  visibility: hidden !important;
+  height: 0px !important; }
+
+DESIGN
+body {
+  background-color: #FFFFFF; }
+
+a {
+  text-decoration: none; }
+
+#mainContentWrapper #loginPage, #mainContentWrapper #registerPage, #mainContentWrapper #profilePage, #errorPage {
+  text-align: center; }
+
+.left {
+  float: left; }
+
+.right {
+  float: right; }
+
+.clearfloat {
+  clear: both; }
+
+.transition {
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out; }
+
+.marginRightLogState {
+  margin-right: 10px; }
+
+.cropField {
+  width: 175px;
+  height: 175px; }
+
+#logState {
+  margin-top: 150px;
+  position: absolute;
+  right: 10.5%;
+  top: 0; }
+  #logState .LogedInHelloState {
+    font-family: "Architects Daughter", cursive;
+    font-size: 18px;
+    float: left;
+    margin: 7px 15px; }
+    #logState .LogedInHelloState a {
+      color: #000;
+      text-decoration: underline !important; }
+
+.buttonFrameContainerLogState {
+  width: 120px;
+  position: relative;
+  padding: 2px;
+  background-color: #96C3CC; }
+
+.headerContainer {
+  width: 80%;
+  border-top: dotted 2px black;
+  border-bottom: dotted 2px black;
+  text-align: center;
+  left: 10%;
+  position: relative; }
+
+#topContentWrapper {
+  margin-bottom: 50px; }
+
+.logo {
+  height: 130px;
+  width: auto; }
+
+.libelle {
+  height: 100px;
+  position: absolute;
+  left: 10%;
+  margin-top: 15px; }
+
+input.inputField {
+  width: 100%;
+  height: 35px; }
+input.button {
+  width: 120px;
+  font-size: 18px;
+  font-family: "Architects Daughter", cursive;
+  background-color: #D3ECED;
+  border: dotted 2px black; }
+input.buttonStory {
+  width: 145px;
+  font-size: 18px;
+  font-family: "Architects Daughter", cursive;
+  background-color: #96C3CC;
+  border: dotted 2px black;
+  cursor: pointer; }
+input.buttonStoryInfo {
+  width: 145px;
+  font-size: 0.8em;
+  font-family: "Architects Daughter", cursive;
+  background-color: #E1AFB1;
+  border: dotted 2px black;
+  cursor: pointer; }
+
+.fancybox-wrap {
+  position: absolute !important; }
+
+.loginFrameContainer, .registerFrameContainer {
+  width: 30%;
+  min-width: 300px;
+  margin: 0 auto;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px;
+  background-color: #96C3CC; }
+
+.loginContainer, .registerContainer {
+  background-color: #96C3CC;
+  border: dotted 2px black;
+  padding: 0% 5%; }
+  .loginContainer h1, .registerContainer h1 {
+    font-family: "Architects Daughter", cursive;
+    margin-top: -22px;
+    font-size: 1.6em; }
+
+.infoLink {
+  margin-top: 20px;
+  text-align: center;
+  margin: 0 auto; }
+  .infoLink a {
+    color: #000;
+    text-decoration: none; }
+
+#loginPage input.inputField, #registerPage input.inputField, #profilePage input.inputField, #userEditPage input.inputField {
+  font-family: inherit;
+  font-size: 18px;
+  padding: 5px; }
+
+.firstButton {
+  float: left; }
+
+.secondButton {
+  float: right; }
+
+.buttonSize {
+  width: 116px;
+  height: 32px;
+  border: black dotted 2px;
+  line-height: 2em;
+  text-align: center; }
+
+.buttonLookLink {
+  font-size: 18px;
+  font-family: "Architects Daughter", cursive;
+  text-decoration: none;
+  color: #000; }
+
+.buttonFrameContainer {
+  width: 120px;
+  position: relative;
+  padding: 2px;
+  background-color: #D3ECED; }
+
+.searchLabel input.inputField {
+  margin-left: 20px;
+  height: 46px;
+  border-style: dotted; }
+
+.lastLabel {
+  margin-bottom: 40px; }
+
+.loginContainer p, .registerContainer p, .profileContainer p, .errorContainer p {
+  text-align: left;
+  font-size: 18px;
+  font-family: "Architects Daughter", cursive; }
+
+.searchLabel {
+  text-align: center;
+  font-size: 48px;
+  font-family: "Architects Daughter", cursive;
+  margin-top: 200px; }
+
+.darkBlue {
+  color: #96C3CC; }
+
+#profilePage .profileContainer {
+  border: dotted 2px black; }
+  #profilePage .profileContainer h1 {
+    font-family: "Architects Daughter", cursive;
+    margin-top: -22px;
+    font-size: 1.6em; }
+#profilePage .myInfoContainer {
+  background-color: #F3E0E1;
+  border: dotted 2px black; }
+  #profilePage .myInfoContainer #content {
+    padding: 0px 20px 20px 20px;
+    overflow: auto;
+    width: 90%;
+    left: 5%;
+    position: relative; }
+    #profilePage .myInfoContainer #content .firstColumn {
+      width: 50%; }
+#profilePage .myStoryContainer {
+  background-color: #D3ECED;
+  border: dotted 2px black; }
+  #profilePage .myStoryContainer #content {
+    position: relative;
+    overflow: auto;
+    width: 90%;
+    margin: 0 auto; }
+#profilePage .h1bgProfile {
+  width: 140px;
+  background-color: #fff;
+  margin: 0 auto;
+  position: relative;
+  text-align: center; }
+#profilePage .h1bgProfileInfo {
+  width: 170px;
+  background-color: #F3E0E1;
+  margin: 0 auto;
+  position: relative;
+  text-align: center; }
+#profilePage .h1bgProfileStory {
+  width: 230px;
+  background-color: #D3ECED;
+  margin: 0 auto;
+  position: relative;
+  text-align: center; }
+#profilePage .profileFrameContainer {
+  width: 75%;
+  margin: 0 auto;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px; }
+#profilePage .myInfoFrameContainer {
+  width: 90%;
+  margin: 0 auto;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px;
+  background-color: #F3E0E1;
+  margin-bottom: 30px; }
+#profilePage .myStoryFrameContainer {
+  width: 90%;
+  margin: 0 auto;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px;
+  background-color: #D3ECED;
+  margin-bottom: 30px; }
+#profilePage .storyTitle {
+  margin-top: 5px;
+  text-align: center;
+  font-size: 0.9em; }
+#profilePage .profileLable {
+  margin-right: 20px;
+  width: 110px;
+  float: left; }
+#profilePage .storyPic, #profilePage .profilePic {
+  width: 130px; }
+#profilePage .storyPicFrame {
+  width: 130px;
+  height: 150px;
+  background-color: #96C3CC;
+  padding: 10px;
+  margin: 20px;
+  margin-bottom: 65px;
+  float: left; }
+  #profilePage .storyPicFrame a {
+    text-decoration: none;
+    color: #000; }
+#profilePage .buttonFrameContainerStory {
+  width: 145px;
+  position: relative;
+  padding: 2px;
+  background-color: #96C3CC;
+  margin-left: -10px;
+  margin-top: -10px; }
+#profilePage .buttonFrameContainerStoryInfo {
+  width: 145px;
+  padding: 2px;
+  float: left;
+  background-color: #E1AFB1;
+  margin-top: 6px; }
+#profilePage .infoToggle, #profilePage .storiesToggle {
+  cursor: pointer; }
+
+#registerPage {
+  font-family: "Architects Daughter", cursive; }
+  #registerPage .h1bgRegister {
+    width: 225px;
+    background-color: #96C3CC;
+    margin: 0 auto;
+    position: relative;
+    text-align: center; }
+  #registerPage #form form {
+    margin-bottom: 110px; }
+  #registerPage .buttonFrameContainer {
+    width: 45%; }
+  #registerPage input.button {
+    width: 100%;
+    height: 36px; }
+  #registerPage .buttonSize {
+    width: 97%; }
+
+#loginPage {
+  font-family: "Architects Daughter", cursive; }
+  #loginPage .h1bgLogin {
+    width: 110px;
+    background-color: #96C3CC;
+    margin: 0 auto;
+    position: relative;
+    text-align: center; }
+  #loginPage #form form {
+    margin-bottom: 110px; }
+  #loginPage .buttonFrameContainer {
+    width: 45%; }
+  #loginPage input.button {
+    width: 100%;
+    height: 36px; }
+  #loginPage .buttonSize {
+    width: 97%; }
+
+#logoutPage {
+  font-family: "Architects Daughter", cursive;
+  font-size: 18px; }
+  #logoutPage .infoLink {
+    left: 0%; }
+  #logoutPage #content {
+    padding: 0% 10%; }
+
+#searchPage .searchIcon {
+  font-family: FontAwesome;
+  font-size: 0.75em;
+  width: 55px;
+  height: 46px;
+  margin-left: -27px;
+  margin-top: -10px;
+  background-color: #96C3CC; }
+#searchPage input.inputField {
+  font-size: 20px;
+  font-family: inherit;
+  padding: 5px;
+  width: 50%; }
+#searchPage #form form {
+  margin-bottom: 110px;
+  padding-left: 0%; }
+#searchPage .h1Search {
+  text-align: center;
+  font-family: "Architects Daughter", cursive; }
+#searchPage .searchLabel input.inputField {
+ }
+
+#searchResultPage {
+  margin-top: -170px; }
+  #searchResultPage h2 {
+    margin-left: 10%;
+    font-family: "Architects Daughter", cursive;
+    text-decoration: underline; }
+  #searchResultPage ul {
+    margin-left: 7%;
+    list-style: none;
+    line-height: 3em;
+    font-size: 28px;
+    font-family: "Architects Daughter", cursive; }
+    #searchResultPage ul li a {
+      text-decoration: none;
+      color: #000; }
+  #searchResultPage input.inputField {
+    font-size: 20px;
+    font-family: inherit;
+    padding: 5px;
+    width: 20%; }
+  #searchResultPage .searchPic {
+    width: 100px;
+    margin-right: 50px; }
+  #searchResultPage .searchLink {
+    margin-top: 10px;
+    position: absolute; }
+  #searchResultPage .searchLabel input.inputField {
+    height: 40px;
+    padding-top: 7px; }
+  #searchResultPage p.darkBlue.searchLabel {
+    font-size: 28px;
+    margin-left: -35%; }
+  #searchResultPage .searchResultIcon {
+    font-family: FontAwesome;
+    font-size: 0.75em;
+    width: 55px;
+    height: 40px;
+    margin-left: -22px;
+    margin-top: -0px;
+    background-color: #96C3CC; }
+
+#newStoryPage {
+  font-family: "Architects Daughter", cursive; }
+  #newStoryPage .clear {
+    clear: both;
+    float: none; }
+  #newStoryPage .right, #newStoryPage .left {
+    width: 50%; }
+  #newStoryPage .buttonFrameContainer, #newStoryPage .button {
+    width: 180px; }
+
+#userStoryPage #content {
+  margin-left: 10%; }
+#userStoryPage h2 {
+  font-family: "Architects Daughter", cursive;
+  font-size: 30px;
+  margin: 8px 0; }
+#userStoryPage .backLink {
+  font-family: "Architects Daughter", cursive;
+  font-size: 20px;
+  text-decoration: underline;
+  color: #000; }
+#userStoryPage .buttonFrameContainerUserStoryContentModule {
+  width: 144px;
+  position: relative;
+  padding: 2px;
+  background-color: #96C3CC; }
+  #userStoryPage .buttonFrameContainerUserStoryContentModule .buttonSize {
+    width: 140px; }
+#userStoryPage .storyPageAuthor, #userStoryPage .storyPageCoAuthor {
+  font-family: "Architects Daughter", cursive;
+  font-size: 14px; }
+#userStoryPage .storyPageAuthor {
+  margin-top: 20px; }
+#userStoryPage .infoWidth {
+  width: 35%; }
+#userStoryPage .storyPageInformation {
+  margin-top: 100px; }
+
+#userEditPage {
+  font-family: "Architects Daughter", cursive;
+  font-size: 18px; }
+  #userEditPage .userEditFrameContainer {
+    width: 50%;
+    margin: 0 auto;
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+    background-color: #E1AFB1; }
+  #userEditPage .userEditContainer {
+    background-color: #E1AFB1;
+    border: dotted 2px black; }
+    #userEditPage .userEditContainer h1 {
+      font-family: "Architects Daughter", cursive;
+      margin-top: -22px;
+      font-size: 1.6em; }
+  #userEditPage .h1bgUserEdit {
+    width: 245px;
+    background-color: #E1AFB1;
+    margin: 0 auto;
+    position: relative;
+    text-align: center; }
+  #userEditPage .closeFancyBox {
+    margin-bottom: 20px; }
+  #userEditPage #content {
+    padding: 0px 20px; }
+  #userEditPage input.button {
+    width: 100%;
+    font-size: 0.8em;
+    font-family: "Architects Daughter", cursive;
+    background-color: #F3E0E1;
+    border: dotted 2px black; }
+  #userEditPage input.inputField {
+    width: 55%;
+    float: left;
+    height: 42px;
+    margin-right: 20px;
+    margin-bottom: 18px; }
+  #userEditPage .buttonFrameContainer {
+    width: 40%;
+    position: relative;
+    padding: 2px;
+    background-color: #F3E0E1;
+    float: right;
+    margin-bottom: 30px; }
+  #userEditPage .dummy {
+    background-color: #E1AFB1 !important;
+    margin-bottom: 50px; }
+  #userEditPage .dummyButton {
+    background-color: #E1AFB1 !important;
+    border: none !important; }
+  #userEditPage .lastButton {
+    margin-bottom: 30px;
+    float: left; }
+  #userEditPage form#changePic input {
+    width: 230px;
+    font-size: 18px;
+    font-family: "Architects Daughter", cursive;
+    background-color: #F3E0E1;
+    border: dotted 2px black;
+    margin-left: 10px; }
+  #userEditPage .fileUpload {
+    position: relative;
+    overflow: hidden;
+    font-size: 18px;
+    font-family: "Architects Daughter", cursive;
+    background-color: #F3E0E1;
+    border: dotted 2px black;
+    text-align: center;
+    height: 32.7px;
+    line-height: 1.7;
+    font-size: 18px; }
+  #userEditPage .fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0); }
+  #userEditPage .buttonFrameContainerUpload {
+    width: 40%;
+    position: relative;
+    padding: 2px;
+    background-color: #F3E0E1;
+    float: left;
+    margin-bottom: 30px; }
+  #userEditPage img.profilePic {
+    float: left;
+    margin: 5px;
+    max-width: 100%;
+    max-height: 100%; }
+  #userEditPage .deleteThisPic {
+    display: block;
+    font-size: 1.5em;
+    top: 5px;
+    right: -5px;
+    overflow: hidden;
+    border: 1px solid black;
+    font-family: "Architects Daughter", cursive;
+    color: #fff;
+    position: absolute;
+    cursor: pointer;
+    background: #e4565c;
+    height: 30px;
+    width: 25px;
+    line-height: 1.1em;
+    padding-left: 5px; }
+  #userEditPage .changePicSection {
+    margin-top: 5px;
+    margin-left: 5px;
+    float: left; }
+  #userEditPage .profilePicContainer {
+    margin-bottom: 20px;
+    margin-right: 20px;
+    width: 175px;
+    height: 175px;
+    position: relative;
+    float: left; }
+  #userEditPage #pictureHandling .buttonFrameContainer {
+    margin-top: -40px; }
+  #userEditPage #pictureHandling {
+    margin-top: -50px;
+    float: left;
+    width: 174px;
+    position: absolute; }
+  #userEditPage #currentPicture {
+    margin-bottom: 50px;
+    margin-right: 10px; }
+
+#newStoryPage {
+  font-family: "Architects Daughter", cursive;
+  font-size: 18px; }
+  #newStoryPage .newStoryFrameContainer {
+    width: 50%;
+    margin: 0 auto;
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+    background-color: #96C3CC; }
+  #newStoryPage .newStoryContainer {
+    background-color: #96C3CC;
+    border: dotted 2px black; }
+    #newStoryPage .newStoryContainer h1 {
+      font-family: "Architects Daughter", cursive;
+      margin-top: -22px;
+      font-size: 1.6em; }
+  #newStoryPage .h1bgNewStory {
+    width: 220px;
+    background-color: #96C3CC;
+    margin: 0 auto;
+    position: relative;
+    text-align: center; }
+  #newStoryPage .closeFancyBox {
+    margin-bottom: 20px; }
+  #newStoryPage #content {
+    padding: 0px 20px; }
+  #newStoryPage input.button {
+    width: 100%;
+    font-size: 0.8em;
+    font-family: "Architects Daughter", cursive;
+    background-color: #D3ECED;
+    border: dotted 2px black; }
+  #newStoryPage input.inputField {
+    width: 100%;
+    float: left;
+    height: 42px;
+    margin-right: 20px;
+    margin-bottom: 20px; }
+  #newStoryPage .buttonFrameContainer {
+    width: 40%;
+    position: relative;
+    padding: 2px;
+    background-color: #D3ECED;
+    float: right;
+    margin-bottom: 30px; }
+  #newStoryPage form#changePic input {
+    width: 230px;
+    font-size: 18px;
+    font-family: "Architects Daughter", cursive;
+    background-color: #D3ECED;
+    border: dotted 2px black;
+    margin-left: 10px; }
+  #newStoryPage .fileUpload {
+    position: relative;
+    overflow: hidden;
+    font-size: 18px;
+    font-family: "Architects Daughter", cursive;
+    background-color: #D3ECED;
+    border: dotted 2px black;
+    text-align: center;
+    height: 32.7px;
+    line-height: 1.7;
+    font-size: 18px; }
+  #newStoryPage .fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0); }
+  #newStoryPage .buttonFrameContainerUpload {
+    width: 40%;
+    position: relative;
+    padding: 2px;
+    background-color: #D3ECED;
+    float: left;
+    margin-bottom: 30px; }
+  #newStoryPage .profilePicSection {
+    margin-top: 10px; }
+  #newStoryPage .deleteThisPic {
+    font-size: 1.5em;
+    margin-left: 10px; }
+  #newStoryPage #pictureHandling .buttonFrameContainer {
+    margin-top: -40px; }
+  #newStoryPage .fullwidth {
+    width: 100%; }
+  #newStoryPage input[type='checkbox'],
+  #newStoryPage input[type='radio'] {
+    width: auto;
+    height: auto;
+    zoom: 2; }
+
+#errorPage {
+  font-family: "Architects Daughter", cursive; }
+  #errorPage .errorFrameContainer {
+    width: 30%;
+    min-width: 300px;
+    margin: 0 auto;
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+    background-color: #96C3CC; }
+  #errorPage .errorContainer {
+    background-color: #96C3CC;
+    border: dotted 2px black;
+    padding: 0% 5%; }
+    #errorPage .errorContainer h1 {
+      font-family: "Architects Daughter", cursive;
+      margin-top: -22px;
+      font-size: 1.6em; }
+  #errorPage .h1bgError {
+    width: 110px;
+    background-color: #96C3CC;
+    margin: 0 auto;
+    position: relative;
+    text-align: center; }
+  #errorPage .buttonFrameContainer {
+    width: 200px;
+    margin-bottom: 20px; }
+  #errorPage .buttonSize {
+    width: 196px; }
+  #errorPage .errorContainer p {
+    text-align: center; }
+
+#nodeEditorPage {
+  padding-top: 50px; }
+  #nodeEditorPage #editors {
+    width: 33%;
+    float: right;
+    margin-top: 10px;
+    margin-right: 17px; }
+  #nodeEditorPage #wrapper {
+    margin-left: 17px; }
+  #nodeEditorPage .imgDivPage, #nodeEditorPage .imgDivStory {
+    margin-bottom: 20px; }
+  #nodeEditorPage .nodeEditorFrameContainer {
+    border: 2px dotted;
+    line-height: 3px;
+    width: 97%;
+    margin: 0 auto; }
+  #nodeEditorPage #showRight {
+    display: none; }
+  #nodeEditorPage .h1bgNodeEditor {
+    width: 270px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center; }
+    #nodeEditorPage .h1bgNodeEditor h1 {
+      text-align: center;
+      font-family: "Architects Daughter", cursive; }
+  #nodeEditorPage .storyToggle, #nodeEditorPage .pageToggle, #nodeEditorPage .previewToggle {
+    cursor: pointer; }
+  #nodeEditorPage #storyEditor {
+    background: #D3E2D8;
+    /*height: 31.5%;*/
+    margin-bottom: 20px; }
+    #nodeEditorPage #storyEditor .editorFrameContainer {
+      background: #D3E2D8; }
+    #nodeEditorPage #storyEditor .editorContainer {
+      background: #D3E2D8; }
+    #nodeEditorPage #storyEditor .h1bgEditor {
+      background: #D3E2D8; }
+    #nodeEditorPage #storyEditor input.button, #nodeEditorPage #storyEditor .buttonFrameContainer {
+      background: #879D8E; }
+    #nodeEditorPage #storyEditor .buttonFrameContainer {
+      margin-top: -33px;
+      width: 150px; }
+    #nodeEditorPage #storyEditor input.button {
+      width: 100%; }
+    #nodeEditorPage #storyEditor .buttonFrameContainerSave {
+      margin-top: -65px; }
+    #nodeEditorPage #storyEditor img.profilePic {
+      float: left;
+      margin: 5px; }
+  #nodeEditorPage .storyEditorResponsive {
+    margin-top: 60px !important; }
+  #nodeEditorPage .deleteThisPic {
+    display: block;
+    font-size: 1.5em;
+    top: 5px;
+    right: -5px;
+    overflow: hidden;
+    border: 1px solid black;
+    font-family: "Architects Daughter", cursive;
+    color: #fff;
+    position: absolute;
+    cursor: pointer;
+    background: #e4565c;
+    height: 25px;
+    width: 20px;
+    line-height: 1.1em;
+    padding-left: 5px; }
+  #nodeEditorPage .cropField {
+    width: 175px;
+    height: 175px; }
+  #nodeEditorPage img.profilePic {
+    float: left;
+    margin: 5px;
+    max-width: 100%;
+    max-height: 100%; }
+  #nodeEditorPage .changePicSection {
+    margin-top: 5px;
+    margin-left: 5px;
+    float: left; }
+  #nodeEditorPage .profilePicContainer {
+    margin-bottom: 20px;
+    margin-right: 20px;
+    width: 175px;
+    height: 175px;
+    position: relative;
+    float: left; }
+  #nodeEditorPage .profilePicSection {
+    margin-top: 15px; }
+  #nodeEditorPage #cbp-spmenu-s2 {
+    overflow: scroll !important; }
+  #nodeEditorPage #pageEditor {
+    background-color: #F3E0E1;
+    /*height: 31.5%;*/
+    margin-bottom: 20px; }
+    #nodeEditorPage #pageEditor .editorFrameContainer {
+      background: #F3E0E1; }
+    #nodeEditorPage #pageEditor img.profilePic {
+      float: left;
+      margin: 5px; }
+    #nodeEditorPage #pageEditor .optionsDiv {
+      width: 70%;
+      float: right; }
+    #nodeEditorPage #pageEditor .option {
+      float: left; }
+    #nodeEditorPage #pageEditor .editorContainer {
+      background: #F3E0E1; }
+    #nodeEditorPage #pageEditor .h1bgEditor {
+      background: #F3E0E1; }
+    #nodeEditorPage #pageEditor input.button, #nodeEditorPage #pageEditor .buttonFrameContainer {
+      background: #E1AFB1; }
+    #nodeEditorPage #pageEditor input.button {
+      width: 100%; }
+    #nodeEditorPage #pageEditor .buttonFrameContainerPicPage {
+      width: 150px;
+      margin-top: -33px; }
+    #nodeEditorPage #pageEditor .profilePicSection {
+      clear: both; }
+  #nodeEditorPage #previewEditor {
+    background: #D6D5C5;
+    /*height: 31.5%;*/ }
+    #nodeEditorPage #previewEditor .editorFrameContainer {
+      background: #D6D5C5; }
+    #nodeEditorPage #previewEditor .editorContainer {
+      background: #D6D5C5; }
+    #nodeEditorPage #previewEditor .h1bgEditor {
+      background: #D6D5C5; }
+    #nodeEditorPage #previewEditor .previewFrame {
+      width: 90%;
+      margin: 0 auto;
+      height: 200px;
+      border: 2px solid black;
+      margin-bottom: 20px; }
+    #nodeEditorPage #previewEditor .presentationFrame {
+      border: none; }
+    #nodeEditorPage #previewEditor .title {
+      margin-top: -50px; }
+    #nodeEditorPage #previewEditor .buttonFrameContainer {
+      width: 46%; }
+    #nodeEditorPage #previewEditor .pageOption {
+      line-height: 2.5em;
+      height: 25px;
+      font-size: 12px; }
+    #nodeEditorPage #previewEditor .pageText, #nodeEditorPage #previewEditor .title, #nodeEditorPage #previewEditor .pageOption {
+      overflow-wrap: break-word; }
+    #nodeEditorPage #previewEditor #pagePresentation .pageImage img {
+      max-height: 250px;
+      width: 250px;
+      height: auto; }
+  #nodeEditorPage .editorFrameContainer {
+    margin: 0 auto;
+    position: relative;
+    padding: 20px; }
+  #nodeEditorPage .h1bgEditor {
+    width: 270px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center; }
+    #nodeEditorPage .h1bgEditor h1 {
+      text-align: center; }
+  #nodeEditorPage .editorContainer {
+    border: dotted 2px black;
+    padding: 0% 5%; }
+    #nodeEditorPage .editorContainer h1 {
+      font-family: "Architects Daughter", cursive;
+      margin-top: -22px;
+      font-size: 1.6em; }
+  #nodeEditorPage .label {
+    font-family: "Architects Daughter", cursive;
+    font-size: 14px; }
+  #nodeEditorPage .optionsLabel {
+    margin-bottom: 25px; }
+  #nodeEditorPage .tellLabel {
+    margin-top: 50px;
+    margin-bottom: 110px; }
+  #nodeEditorPage input.inputField {
+    width: 70%;
+    float: right;
+    height: 30px;
+    font-family: "Architects Daughter", cursive; }
+  #nodeEditorPage textarea {
+    width: 70%;
+    float: right;
+    font-family: "Architects Daughter", cursive;
+    border-color: #ccc;
+    margin-bottom: 60px; }
+  #nodeEditorPage input.inputField.option {
+    width: 48%;
+    margin: 2px; }
+  #nodeEditorPage .opt1, #nodeEditorPage .opt3 {
+    margin-right: 2.5px !important; }
+  #nodeEditorPage .opt2, #nodeEditorPage .opt4 {
+    margin-left: 2.5px !important; }
+  #nodeEditorPage input.button {
+    height: 30px;
+    line-height: 1.3em;
+    font-size: 14px; }
+  #nodeEditorPage .buttonFrameContainer {
+    float: right;
+    height: 30px; }
+  #nodeEditorPage .buttonFrameContainerPic {
+    float: left;
+    margin-right: 5px; }
+  #nodeEditorPage .buttons {
+    float: right;
+    margin-top: -45px; }
+  #nodeEditorPage .cbp-spmenu {
+    background: #fff; }
+
+#storyEditor .buttonFrameContainer {
+  float: left;
+  margin-top: 0px !important;
+  margin-bottom: 20px;
+  width: 176px !important; }
+#storyEditor .imgDivStory {
+  margin-bottom: 50px; }
+#storyEditor .currPicDiv {
+  width: 30%; }
+#storyEditor .profilePicSection {
+  margin-top: 55px; }
+
+#pageEditor .buttonFrameContainer {
+  float: left;
+  margin-top: 0px !important;
+  margin-bottom: 20px;
+  width: 176px !important; }
+#pageEditor .buttons {
+  float: left; }
+#pageEditor .imgDivPage {
+  margin-bottom: 50px; }
+#pageEditor .tellLabel {
+  margin-bottom: 110px; }
+#pageEditor .profilePicSection {
+  margin-top: 55px; }
+#pageEditor .currPicDiv {
+  width: 100%;
+  float: left; }
+
+@media screen and (max-width: 1260px) {
+  #profilePage .myInfoContainer #content .firstColumn {
+    width: 75%; } }
+@media screen and (max-width: 1240px) {
+  #nodeEditorPage input.inputField {
+    width: 100%;
+    margin-bottom: 5px; }
+    #nodeEditorPage input.inputField.option {
+      width: 100%; }
+  #nodeEditorPage .tellLabel {
+    margin-top: 110px; } }
+@media screen and (max-width: 1235px) {
+  #userEditPage .userEditFrameContainer, #newStoryPage .newStoryFrameContainer {
+    width: 90%; } }
+@media screen and (max-width: 1145px) {
+  #nodeEditorPage h1 {
+    font-size: 1.4em !important; }
+  #nodeEditorPage .h1bgEditor {
+    width: 240px; } }
+@media screen and (max-width: 1037px) {
+  .tellLabel {
+    margin-top: 140px !important; }
+
+  #nodeEditorPage #pageEditor .optionsDiv {
+    width: 100%; } }
+@media screen and (max-width: 1030px) {
+  .libelle {
+    left: 0%; } }
+@media screen and (max-width: 990px) {
+  #nodeEditorPage {
+    /*		.buttons {
+    			margin-top: -95px;
+    		}*/
+    /*		.tellLabel {
+    			margin-bottom: 160px;
+    		}*/ }
+    #nodeEditorPage .buttons, #nodeEditorPage .buttonFrameContainer, #nodeEditorPage input.button {
+      width: 100%; }
+    #nodeEditorPage .buttonFrameContainerSave {
+      width: 120px; }
+    #nodeEditorPage .closeButton {
+      width: 30%; }
+    #nodeEditorPage .buttonFrameContainerPic {
+      margin-bottom: 10px;
+      float: right;
+      margin-right: 0px; }
+
+  #userStoryPage .infoWidth {
+    width: 100%; }
+  #userStoryPage .storyPageInformation {
+    margin-top: 10px; }
+  #userStoryPage h2 {
+    font-size: 26px; } }
+@media screen and (max-width: 950px) {
+  #profilePage .myInfoContainer #content .firstColumn {
+    width: 90%; } }
+@media screen and (max-width: 900px) {
+  #searchResultPage p.darkBlue.searchLabel {
+    margin-top: 250px;
+    margin-left: 0px; } }
+@media screen and (min-width: 851px) {
+  #cbp-spmenu-s2 {
+    display: none; } }
+@media screen and (max-width: 850px) {
+  #editors {
+    display: none; } }
+@media screen and (max-width: 790px) {
+  .libelle {
+    display: none; }
+  
+
+  #searchPage .searchLabel {
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 100px; 
+ }
+ #searchPage span{
+  font-size: 1.3em; 
+ }
+ .container{
+ float:left;}
+
+  #searchResultPage input.inputField {
+    width: 40%; } }
+@media screen and (max-width: 768px) {
+  p, a, input {
+    font-size: 1.4em !important; }
+ #searchPage span{
+  		display:block;
+ }
+ #searchPage input.inputField {
+ 	width:80%;
+ 	margin-left: 0;
+ }
+ #searchPage .searchIcon{
+ 	  margin-left:-9px;
+ 	  margin-top:0;
+ 	  width:auto;
+ 	  vertical-align:top;
+ }
+
+  #profilePage {
+    padding-top: 10px; }
+    #profilePage .profileFrameContainer {
+      width: 95%; }
+    #profilePage .myInfoFrameContainer, #profilePage .myStoryFrameContainer {
+      width: 80%; }
+    #profilePage input.buttonStoryInfo, #profilePage .profileLable {
+      width: 100%; }
+    #profilePage .buttonFrameContainerStoryInfo {
+      width: 90%; } }
+@media screen and (max-width: 720px) {
+  #userEditPage input.inputField {
+    width: 100%; }
+  #userEditPage .buttonFrameContainer {
+    width: 100%; } }
+@media screen and (max-width: 590px) {
+	
+  #searchPage .searchLabel {
+    margin: 100 auto 0 auto; }
+    .headerContainer{
+    width:100%;
+    left:0;
+    }
+     }
+@media screen and (max-width: 530px) {
+	#logState{
+	left:0;
+	right:auto;
+	margin-left:18%;
+	}
+  #searchResultPage input.inputField {
+    width: 70%;
+    margin-left: 0px; }
+  #searchResultPage h2 {
+    margin: 0 auto; }
+  #searchResultPage ul {
+    margin-left: 0px;
+    padding-left: 0px; }
+  #searchResultPage ul li a {
+    font-size: 0.6em; } }
+@media screen and (max-width: 420px) {
+	#logState{
+	left:0;
+	margin-left:16%;
+	}
+	
+  #userEditPage .userEditContainer h1 {
+    font-size: 1.4em; }
+  #userEditPage .h1bgUserEdit {
+    width: 210px; }
+
+  #newStoryPage .newStoryContainer h1 {
+    font-size: 1.4em; }
+  #newStoryPage .h1bgNewStory {
+    width: 190px; } }
+@media screen and (max-width: 320px) {
+	#logState{
+	margin-left:8%;
+	}
+
+	}
+
+/*# sourceMappingURL=default.css.map */
