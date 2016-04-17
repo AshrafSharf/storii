@@ -32,6 +32,8 @@ System.register(['angular2/core', 'angular2/router', './login.component', './reg
         execute: function() {
             AppComponent = (function () {
                 function AppComponent() {
+                    this.libelleImageUrl = '../../assets/files/libelle.jpg';
+                    this.logoImageUrl = '../../assets/files/logo.jpg';
                 }
                 AppComponent = __decorate([
                     core_1.Component({

@@ -6,8 +6,7 @@ System.register([], function(exports_1, context_1) {
         setters:[],
         execute: function() {
             Search = (function () {
-                function Search(id, text) {
-                    this.id = id;
+                function Search(text) {
                     this.text = text;
                 }
                 return Search;

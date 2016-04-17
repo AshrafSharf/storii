@@ -335,16 +335,19 @@ input.buttonStoryInfo {
 #searchPage .searchIcon {
   font-family: FontAwesome;
   font-size: 0.75em;
-  width: 55px;
+  width: auto;
   height: 46px;
-  margin-left: -27px;
-  margin-top: -10px;
-  background-color: #96C3CC; }
+  margin-left: -20px;
+   margin-top: -10px;
+  background-color: #96C3CC;
+  vertical-align:middle; }
 #searchPage input.inputField {
   font-size: 20px;
   font-family: inherit;
   padding: 5px;
-  width: 50%; }
+  width: 50%;
+  vertical-align:middle;
+  margin-top: -10px;  }
 #searchPage #form form {
   margin-bottom: 110px;
   padding-left: 0%; }
@@ -1001,13 +1004,25 @@ input.buttonStoryInfo {
 @media screen and (max-width: 790px) {
   .libelle {
     display: none; }
-  
-
+  #searchPage .searchIcon{
+ 	  margin-left:-9px;
+ 	  margin-top:0;
+ 	  width:auto;
+ 	  vertical-align:top;
+ }
+ p, a, input {
+    font-size: 1.4em !important; }
+ 
   #searchPage .searchLabel {
     margin-left: 100px;
     margin-right: 100px;
     margin-top: 100px; 
  }
+ #searchPage input.inputField{
+ 	width:80%;
+ 	margin-top: 0px;
+ }
+ 
  #searchPage span{
   font-size: 1.3em; 
  }
@@ -1017,20 +1032,10 @@ input.buttonStoryInfo {
   #searchResultPage input.inputField {
     width: 40%; } }
 @media screen and (max-width: 768px) {
-  p, a, input {
-    font-size: 1.4em !important; }
- #searchPage span{
-  		display:block;
- }
+ 
  #searchPage input.inputField {
  	width:80%;
  	margin-left: 0;
- }
- #searchPage .searchIcon{
- 	  margin-left:-9px;
- 	  margin-top:0;
- 	  width:auto;
- 	  vertical-align:top;
  }
 
   #profilePage {

@@ -12,5 +12,11 @@ import {LogStateComponent} from './logState.component';
 
 
 export class SearchFormComponent {
-	title = 'SEARCH:';
+	title = 'Search:';
+	
+	submitted = false;
+
+  	onSubmit() { this.submitted = true; }
+
+    get diagnostic() { return JSON.stringify(this.model); }
 }

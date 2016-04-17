@@ -19,5 +19,6 @@ import {LogStateComponent} from './logState.component';
   ])
 
 export class AppComponent {
- 
+ 	libelleImageUrl = '../../assets/files/libelle.jpg';
+ 	logoImageUrl = '../../assets/files/logo.jpg';
 }
