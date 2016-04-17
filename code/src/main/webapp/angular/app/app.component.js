@@ -1,4 +1,4 @@
-System.register(['angular2/core', './search-form.component'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './login.component', './register.component', './search-form.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,21 @@ System.register(['angular2/core', './search-form.component'], function(exports_1
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, search_form_component_1;
+    var core_1, router_1, login_component_1, register_component_1, search_form_component_1;
     var AppComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
+            },
+            function (login_component_1_1) {
+                login_component_1 = login_component_1_1;
+            },
+            function (register_component_1_1) {
+                register_component_1 = register_component_1_1;
             },
             function (search_form_component_1_1) {
                 search_form_component_1 = search_form_component_1_1;
@@ -28,8 +37,14 @@ System.register(['angular2/core', './search-form.component'], function(exports_1
                     core_1.Component({
                         selector: 'storii-app',
                         templateUrl: "app/start/start.html",
-                        directives: [search_form_component_1.SearchFormComponent]
-                    }), 
+                        directives: [router_1.ROUTER_DIRECTIVES],
+                        providers: [router_1.ROUTER_PROVIDERS]
+                    }),
+                    router_1.RouteConfig([
+                        { path: '/', name: 'Search', component: search_form_component_1.SearchFormComponent, useAsDefault: true },
+                        { path: '/login', name: 'Login', component: login_component_1.LoginComponent },
+                        { path: '/register', name: 'Register', component: register_component_1.RegisterComponent }
+                    ]), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);
                 return AppComponent;

@@ -1,4 +1,4 @@
-System.register(['angular2/core', './logState.component'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,33 +10,37 @@ System.register(['angular2/core', './logState.component'], function(exports_1, c
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, logState_component_1;
-    var SearchFormComponent;
+    var core_1, router_1;
+    var LoginComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (logState_component_1_1) {
-                logState_component_1 = logState_component_1_1;
+            function (router_1_1) {
+                router_1 = router_1_1;
             }],
         execute: function() {
-            SearchFormComponent = (function () {
-                function SearchFormComponent() {
-                    this.title = 'SEARCH:';
+            LoginComponent = (function () {
+                function LoginComponent(_router) {
+                    this._router = _router;
+                    this.title = 'LOGIN:';
                 }
-                SearchFormComponent = __decorate([
+                LoginComponent.prototype.gotoRegister = function () {
+                    this._router.navigate(['Register']);
+                };
+                LoginComponent = __decorate([
                     core_1.Component({
-                        selector: 'search-form',
-                        templateUrl: "app/search/search.html",
-                        directives: [logState_component_1.LogStateComponent]
+                        selector: 'login',
+                        templateUrl: "app/login/login.html",
+                        styles: ['a {cursor: pointer}']
                     }), 
-                    __metadata('design:paramtypes', [])
-                ], SearchFormComponent);
-                return SearchFormComponent;
+                    __metadata('design:paramtypes', [router_1.Router])
+                ], LoginComponent);
+                return LoginComponent;
             }());
-            exports_1("SearchFormComponent", SearchFormComponent);
+            exports_1("LoginComponent", LoginComponent);
         }
     }
 });
-//# sourceMappingURL=search-form.component.js.map
+//# sourceMappingURL=login.component.js.map

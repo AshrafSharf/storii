@@ -1,12 +1,7 @@
 <div id="topContentWrapper">
     <div class="headerContainer">
         <img class="libelle" src="../../assets/files/libelle.jpg" alt="libelle">
-        <a href="#"><img class="logo" src="../../assets/files/logo.jpg" alt="logo"></a>
-       
+        <a [routerLink]="['Search']"><img class="logo" src="../../assets/files/logo.jpg" alt="logo"></a>   
     </div> 
 </div>
-<div id="logState">
-			<div class="buttonFrameContainerLogState left marginRightLogState"><div class="buttonSize"><a class="buttonLookLink firstLogState" href="#">LOGIN</a></div></div>
-			<div class="buttonFrameContainerLogState left"><div class="buttonSize"><a class="buttonLookLink" href="#">REGISTER</a></div></div><br>
-</div>
-<search-form></search-form>
+<router-outlet></router-outlet>
