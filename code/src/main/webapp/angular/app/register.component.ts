@@ -1,7 +1,6 @@
 import {Component} from 'angular2/core';
 import { Router } from 'angular2/router';
 import {NgForm}    from 'angular2/common';
-import { Router } from 'angular2/router';
 import {SearchFormComponent} from './search-form.component';
 
 
@@ -17,5 +16,5 @@ export class RegisterComponent {
 	
 	goHome() {
     this._router.navigate(['Search']);
-  }	
+   }	
 }

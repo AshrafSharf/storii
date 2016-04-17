@@ -1,7 +1,6 @@
 import {Component} from 'angular2/core';
 import { Router } from 'angular2/router';
 import {NgForm}    from 'angular2/common';
-import { Router } from 'angular2/router';
 import {RegisterComponent} from './register.component';
 
 @Component({
