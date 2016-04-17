@@ -70,7 +70,6 @@ public class StoriiUser {
 	 */
 
 	@Autowired
-	@JsonIdentityReference(alwaysAsId=true)
 	@OneToMany(mappedBy = "parentUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Story> stories;
 
@@ -118,7 +117,8 @@ public class StoriiUser {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
+		this.password = bcryptEncoder.encode(password);
 	}
 
 	public String getEmail() {

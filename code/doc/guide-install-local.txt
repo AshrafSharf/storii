@@ -1,4 +1,4 @@
-This is a small starter-guide to make the WIP-Backend for CrAc as accessable as possible (if used locally):
+This is a small starter-guide to make the WIP-Backend for storii as accessable as possible (if used locally):
 
 1) start Apache and MySQL (use xampp or an application of choice)
 2) import the project as maven-project

@@ -79,10 +79,9 @@ public class Story {
 	@OneToMany(mappedBy = "parentStory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Page> pages;
 	
-	/*
-	@Autowired
-	private Page startPage;
-*/
+	@OneToOne
+	@JoinColumn(name = "first_page_id")
+	private Page firstPage;
 
 	/**
 	 * constructors

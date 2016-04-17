@@ -73,6 +73,9 @@ public class Page {
 	@JsonIdentityReference(alwaysAsId=true)
 	@JoinColumn(name = "parent_story")
 	private Story parentStory;
+	
+	@OneToOne(mappedBy = "firstPage", cascade = CascadeType.ALL)
+	private Story firstPageInStory;
 
 
 	/**
