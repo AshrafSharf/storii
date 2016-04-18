@@ -27,11 +27,6 @@ System.register(['angular2/core', './logState.component'], function(exports_1, c
                     this.submitted = false;
                 }
                 SearchFormComponent.prototype.onSubmit = function () { this.submitted = true; };
-                Object.defineProperty(SearchFormComponent.prototype, "diagnostic", {
-                    get: function () { return JSON.stringify(this.model); },
-                    enumerable: true,
-                    configurable: true
-                });
                 SearchFormComponent = __decorate([
                     core_1.Component({
                         selector: 'search-form',
