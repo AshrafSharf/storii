@@ -1,0 +1,28 @@
+<div class="container">
+<div id="registerPage">
+    <div class="registerFrameContainer">
+        <div class="registerContainer">
+            <div id="form">
+                <div class="h1bgRegister"><h1>{{title}}</h1></div>
+                <form action="register" method="post">
+
+			 <p class="label">USERNAME<br> <input class="inputField" name="userName" value="" type="text"></p>
+
+			 <p class="label">E-MAIL<br> <input class="inputField" name="eMail" value="" type="email"></p>
+
+			 <p class="label">PASSWORD<br> <input class="inputField" name="pwOriginal" type="password"></p>
+
+			 <p class="label lastLabel">CONFIRM PASSWORD<br> <input class="inputField" name="pwCopy" type="password"></p>
+
+			 <p><input name="proof" value="proofForMe" type="hidden"></p>
+
+			 <p></p><div class="buttonFrameContainer firstButton"><input class="button" value="REGISTER" type="submit"></div><p></p>
+
+			 <p></p><div class="buttonFrameContainer secondButton"><div class="buttonSize"><a (click)="goHome()" class="buttonLookLink">CANCEL</a></div></div><p></p>
+			</form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>

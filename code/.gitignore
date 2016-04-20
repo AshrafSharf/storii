@@ -1,0 +1,27 @@
+# directories
+.settings/
+.target/
+.idea/
+.worksheet/
+.node_modules/
+bin/
+build/
+dist/
+logs/
+out/
+target/
+tmp/
+node_modules/
+
+# files
+*.iml
+*/.DS_Store
+\#*
+.cache
+.classpath
+.DS_Store
+.history
+.idea
+.idea_modules
+.project
+RUNNING_PID
