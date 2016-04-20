@@ -32,7 +32,7 @@ System.register(['angular2/core', 'angular2/router'], function(exports_1, contex
                 LoginComponent = __decorate([
                     core_1.Component({
                         selector: 'login',
-                        templateUrl: "app/login/login.html",
+                        templateUrl: "app/html/login/login.html",
                         styles: ['a {cursor: pointer}']
                     }), 
                     __metadata('design:paramtypes', [router_1.Router])

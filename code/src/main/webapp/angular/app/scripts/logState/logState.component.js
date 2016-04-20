@@ -34,7 +34,7 @@ System.register(['angular2/core', 'angular2/router'], function(exports_1, contex
                 LogStateComponent = __decorate([
                     core_1.Component({
                         selector: 'logState',
-                        templateUrl: "app/logState.html",
+                        templateUrl: "app/html/logState/logState.html",
                         styles: ['a {cursor: pointer}']
                     }), 
                     __metadata('design:paramtypes', [router_1.Router])
