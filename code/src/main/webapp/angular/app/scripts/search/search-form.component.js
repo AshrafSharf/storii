@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'rxjs/Subject', './search.service', '../logState/logState.component'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/Subject', './search.service', '../logState/logState.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(['angular2/core', 'rxjs/Subject', './search.service', '../logSta
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, Subject_1, search_service_1, logState_component_1;
+    var core_1, http_1, Subject_1, search_service_1, logState_component_1;
     var SearchFormComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (http_1_1) {
+                http_1 = http_1_1;
             },
             function (Subject_1_1) {
                 Subject_1 = Subject_1_1;
@@ -31,7 +34,6 @@ System.register(['angular2/core', 'rxjs/Subject', './search.service', '../logSta
                 function SearchFormComponent(_searchService) {
                     var _this = this;
                     this._searchService = _searchService;
-                    this.title = 'Search:';
                     this._searchTermStream = new Subject_1.Subject();
                     this.items = this._searchTermStream
                         .debounceTime(300)
@@ -44,7 +46,7 @@ System.register(['angular2/core', 'rxjs/Subject', './search.service', '../logSta
                         selector: 'search-form',
                         templateUrl: "app/html/search/search.html",
                         directives: [logState_component_1.LogStateComponent],
-                        providers: [search_service_1.SearchService]
+                        providers: [http_1.JSONP_PROVIDERS, search_service_1.SearchService]
                     }), 
                     __metadata('design:paramtypes', [search_service_1.SearchService])
                 ], SearchFormComponent);

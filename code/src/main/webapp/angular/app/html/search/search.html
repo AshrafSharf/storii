@@ -15,7 +15,7 @@
 	</div>
 	<div [hidden]="submitted">
     	 <ul>
-      		<li *ngFor="#item of items | async">{{item.text}}</li>
+      		<li *ngFor="#item of items | async">{{item}}</li>
     	</ul> 
     	<div class="error" *ngIf="errorMessage">{{errorMessage}}</div>
   	</div>

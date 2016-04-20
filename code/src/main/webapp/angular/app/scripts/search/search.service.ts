@@ -8,35 +8,16 @@ import {Observable}     from 'rxjs/Observable';
 
 @Injectable()
 export class SearchService {
-  constructor (private http: Http) {}
-
-  private _resultUrl = '../../../results.json'; // URL to JSON file
-
-  search (term): Observable<Search[]> {
-  		var params = new URLSearchParams();
-		params.set('search', term);
-		
-    return this.http.get(this._resultUrl + '?search=' + term )
-            .map(this.extractData)
-            .do(data => console.log(data))
-            .catch(this.handleError);
-  }
-  
-
-
-  private extractData(res: Response) {
-    if (res.status < 200 || res.status >= 300) {
-      throw new Error('Bad response status: ' + res.status);
-    }
-    let body = res.json();
-    return body.data || { };
-  }
-
-  private handleError (error: any) {
-    let errMsg = error.message || 'Server error';
-    console.error(errMsg); // log to console instead
-    return Observable.throw(errMsg);
-  }
- 
-  
-}
+  constructor(private jsonp: Jsonp) {}
+  search (term: string) {
+    let wikiUrl = 'http://127.0.0.1:8080/story';
+    var params = new URLSearchParams();
+   // params.set('search', term); // the user's search value
+   // params.set('action', 'opensearch');
+    params.set('format', 'json');
+    params.set('callback', 'JSONP_CALLBACK');
+    // TODO: Add error handling
+    return this.jsonp
+               .get(wikiUrl, { search: params })
+               .map(request => <string[]> request.json()[1]);
+  }}

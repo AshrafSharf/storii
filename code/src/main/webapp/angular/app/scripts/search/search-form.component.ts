@@ -12,32 +12,16 @@ import {LogStateComponent} from '../logState/logState.component';
   selector: 'search-form',
   templateUrl: `app/html/search/search.html`,
   directives: [LogStateComponent],
-  providers:[SearchService]
+  providers:[JSONP_PROVIDERS, SearchService]
 })
 
 export class SearchFormComponent{
-	title = 'Search:';
-  	errorMessage: string;
-	
-	constructor (private _searchService: SearchService) {}
-	
-	private _searchTermStream = new Subject<string>();
-
-  	search(term:string) { this._searchTermStream.next(term); }
-
-  items:Observable<Search[]> = this._searchTermStream
+  constructor (private _searchService: SearchService) { }
+  private _searchTermStream = new Subject<string>();
+  
+  search(term:string) { this._searchTermStream.next(term); }
+  items:Observable<string[]> = this._searchTermStream
     .debounceTime(300)
     .distinctUntilChanged()
-    .switchMap((term:string) =>  this._searchService.search(term)
-    );
-								 
- /* 
-  search(term:string) {
-    this._searchService.search(term)
-                     .subscribe(
-                       items => this.items = items,
-                       error =>  this.errorMessage = <any>error);
-  }
-  */
-    
+    .switchMap((term:string) => this._searchService.search(term));    
 }
