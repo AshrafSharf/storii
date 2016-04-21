@@ -21,7 +21,17 @@ export class SearchFormComponent{
 	
 	constructor (private _searchService: SearchService) {}
 	
-	private _searchTermStream = new Subject<string>();
+	
+	  items:Search[];
+  
+  search(term) {
+    this._searchService.search(term)
+                     .subscribe(
+                       items => this.items = items,
+                       error =>  this.errorMessage = <any>error);
+  	}
+	
+	/*private _searchTermStream = new Subject<string>();
 
   	search(term:string) { this._searchTermStream.next(term); }
 
@@ -30,14 +40,6 @@ export class SearchFormComponent{
     .distinctUntilChanged()
     .switchMap((term:string) =>  this._searchService.search(term)
     );
-								 
- /* 
-  search(term:string) {
-    this._searchService.search(term)
-                     .subscribe(
-                       items => this.items = items,
-                       error =>  this.errorMessage = <any>error);
-  }
-  */
-    
+		*/						 
+
 }

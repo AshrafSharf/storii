@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'rxjs/Subject', './search.service', '../logState/logState.component'], function(exports_1, context_1) {
+System.register(['angular2/core', './search.service', '../logState/logState.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,12 @@ System.register(['angular2/core', 'rxjs/Subject', './search.service', '../logSta
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, Subject_1, search_service_1, logState_component_1;
+    var core_1, search_service_1, logState_component_1;
     var SearchFormComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (Subject_1_1) {
-                Subject_1 = Subject_1_1;
             },
             function (search_service_1_1) {
                 search_service_1 = search_service_1_1;
@@ -29,16 +26,14 @@ System.register(['angular2/core', 'rxjs/Subject', './search.service', '../logSta
         execute: function() {
             SearchFormComponent = (function () {
                 function SearchFormComponent(_searchService) {
-                    var _this = this;
                     this._searchService = _searchService;
                     this.title = 'Search:';
-                    this._searchTermStream = new Subject_1.Subject();
-                    this.items = this._searchTermStream
-                        .debounceTime(300)
-                        .distinctUntilChanged()
-                        .switchMap(function (term) { return _this._searchService.search(term); });
                 }
-                SearchFormComponent.prototype.search = function (term) { this._searchTermStream.next(term); };
+                SearchFormComponent.prototype.search = function (term) {
+                    var _this = this;
+                    this._searchService.search(term)
+                        .subscribe(function (items) { return _this.items = items; }, function (error) { return _this.errorMessage = error; });
+                };
                 SearchFormComponent = __decorate([
                     core_1.Component({
                         selector: 'search-form',
