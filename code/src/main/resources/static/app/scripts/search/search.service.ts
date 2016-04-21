@@ -10,7 +10,7 @@ import {Observable}     from 'rxjs/Observable';
 export class SearchService {
   constructor (private http: Http) {}
 
-  private _resultUrl = '../../../results.json'; // URL to JSON file
+  private _resultUrl = 'http://127.0.0.1:8080/story'; // URL to JSON file
 
   search (term): Observable<Search[]> {
   		var params = new URLSearchParams();
@@ -22,8 +22,6 @@ export class SearchService {
             .catch(this.handleError);
   }
   
-
-
   private extractData(res: Response) {
     if (res.status < 200 || res.status >= 300) {
       throw new Error('Bad response status: ' + res.status);
