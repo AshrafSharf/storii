@@ -1,4 +1,4 @@
-import {Component,OnInit} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {JSONP_PROVIDERS}  from 'angular2/http';
 import {Observable}       from 'rxjs/Observable';
 import {Subject}          from 'rxjs/Subject';
@@ -11,25 +11,18 @@ import {LogStateComponent} from '../logState/logState.component';
 @Component({
   selector: 'search-form',
   templateUrl: `app/html/search/search.html`,
-  directives: [LogStateComponent],
-  providers:[SearchService]
-})
+  directives: [LogStateComponent]
+ 
+ })
 
 export class SearchFormComponent{
 	title = 'Search:';
-  	errorMessage: string;
 	
-	constructor (private _searchService: SearchService) {}
-	
-	
-	  items:Search[];
-  
-  search(term) {
-    this._searchService.search(term)
-                     .subscribe(
-                       items => this.items = items,
-                       error =>  this.errorMessage = <any>error);
-  	}
+	constructor(private _router: Router) {}
+  		
+  	search(term) {
+     this._router.navigate(['Result', { value: term }]);
+    }
 	
 	/*private _searchTermStream = new Subject<string>();
 

@@ -10,7 +10,7 @@ import {Observable}     from 'rxjs/Observable';
 export class SearchService {
   constructor (private http: Http) {}
 
-  private _resultUrl = 'result.json'; // URL to JSON file
+  private _resultUrl = 'results.json'; // URL to JSON file
   search (term): Observable<Search[]> {
 
     return this.http.get(this._resultUrl)

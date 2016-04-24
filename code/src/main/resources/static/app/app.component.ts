@@ -3,6 +3,7 @@ import {ROUTER_PROVIDERS,RouteConfig, ROUTER_DIRECTIVES,APP_BASE_HREF,LocationSt
 import {LoginComponent} from './scripts/login/login.component';
 import {RegisterComponent} from './scripts/register/register.component';
 import {SearchFormComponent} from './scripts/search/search-form.component';
+import {ResultComponent} from './scripts/result/result.component';
 import {LogStateComponent} from './scripts/logState/logState.component';
 
 
@@ -16,7 +17,9 @@ import {LogStateComponent} from './scripts/logState/logState.component';
 @RouteConfig([
 	{ path: '/', name: 'Search', component: SearchFormComponent, useAsDefault: true},
 	{ path: '/login', name: 'Login', component: LoginComponent},
-    { path: '/register', name: 'Register', component: RegisterComponent}
+    { path: '/register', name: 'Register', component: RegisterComponent},
+    { path: '/result/:value', name: 'Result', component: ResultComponent}
+    
   ])
 
 export class AppComponent{

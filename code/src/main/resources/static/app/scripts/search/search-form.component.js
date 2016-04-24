@@ -1,4 +1,4 @@
-System.register(['angular2/core', './search.service', '../logState/logState.component'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../logState/logState.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,38 +10,35 @@ System.register(['angular2/core', './search.service', '../logState/logState.comp
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, search_service_1, logState_component_1;
+    var core_1, router_1, logState_component_1;
     var SearchFormComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (search_service_1_1) {
-                search_service_1 = search_service_1_1;
+            function (router_1_1) {
+                router_1 = router_1_1;
             },
             function (logState_component_1_1) {
                 logState_component_1 = logState_component_1_1;
             }],
         execute: function() {
             SearchFormComponent = (function () {
-                function SearchFormComponent(_searchService) {
-                    this._searchService = _searchService;
+                function SearchFormComponent(_router) {
+                    this._router = _router;
                     this.title = 'Search:';
                 }
                 SearchFormComponent.prototype.search = function (term) {
-                    var _this = this;
-                    this._searchService.search(term)
-                        .subscribe(function (items) { return _this.items = items; }, function (error) { return _this.errorMessage = error; });
+                    this._router.navigate(['Result', { value: term }]);
                 };
                 SearchFormComponent = __decorate([
                     core_1.Component({
                         selector: 'search-form',
                         templateUrl: "app/html/search/search.html",
-                        directives: [logState_component_1.LogStateComponent],
-                        providers: [search_service_1.SearchService]
+                        directives: [logState_component_1.LogStateComponent]
                     }), 
-                    __metadata('design:paramtypes', [search_service_1.SearchService])
+                    __metadata('design:paramtypes', [router_1.Router])
                 ], SearchFormComponent);
                 return SearchFormComponent;
             }());

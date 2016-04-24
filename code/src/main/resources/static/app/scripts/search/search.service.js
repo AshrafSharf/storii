@@ -27,7 +27,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
             SearchService = (function () {
                 function SearchService(http) {
                     this.http = http;
-                    this._resultUrl = 'result.json'; // URL to JSON file
+                    this._resultUrl = 'results.json'; // URL to JSON file
                 }
                 SearchService.prototype.search = function (term) {
                     return this.http.get(this._resultUrl)

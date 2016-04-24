@@ -1,6 +1,6 @@
 <logState></logState>
 <div class="container">
-	<div [hidden]="submitted">
+	<div>
 		<div id="searchPage">
     		<div id="form">
         		<form>
@@ -13,12 +13,6 @@
     		</div>
 		</div>	
 	</div>
-	<div [hidden]="submitted">
-    	 <ul>
-      		<li *ngFor="#item of items">{{item.name}}</li>
-    	</ul> 
-    	<div class="error" *ngIf="errorMessage">{{errorMessage}}</div>
-  	</div>
 </div>
 
     
