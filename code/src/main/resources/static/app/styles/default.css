@@ -358,7 +358,7 @@ input.buttonStoryInfo {
  }
 
 #searchResultPage {
-  margin-top: -170px; }
+  margin-top: -192px; }
   #searchResultPage h2 {
     margin-left: 10%;
     font-family: "Architects Daughter", cursive;
@@ -384,7 +384,6 @@ input.buttonStoryInfo {
     margin-top: 10px;
     position: absolute; }
   #searchResultPage .searchLabel input.inputField {
-    height: 40px;
     padding-top: 7px; }
   #searchResultPage p.darkBlue.searchLabel {
     font-size: 28px;
@@ -392,11 +391,11 @@ input.buttonStoryInfo {
   #searchResultPage .searchResultIcon {
     font-family: FontAwesome;
     font-size: 0.75em;
-    width: 55px;
-    height: 40px;
-    margin-left: -22px;
-    margin-top: -0px;
-    background-color: #96C3CC; }
+   width: auto;
+  height: 46px;
+  margin-left: -20px;
+   margin-top: -10px;
+  background-color: #96C3CC; }
 
 #newStoryPage {
   font-family: "Architects Daughter", cursive; }
@@ -992,9 +991,7 @@ input.buttonStoryInfo {
   #profilePage .myInfoContainer #content .firstColumn {
     width: 90%; } }
 @media screen and (max-width: 900px) {
-  #searchResultPage p.darkBlue.searchLabel {
-    margin-top: 250px;
-    margin-left: 0px; } }
+}
 @media screen and (min-width: 851px) {
   #cbp-spmenu-s2 {
     display: none; } }
@@ -1002,6 +999,8 @@ input.buttonStoryInfo {
   #editors {
     display: none; } }
 @media screen and (max-width: 790px) {
+	  #searchResultPage p.darkBlue.searchLabel {
+    margin-left: 0px; } 
   .libelle {
     display: none; }
   #searchPage .searchIcon{
@@ -1037,7 +1036,11 @@ input.buttonStoryInfo {
  	width:80%;
  	margin-left: 0;
  }
-
+	#logState {
+    margin-top: 150px;
+    position: absolute;
+    right: 10.5%;
+    top: 0;}
   #profilePage {
     padding-top: 10px; }
     #profilePage .profileFrameContainer {
@@ -1063,26 +1066,33 @@ input.buttonStoryInfo {
     }
      }
 @media screen and (max-width: 530px) {
+	#searchResultPage .searchLabel span{
+		display:block;
+	}
 	#logState{
 	left:0;
 	right:auto;
 	margin-left:18%;
 	}
   #searchResultPage input.inputField {
-    width: 70%;
-    margin-left: 0px; }
+    width: 80%;
+    margin-left: 25px; }
   #searchResultPage h2 {
     margin: 0 auto; }
   #searchResultPage ul {
-    margin-left: 0px;
+    margin: 0px;
     padding-left: 0px; }
   #searchResultPage ul li a {
     font-size: 0.6em; } }
 @media screen and (max-width: 420px) {
+	#searchResultPage input.inputField {
+    margin-left: 0; }
+
 	#logState{
 	left:0;
 	margin-left:16%;
 	}
+	
 	
   #userEditPage .userEditContainer h1 {
     font-size: 1.4em; }
@@ -1097,6 +1107,8 @@ input.buttonStoryInfo {
 	#logState{
 	margin-left:8%;
 	}
+ #searchResultPage input.inputField {
+    margin-left: -10px; }
 
 	}
 
