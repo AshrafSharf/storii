@@ -2,6 +2,7 @@ package com.storii.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.storii.daos.StoriiUserDAO;
 import com.storii.models.StoriiUser;
+import com.storii.models.Story;
 
 /**
  * REST controller for managing users.
@@ -43,7 +45,7 @@ public class StoriiUserController {
 	public ResponseEntity<String> index() throws JsonProcessingException {
 		Iterable<StoriiUser> userList = userDAO.findAll();
 		ObjectMapper mapper = new ObjectMapper();
-		return ResponseEntity.ok().body(mapper.writeValueAsString(userList));
+		return ResponseEntity.ok().body("{\"data\":"+mapper.writeValueAsString(userList)+"}");
 	}
 
 	/**
@@ -55,7 +57,7 @@ public class StoriiUserController {
 	public ResponseEntity<String> show(@PathVariable(value = "user_id") Long id) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		StoriiUser myUser = userDAO.findOne(id);
-		return ResponseEntity.ok().body(mapper.writeValueAsString(myUser));
+		return ResponseEntity.ok().body("{\"data\":"+mapper.writeValueAsString(myUser)+"}");
 	}
 
 	/**
@@ -70,11 +72,11 @@ public class StoriiUserController {
 		if (userDAO.findByName(myUser.getName()) == null) {
 			userDAO.save(myUser);
 		} else {
-			return ResponseEntity.ok().body("{\"created\":\"false\", \"exception\":\"name already exists\"}");
+			return ResponseEntity.ok().body("{\"data\":"+"{\"created\":\"false\", \"exception\":\"name already exists\"}"+"}");
 		}
 
 		return ResponseEntity.ok().body(
-				"{\"user\":\"" + myUser.getId() + "\",\"name\":\"" + myUser.getName() + "\",\"created\":\"true\"}");
+				"{\"data\":"+"{\"user\":\"" + myUser.getId() + "\",\"name\":\"" + myUser.getName() + "\",\"created\":\"true\"}"+"}");
 
 	}
 
@@ -90,7 +92,7 @@ public class StoriiUserController {
 		String userName = deleteUser.getName();
 		userDAO.delete(deleteUser);
 		return ResponseEntity.ok()
-				.body("{\"user\":\"" + userId + "\",\"name\":\"" + userName + "\",\"deleted\":\"true\"}");
+				.body("{\"data\":"+"{\"user\":\"" + userId + "\",\"name\":\"" + userName + "\",\"deleted\":\"true\"}"+"}");
 
 	}
 
@@ -116,8 +118,8 @@ public class StoriiUserController {
 
 		userDAO.save(oldUser);
 
-		return ResponseEntity.ok().body("{\"user\":\"" + oldUser.getId() + "\",\"old_name\":\"" + oldName
-				+ "\",\"new_name\":\"" + oldUser.getName() + "\",\"updated\":\"true\"}");
+		return ResponseEntity.ok().body("{\"data\":"+"{\"user\":\"" + oldUser.getId() + "\",\"old_name\":\"" + oldName
+				+ "\",\"new_name\":\"" + oldUser.getName() + "\",\"updated\":\"true\"}"+"}");
 
 	}
 
@@ -131,7 +133,21 @@ public class StoriiUserController {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		StoriiUser myUser = userDAO.findByName(userDetails.getUsername());
 		ObjectMapper mapper = new ObjectMapper();
-		return ResponseEntity.ok().body(mapper.writeValueAsString(myUser));
+		return ResponseEntity.ok().body("{\"data\":"+mapper.writeValueAsString(myUser)+"}");
+	}
+	
+	/**
+	 * find users by given name
+	 * @param user_name
+	 * @return ResponseEntity
+	 * @throws JsonProcessingException
+	 */
+	@RequestMapping(value = "/findByName/{user_name}", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> findByName(@PathVariable(value = "user_name") String user_name) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		List<StoriiUser> myUserList = userDAO.findUserssByNameContaining(user_name);
+		return ResponseEntity.ok().body("{\"data\":"+mapper.writeValueAsString(myUserList)+"}");
 	}
 
 }

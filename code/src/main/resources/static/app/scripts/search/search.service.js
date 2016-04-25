@@ -27,10 +27,10 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
             SearchService = (function () {
                 function SearchService(http) {
                     this.http = http;
-                    this._resultUrl = 'results.json'; // URL to JSON file
+                    this._resultUrl = '/story/findByName/'; // URL to JSON file
                 }
                 SearchService.prototype.search = function (term) {
-                    return this.http.get(this._resultUrl)
+                    return this.http.get(this._resultUrl + term)
                         .map(this.extractData)
                         .do(function (data) { return console.log(data); })
                         .catch(this.handleError);

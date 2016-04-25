@@ -1,6 +1,7 @@
 package com.storii.controllers;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class StoryController {
 	public ResponseEntity<String> index() throws JsonProcessingException {
 		Iterable<Story> storyList = storyDAO.findAll();
 		ObjectMapper mapper = new ObjectMapper();
-		return ResponseEntity.ok().body(mapper.writeValueAsString(storyList));
+		return ResponseEntity.ok().body("{\"data\":"+mapper.writeValueAsString(storyList)+"}");
 	}
 
 	/**
@@ -50,7 +51,7 @@ public class StoryController {
 	public ResponseEntity<String> show(@PathVariable(value = "story_id") Long id) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		Story myStory = storyDAO.findOne(id);
-		return ResponseEntity.ok().body(mapper.writeValueAsString(myStory));
+		return ResponseEntity.ok().body("{\"data\":"+mapper.writeValueAsString(myStory)+"}");
 	}
 
 	/**
@@ -65,7 +66,7 @@ public class StoryController {
 		Story myStory = mapper.readValue(json, Story.class);
 
 		return ResponseEntity.ok().body(
-				"{\"story\":\"" + myStory.getId() + "\",\"name\":\"" + myStory.getName() + "\",\"created\":\"true\"}");
+				"{\"data\":"+"{\"story\":\"" + myStory.getId() + "\",\"name\":\"" + myStory.getName() + "\",\"created\":\"true\"}"+"}");
 
 	}
 
@@ -81,7 +82,7 @@ public class StoryController {
 		String userName = deleteStory.getName();
 		storyDAO.delete(deleteStory);
 		return ResponseEntity.ok()
-				.body("{\"story\":\"" + StoryId + "\",\"name\":\"" + userName + "\",\"deleted\":\"true\"}");
+				.body("{\"data\":"+"{\"story\":\"" + StoryId + "\",\"name\":\"" + userName + "\",\"deleted\":\"true\"}"+"}");
 
 	}
 
@@ -99,7 +100,22 @@ public class StoryController {
 		oldStory = updatedStory;
 		storyDAO.save(oldStory);
 
-		return ResponseEntity.ok().body("{\"story\":\"" + oldStory.getName() + "\",\"updated\":\"true\"}");
+		return ResponseEntity.ok().body("{\"data\":"+"{\"story\":\"" + oldStory.getName() + "\",\"updated\":\"true\"}"+"}");
 
 	}
+	
+	/**
+	 * find stories by given name
+	 * @param story_name
+	 * @return ResponseEntity
+	 * @throws JsonProcessingException
+	 */
+	@RequestMapping(value = "/findByName/{story_name}", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> findByName(@PathVariable(value = "story_name") String story_name) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		List<Story> myStoryList = storyDAO.findStoriesByNameContaining(story_name);
+		return ResponseEntity.ok().body("{\"data\":"+mapper.writeValueAsString(myStoryList)+"}");
+	}
+	
 }
