@@ -42,11 +42,10 @@ System.register(['angular2/core', 'angular2/router', './scripts/login/login.comp
                     core_1.Component({
                         selector: 'storii-app',
                         templateUrl: "app/html/start/start.html",
-                        directives: [router_1.ROUTER_DIRECTIVES],
-                        providers: [router_1.ROUTER_PROVIDERS]
+                        directives: [router_1.ROUTER_DIRECTIVES]
                     }),
                     router_1.RouteConfig([
-                        { path: '/', name: 'Search', component: search_form_component_1.SearchFormComponent, useAsDefault: true },
+                        { path: '/', name: 'Search', component: search_form_component_1.SearchFormComponent },
                         { path: '/login', name: 'Login', component: login_component_1.LoginComponent },
                         { path: '/register', name: 'Register', component: register_component_1.RegisterComponent },
                         { path: '/search', name: 'Result', component: result_component_1.ResultComponent }

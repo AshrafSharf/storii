@@ -11,11 +11,10 @@ import {LogStateComponent} from './scripts/logState/logState.component';
 @Component({
       selector: 'storii-app',
       templateUrl:`app/html/start/start.html`,
-      directives: [ROUTER_DIRECTIVES],
-      providers: [ROUTER_PROVIDERS]
+      directives: [ROUTER_DIRECTIVES]
 })
 @RouteConfig([
-	{ path: '/', name: 'Search', component: SearchFormComponent, useAsDefault: true},
+	{ path: '/', name: 'Search', component: SearchFormComponent},
 	{ path: '/login', name: 'Login', component: LoginComponent},
     { path: '/register', name: 'Register', component: RegisterComponent},
     { path: '/search', name: 'Result', component: ResultComponent}
@@ -25,4 +24,5 @@ import {LogStateComponent} from './scripts/logState/logState.component';
 export class AppComponent{
  	libelleImageUrl = 'app/assets/files/libelle.jpg';
  	logoImageUrl = 'app/assets/files/logo.jpg';
- 	 	}
+
+}

@@ -12,6 +12,6 @@ import 'rxjs/Rx';
 bootstrap(AppComponent, 
 	[HTTP_PROVIDERS, 
 	ROUTER_PROVIDERS, 
-
-	provide(APP_BASE_HREF, {useValue: '/#/'})
+	provide(LocationStrategy, {useClass: HashLocationStrategy}),
+	provide(APP_BASE_HREF, {useValue: '/'})
 	]);
