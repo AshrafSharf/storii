@@ -1,10 +1,17 @@
 import {bootstrap}        from 'angular2/platform/browser';
 import { HTTP_PROVIDERS } from 'angular2/http';
-import {ROUTER_PROVIDERS} from 'angular2/router';
 import {AppComponent}     from './app.component';
+import {provide} from 'angular2/core';
+import {ROUTER_PROVIDERS,APP_BASE_HREF} from 'angular2/router';
+import {LocationStrategy, HashLocationStrategy} from 'angular2/router';
 
 import 'rxjs/Rx';
 
 
 
-bootstrap(AppComponent, [HTTP_PROVIDERS, ROUTER_PROVIDERS]);
+bootstrap(AppComponent, 
+	[HTTP_PROVIDERS, 
+	ROUTER_PROVIDERS, 
+
+	provide(APP_BASE_HREF, {useValue: '/#/'})
+	]);

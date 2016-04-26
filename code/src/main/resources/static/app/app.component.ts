@@ -25,4 +25,4 @@ import {LogStateComponent} from './scripts/logState/logState.component';
 export class AppComponent{
  	libelleImageUrl = 'app/assets/files/libelle.jpg';
  	logoImageUrl = 'app/assets/files/logo.jpg';
- 	}
+ 	 	}
