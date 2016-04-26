@@ -6,7 +6,7 @@
 
 				<p class="darkBlue searchLabel form-group">
 					<span>{{title | uppercase}}</span>
-						<input class="inputField form-control" value="{{resValue}}" type="text" #term (keyup)="search(term.value)">
+						<input id="inputField" class="inputField form-control" value="{{resValue}}" type="text" #term (keyup)="search(term.value)">
 
 					<input class="button searchResultIcon" value="&#xf002;" type="submit">
 
@@ -17,13 +17,14 @@
 <div class="foundUsers">
 <h2>{{resultsUsers| uppercase}}</h2>
 	 <ul>
-      		<li *ngFor="#item of items">{{item.name}}</li>
+      		<li *ngFor="#user of users">{{user.name}}</li>
     	</ul> 
 </div>
 <div class="foundStories">
 <h2>{{resultsStories| uppercase}}</h2>
-	 <ul>
-      		<li *ngFor="#item of items">{{item.name}}</li>
+	 
+    	<ul>
+      		<li *ngFor="#story of stories">{{story.name}}</li>
     	</ul> 
 </div>
 <div class="error" *ngIf="errorMessage">{{errorMessage}}</div>

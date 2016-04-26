@@ -49,7 +49,7 @@ System.register(['angular2/core', 'angular2/router', './scripts/login/login.comp
                         { path: '/', name: 'Search', component: search_form_component_1.SearchFormComponent, useAsDefault: true },
                         { path: '/login', name: 'Login', component: login_component_1.LoginComponent },
                         { path: '/register', name: 'Register', component: register_component_1.RegisterComponent },
-                        { path: '/result/:value', name: 'Result', component: result_component_1.ResultComponent }
+                        { path: '/search', name: 'Result', component: result_component_1.ResultComponent }
                     ]), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);

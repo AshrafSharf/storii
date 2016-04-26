@@ -22,23 +22,35 @@ export class ResultComponent implements OnInit{
 	resultsUsers = 'Users:';	
 	resultsStories = 'Stories:';
   	errorMessage: string;
-  	@Input() items: Search[];
+  	@Input() stories: Search[];
+  	@Input() users: Search[];
 	
 	constructor (private _router: Router, private _searchService: SearchService, private _routeParams: RouteParams) {}
 	
 	 ngOnInit() {
-   		 if (!this.items) {
+	  		let cell = document.getElementById('inputField');
+        	cell.focus();
       		var value = this._routeParams.get('value');
       		this.resValue = value;
-     		this.search(value);
-    	}
+     		this.doSearch(value);
   	}
   	
   	search(term){
-  	 this._searchService.search(term)
-                     .subscribe(
-                       items => this.items = items,
-                       error =>  this.errorMessage = <any>error);
+  	 this._router.navigate(['Result', { value: term }]);        
   	} 
+  	
+  	doSearch(term){
+  		if(term != ""){
+		  	 this._searchService.searchStory(term)
+		                     .subscribe(
+		                       stories => this.stories = stories,
+		                       error =>  this.errorMessage = <any>error);
+		                       
+		     this._searchService.searchUser(term)
+		                     .subscribe(
+		                       users => this.users = users,
+		                       error =>  this.errorMessage = <any>error);
+     	}    
+  	}
 
 }

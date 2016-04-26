@@ -18,7 +18,7 @@ import {LogStateComponent} from './scripts/logState/logState.component';
 	{ path: '/', name: 'Search', component: SearchFormComponent, useAsDefault: true},
 	{ path: '/login', name: 'Login', component: LoginComponent},
     { path: '/register', name: 'Register', component: RegisterComponent},
-    { path: '/result/:value', name: 'Result', component: ResultComponent}
+    { path: '/search', name: 'Result', component: ResultComponent}
     
   ])
 

@@ -37,21 +37,32 @@ System.register(['angular2/core', 'angular2/router', '../search/search.service',
                     this.resultsStories = 'Stories:';
                 }
                 ResultComponent.prototype.ngOnInit = function () {
-                    if (!this.items) {
-                        var value = this._routeParams.get('value');
-                        this.resValue = value;
-                        this.search(value);
-                    }
+                    var cell = document.getElementById('inputField');
+                    cell.focus();
+                    var value = this._routeParams.get('value');
+                    this.resValue = value;
+                    this.doSearch(value);
                 };
                 ResultComponent.prototype.search = function (term) {
+                    this._router.navigate(['Result', { value: term }]);
+                };
+                ResultComponent.prototype.doSearch = function (term) {
                     var _this = this;
-                    this._searchService.search(term)
-                        .subscribe(function (items) { return _this.items = items; }, function (error) { return _this.errorMessage = error; });
+                    if (term != "") {
+                        this._searchService.searchStory(term)
+                            .subscribe(function (stories) { return _this.stories = stories; }, function (error) { return _this.errorMessage = error; });
+                        this._searchService.searchUser(term)
+                            .subscribe(function (users) { return _this.users = users; }, function (error) { return _this.errorMessage = error; });
+                    }
                 };
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', Array)
-                ], ResultComponent.prototype, "items", void 0);
+                ], ResultComponent.prototype, "stories", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Array)
+                ], ResultComponent.prototype, "users", void 0);
                 ResultComponent = __decorate([
                     core_1.Component({
                         selector: 'result',

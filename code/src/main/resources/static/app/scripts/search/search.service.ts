@@ -10,10 +10,18 @@ import {Observable}     from 'rxjs/Observable';
 export class SearchService {
   constructor (private http: Http) {}
 
-  private _resultUrl = '/story/findByName/'; // URL to JSON file
-  search (term): Observable<Search[]> {
-
-    return this.http.get(this._resultUrl+term)
+ 
+  searchStory (term): Observable<Search[]> {
+	var _resultUrl = '/story/findByName/'; // URL to JSON file
+    return this.http.get(_resultUrl+term)
+            .map(this.extractData)
+            .do(data => console.log(data))
+            .catch(this.handleError);
+  }
+  
+   searchUser (term): Observable<Search[]> {
+	var _resultUrl = '/user/findByName/'; // URL to JSON file
+    return this.http.get(_resultUrl+term)
             .map(this.extractData)
             .do(data => console.log(data))
             .catch(this.handleError);
