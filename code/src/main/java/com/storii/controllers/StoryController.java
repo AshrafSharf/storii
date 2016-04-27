@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.storii.daos.PageDAO;
 import com.storii.daos.StoryDAO;
+import com.storii.models.Page;
 import com.storii.models.Story;
 
 /**
@@ -30,6 +31,9 @@ public class StoryController {
 	@Autowired
 	private StoryDAO storyDAO;
 
+	@Autowired
+	private PageDAO pageDAO;
+
 	/**
 	 * GET / or blank -> get all users.
 	 */
@@ -39,7 +43,7 @@ public class StoryController {
 	public ResponseEntity<String> index() throws JsonProcessingException {
 		Iterable<Story> storyList = storyDAO.findAll();
 		ObjectMapper mapper = new ObjectMapper();
-		return ResponseEntity.ok().body("{\"data\":"+mapper.writeValueAsString(storyList)+"}");
+		return ResponseEntity.ok().body("{\"data\":" + mapper.writeValueAsString(storyList) + "}");
 	}
 
 	/**
@@ -51,7 +55,7 @@ public class StoryController {
 	public ResponseEntity<String> show(@PathVariable(value = "story_id") Long id) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		Story myStory = storyDAO.findOne(id);
-		return ResponseEntity.ok().body("{\"data\":"+mapper.writeValueAsString(myStory)+"}");
+		return ResponseEntity.ok().body("{\"data\":" + mapper.writeValueAsString(myStory) + "}");
 	}
 
 	/**
@@ -64,9 +68,12 @@ public class StoryController {
 	public ResponseEntity<String> create(@RequestBody String json) throws JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		Story myStory = mapper.readValue(json, Story.class);
+		Page firstPage = new Page(myStory);
+		pageDAO.save(firstPage);
+		storyDAO.save(myStory);
 
-		return ResponseEntity.ok().body(
-				"{\"data\":"+"{\"story\":\"" + myStory.getId() + "\",\"name\":\"" + myStory.getName() + "\",\"created\":\"true\"}"+"}");
+		return ResponseEntity.ok().body("{\"data\":" + "{\"story\":\"" + myStory.getId() + "\",\"name\":\""
+				+ myStory.getName() + "\",\"created\":\"true\"}" + "}");
 
 	}
 
@@ -81,8 +88,8 @@ public class StoryController {
 		long StoryId = deleteStory.getId();
 		String userName = deleteStory.getName();
 		storyDAO.delete(deleteStory);
-		return ResponseEntity.ok()
-				.body("{\"data\":"+"{\"story\":\"" + StoryId + "\",\"name\":\"" + userName + "\",\"deleted\":\"true\"}"+"}");
+		return ResponseEntity.ok().body("{\"data\":" + "{\"story\":\"" + StoryId + "\",\"name\":\"" + userName
+				+ "\",\"deleted\":\"true\"}" + "}");
 
 	}
 
@@ -100,22 +107,44 @@ public class StoryController {
 		oldStory = updatedStory;
 		storyDAO.save(oldStory);
 
-		return ResponseEntity.ok().body("{\"data\":"+"{\"story\":\"" + oldStory.getName() + "\",\"updated\":\"true\"}"+"}");
+		return ResponseEntity.ok()
+				.body("{\"data\":" + "{\"story\":\"" + oldStory.getName() + "\",\"updated\":\"true\"}" + "}");
 
 	}
-	
+
 	/**
 	 * find stories by given name
+	 * 
 	 * @param story_name
 	 * @return ResponseEntity
 	 * @throws JsonProcessingException
 	 */
 	@RequestMapping(value = "/findByName/{story_name}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public ResponseEntity<String> findByName(@PathVariable(value = "story_name") String story_name) throws JsonProcessingException {
+	public ResponseEntity<String> findByName(@PathVariable(value = "story_name") String story_name)
+			throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		List<Story> myStoryList = storyDAO.findStoriesByNameContaining(story_name);
-		return ResponseEntity.ok().body("{\"data\":"+mapper.writeValueAsString(myStoryList)+"}");
+		return ResponseEntity.ok().body("{\"data\":" + mapper.writeValueAsString(myStoryList) + "}");
 	}
-	
+
+	/**
+	 * Pages are now created via this function
+	 * @param json
+	 * @param story_id
+	 * @return ResponseEntity
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/{story_id}/addPage", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> addPage(@RequestBody String json, @PathVariable(value = "story_id") Long story_id)
+			throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		Story myStory = storyDAO.findOne(story_id);
+		Page newPage = mapper.readValue(json, Page.class);
+		newPage.setParentStory(myStory);
+		pageDAO.save(newPage);
+		return ResponseEntity.ok().body("{\"created\":\"true\"}");
+	}
+
 }

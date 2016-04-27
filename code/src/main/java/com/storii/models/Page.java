@@ -82,20 +82,37 @@ public class Page {
 	 * constructors
 	 */
 	
-	public Page(String title, String description, int level, int position) {
-		this.title = title;
-		this.description = description;
-		this.level = level;
-		this.position = position;
-	}
-
-	public Page() {
-		this.title = "";
-		this.description = "";
+	public Page(Story parent){
+		this.title = "defaultTitle";
+		this.description = "defaultDescription";
 		this.level = 0;
 		this.position = 0;
-	}	
+		this.serializedContent = "";
+		this.parentStory = parent;
+		this.firstPageInStory = parent;
+
+	}
 	
+	public Page(int level, int position){
+		this.title = "defaultTitle";
+		this.description = "defaultDescription";
+		this.level = level;
+		this.position = position;
+		this.serializedContent = "";
+		this.parentStory = null;
+		this.firstPageInStory = null;
+	}
+	
+	public Page(){
+		this.title = "defaultTitle";
+		this.description = "defaultDescription";
+		this.level = 0;
+		this.position = 0;
+		this.serializedContent = "";
+		this.parentStory = null;
+		this.firstPageInStory = null;
+	}
+		
 	/**
 	 * getters and setters
 	 */

@@ -38,7 +38,7 @@ public class Story {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Autowired
-	@Column(name = "page_id")
+	@Column(name = "story_id")
 	private long id;
 
 	@NotNull
@@ -95,9 +95,9 @@ public class Story {
 	}
 
 	public Story() {
-		this.name = "";
-		this.authorName = "";
-		this.coAuthorName = "";
+		this.name = "defaultName";
+		this.authorName = "defaultAuthor";
+		this.coAuthorName = "defaultCoAuthor";
 		this.isPublished = false;
 	}
 

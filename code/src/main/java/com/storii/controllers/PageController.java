@@ -56,19 +56,19 @@ public class PageController {
 	/**
 	 * POST / or blank -> create a new user.
 	 */
-
-	@RequestMapping(value = { "/",
-			"" }, method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	@ResponseBody
-	public ResponseEntity<String> create(@RequestBody String json) throws JsonMappingException, IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		Page myPage = mapper.readValue(json, Page.class);
-
-		return ResponseEntity.ok().body(
-				"{\"page\":\"" + myPage.getId() + "\",\"name\":\"" + myPage.getTitle() + "\",\"created\":\"true\"}");
-
-	}
-
+	/*
+	 * @RequestMapping(value = { "/", "" }, method = RequestMethod.POST,
+	 * produces = "application/json", consumes = "application/json")
+	 * 
+	 * @ResponseBody public ResponseEntity<String> create(@RequestBody String
+	 * json) throws JsonMappingException, IOException { ObjectMapper mapper =
+	 * new ObjectMapper(); Page myPage = mapper.readValue(json, Page.class);
+	 * 
+	 * return ResponseEntity.ok().body( "{\"page\":\"" + myPage.getId() +
+	 * "\",\"name\":\"" + myPage.getTitle() + "\",\"created\":\"true\"}");
+	 * 
+	 * }
+	 */
 	/**
 	 * DELETE /{user_id} -> delete the user with given ID.
 	 */
