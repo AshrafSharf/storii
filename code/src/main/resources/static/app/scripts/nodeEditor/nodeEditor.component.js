@@ -11,7 +11,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, router_1, logState_component_1;
-    var SearchFormComponent;
+    var NodeEditorComponent;
     return {
         setters:[
             function (core_1_1) {
@@ -24,26 +24,23 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 logState_component_1 = logState_component_1_1;
             }],
         execute: function() {
-            SearchFormComponent = (function () {
-                function SearchFormComponent(_router) {
+            NodeEditorComponent = (function () {
+                function NodeEditorComponent(_router) {
                     this._router = _router;
-                    this.title = 'Search:';
+                    this.title = 'NodeEditor:';
                 }
-                SearchFormComponent.prototype.search = function (term) {
-                    this._router.navigate(['Result', { key: term }]);
-                };
-                SearchFormComponent = __decorate([
+                NodeEditorComponent = __decorate([
                     core_1.Component({
-                        selector: 'search-form',
-                        templateUrl: "app/html/search/search.html",
+                        selector: 'nodeEditor',
+                        templateUrl: "app/html/nodeEditor/nodeEditor.html",
                         directives: [logState_component_1.LogStateComponent]
                     }), 
                     __metadata('design:paramtypes', [router_1.Router])
-                ], SearchFormComponent);
-                return SearchFormComponent;
+                ], NodeEditorComponent);
+                return NodeEditorComponent;
             }());
-            exports_1("SearchFormComponent", SearchFormComponent);
+            exports_1("NodeEditorComponent", NodeEditorComponent);
         }
     }
 });
-//# sourceMappingURL=search-form.component.js.map
+//# sourceMappingURL=nodeEditor.component.js.map

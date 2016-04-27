@@ -21,7 +21,7 @@ export class SearchFormComponent{
 	constructor(private _router: Router) {}
   		
   	search(term) {
-     this._router.navigate(['Result', { value: term }]);
+     this._router.navigate(['Result', { key: term }]);
     }
 	
 	/*private _searchTermStream = new Subject<string>();

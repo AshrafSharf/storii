@@ -39,12 +39,12 @@ System.register(['angular2/core', 'angular2/router', '../search/search.service',
                 ResultComponent.prototype.ngOnInit = function () {
                     var cell = document.getElementById('inputField');
                     cell.focus();
-                    var value = this._routeParams.get('value');
+                    var value = this._routeParams.get('key');
                     this.resValue = value;
                     this.doSearch(value);
                 };
                 ResultComponent.prototype.search = function (term) {
-                    this._router.navigate(['Result', { value: term }]);
+                    this._router.navigate(['Result', { key: term }]);
                 };
                 ResultComponent.prototype.doSearch = function (term) {
                     var _this = this;

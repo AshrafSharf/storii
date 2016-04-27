@@ -30,13 +30,13 @@ export class ResultComponent implements OnInit{
 	 ngOnInit() {
 	  		let cell = document.getElementById('inputField');
         	cell.focus();
-      		var value = this._routeParams.get('value');
+      		var value = this._routeParams.get('key');
       		this.resValue = value;
      		this.doSearch(value);
   	}
   	
   	search(term){
-  	 this._router.navigate(['Result', { value: term }]);        
+  	 this._router.navigate(['Result', { key: term }]);        
   	} 
   	
   	doSearch(term){

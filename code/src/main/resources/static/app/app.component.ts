@@ -5,6 +5,7 @@ import {RegisterComponent} from './scripts/register/register.component';
 import {SearchFormComponent} from './scripts/search/search-form.component';
 import {ResultComponent} from './scripts/result/result.component';
 import {LogStateComponent} from './scripts/logState/logState.component';
+import {NodeEditorComponent} from './scripts/nodeEditor/nodeEditor.component';
 
 
     
@@ -17,7 +18,11 @@ import {LogStateComponent} from './scripts/logState/logState.component';
 	{ path: '/', name: 'Search', component: SearchFormComponent},
 	{ path: '/login', name: 'Login', component: LoginComponent},
     { path: '/register', name: 'Register', component: RegisterComponent},
-    { path: '/search', name: 'Result', component: ResultComponent}
+    { path: '/search', name: 'Result', component: ResultComponent},
+    { path: '/users/:name/:storyName/edit', name: 'NodeEditor', component: NodeEditorComponent}
+   //{ path: '/users/:name', name: 'Profil', component: ProfilComponent},
+   //{ path: '/users/:name/:storyName', name: 'About', component: AboutComponent},
+   //{ path: '/users/:name/:storyName/published', name: 'Presentation', component: PresentationComponent} 
     
   ])
 
