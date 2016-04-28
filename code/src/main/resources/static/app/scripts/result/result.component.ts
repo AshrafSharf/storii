@@ -22,8 +22,8 @@ export class ResultComponent implements OnInit{
 	resultsUsers = 'Users:';	
 	resultsStories = 'Stories:';
   	errorMessage: string;
-  	@Input() stories: Search[];
-  	@Input() users: Search[];
+  	stories: Search[];
+  	users: Search[];
 	
 	constructor (private _router: Router, private _searchService: SearchService, private _routeParams: RouteParams) {}
 	
@@ -32,7 +32,7 @@ export class ResultComponent implements OnInit{
         	cell.focus();
       		var value = this._routeParams.get('key');
       		this.resValue = value;
-     		this.doSearch(value);
+     		this.doSearch(value);     		
   	}
   	
   	search(term){
@@ -41,7 +41,7 @@ export class ResultComponent implements OnInit{
   	
   	doSearch(term){
   		if(term != ""){
-		  	 this._searchService.searchStory(term)
+		  	  this._searchService.searchStory(term)
 		                     .subscribe(
 		                       stories => this.stories = stories,
 		                       error =>  this.errorMessage = <any>error);
@@ -49,8 +49,10 @@ export class ResultComponent implements OnInit{
 		     this._searchService.searchUser(term)
 		                     .subscribe(
 		                       users => this.users = users,
-		                       error =>  this.errorMessage = <any>error);
-     	}    
+		                       error =>  this.errorMessage = <any>error);  
+		         
+     	} 
+     	
   	}
 
 }

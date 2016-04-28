@@ -16,16 +16,27 @@
     		
 <div class="foundUsers">
 <h2>{{resultsUsers| uppercase}}</h2>
-	 <ul>
+	<div *ngIf="users">
+	 	<ul>
       		<li *ngFor="#user of users">{{user.name}}</li>
+      		
     	</ul> 
+   	</div>
+   	<div  *ngIf="users == 0 || !users" class="nothingFound">
+   		No user found    
+   	</div>
+    	
 </div>
 <div class="foundStories">
 <h2>{{resultsStories| uppercase}}</h2>
-	 
-    	<ul>
+	 	<ul>
       		<li *ngFor="#story of stories">{{story.name}}</li>
+      		
     	</ul> 
+
+   	<div  *ngIf="stories == 0 || !stories" class="nothingFound">
+   		No story found
+   	</div>
 </div>
 <div class="error" *ngIf="errorMessage">{{errorMessage}}</div>
     </div>

@@ -32,7 +32,8 @@ export class SearchService {
       throw new Error('Bad response status: ' + res.status);
     }
     let body = res.json();
-    return body.data || { };
+    
+    return body.data || {};
   }
 
   private handleError (error: any) {

@@ -52,7 +52,7 @@ System.register(['angular2/core', 'angular2/router', './scripts/login/login.comp
                         { path: '/login', name: 'Login', component: login_component_1.LoginComponent },
                         { path: '/register', name: 'Register', component: register_component_1.RegisterComponent },
                         { path: '/search', name: 'Result', component: result_component_1.ResultComponent },
-                        { path: '/users/:name/:storyName/edit', name: 'NodeEditor', component: nodeEditor_component_1.NodeEditorComponent }
+                        { path: '/users/:name/:storyName/node/edit', name: 'NodeEditor', component: nodeEditor_component_1.NodeEditorComponent }
                     ]), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);

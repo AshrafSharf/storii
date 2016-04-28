@@ -55,14 +55,6 @@ System.register(['angular2/core', 'angular2/router', '../search/search.service',
                             .subscribe(function (users) { return _this.users = users; }, function (error) { return _this.errorMessage = error; });
                     }
                 };
-                __decorate([
-                    core_1.Input(), 
-                    __metadata('design:type', Array)
-                ], ResultComponent.prototype, "stories", void 0);
-                __decorate([
-                    core_1.Input(), 
-                    __metadata('design:type', Array)
-                ], ResultComponent.prototype, "users", void 0);
                 ResultComponent = __decorate([
                     core_1.Component({
                         selector: 'result',

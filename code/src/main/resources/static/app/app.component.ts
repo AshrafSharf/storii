@@ -19,7 +19,7 @@ import {NodeEditorComponent} from './scripts/nodeEditor/nodeEditor.component';
 	{ path: '/login', name: 'Login', component: LoginComponent},
     { path: '/register', name: 'Register', component: RegisterComponent},
     { path: '/search', name: 'Result', component: ResultComponent},
-    { path: '/users/:name/:storyName/edit', name: 'NodeEditor', component: NodeEditorComponent}
+    { path: '/users/:name/:storyName/node/edit', name: 'NodeEditor', component: NodeEditorComponent}
    //{ path: '/users/:name', name: 'Profil', component: ProfilComponent},
    //{ path: '/users/:name/:storyName', name: 'About', component: AboutComponent},
    //{ path: '/users/:name/:storyName/published', name: 'Presentation', component: PresentationComponent} 

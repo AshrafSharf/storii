@@ -10,7 +10,9 @@ FLOAT CLEARFIX
 
 DESIGN
 body {
-  background-color: #FFFFFF; }
+  background-color: #FFFFFF; 
+ 
+  }
 
 a {
   text-decoration: none; }
@@ -363,6 +365,11 @@ input.buttonStoryInfo {
     margin-left: 10%;
     font-family: "Architects Daughter", cursive;
     text-decoration: underline; }
+    #searchResultPage .nothingFound {
+    margin-left: 10%;
+    font-family: "Architects Daughter", cursive;
+    line-height: 3em;
+   }
   #searchResultPage ul {
     margin-left: 7%;
     list-style: none;

@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', 'angular2/common', './authentication.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router'], function(exports_1, contex
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1;
+    var core_1, router_1, common_1, authentication_service_1;
     var LoginComponent;
     return {
         setters:[
@@ -19,13 +19,41 @@ System.register(['angular2/core', 'angular2/router'], function(exports_1, contex
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+            },
+            function (common_1_1) {
+                common_1 = common_1_1;
+            },
+            function (authentication_service_1_1) {
+                authentication_service_1 = authentication_service_1_1;
             }],
         execute: function() {
             LoginComponent = (function () {
-                function LoginComponent(_router) {
+                function LoginComponent(fb, _router, _authenticationService, _routeParams) {
+                    this.fb = fb;
                     this._router = _router;
-                    this.title = 'LOGIN:';
+                    this._authenticationService = _authenticationService;
+                    this._routeParams = _routeParams;
+                    this.title = 'Login:';
+                    this.loginname = 'Username';
+                    this.pw = 'Password';
+                    this.register = 'Register';
+                    this.error = false;
+                    this.form = fb.group({
+                        username: ['', common_1.Validators.required],
+                        password: ['', common_1.Validators.required]
+                    });
                 }
+                LoginComponent.prototype.login = function (username, password) {
+                    var _this = this;
+                    if (username != "" && password != "") {
+                        this._authenticationService.login(username, password)
+                            .subscribe(function (result) {
+                            if (result) {
+                                _this._router.navigate(['Search']);
+                            }
+                        }, function () { _this.error = true; });
+                    }
+                };
                 LoginComponent.prototype.gotoRegister = function () {
                     this._router.navigate(['Register']);
                 };
@@ -33,9 +61,10 @@ System.register(['angular2/core', 'angular2/router'], function(exports_1, contex
                     core_1.Component({
                         selector: 'login',
                         templateUrl: "app/html/login/login.html",
-                        styles: ['a {cursor: pointer}']
+                        styles: ['a {cursor: pointer}'],
+                        providers: [authentication_service_1.AuthenticationService]
                     }), 
-                    __metadata('design:paramtypes', [router_1.Router])
+                    __metadata('design:paramtypes', [common_1.FormBuilder, router_1.Router, authentication_service_1.AuthenticationService, router_1.RouteParams])
                 ], LoginComponent);
                 return LoginComponent;
             }());
