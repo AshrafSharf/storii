@@ -17,22 +17,11 @@ import {LogStateComponent} from '../logState/logState.component';
 
 export class SearchFormComponent{
 	title = 'Search:';
-	
-	constructor(private _router: Router) {}
+			
+	constructor(private _router: Router) {    console.log(localStorage.getItem('auth_token'));}
   		
   	search(term) {
      this._router.navigate(['Result', { key: term }]);
-    }
-	
-	/*private _searchTermStream = new Subject<string>();
-
-  	search(term:string) { this._searchTermStream.next(term); }
-
-  items:Observable<Search[]> = this._searchTermStream
-    .debounceTime(300)
-    .distinctUntilChanged()
-    .switchMap((term:string) =>  this._searchService.search(term)
-    );
-		*/						 
+    }				 
 
 }

@@ -4,24 +4,32 @@ import {Http, Response} from 'angular2/http';
 import {Headers, RequestOptions} from 'angular2/http';
 import {Search}           from './search';
 import {Observable}     from 'rxjs/Observable';
+import {HttpClient}           from '../../headerfct';
 
 
 @Injectable()
 export class SearchService {
-  constructor (private http: Http) {}
-
- 
+  constructor (private http: Http, private httpClient: HttpClient) {}
+  
   searchStory (term): Observable<Search[]> {
+  	var headers = new Headers();
+  	if (localStorage.getItem("auth_token") != null) {
+  		headers = this.httpClient.createHeader(headers);
+  	}
 	var _resultUrl = '/story/findByName/'; // URL to JSON file
-    return this.http.get(_resultUrl+term)
+    return this.http.get(_resultUrl+term,{headers})
             .map(this.extractData)
             .do(data => console.log(data))
             .catch(this.handleError);
   }
   
    searchUser (term): Observable<Search[]> {
+   	var headers = new Headers();
+   	if (localStorage.getItem("auth_token") != null) {
+  		headers = this.httpClient.createHeader(headers);
+  	}
 	var _resultUrl = '/user/findByName/'; // URL to JSON file
-    return this.http.get(_resultUrl+term)
+    return this.http.get(_resultUrl+term,{headers})
             .map(this.extractData)
             .do(data => console.log(data))
             .catch(this.handleError);

@@ -31,16 +31,19 @@ export class LoginComponent {
 	}
 	
 	login(username, password){
-  		if(username != "" && password != ""){
-		  	  this._authenticationService.login(username,password)
-		                     .subscribe((result) => {
+		  	  this._authenticationService.login(username,password);
+		  	  //  console.log(localStorage.getItem('auth_token'));
+		  	  	this._router.navigate(['Search']);	  
+	 		
+	 		
+    
+		                  /*  .subscribe((result) => {
 	      							if (result) {
 	        							this._router.navigate(['Search']);
 	      							}
     							},
-        						() => { this.error = true; });
+        						() => { this.error = true; });*/
 		            
-     	} 
     }
 	
 	gotoRegister() {

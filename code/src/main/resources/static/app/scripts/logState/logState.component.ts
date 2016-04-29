@@ -3,25 +3,55 @@ import {ROUTER_PROVIDERS,RouteConfig, ROUTER_DIRECTIVES,APP_BASE_HREF,LocationSt
 import {LoginComponent} from '../login/login.component';
 import { Router, Location} from 'angular2/router';
 import {RegisterComponent} from '../register/register.component';
+import { AuthenticationService }    from '../login/authentication.service';
     
 @Component({
       selector: 'logState',
       templateUrl:`app/html/logState/logState.html`,
-      styles:['a {cursor: pointer}']
+      styles:['a {cursor: pointer}'],
+  	  providers:[AuthenticationService]
 })
 
 
 export class LogStateComponent {
 
- constructor(private _router: Router) { }
+	logState = "Login";
+	register = "Register";
+	user= "User";
+	name;
+	loggedIn;
 
+ constructor(private _router: Router, private _authenticationService: AuthenticationService) {
+ 	this.loggedIn=_authenticationService.isLoggedIn();
+ 	if (this.loggedIn) {
+ 		this.logState = "Logout";
+ 		var string = localStorage.getItem("auth_token");
+		var headerParts = atob(string).split(":");
+		this.name = atob(headerParts[0]);
+ 		this.user = this.name;
+ 	}
 
+  }
+ 
   gotoLogin() {
-    this._router.navigate(['Login']);
+   	if (!this.loggedIn) {
+   		this._router.navigate(['Login']);
+   	}else{
+   		this._authenticationService.logout();
+   		this.loggedIn=this._authenticationService.isLoggedIn();
+   		this.logState = "Login";
+    	this._router.navigate(['Search']);
+   	}
+    
   }
   
   gotoRegister() {
     this._router.navigate(['Register']);
   }
+  
+	gotoProfil() {	
+   		 this._router.navigate(['Profile', { name: this.name }]);
+   	}
+  	
  
 }

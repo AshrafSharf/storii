@@ -11,7 +11,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, router_1, logState_component_1;
-    var NodeEditorComponent;
+    var ProfilComponent;
     return {
         setters:[
             function (core_1_1) {
@@ -24,22 +24,22 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 logState_component_1 = logState_component_1_1;
             }],
         execute: function() {
-            NodeEditorComponent = (function () {
-                function NodeEditorComponent(_router) {
+            ProfilComponent = (function () {
+                function ProfilComponent(_router) {
                     this._router = _router;
-                    this.title = 'NodeEditor:';
+                    this.title = ':';
                 }
-                NodeEditorComponent = __decorate([
+                ProfilComponent = __decorate([
                     core_1.Component({
                         selector: 'profil',
                         templateUrl: "app/html/profil/profil.html",
                         directives: [logState_component_1.LogStateComponent]
                     }), 
                     __metadata('design:paramtypes', [router_1.Router])
-                ], NodeEditorComponent);
-                return NodeEditorComponent;
+                ], ProfilComponent);
+                return ProfilComponent;
             }());
-            exports_1("NodeEditorComponent", NodeEditorComponent);
+            exports_1("ProfilComponent", ProfilComponent);
         }
     }
 });

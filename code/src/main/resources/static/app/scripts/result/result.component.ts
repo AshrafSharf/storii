@@ -6,6 +6,7 @@ import {Subject}          from 'rxjs/Subject';
 import { SearchService }    from '../search/search.service';
 import { Search}    from '../search/search';
 import {LogStateComponent} from '../logState/logState.component';
+import {HttpClient}           from '../../headerfct';
 
 
 @Component({
@@ -13,7 +14,7 @@ import {LogStateComponent} from '../logState/logState.component';
   templateUrl: `app/html/result/result.html`,
   styles:['a {cursor: pointer}'],
   directives: [LogStateComponent],
-  providers:[SearchService]
+  providers:[SearchService,HttpClient]
 })
 
 export class ResultComponent implements OnInit{

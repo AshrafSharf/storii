@@ -28,6 +28,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 function SearchFormComponent(_router) {
                     this._router = _router;
                     this.title = 'Search:';
+                    console.log(localStorage.getItem('auth_token'));
                 }
                 SearchFormComponent.prototype.search = function (term) {
                     this._router.navigate(['Result', { key: term }]);

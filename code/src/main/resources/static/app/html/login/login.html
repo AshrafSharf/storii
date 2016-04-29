@@ -4,7 +4,7 @@
         <div class="loginContainer">
             <div id="form">
                 <div class="h1bgLogin"><h1>{{title | uppercase}}</h1></div>
-                <form [ngFormModel]="form" (submit)="login(form.value)">
+                <form [ngFormModel]="form">
 	                
 	  				<div *ngIf="error">Check your username and password</div>
 					<p class="label">{{loginname | uppercase}}<br> <input #username ngControl="username" class="inputField" name="userName" value="" type="text"></p>
@@ -13,7 +13,7 @@
 		
 					<p><input name="proof" value="proofForMe" type="hidden"></p>
 		
-					<p></p><div class="buttonFrameContainer firstButton"><input class="button" value="{{title | uppercase}}" type="submit" [disabled]="!form.valid"></div><p></p>
+					<p></p><div class="buttonFrameContainer firstButton"><input class="button" value="{{title | uppercase}}" type="submit" [disabled]="!form.valid" (click)="login(username.value,password.value)"></div><p></p>
 		
 					<p></p><div class="buttonFrameContainer secondButton"><div class="buttonSize"><a (click)="gotoRegister()" class="buttonLookLink">{{register | uppercase}}</a></div></div><p></p>
 				</form>

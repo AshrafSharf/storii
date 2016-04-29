@@ -1,4 +1,5 @@
 <div id="logState">
-			<div class="buttonFrameContainerLogState left marginRightLogState"><div class="buttonSize"><a (click)="gotoLogin()" class="buttonLookLink firstLogState">LOGIN</a></div></div>
-			<div class="buttonFrameContainerLogState left"><div class="buttonSize"><a (click)="gotoRegister()" class="buttonLookLink" >REGISTER</a></div></div><br>
+			<div *ngIf="loggedIn" class="LogedInHelloState">HELLO <a (click)="gotoProfil()">{{user}}</a></div>
+			<div class="buttonFrameContainerLogState left marginRightLogState"><div class="buttonSize"><a (click)="gotoLogin()" class="buttonLookLink firstLogState">{{logState | uppercase}}</a></div></div>
+			<div *ngIf="!loggedIn" class="buttonFrameContainerLogState left"><div class="buttonSize"><a (click)="gotoRegister()" class="buttonLookLink" >{{register | uppercase}}</a></div></div><br>
 </div>

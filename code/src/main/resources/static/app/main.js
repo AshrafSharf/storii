@@ -22,11 +22,35 @@ System.register(['angular2/platform/browser', 'angular2/http', './app.component'
             },
             function (_1) {}],
         execute: function() {
+            /*
+             class MyOptions extends RequestOptions {
+                  constructor() {
+                    if (localStorage.getItem("auth_token") != null) {
+                        var string = localStorage.getItem("auth_token");
+                        var headerParts = atob(string).split(":");
+                        var name = atob(headerParts[0]);
+                        var pw = atob(headerParts[1]);
+                        super({
+                            method: RequestMethod.Get,
+                            headers: new Headers({
+                            'Content-Type': 'application/json',
+                            'header': name+":"+pw
+                            }),
+                        });
+                    }
+                  }
+              }
+            */
+            /*var headerParts = atob(localStorage.getItem("auth_token")).split(':');
+                        var name = atob(headerParts[0]);
+                        var pw = atob(headerParts[1]);
+                        var header = name +':'+pw;*/
             browser_1.bootstrap(app_component_1.AppComponent, [http_1.HTTP_PROVIDERS,
                 router_1.ROUTER_PROVIDERS,
                 core_1.provide(router_2.LocationStrategy, { useClass: router_2.HashLocationStrategy }),
-                core_1.provide(router_1.APP_BASE_HREF, { useValue: '/' })
-            ]);
+                core_1.provide(router_1.APP_BASE_HREF, { useValue: '/' }),
+            ])
+                .catch(function (err) { return console.error(err); });
         }
     }
 });

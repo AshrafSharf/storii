@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../headerfct'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, Observable_1;
+    var core_1, http_1, http_2, Observable_1, headerfct_1;
     var SearchService;
     return {
         setters:[
@@ -19,25 +19,38 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
             },
             function (http_1_1) {
                 http_1 = http_1_1;
+                http_2 = http_1_1;
             },
             function (Observable_1_1) {
                 Observable_1 = Observable_1_1;
+            },
+            function (headerfct_1_1) {
+                headerfct_1 = headerfct_1_1;
             }],
         execute: function() {
             SearchService = (function () {
-                function SearchService(http) {
+                function SearchService(http, httpClient) {
                     this.http = http;
+                    this.httpClient = httpClient;
                 }
                 SearchService.prototype.searchStory = function (term) {
+                    var headers = new http_2.Headers();
+                    if (localStorage.getItem("auth_token") != null) {
+                        headers = this.httpClient.createHeader(headers);
+                    }
                     var _resultUrl = '/story/findByName/'; // URL to JSON file
-                    return this.http.get(_resultUrl + term)
+                    return this.http.get(_resultUrl + term, { headers: headers })
                         .map(this.extractData)
                         .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
                 SearchService.prototype.searchUser = function (term) {
+                    var headers = new http_2.Headers();
+                    if (localStorage.getItem("auth_token") != null) {
+                        headers = this.httpClient.createHeader(headers);
+                    }
                     var _resultUrl = '/user/findByName/'; // URL to JSON file
-                    return this.http.get(_resultUrl + term)
+                    return this.http.get(_resultUrl + term, { headers: headers })
                         .map(this.extractData)
                         .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
@@ -56,7 +69,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                 };
                 SearchService = __decorate([
                     core_1.Injectable(), 
-                    __metadata('design:paramtypes', [http_1.Http])
+                    __metadata('design:paramtypes', [http_1.Http, headerfct_1.HttpClient])
                 ], SearchService);
                 return SearchService;
             }());

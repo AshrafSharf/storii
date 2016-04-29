@@ -18,20 +18,26 @@ export class AuthenticationService {
 	let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     var _resultUrl = ''; 
-    
-    return this.http.post(_resultUrl, JSON.stringify({ username, password }), { headers })
+    var string = btoa(username)+":"+btoa(password); 
+    var token =btoa(string);
+    localStorage.setItem('auth_token',token);
+
+    /*return this.http.post(_resultUrl, JSON.stringify({ username, password }), { headers })
     				.map(res => res.json())
     				.map((res) => {
 					        if (res.success) {
-					        //hier muss i ma den token bastln
-					          localStorage.setItem('auth_token', res.auth_token);
+					          var token =btoa(btoa(username) + ":" + btoa(password))
+					          localStorage.setItem('auth_token',token);
 					          this.loggedIn = true;
 			        		}
         					return res.success;
-					});
+					});*/
   }
   
   logout() {
+    localStorage.removeItem('auth_token');
+    this.loggedIn = false;
+ 
     /*
     return this.http.get(this.config.serverUrl + '/auth/logout', {
       headers: new Headers({
@@ -43,6 +49,10 @@ export class AuthenticationService {
       localStorage.removeItem('token');
     });
      */
+  }
+  
+  isLoggedIn() {
+  	return !!localStorage.getItem("auth_token");
   }
   
 }

@@ -44,15 +44,15 @@ System.register(['angular2/core', 'angular2/router', 'angular2/common', './authe
                     });
                 }
                 LoginComponent.prototype.login = function (username, password) {
-                    var _this = this;
-                    if (username != "" && password != "") {
-                        this._authenticationService.login(username, password)
-                            .subscribe(function (result) {
-                            if (result) {
-                                _this._router.navigate(['Search']);
-                            }
-                        }, function () { _this.error = true; });
-                    }
+                    this._authenticationService.login(username, password);
+                    //  console.log(localStorage.getItem('auth_token'));
+                    this._router.navigate(['Search']);
+                    /*  .subscribe((result) => {
+                              if (result) {
+                                  this._router.navigate(['Search']);
+                              }
+                          },
+                          () => { this.error = true; });*/
                 };
                 LoginComponent.prototype.gotoRegister = function () {
                     this._router.navigate(['Register']);

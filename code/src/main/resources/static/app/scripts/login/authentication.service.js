@@ -29,22 +29,26 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
                     this.loggedIn = !!localStorage.getItem('auth_token');
                 }
                 AuthenticationService.prototype.login = function (username, password) {
-                    var _this = this;
                     var headers = new http_2.Headers();
                     headers.append('Content-Type', 'application/json');
                     var _resultUrl = '';
-                    return this.http.post(_resultUrl, JSON.stringify({ username: username, password: password }), { headers: headers })
-                        .map(function (res) { return res.json(); })
-                        .map(function (res) {
-                        if (res.success) {
-                            //hier muss i ma den token bastln
-                            localStorage.setItem('auth_token', res.auth_token);
-                            _this.loggedIn = true;
-                        }
-                        return res.success;
-                    });
+                    var string = btoa(username) + ":" + btoa(password);
+                    var token = btoa(string);
+                    localStorage.setItem('auth_token', token);
+                    /*return this.http.post(_resultUrl, JSON.stringify({ username, password }), { headers })
+                                    .map(res => res.json())
+                                    .map((res) => {
+                                            if (res.success) {
+                                              var token =btoa(btoa(username) + ":" + btoa(password))
+                                              localStorage.setItem('auth_token',token);
+                                              this.loggedIn = true;
+                                            }
+                                            return res.success;
+                                    });*/
                 };
                 AuthenticationService.prototype.logout = function () {
+                    localStorage.removeItem('auth_token');
+                    this.loggedIn = false;
                     /*
                     return this.http.get(this.config.serverUrl + '/auth/logout', {
                       headers: new Headers({
@@ -56,6 +60,9 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
                       localStorage.removeItem('token');
                     });
                      */
+                };
+                AuthenticationService.prototype.isLoggedIn = function () {
+                    return !!localStorage.getItem("auth_token");
                 };
                 AuthenticationService = __decorate([
                     core_1.Injectable(), 
