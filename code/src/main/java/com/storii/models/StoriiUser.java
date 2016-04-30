@@ -5,6 +5,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -56,6 +58,10 @@ public class StoriiUser {
 	@Autowired
 	@Column(name = "tutorial_done")
 	private Boolean tutorialDone;
+	
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private Role role;
 
 	
 	/**
@@ -90,6 +96,15 @@ public class StoriiUser {
 		this.password = "";
 		this.email = "";
 		this.tutorialDone = false;
+		this.role = role.USER;
+	}
+	
+	public StoriiUser(String name, String password, String email, boolean tutorialDone, Role role) {
+		this.name = name;
+		this.password = password;
+		this.email = email;
+		this.tutorialDone = tutorialDone;
+		this.role = role;
 	}
 	
 	/**
@@ -143,6 +158,22 @@ public class StoriiUser {
 
 	public void setUserImage(UserImage userImage) {
 		this.userImage = userImage;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public Set<Story> getStories() {
+		return stories;
+	}
+
+	public void setStories(Set<Story> stories) {
+		this.stories = stories;
 	}
 	
 	

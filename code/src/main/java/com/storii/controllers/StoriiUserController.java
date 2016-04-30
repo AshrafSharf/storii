@@ -149,5 +149,21 @@ public class StoriiUserController {
 		List<StoriiUser> myUserList = userDAO.findUserssByNameContaining(user_name);
 		return ResponseEntity.ok().body("{\"data\":"+mapper.writeValueAsString(myUserList)+"}");
 	}
+	
+	/**
+	 * returns a json if the logged in user is valid
+	 * @return ResponseEntity
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> login() throws JsonMappingException, IOException {
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		StoriiUser myUser = userDAO.findByName(userDetails.getUsername());
+		return ResponseEntity.ok().body(
+				"{\"user\":\"" + myUser.getId() + "\",\"name\":\"" + myUser.getName() + "\",\"login\":\"true\"}");
+
+	}
 
 }
