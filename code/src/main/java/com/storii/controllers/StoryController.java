@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +18,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.storii.daos.PageDAO;
+import com.storii.daos.StoriiUserDAO;
 import com.storii.daos.StoryDAO;
 import com.storii.models.Page;
+import com.storii.models.StoriiUser;
 import com.storii.models.Story;
 
 /**
@@ -30,6 +34,9 @@ public class StoryController {
 
 	@Autowired
 	private StoryDAO storyDAO;
+
+	@Autowired
+	private StoriiUserDAO userDAO;
 
 	@Autowired
 	private PageDAO pageDAO;
@@ -67,8 +74,12 @@ public class StoryController {
 	@ResponseBody
 	public ResponseEntity<String> create(@RequestBody String json) throws JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		StoriiUser myUser = userDAO.findByName(userDetails.getUsername());
 		Story myStory = mapper.readValue(json, Story.class);
 		Page firstPage = new Page(myStory);
+		myStory.setFirstPage(firstPage);
+		myStory.setParentUser(myUser);
 		pageDAO.save(firstPage);
 		storyDAO.save(myStory);
 
@@ -145,6 +156,22 @@ public class StoryController {
 		newPage.setParentStory(myStory);
 		pageDAO.save(newPage);
 		return ResponseEntity.ok().body("{\"created\":\"true\"}");
+	}
+	
+	/**
+	 * find pages by given story
+	 * 
+	 * @param story_id
+	 * @return ResponseEntity
+	 * @throws JsonProcessingException
+	 */
+	@RequestMapping(value = "/{story_id}/getPages", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> getPages(@PathVariable(value = "story_id") Long story_id)
+			throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		Story myStory = storyDAO.findOne(story_id);
+		return ResponseEntity.ok().body("{\"data\":" + mapper.writeValueAsString(myStory.getPages()) + "}");
 	}
 
 }

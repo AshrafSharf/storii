@@ -165,6 +165,16 @@ public class Story {
 	public void setPages(Set<Page> pages) {
 		this.pages = pages;
 	}
+
+	public Page getFirstPage() {
+		return firstPage;
+	}
+
+	public void setFirstPage(Page firstPage) {
+		this.firstPage = firstPage;
+	}
+	
+	
 	
 	/**
 	 * getters and setters

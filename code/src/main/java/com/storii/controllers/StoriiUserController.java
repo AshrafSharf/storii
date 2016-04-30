@@ -165,5 +165,21 @@ public class StoriiUserController {
 				"{\"user\":\"" + myUser.getId() + "\",\"name\":\"" + myUser.getName() + "\",\"login\":\"true\"}");
 
 	}
+	
+	/**
+	 * find stories by given user
+	 * 
+	 * @param user_id
+	 * @return ResponseEntity
+	 * @throws JsonProcessingException
+	 */
+	@RequestMapping(value = "/{user_id}/getStories", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> getStories(@PathVariable(value = "user_id") Long user_id)
+			throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		StoriiUser myUser = userDAO.findOne(user_id);
+		return ResponseEntity.ok().body("{\"data\":" + mapper.writeValueAsString(myUser.getStories()) + "}");
+	}
 
 }
