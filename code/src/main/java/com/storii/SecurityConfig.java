@@ -42,7 +42,7 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
     	StoriiUser account = storiiUserDAO.findByName(name);
         if(account != null) {
         return new User(account.getName(), account.getPassword(), true, true, true, true,
-                AuthorityUtils.createAuthorityList("USER"));
+                AuthorityUtils.createAuthorityList(account.getPassword().toString()));
         } else {
           throw new UsernameNotFoundException("could not find the user '"
                   + name + "'");
@@ -63,8 +63,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-    	//.anyRequest().fullyAuthenticated()
-    	.antMatchers("/nope").fullyAuthenticated()
+    	.anyRequest().fullyAuthenticated()
+    	//.antMatchers("/nope").fullyAuthenticated()
     	.and()
 	    	.httpBasic()
 	    .and()
