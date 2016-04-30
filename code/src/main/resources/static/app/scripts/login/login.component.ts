@@ -31,18 +31,20 @@ export class LoginComponent {
 	}
 	
 	login(username, password){
-		  	  this._authenticationService.login(username,password);
-		  	  //  console.log(localStorage.getItem('auth_token'));
-		  	  	this._router.navigate(['Search']);	  
-	 		
-	 		
-    
-		                  /*  .subscribe((result) => {
+		  	  this._authenticationService.login(username,password)
+		             		  .subscribe((result) => {
 	      							if (result) {
+	      								console.log("its done");
 	        							this._router.navigate(['Search']);
 	      							}
     							},
-        						() => { this.error = true; });*/
+        						() => { this.error = true; });
+        						
+		  	  //  console.log(localStorage.getItem('auth_token'));
+		  	  //	this._router.navigate(['Search']);	  
+	 		
+	 		
+    
 		            
     }
 	

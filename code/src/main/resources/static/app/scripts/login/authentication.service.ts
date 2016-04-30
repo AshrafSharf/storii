@@ -15,23 +15,25 @@ export class AuthenticationService {
 
  
   login (username,password) {
-	let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    var _resultUrl = ''; 
-    var string = btoa(username)+":"+btoa(password); 
-    var token =btoa(string);
-    localStorage.setItem('auth_token',token);
+  
+  	let headers = new Headers();  
+    var _resultUrl = '/user/login'; 
+    var string = username +":"+ password; 
+    var token = "Basic " + string;
+    
+    headers.append('Authorization',token);
+    //localStorage.setItem('auth_token',token);
 
-    /*return this.http.post(_resultUrl, JSON.stringify({ username, password }), { headers })
+    return this.http.get(_resultUrl, { headers })
     				.map(res => res.json())
     				.map((res) => {
 					        if (res.success) {
-					          var token =btoa(btoa(username) + ":" + btoa(password))
+					 
 					          localStorage.setItem('auth_token',token);
 					          this.loggedIn = true;
 			        		}
         					return res.success;
-					});*/
+					});
   }
   
   logout() {

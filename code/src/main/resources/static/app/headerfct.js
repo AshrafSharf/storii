@@ -26,9 +26,10 @@ System.register(['angular2/http', 'angular2/core'], function(exports_1, context_
                 }
                 HttpClient.prototype.createHeader = function (headers) {
                     var string = localStorage.getItem("auth_token");
-                    var headerParts = atob(string).split(":");
-                    var name = atob(headerParts[0]);
-                    var pw = atob(headerParts[1]);
+                    var headerParts = string.split(" ");
+                    var token = atob(headerParts[1]).split(":");
+                    var name = headerParts[0];
+                    var pw = headerParts[1];
                     headers.append('Authorization', name + ':' + pw);
                     return headers;
                 };

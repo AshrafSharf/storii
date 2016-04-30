@@ -29,22 +29,22 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
                     this.loggedIn = !!localStorage.getItem('auth_token');
                 }
                 AuthenticationService.prototype.login = function (username, password) {
+                    var _this = this;
                     var headers = new http_2.Headers();
-                    headers.append('Content-Type', 'application/json');
-                    var _resultUrl = '';
-                    var string = btoa(username) + ":" + btoa(password);
-                    var token = btoa(string);
-                    localStorage.setItem('auth_token', token);
-                    /*return this.http.post(_resultUrl, JSON.stringify({ username, password }), { headers })
-                                    .map(res => res.json())
-                                    .map((res) => {
-                                            if (res.success) {
-                                              var token =btoa(btoa(username) + ":" + btoa(password))
-                                              localStorage.setItem('auth_token',token);
-                                              this.loggedIn = true;
-                                            }
-                                            return res.success;
-                                    });*/
+                    var _resultUrl = '/user/login';
+                    var string = username + ":" + password;
+                    var token = "Basic " + string;
+                    headers.append('Authorization', token);
+                    //localStorage.setItem('auth_token',token);
+                    return this.http.get(_resultUrl, { headers: headers })
+                        .map(function (res) { return res.json(); })
+                        .map(function (res) {
+                        if (res.success) {
+                            localStorage.setItem('auth_token', token);
+                            _this.loggedIn = true;
+                        }
+                        return res.success;
+                    });
                 };
                 AuthenticationService.prototype.logout = function () {
                     localStorage.removeItem('auth_token');
