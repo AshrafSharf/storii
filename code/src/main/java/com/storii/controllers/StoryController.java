@@ -2,6 +2,7 @@ package com.storii.controllers;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -141,6 +142,7 @@ public class StoryController {
 
 	/**
 	 * Pages are now created via this function
+	 * 
 	 * @param json
 	 * @param story_id
 	 * @return ResponseEntity
@@ -157,7 +159,7 @@ public class StoryController {
 		pageDAO.save(newPage);
 		return ResponseEntity.ok().body("{\"created\":\"true\"}");
 	}
-	
+
 	/**
 	 * find pages by given story
 	 * 
@@ -172,6 +174,33 @@ public class StoryController {
 		ObjectMapper mapper = new ObjectMapper();
 		Story myStory = storyDAO.findOne(story_id);
 		return ResponseEntity.ok().body("{\"data\":" + mapper.writeValueAsString(myStory.getPages()) + "}");
+	}
+
+	/**
+	 * returns max level of given story
+	 * 
+	 * @param story_id
+	 * @return ResponseEntity
+	 * @throws JsonProcessingException
+	 */
+	@RequestMapping(value = "/{story_id}/getMaxLevel", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> getMaxLevel(@PathVariable(value = "story_id") Long story_id)
+			throws JsonProcessingException {
+		Story myStory = storyDAO.findOne(story_id);
+		Set<Page> myPages = myStory.getPages();
+
+		int maxLevel = 0;
+
+		for (Page thisPage : myPages) {
+			if (thisPage.getLevel() > maxLevel) {
+				maxLevel = thisPage.getLevel();
+			}
+		}
+
+		maxLevel++;
+
+		return ResponseEntity.ok().body("{\"data\":" + "{\"max_level\":\"" + maxLevel + "\"}" + "}");
 	}
 
 }
