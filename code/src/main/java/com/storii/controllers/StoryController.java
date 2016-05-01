@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,7 +70,7 @@ public class StoryController {
 	/**
 	 * POST / or blank -> create a new user.
 	 */
-
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = { "/",
 			"" }, method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	@ResponseBody
@@ -93,6 +94,7 @@ public class StoryController {
 	 * DELETE /{user_id} -> delete the user with given ID.
 	 */
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/{story_id}", method = RequestMethod.DELETE, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> destroy(@PathVariable(value = "story_id") Long id) {
@@ -109,6 +111,7 @@ public class StoryController {
 	 * PUT /{user_id} -> update the user with given ID.
 	 */
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/story_id}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> update(@RequestBody String json, @PathVariable(value = "story_id") Long id)
@@ -148,6 +151,7 @@ public class StoryController {
 	 * @return ResponseEntity
 	 * @throws IOException
 	 */
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "/{story_id}/addPage", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> addPage(@RequestBody String json, @PathVariable(value = "story_id") Long story_id)

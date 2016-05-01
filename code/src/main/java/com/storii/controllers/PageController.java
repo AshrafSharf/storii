@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,6 +74,7 @@ public class PageController {
 	 * DELETE /{user_id} -> delete the user with given ID.
 	 */
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/{page_id}", method = RequestMethod.DELETE, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> destroy(@PathVariable(value = "page_id") Long id) {
@@ -89,6 +91,7 @@ public class PageController {
 	 * PUT /{user_id} -> update the user with given ID.
 	 */
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/{page_id}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> update(@RequestBody String json, @PathVariable(value = "page_id") Long id)

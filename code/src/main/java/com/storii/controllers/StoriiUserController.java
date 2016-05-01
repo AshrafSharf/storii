@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +40,6 @@ public class StoriiUserController {
 	/**
 	 * GET / or blank -> get all users.
 	 */
-
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> index() throws JsonProcessingException {
@@ -84,6 +84,7 @@ public class StoriiUserController {
 	 * DELETE /{user_id} -> delete the user with given ID.
 	 */
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/{user_id}", method = RequestMethod.DELETE, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> destroy(@PathVariable(value = "user_id") Long id) {
@@ -100,6 +101,7 @@ public class StoriiUserController {
 	 * PUT /{user_id} -> update the user with given ID.
 	 */
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "/{user_id}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> update(@RequestBody String json, @PathVariable(value = "user_id") Long id)
@@ -127,6 +129,7 @@ public class StoriiUserController {
 	 * GET /me -> get the logged-in user.
 	 */
 
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "/me", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> getLogged() throws JsonProcessingException {

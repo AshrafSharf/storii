@@ -86,22 +86,25 @@ public class StoriiUser {
 	
 	public StoriiUser(String name, String password, String email, Boolean tutorialDone) {
 		this.name = name;
-		this.password = password;
+		BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
+		this.password = bcryptEncoder.encode(password);
 		this.email = email;
 		this.tutorialDone = tutorialDone;
 	}
 
 	public StoriiUser() {
-		this.name = "";
-		this.password = "";
-		this.email = "";
+		this.name = "default";
+		BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
+		this.password = bcryptEncoder.encode("default");
+		this.email = "default";
 		this.tutorialDone = false;
-		this.role = role.USER;
+		this.role = Role.USER;
 	}
 	
 	public StoriiUser(String name, String password, String email, boolean tutorialDone, Role role) {
 		this.name = name;
-		this.password = password;
+		BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
+		this.password = bcryptEncoder.encode(password);
 		this.email = email;
 		this.tutorialDone = tutorialDone;
 		this.role = role;
