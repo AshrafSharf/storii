@@ -27,7 +27,7 @@ export class LogStateComponent {
  		this.logState = "Logout";
  		var string = localStorage.getItem("auth_token");
 		var headerParts = string.split(" ");
-		var token = headerParts[1].split(":");
+		var token = atob(headerParts[1]).split(":");
 		this.name = token[0];
  		this.user = this.name;
  		
