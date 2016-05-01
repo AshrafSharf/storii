@@ -19,38 +19,25 @@ export class AuthenticationService {
   	let headers = new Headers();  
     var _resultUrl = '/user/login'; 
     var string = username +":"+ password; 
-    var token = "Basic " + string;
+    var token = "Basic " + btoa(string);
     
     headers.append('Authorization',token);
-    //localStorage.setItem('auth_token',token);
+    console.log(token);
 
     return this.http.get(_resultUrl, { headers })
     				.map(res => res.json())
     				.map((res) => {
-					        if (res.success) {
-					 
+					        if (res.login) {		 
 					          localStorage.setItem('auth_token',token);
 					          this.loggedIn = true;
 			        		}
-        					return res.success;
+			        		 return res.login;
 					});
   }
   
   logout() {
     localStorage.removeItem('auth_token');
     this.loggedIn = false;
- 
-    /*
-    return this.http.get(this.config.serverUrl + '/auth/logout', {
-      headers: new Headers({
-        'x-security-token': this.token
-      })
-    })
-    .map((res : any) => {
-      this.token = undefined;
-      localStorage.removeItem('token');
-    });
-     */
   }
   
   isLoggedIn() {

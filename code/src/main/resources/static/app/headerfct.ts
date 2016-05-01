@@ -9,11 +9,7 @@ export class HttpClient {
  
   createHeader(headers:Headers) {
   	var string = localStorage.getItem("auth_token");
-	var headerParts = string.split(" ");
-	var token = atob(headerParts[1]).split(":");
-	var name = headerParts[0];
-	var pw = headerParts[1];
-    headers.append('Authorization',name+':'+pw); 
+    headers.append('Authorization', string); 
     return headers; 
   }
   

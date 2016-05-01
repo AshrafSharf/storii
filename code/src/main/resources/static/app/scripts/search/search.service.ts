@@ -15,8 +15,11 @@ export class SearchService {
   	var headers = new Headers();
   	if (localStorage.getItem("auth_token") != null) {
   		headers = this.httpClient.createHeader(headers);
+  	}else{
+  		headers.delete('Authorization');
+  		headers.append('Authorization',"");
   	}
-	var _resultUrl = '/story/findByName/'; // URL to JSON file
+	var _resultUrl = '/story/findByName/'; 
     return this.http.get(_resultUrl+term,{headers})
             .map(this.extractData)
             .do(data => console.log(data))
@@ -27,6 +30,10 @@ export class SearchService {
    	var headers = new Headers();
    	if (localStorage.getItem("auth_token") != null) {
   		headers = this.httpClient.createHeader(headers);
+  	}else{
+  		console.log("FFFFALSCH");
+  		headers.delete('Authorization');
+  		headers.append('Authorization',"");
   	}
 	var _resultUrl = '/user/findByName/'; // URL to JSON file
     return this.http.get(_resultUrl+term,{headers})

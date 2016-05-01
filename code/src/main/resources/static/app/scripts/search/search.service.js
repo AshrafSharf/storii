@@ -38,7 +38,11 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     if (localStorage.getItem("auth_token") != null) {
                         headers = this.httpClient.createHeader(headers);
                     }
-                    var _resultUrl = '/story/findByName/'; // URL to JSON file
+                    else {
+                        headers.delete('Authorization');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/story/findByName/';
                     return this.http.get(_resultUrl + term, { headers: headers })
                         .map(this.extractData)
                         .do(function (data) { return console.log(data); })
@@ -48,6 +52,11 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     var headers = new http_2.Headers();
                     if (localStorage.getItem("auth_token") != null) {
                         headers = this.httpClient.createHeader(headers);
+                    }
+                    else {
+                        console.log("FFFFALSCH");
+                        headers.delete('Authorization');
+                        headers.append('Authorization', "");
                     }
                     var _resultUrl = '/user/findByName/'; // URL to JSON file
                     return this.http.get(_resultUrl + term, { headers: headers })

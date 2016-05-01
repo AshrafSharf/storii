@@ -33,8 +33,9 @@ export class LoginComponent {
 	login(username, password){
 		  	  this._authenticationService.login(username,password)
 		             		  .subscribe((result) => {
+		             		  		console.log(result);
 	      							if (result) {
-	      								console.log("its done");
+	      								
 	        							this._router.navigate(['Search']);
 	      							}
     							},

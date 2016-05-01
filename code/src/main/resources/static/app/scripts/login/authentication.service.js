@@ -33,33 +33,22 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
                     var headers = new http_2.Headers();
                     var _resultUrl = '/user/login';
                     var string = username + ":" + password;
-                    var token = "Basic " + string;
+                    var token = "Basic " + btoa(string);
                     headers.append('Authorization', token);
-                    //localStorage.setItem('auth_token',token);
+                    console.log(token);
                     return this.http.get(_resultUrl, { headers: headers })
                         .map(function (res) { return res.json(); })
                         .map(function (res) {
-                        if (res.success) {
+                        if (res.login) {
                             localStorage.setItem('auth_token', token);
                             _this.loggedIn = true;
                         }
-                        return res.success;
+                        return res.login;
                     });
                 };
                 AuthenticationService.prototype.logout = function () {
                     localStorage.removeItem('auth_token');
                     this.loggedIn = false;
-                    /*
-                    return this.http.get(this.config.serverUrl + '/auth/logout', {
-                      headers: new Headers({
-                        'x-security-token': this.token
-                      })
-                    })
-                    .map((res : any) => {
-                      this.token = undefined;
-                      localStorage.removeItem('token');
-                    });
-                     */
                 };
                 AuthenticationService.prototype.isLoggedIn = function () {
                     return !!localStorage.getItem("auth_token");

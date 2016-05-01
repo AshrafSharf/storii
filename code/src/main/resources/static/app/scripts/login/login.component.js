@@ -47,8 +47,8 @@ System.register(['angular2/core', 'angular2/router', 'angular2/common', './authe
                     var _this = this;
                     this._authenticationService.login(username, password)
                         .subscribe(function (result) {
+                        console.log(result);
                         if (result) {
-                            console.log("its done");
                             _this._router.navigate(['Search']);
                         }
                     }, function () { _this.error = true; });

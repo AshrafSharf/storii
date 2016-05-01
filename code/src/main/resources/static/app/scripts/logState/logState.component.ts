@@ -26,9 +26,13 @@ export class LogStateComponent {
  	if (this.loggedIn) {
  		this.logState = "Logout";
  		var string = localStorage.getItem("auth_token");
-		var headerParts = atob(string).split(":");
-		this.name = atob(headerParts[0]);
+		var headerParts = string.split(" ");
+		var token = headerParts[1].split(":");
+		this.name = token[0];
  		this.user = this.name;
+ 		
+ 			
+
  	}
 
   }
