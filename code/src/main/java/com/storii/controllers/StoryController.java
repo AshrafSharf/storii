@@ -161,7 +161,7 @@ public class StoryController {
 		Page newPage = mapper.readValue(json, Page.class);
 		newPage.setParentStory(myStory);
 		pageDAO.save(newPage);
-		return ResponseEntity.ok().body("{\"created\":\"true\"}");
+		return ResponseEntity.ok().body("{\"data\":" + "{\"created\":\"true\"}" + "}");
 	}
 
 	/**
