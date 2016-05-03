@@ -7,6 +7,7 @@ import { SearchService }    from '../search/search.service';
 import { Search}    from '../search/search';
 import {LogStateComponent} from '../logState/logState.component';
 import {HttpClient}           from '../../headerfct';
+import { AuthenticationService }    from '../login/authentication.service';
 
 
 @Component({
@@ -14,7 +15,7 @@ import {HttpClient}           from '../../headerfct';
   templateUrl: `app/html/result/result.html`,
   styles:['a {cursor: pointer}'],
   directives: [LogStateComponent],
-  providers:[SearchService,HttpClient]
+  providers:[AuthenticationService,SearchService,HttpClient]
 })
 
 export class ResultComponent implements OnInit{

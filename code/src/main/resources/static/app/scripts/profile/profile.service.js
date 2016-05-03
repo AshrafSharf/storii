@@ -11,7 +11,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, http_1, http_2, Observable_1, headerfct_1, authentication_service_1;
-    var SearchService;
+    var ProfileService;
     return {
         setters:[
             function (core_1_1) {
@@ -31,13 +31,13 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                 authentication_service_1 = authentication_service_1_1;
             }],
         execute: function() {
-            SearchService = (function () {
-                function SearchService(http, httpClient, _authenticationService) {
+            ProfileService = (function () {
+                function ProfileService(http, httpClient, _authenticationService) {
                     this.http = http;
                     this.httpClient = httpClient;
                     this._authenticationService = _authenticationService;
                 }
-                SearchService.prototype.searchStory = function (term) {
+                ProfileService.prototype.getUserInfo = function (name) {
                     var headers = new http_2.Headers();
                     if (this._authenticationService.isLoggedIn()) {
                         headers = this.httpClient.createHeader(headers);
@@ -46,48 +46,32 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                         headers.delete('Authorization');
                         headers.append('Authorization', "");
                     }
-                    var _resultUrl = '/story/findByName/';
-                    return this.http.get(_resultUrl + term, { headers: headers })
+                    var _resultUrl = '/user/findByName/';
+                    return this.http.get(_resultUrl + name, { headers: headers })
                         .map(this.extractData)
                         .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
-                SearchService.prototype.searchUser = function (term) {
-                    var headers = new http_2.Headers();
-                    if (this._authenticationService.isLoggedIn()) {
-                        headers = this.httpClient.createHeader(headers);
-                    }
-                    else {
-                        console.log("FFFFALSCH");
-                        headers.delete('Authorization');
-                        headers.append('Authorization', "");
-                    }
-                    var _resultUrl = '/user/findByName/'; // URL to JSON file
-                    return this.http.get(_resultUrl + term, { headers: headers })
-                        .map(this.extractData)
-                        .do(function (data) { return console.log(data); })
-                        .catch(this.handleError);
-                };
-                SearchService.prototype.extractData = function (res) {
+                ProfileService.prototype.extractData = function (res) {
                     if (res.status < 200 || res.status >= 300) {
                         throw new Error('Bad response status: ' + res.status);
                     }
                     var body = res.json();
                     return body.data || {};
                 };
-                SearchService.prototype.handleError = function (error) {
+                ProfileService.prototype.handleError = function (error) {
                     var errMsg = error.message || 'Server error';
                     console.error(errMsg); // log to console instead
                     return Observable_1.Observable.throw(errMsg);
                 };
-                SearchService = __decorate([
+                ProfileService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http, headerfct_1.HttpClient, authentication_service_1.AuthenticationService])
-                ], SearchService);
-                return SearchService;
+                ], ProfileService);
+                return ProfileService;
             }());
-            exports_1("SearchService", SearchService);
+            exports_1("ProfileService", ProfileService);
         }
     }
 });
-//# sourceMappingURL=search.service.js.map
+//# sourceMappingURL=profile.service.js.map

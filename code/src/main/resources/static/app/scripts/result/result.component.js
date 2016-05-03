@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../search/search.service', '../logState/logState.component', '../../headerfct'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../search/search.service', '../logState/logState.component', '../../headerfct', '../login/authentication.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../search/search.service',
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, search_service_1, logState_component_1, headerfct_1;
+    var core_1, router_1, search_service_1, logState_component_1, headerfct_1, authentication_service_1;
     var ResultComponent;
     return {
         setters:[
@@ -28,6 +28,9 @@ System.register(['angular2/core', 'angular2/router', '../search/search.service',
             },
             function (headerfct_1_1) {
                 headerfct_1 = headerfct_1_1;
+            },
+            function (authentication_service_1_1) {
+                authentication_service_1 = authentication_service_1_1;
             }],
         execute: function() {
             ResultComponent = (function () {
@@ -64,7 +67,7 @@ System.register(['angular2/core', 'angular2/router', '../search/search.service',
                         templateUrl: "app/html/result/result.html",
                         styles: ['a {cursor: pointer}'],
                         directives: [logState_component_1.LogStateComponent],
-                        providers: [search_service_1.SearchService, headerfct_1.HttpClient]
+                        providers: [authentication_service_1.AuthenticationService, search_service_1.SearchService, headerfct_1.HttpClient]
                     }), 
                     __metadata('design:paramtypes', [router_1.Router, search_service_1.SearchService, router_1.RouteParams])
                 ], ResultComponent);

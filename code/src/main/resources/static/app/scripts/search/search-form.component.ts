@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component,ViewChild } from 'angular2/core';
 import {JSONP_PROVIDERS}  from 'angular2/http';
 import {Observable}       from 'rxjs/Observable';
 import {Subject}          from 'rxjs/Subject';
@@ -8,6 +8,7 @@ import { SearchService }    from './search.service';
 import { Search}    from './search';
 import {LogStateComponent} from '../logState/logState.component';
 
+
 @Component({
   selector: 'search-form',
   templateUrl: `app/html/search/search.html`,
@@ -16,8 +17,7 @@ import {LogStateComponent} from '../logState/logState.component';
  })
 
 export class SearchFormComponent{
-	title = 'Search:';
-			
+	title = 'Search:';	
 	constructor(private _router: Router) {    console.log(localStorage.getItem('auth_token'));}
   		
   	search(term) {

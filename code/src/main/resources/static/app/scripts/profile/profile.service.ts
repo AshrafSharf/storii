@@ -1,46 +1,29 @@
-import {Jsonp, URLSearchParams} from 'angular2/http';
 import {Injectable}     from 'angular2/core';
 import {Http, Response} from 'angular2/http';
 import {Headers, RequestOptions} from 'angular2/http';
-import {Search}           from './search';
 import {Observable}     from 'rxjs/Observable';
 import {HttpClient}           from '../../headerfct';
 import { AuthenticationService }    from '../login/authentication.service';
 
 
 @Injectable()
-export class SearchService {
+export class ProfileService {
   constructor (private http: Http, private httpClient: HttpClient, private _authenticationService: AuthenticationService) {}
   
-  searchStory (term): Observable<Search[]> {
-  	var headers = new Headers();
+  getUserInfo(name){
+    var headers = new Headers();
   	if (this._authenticationService.isLoggedIn()) {
   		headers = this.httpClient.createHeader(headers);
   	}else{
   		headers.delete('Authorization');
   		headers.append('Authorization',"");
   	}
-	var _resultUrl = '/story/findByName/'; 
-    return this.http.get(_resultUrl+term,{headers})
+	var _resultUrl = '/user/findByName/'; 
+    return this.http.get(_resultUrl+name,{headers})
             .map(this.extractData)
             .do(data => console.log(data))
             .catch(this.handleError);
-  }
   
-   searchUser (term): Observable<Search[]> {
-   	var headers = new Headers();
-   	if (this._authenticationService.isLoggedIn()) {
-  		headers = this.httpClient.createHeader(headers);
-  	}else{
-  		console.log("FFFFALSCH");
-  		headers.delete('Authorization');
-  		headers.append('Authorization',"");
-  	}
-	var _resultUrl = '/user/findByName/'; // URL to JSON file
-    return this.http.get(_resultUrl+term,{headers})
-            .map(this.extractData)
-            .do(data => console.log(data))
-            .catch(this.handleError);
   }
   
   private extractData(res: Response) {
@@ -57,6 +40,7 @@ export class SearchService {
     console.error(errMsg); // log to console instead
     return Observable.throw(errMsg);
   }
+  
  
   
 }

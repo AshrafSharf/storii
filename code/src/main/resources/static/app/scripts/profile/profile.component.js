@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../logState/logState.component', '../login/authentication.service'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../logState/logState.component', '../login/authentication.service', './profile.service', '../../headerfct'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, logState_component_1, authentication_service_1;
+    var core_1, router_1, logState_component_1, authentication_service_1, profile_service_1, headerfct_1;
     var ProfileComponent;
     return {
         setters:[
@@ -25,36 +25,52 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
             },
             function (authentication_service_1_1) {
                 authentication_service_1 = authentication_service_1_1;
+            },
+            function (profile_service_1_1) {
+                profile_service_1 = profile_service_1_1;
+            },
+            function (headerfct_1_1) {
+                headerfct_1 = headerfct_1_1;
             }],
         execute: function() {
             ProfileComponent = (function () {
-                function ProfileComponent(_router, _routeParams, _authenticationService) {
+                function ProfileComponent(_router, _routeParams, _authenticationService, _profileService) {
                     this._router = _router;
                     this._routeParams = _routeParams;
                     this._authenticationService = _authenticationService;
+                    this._profileService = _profileService;
+                    this.newStoryIcon = 'app/assets/files/dummyNewStory.jpg';
                     this.title = "Profile";
                     this.myinfo = "My Info";
                     this.username = "Username:";
                     this.email = "E-Mail:";
-                    this.level = "Level:";
+                    this.aboutme = "About me:";
                     this.edit = "Edit Profile";
+                    this.myinspiration = "My Inspiration:";
                     this.profilepic = "Profile Pic:";
                     this.mystories = "My Strories";
                 }
                 ProfileComponent.prototype.ngOnInit = function () {
+                    var _this = this;
                     this.name = this._routeParams.get('name');
                     if (!this._authenticationService.isLoggedIn()) {
                         this._router.navigate(['Search']);
                     }
+                    else {
+                        this._profileService.getUserInfo(this.name)
+                            .subscribe(function (details) { return _this.details = details; }, function (error) { return _this.errorMessage = error; });
+                    }
+                };
+                ProfileComponent.prototype.createNewStory = function () {
                 };
                 ProfileComponent = __decorate([
                     core_1.Component({
                         selector: 'profile',
                         templateUrl: "app/html/profile/profile.html",
                         directives: [logState_component_1.LogStateComponent],
-                        providers: [authentication_service_1.AuthenticationService]
+                        providers: [authentication_service_1.AuthenticationService, profile_service_1.ProfileService, headerfct_1.HttpClient]
                     }), 
-                    __metadata('design:paramtypes', [router_1.Router, router_1.RouteParams, authentication_service_1.AuthenticationService])
+                    __metadata('design:paramtypes', [router_1.Router, router_1.RouteParams, authentication_service_1.AuthenticationService, profile_service_1.ProfileService])
                 ], ProfileComponent);
                 return ProfileComponent;
             }());
