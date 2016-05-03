@@ -51,6 +51,9 @@ System.register(['angular2/core', 'angular2/router', 'angular2/common', './authe
                         if (result) {
                             _this._router.navigate(['Search']);
                         }
+                        else {
+                            _this.error = true;
+                        }
                     }, function () { _this.error = true; });
                     //  console.log(localStorage.getItem('auth_token'));
                     //	this._router.navigate(['Search']);	  

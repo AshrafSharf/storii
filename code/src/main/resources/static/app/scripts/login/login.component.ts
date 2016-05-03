@@ -37,6 +37,8 @@ export class LoginComponent {
 	      							if (result) {
 	      								
 	        							this._router.navigate(['Search']);
+	      							}else{
+	      								 this.error = true;
 	      							}
     							},
         						() => { this.error = true; });
