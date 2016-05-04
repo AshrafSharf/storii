@@ -1,25 +1,25 @@
 <logState></logState>
 <div class="container">
- <div id="profilePage">
+ <div id="profilePage">    
       <div class="profileFrameContainer">
         <div class="profileContainer">
             <div class="h1bgProfile"><h1>{{title | uppercase}}</h1></div>
             <div class="myInfoFrameContainer">
-                <div class="myInfoContainer">
+                <div class="myInfoContainer"> 
                     <div class="h1bgProfileInfo"><h1><a class="infoToggle transition" name="toggle">{{myinfo | uppercase}}<i class="fa fa-angle-up"></i></a></h1></div>
-                    <div *ngFor="#detail of details" id="content" class="infoContent">
-                        <div class="left firstColumn">
+                    <div id="content" class="infoContent">
+                        <div *ngFor="#detail of details" class="left firstColumn">
                             <p><span class="profileLable">{{username | uppercase}}</span> {{detail.name}}</p>
                             <p><span class="profileLable">{{email | uppercase}}</span> {{detail.email}}</p>
                             <p><span class="profileLable">{{aboutme | uppercase}}</span> {{detail.aboutme}}XXXX</p>
                             <p><span class="profileLable">{{myinspiration | uppercase}}</span> {{detail.myinspiration}}XXXX</p>
                         </div>
+                   
                         <div class="left">
                             <p>{{profilepic | uppercase}}</p>
                             IMG
                         </div>
-                        <div class="buttonFrameContainerStoryInfo"><a class="fancybox fancybox.ajax" href="#"><input class="buttonStoryInfo" value="{{edit | uppercase}}" type="submit"></a></div>
-                        
+                        <div class="buttonFrameContainerStoryInfo"><a id="editProfile" ><input class="buttonStoryInfo" value="{{edit | uppercase}}" type="button"></a></div>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                     <div class="h1bgProfileStory"><h1><a class="storiesToggle transition" name="toggle">{{mystories | uppercase}} <i class="fa fa-angle-up"></i></a></h1></div>
                     <div id="content" class="storiesContent">
                     
-                    <div class="storyPicFrame"><a class="fancybox fancybox.ajax" (click)="createNewStory()"><img class="storyPic" src="{{newStoryIcon}}" alt="newStory"><p class="storyTitle">NEW STORY</p></a></div>
+                    <div class="storyPicFrame"><a id="createNewStory" (click)="createNewStory()"><img class="storyPic" src="{{newStoryIcon}}" alt="newStory"><p class="storyTitle">NEW STORY</p></a></div>
 						
                     </div>
                 </div>
@@ -39,3 +39,4 @@
     
 </div> 
 </div>
+

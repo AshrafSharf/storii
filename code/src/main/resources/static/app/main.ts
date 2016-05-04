@@ -8,6 +8,7 @@ import {LocationStrategy, HashLocationStrategy} from 'angular2/router';
 import 'rxjs/Rx';
 
 
+
 bootstrap(AppComponent, 
 	[HTTP_PROVIDERS, 
 	ROUTER_PROVIDERS, 

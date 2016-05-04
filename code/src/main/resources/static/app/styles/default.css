@@ -413,6 +413,15 @@ input.buttonStoryInfo {
     width: 50%; }
   #newStoryPage .buttonFrameContainer, #newStoryPage .button {
     width: 180px; }
+ 
+ .vex.vex-theme-os .vex-content{
+ 	font-family: "Architects Daughter", cursive; 
+ 	border-top:0;
+ 	padding:0;
+ 	line-height:inherit;
+ 	width:600px;
+ }   
+    
 
 #userStoryPage #content {
   margin-left: 10%; }
@@ -954,7 +963,7 @@ input.buttonStoryInfo {
     margin-top: 110px; } }
 @media screen and (max-width: 1235px) {
   #userEditPage .userEditFrameContainer, #newStoryPage .newStoryFrameContainer {
-    width: 90%; } }
+    width: 100%; } }
 @media screen and (max-width: 1145px) {
   #nodeEditorPage h1 {
     font-size: 1.4em !important; }

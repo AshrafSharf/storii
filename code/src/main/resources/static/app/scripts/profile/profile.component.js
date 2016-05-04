@@ -34,7 +34,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
             }],
         execute: function() {
             ProfileComponent = (function () {
-                function ProfileComponent(_router, _routeParams, _authenticationService, _profileService) {
+                function ProfileComponent(_elRef, _router, _routeParams, _authenticationService, _profileService) {
+                    this._elRef = _elRef;
                     this._router = _router;
                     this._routeParams = _routeParams;
                     this._authenticationService = _authenticationService;
@@ -60,6 +61,21 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         this._profileService.getUserInfo(this.name)
                             .subscribe(function (details) { return _this.details = details; }, function (error) { return _this.errorMessage = error; });
                     }
+                    jQuery(this._elRef.nativeElement).find('#editProfile').on('click', function () {
+                        vex.dialog.prompt({
+                            message: 'Edit Profile?',
+                            placeholder: 'Planet name',
+                            callback: function (value) {
+                                return console.log(value);
+                            }
+                        });
+                    });
+                    jQuery(this._elRef.nativeElement).find('#createNewStory').on('click', function () {
+                        vex.open({
+                            showCloseButton: false,
+                            content: "<div id=\"newStoryPage\">\n\t\t\t\t\t    <div class=\"newStoryFrameContainer\">\n\t\t\t\t\t        <div class=\"newStoryContainer\">\n\t\t\t\t\t            <div id=\"content\">\n\t\t\t\t\t                <div class=\"h1bgNewStory\"><h1>NEW STORY</h1></div>\n\t\t\t\t\t                \n\t\t\t\t\t                <form id=\"changeName\" name=\"changeName\">\n\t\t\t\t\t                        <label>WHAT IS THE NAME OF YOUR STORY?</label><br>\n\t\t\t\t\t                 \t\t<input class=\"inputField\" name=\"storyName\" required=\"\" type=\"text\">\n\t\t\t\t\t                        <div class=\"buttonFrameContainer fullWidth\"><input class=\"button\" value=\"CREATE STORY\" type=\"submit\"></div>\n\t\t\t\t\t                </form>\n\t\t\t\t\t              \n\t\t\t\t\t                <div class=\"closeFancyBox\"><input onclick=\"vex.close();\" class=\"button\" value=\"CLOSE\" type=\"button\"></div>\n\t\t\t\t\t                \n\t\t\t\t\t            </div>\n\t\t\t\t\t        </div>\n\t\t\t\t\t    </div>\n\t\t\t\t\t</div>"
+                        });
+                    });
                 };
                 ProfileComponent.prototype.createNewStory = function () {
                 };
@@ -68,9 +84,10 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         selector: 'profile',
                         templateUrl: "app/html/profile/profile.html",
                         directives: [logState_component_1.LogStateComponent],
+                        styles: ['a {cursor: pointer}'],
                         providers: [authentication_service_1.AuthenticationService, profile_service_1.ProfileService, headerfct_1.HttpClient]
                     }), 
-                    __metadata('design:paramtypes', [router_1.Router, router_1.RouteParams, authentication_service_1.AuthenticationService, profile_service_1.ProfileService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, router_1.Router, router_1.RouteParams, authentication_service_1.AuthenticationService, profile_service_1.ProfileService])
                 ], ProfileComponent);
                 return ProfileComponent;
             }());

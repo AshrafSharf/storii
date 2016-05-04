@@ -1,4 +1,4 @@
-import {Component,ViewChild } from 'angular2/core';
+import {Component,ElementRef,OnInit } from 'angular2/core';
 import {JSONP_PROVIDERS}  from 'angular2/http';
 import {Observable}       from 'rxjs/Observable';
 import {Subject}          from 'rxjs/Subject';
@@ -7,7 +7,8 @@ import {NgForm}    from 'angular2/common';
 import { SearchService }    from './search.service';
 import { Search}    from './search';
 import {LogStateComponent} from '../logState/logState.component';
-
+declare var jQuery: any;
+declare var vex: any;
 
 @Component({
   selector: 'search-form',
@@ -16,12 +17,43 @@ import {LogStateComponent} from '../logState/logState.component';
  
  })
 
-export class SearchFormComponent{
+export class SearchFormComponent implements OnInit{
 	title = 'Search:';	
-	constructor(private _router: Router) {    console.log(localStorage.getItem('auth_token'));}
+	constructor(private _elRef: ElementRef, private _router: Router) {    console.log(localStorage.getItem('auth_token'));}
   		
   	search(term) {
      this._router.navigate(['Result', { key: term }]);
-    }				 
-
+    }	
+    
+    createNewStory(){
+    	console.log("JJJJJJJ");
+    }
+    
+    ngOnInit():any{
+    	jQuery(this._elRef.nativeElement).find('#editProfile').on('click', function(){ 
+    		vex.open({
+    			showCloseButton: false,
+    		 	content: `<div id="newStoryPage">
+					    <div class="newStoryFrameContainer">
+					        <div class="newStoryContainer">
+					            <div id="content">
+					                <div class="h1bgNewStory"><h1>NEW STORY</h1></div>
+					                
+					                <form id="changeName" name="changeName">
+					                        <label>WHAT IS THE NAME OF YOUR STORY?</label><br>
+					                 		<input class="inputField" name="storyName" required="" type="text">
+					                        <div class="buttonFrameContainer fullWidth"><input (click)="createNewStory()" class="button" value="CREATE STORY" type="button"></div>
+					                </form>
+					              
+					                <div class="closeFancyBox"><input onclick="vex.close();" class="button" value="CLOSE" type="button"></div>
+					                
+					            </div>
+					        </div>
+					    </div>
+					</div>`
+					
+			});		
+			
+    	});
+    }			 
 }
