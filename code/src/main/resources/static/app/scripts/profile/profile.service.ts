@@ -26,6 +26,23 @@ export class ProfileService {
   
   }
   
+  createNewStory(name,author_name,co_author_name,is_published){
+    var headers = new Headers();
+  	if (this._authenticationService.isLoggedIn()) {
+  		headers = this.httpClient.createHeader(headers);
+  		headers.append('Content-Type', 'application/json');
+  	}else{
+  		headers.delete('Authorization');
+  		headers.append('Authorization',"");
+  	}
+	var _resultUrl = '/story/'; 
+    return this.http.post(_resultUrl, JSON.stringify({ "name": name ,"author_name": author_name ,"co_author_name": "","is_published":0}),{headers})
+            .map(this.extractData)
+            .do(data => console.log(data))
+            .catch(this.handleError);
+  
+  }
+  
   private extractData(res: Response) {
     if (res.status < 200 || res.status >= 300) {
       throw new Error('Bad response status: ' + res.status);

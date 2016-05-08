@@ -204,7 +204,7 @@ input.buttonStoryInfo {
     left: 5%;
     position: relative; }
     #profilePage .myInfoContainer #content .firstColumn {
-      width: 50%; }
+      width: 75%; }
 #profilePage .myStoryContainer {
   background-color: #D3ECED;
   border: dotted 2px black; }
@@ -421,7 +421,18 @@ input.buttonStoryInfo {
  	line-height:inherit;
  	width:600px;
  }   
-    
+ 
+ .vex-overlay{
+ 	background: white;
+ }
+ 
+ .vex.vex-theme-os .vex-close{
+     position:fixed;
+ }
+
+.vex.vex-theme-os .vex-close:before{
+    border-radius:0;
+}
 
 #userStoryPage #content {
   margin-left: 10%; }
@@ -455,7 +466,7 @@ input.buttonStoryInfo {
   font-family: "Architects Daughter", cursive;
   font-size: 18px; }
   #userEditPage .userEditFrameContainer {
-    width: 50%;
+    width: 100%;
     margin: 0 auto;
     position: relative;
     padding: 20px;
@@ -576,10 +587,10 @@ input.buttonStoryInfo {
   #userEditPage #pictureHandling .buttonFrameContainer {
     margin-top: -40px; }
   #userEditPage #pictureHandling {
-    margin-top: -50px;
+   
     float: left;
     width: 174px;
-    position: absolute; }
+   }
   #userEditPage #currentPicture {
     margin-bottom: 50px;
     margin-right: 10px; }
@@ -588,7 +599,7 @@ input.buttonStoryInfo {
   font-family: "Architects Daughter", cursive;
   font-size: 18px; }
   #newStoryPage .newStoryFrameContainer {
-    width: 50%;
+    width: 100%;
     margin: 0 auto;
     position: relative;
     padding: 20px;
@@ -1005,7 +1016,9 @@ input.buttonStoryInfo {
     font-size: 26px; } }
 @media screen and (max-width: 950px) {
   #profilePage .myInfoContainer #content .firstColumn {
-    width: 90%; } }
+    width: 90%; } 
+  .left{
+  width:90%;}}
 @media screen and (max-width: 900px) {
 }
 @media screen and (min-width: 851px) {
@@ -1026,7 +1039,7 @@ input.buttonStoryInfo {
  	  vertical-align:top;
  }
  p, a, input {
-    font-size: 1.4em !important; }
+    font-size: 1.2em !important; }
  
   #searchPage .searchLabel {
     margin-left: 100px;

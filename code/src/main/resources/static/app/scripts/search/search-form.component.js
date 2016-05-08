@@ -34,16 +34,39 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 SearchFormComponent.prototype.search = function (term) {
                     this._router.navigate(['Result', { key: term }]);
                 };
-                SearchFormComponent.prototype.createNewStory = function () {
-                    console.log("JJJJJJJ");
+                SearchFormComponent.prototype.createNewStory = function (storyName) {
+                    console.log(storyName);
                 };
                 SearchFormComponent.prototype.ngOnInit = function () {
-                    jQuery(this._elRef.nativeElement).find('#editProfile').on('click', function () {
-                        vex.open({
-                            showCloseButton: false,
-                            content: "<div id=\"newStoryPage\">\n\t\t\t\t\t    <div class=\"newStoryFrameContainer\">\n\t\t\t\t\t        <div class=\"newStoryContainer\">\n\t\t\t\t\t            <div id=\"content\">\n\t\t\t\t\t                <div class=\"h1bgNewStory\"><h1>NEW STORY</h1></div>\n\t\t\t\t\t                \n\t\t\t\t\t                <form id=\"changeName\" name=\"changeName\">\n\t\t\t\t\t                        <label>WHAT IS THE NAME OF YOUR STORY?</label><br>\n\t\t\t\t\t                 \t\t<input class=\"inputField\" name=\"storyName\" required=\"\" type=\"text\">\n\t\t\t\t\t                        <div class=\"buttonFrameContainer fullWidth\"><input (click)=\"createNewStory()\" class=\"button\" value=\"CREATE STORY\" type=\"button\"></div>\n\t\t\t\t\t                </form>\n\t\t\t\t\t              \n\t\t\t\t\t                <div class=\"closeFancyBox\"><input onclick=\"vex.close();\" class=\"button\" value=\"CLOSE\" type=\"button\"></div>\n\t\t\t\t\t                \n\t\t\t\t\t            </div>\n\t\t\t\t\t        </div>\n\t\t\t\t\t    </div>\n\t\t\t\t\t</div>"
-                        });
-                    });
+                    /* let _this = this;
+                     jQuery(this._elRef.nativeElement).find('#editProfile').on('click', function(){
+                         vex.open({
+                             showCloseButton: true,
+                             content: `<div id="newStoryPage">
+                                     <div class="newStoryFrameContainer">
+                                         <div class="newStoryContainer">
+                                             <div id="content">
+                                                 <div class="h1bgNewStory"><h1>NEW STORY</h1></div>
+                                                 
+                                                 <form id="changeName" name="changeName">
+                                                         <label>WHAT IS THE NAME OF YOUR STORY?</label><br>
+                                                         <input id="storyName" class="inputField" name="storyName" required="" type="text">
+                                                         <div class="buttonFrameContainer fullWidth"><input id="create" class="button" value="CREATE STORY" type="button"></div>
+                                                 </form>
+                                               
+                                                 <div class="closeFancyBox"><input onclick="vex.close();" class="button" value="CLOSE" type="button"></div>
+                                                 
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>`
+                         });
+                         
+                         document.getElementById("create").addEventListener('click', function(event) {
+                             _this.createNewStory((<HTMLInputElement>document.getElementById("storyName")).value);
+                         });
+                         
+                     });*/
                 };
                 SearchFormComponent = __decorate([
                     core_1.Component({

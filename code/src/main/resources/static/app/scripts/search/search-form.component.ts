@@ -25,14 +25,15 @@ export class SearchFormComponent implements OnInit{
      this._router.navigate(['Result', { key: term }]);
     }	
     
-    createNewStory(){
-    	console.log("JJJJJJJ");
+    createNewStory(storyName){
+    	console.log(storyName);
     }
     
-    ngOnInit():any{
-    	jQuery(this._elRef.nativeElement).find('#editProfile').on('click', function(){ 
+ ngOnInit():any{   
+       /* let _this = this;  
+    	jQuery(this._elRef.nativeElement).find('#editProfile').on('click', function(){    		
     		vex.open({
-    			showCloseButton: false,
+    			showCloseButton: true,
     		 	content: `<div id="newStoryPage">
 					    <div class="newStoryFrameContainer">
 					        <div class="newStoryContainer">
@@ -41,8 +42,8 @@ export class SearchFormComponent implements OnInit{
 					                
 					                <form id="changeName" name="changeName">
 					                        <label>WHAT IS THE NAME OF YOUR STORY?</label><br>
-					                 		<input class="inputField" name="storyName" required="" type="text">
-					                        <div class="buttonFrameContainer fullWidth"><input (click)="createNewStory()" class="button" value="CREATE STORY" type="button"></div>
+					                 		<input id="storyName" class="inputField" name="storyName" required="" type="text">
+					                        <div class="buttonFrameContainer fullWidth"><input id="create" class="button" value="CREATE STORY" type="button"></div>
 					                </form>
 					              
 					                <div class="closeFancyBox"><input onclick="vex.close();" class="button" value="CLOSE" type="button"></div>
@@ -50,10 +51,13 @@ export class SearchFormComponent implements OnInit{
 					            </div>
 					        </div>
 					    </div>
-					</div>`
-					
-			});		
+					</div>`				
+			});	
 			
-    	});
+			document.getElementById("create").addEventListener('click', function(event) {
+				_this.createNewStory((<HTMLInputElement>document.getElementById("storyName")).value);			
+			});
+			
+    	});*/
     }			 
 }
