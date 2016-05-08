@@ -129,7 +129,7 @@ public class StoriiUserController {
 	 * GET /me -> get the logged-in user.
 	 */
 
-	@PreAuthorize("hasRole('USER')")
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/me", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> getLogged() throws JsonProcessingException {

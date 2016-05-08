@@ -44,7 +44,7 @@ public class StoryController {
 	private PageDAO pageDAO;
 
 	/**
-	 * GET / or blank -> get all users.
+	 * GET / or blank -> get all stories.
 	 */
 
 	@RequestMapping(value = { "/", "" }, method = RequestMethod.GET, produces = "application/json")
@@ -56,7 +56,7 @@ public class StoryController {
 	}
 
 	/**
-	 * GET /{user_id} -> get the user with given ID.
+	 * GET /{user_id} -> get the story with given ID.
 	 */
 
 	@RequestMapping(value = "/{story_id}", method = RequestMethod.GET, produces = "application/json")
@@ -68,9 +68,9 @@ public class StoryController {
 	}
 
 	/**
-	 * POST / or blank -> create a new user.
+	 * POST / or blank -> create a new story.
 	 */
-	@PreAuthorize("hasRole('USER')")
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = { "/",
 			"" }, method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	@ResponseBody
@@ -91,7 +91,7 @@ public class StoryController {
 	}
 
 	/**
-	 * DELETE /{user_id} -> delete the user with given ID.
+	 * DELETE /{user_id} -> delete the story with given ID.
 	 */
 
 	@PreAuthorize("hasRole('ADMIN')")
@@ -108,7 +108,7 @@ public class StoryController {
 	}
 
 	/**
-	 * PUT /{user_id} -> update the user with given ID.
+	 * PUT /{user_id} -> update the story with given ID.
 	 */
 
 	@PreAuthorize("hasRole('ADMIN')")

@@ -3,6 +3,8 @@ package com.storii;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -43,7 +45,7 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
     	StoriiUser account = storiiUserDAO.findByName(name);
         if(account != null) {
         return new User(account.getName(), account.getPassword(), true, true, true, true,
-                AuthorityUtils.createAuthorityList(account.getPassword().toString()));
+                AuthorityUtils.createAuthorityList("ROLE_"+account.getRole().toString()));
         } else {
           throw new UsernameNotFoundException("could not find the user '"
                   + name + "'");
@@ -57,16 +59,18 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 /**
  * the security configuration for this web application
  */
-@EnableWebSecurity
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+//@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+@EnableWebSecurity
 class WebSecurityConfig extends WebSecurityConfigurerAdapter {
  
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-    	//.anyRequest().fullyAuthenticated()
-    	.antMatchers("/nope").fullyAuthenticated()
+		//.anyRequest().fullyAuthenticated()
+    	//.antMatchers("/nope").fullyAuthenticated()
+		.anyRequest().permitAll()
     	.and()
 	    	.httpBasic()
 	    	/*
