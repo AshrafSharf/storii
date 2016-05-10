@@ -26,6 +26,21 @@ export class ProfileService {
   
   }
   
+  getStoriesOfUser(name){
+   	var headers = new Headers();
+  	if (this._authenticationService.isLoggedIn()) {
+  		headers = this.httpClient.createHeader(headers);
+  	}else{
+  		headers.delete('Authorization');
+  		headers.append('Authorization',"");
+  	}
+  	var _resultUrl = '/user/'; 
+    return this.http.get(_resultUrl+name+"/getStories",{headers})
+            .map(this.extractData)
+            .do(data => console.log(data))
+            .catch(this.handleError);
+  }
+  
   createNewStory(name,author_name,co_author_name,is_published){
     var headers = new Headers();
   	if (this._authenticationService.isLoggedIn()) {
@@ -36,12 +51,13 @@ export class ProfileService {
   		headers.append('Authorization',"");
   	}
 	var _resultUrl = '/story/'; 
-    return this.http.post(_resultUrl, JSON.stringify({ "name": name ,"author_name": author_name ,"co_author_name": "","is_published":0}),{headers})
+    return this.http.post(_resultUrl, JSON.stringify({ "name": name ,"authorName": author_name ,"coAuthorName": "","published":false}),{headers})
             .map(this.extractData)
             .do(data => console.log(data))
             .catch(this.handleError);
-  
   }
+   
+  
   
   private extractData(res: Response) {
     if (res.status < 200 || res.status >= 300) {
@@ -57,7 +73,5 @@ export class ProfileService {
     console.error(errMsg); // log to console instead
     return Observable.throw(errMsg);
   }
-  
- 
-  
+   
 }

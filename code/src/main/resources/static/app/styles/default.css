@@ -204,7 +204,7 @@ input.buttonStoryInfo {
     left: 5%;
     position: relative; }
     #profilePage .myInfoContainer #content .firstColumn {
-      width: 75%; }
+      width: 50%; }
 #profilePage .myStoryContainer {
   background-color: #D3ECED;
   border: dotted 2px black; }
@@ -255,8 +255,7 @@ input.buttonStoryInfo {
   margin-bottom: 30px; }
 #profilePage .storyTitle {
   margin-top: 5px;
-  text-align: center;
-  font-size: 0.9em; }
+  text-align: center; }
 #profilePage .profileLable {
   margin-right: 20px;
   width: 110px;
@@ -284,9 +283,11 @@ input.buttonStoryInfo {
 #profilePage .buttonFrameContainerStoryInfo {
   width: 145px;
   padding: 2px;
-  float: left;
   background-color: #E1AFB1;
-  margin-top: 6px; }
+  margin-top: 6px;
+  position: absolute;
+  right: 2em;
+  bottom: 2em; }
 #profilePage .infoToggle, #profilePage .storiesToggle {
   cursor: pointer; }
 
@@ -963,7 +964,7 @@ input.buttonStoryInfo {
 
 @media screen and (max-width: 1260px) {
   #profilePage .myInfoContainer #content .firstColumn {
-    width: 75%; } }
+    width: 50%; } }
 @media screen and (max-width: 1240px) {
   #nodeEditorPage input.inputField {
     width: 100%;
@@ -1016,9 +1017,7 @@ input.buttonStoryInfo {
     font-size: 26px; } }
 @media screen and (max-width: 950px) {
   #profilePage .myInfoContainer #content .firstColumn {
-    width: 90%; } 
-  .left{
-  width:90%;}}
+    width: 90%; } }
 @media screen and (max-width: 900px) {
 }
 @media screen and (min-width: 851px) {
@@ -1028,8 +1027,9 @@ input.buttonStoryInfo {
   #editors {
     display: none; } }
 @media screen and (max-width: 790px) {
-	  #searchResultPage p.darkBlue.searchLabel {
-    margin-left: 0px; } 
+  #searchResultPage p.darkBlue.searchLabel {
+    margin-left: 0px; 
+      margin-top: 270px;} 
   .libelle {
     display: none; }
   #searchPage .searchIcon{
@@ -1038,8 +1038,13 @@ input.buttonStoryInfo {
  	  width:auto;
  	  vertical-align:top;
  }
+ 
+    
  p, a, input {
     font-size: 1.2em !important; }
+ 
+  #profilePage p, a, input {
+    font-size: 1.0em !important; }
  
   #searchPage .searchLabel {
     margin-left: 100px;
@@ -1053,9 +1058,9 @@ input.buttonStoryInfo {
  
  #searchPage span{
   font-size: 1.3em; 
+  display: block
  }
- .container{
- float:left;}
+
 
   #searchResultPage input.inputField {
     width: 40%; } }
@@ -1079,7 +1084,14 @@ input.buttonStoryInfo {
     #profilePage input.buttonStoryInfo, #profilePage .profileLable {
       width: 100%; }
     #profilePage .buttonFrameContainerStoryInfo {
-      width: 90%; } }
+      width: 90%; 
+	  padding: 2px;
+	  background-color: #E1AFB1;
+	  position: initial;
+	  margin-left: 1em;
+	  margin-bottom: 1em;
+      
+      } }
 @media screen and (max-width: 720px) {
   #userEditPage input.inputField {
     width: 100%; }
@@ -1133,6 +1145,8 @@ input.buttonStoryInfo {
   #newStoryPage .h1bgNewStory {
     width: 190px; } }
 @media screen and (max-width: 320px) {
+	.loginFrameContainer, .registerFrameContainer{
+	min-width: 260px;}
 	#logState{
 	margin-left:8%;
 	}

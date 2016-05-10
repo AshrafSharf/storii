@@ -20,7 +20,10 @@ declare var vex: any;
 export class ProfileComponent implements OnInit {
 
 	newStoryIcon = 'app/assets/files/dummyNewStory.jpg';
+	defaultUserPic = 'app/assets/files/dummyProfile.jpg';
+	defaultStoryPic = 'app/assets/files/dummyStory.jpg';
 	name;
+	id;
 	errorMessage;
 	title = "Profile";
 	myinfo = "My Info";
@@ -34,15 +37,18 @@ export class ProfileComponent implements OnInit {
 	
 	details: string[];
 	createdStory: string[];
+	stories: string[];
 	
 	constructor(private _elRef: ElementRef, private _router: Router,private _routeParams:RouteParams,private _authenticationService: AuthenticationService, private _profileService: ProfileService) {}
 	
 	createNewStory(storyName){
-		console.log("CREATING STORY");
-	   this._profileService.createNewStory(storyName,this.name, "", 0)
-                     .subscribe(
-                       createdStory => this.createdStory = createdStory,
-                       error =>  this.errorMessage = <any>error);
+	   this._profileService.createNewStory(storyName,this.name, "", false)
+                     .subscribe((createdStory) => {
+	      							if (createdStory) {
+	      							   this.createdStory = createdStory;
+	      							   vex.close();	
+	      							}},
+                       				error =>  this.errorMessage = <any>error);
 	}
 	  ngOnInit():any {
 	  	this.name = this._routeParams.get('name');	
@@ -51,10 +57,40 @@ export class ProfileComponent implements OnInit {
 	 	}else{
 	 		 this._profileService.getUserInfo(this.name)
 		                     .subscribe(
-		                       details => this.details = details,
+		                       details => {    
+		                        this.details = details;
+		                        this._profileService.getStoriesOfUser(details[0]['id'])
+						                     .subscribe(   stories => this.stories = stories,
+									                       error =>  this.errorMessage = <any>error);
+		                       },
+		                   
 		                       error =>  this.errorMessage = <any>error);
+	         
+		                       
 	 	}
+	 	 	
+	 	jQuery(this._elRef.nativeElement).find('#infoToggle').on('click', function(){
+	 			jQuery('.toggleDetails').slideToggle('fast');
+	 			var arrow = jQuery(this).find('i');
+	 			var classes = arrow.attr('class');
+	 			if(classes == 'fa fa-angle-up'){
+	 				arrow.removeClass('fa fa-angle-up').addClass('fa fa-angle-down');
+	 			}else if(classes == 'fa fa-angle-down'){
+	 				arrow.removeClass('fa fa-angle-down').addClass('fa fa-angle-up');
+	 			}
+	 	});
 	 	
+	 	jQuery(this._elRef.nativeElement).find('#storiesToggle').on('click', function(){
+	 			jQuery('.toggleStories').slideToggle('fast');
+	 			var arrow = jQuery(this).find('i');
+	 			var classes = arrow.attr('class');
+	 			if(classes == 'fa fa-angle-up'){
+	 				arrow.removeClass('fa fa-angle-up').addClass('fa fa-angle-down');
+	 			}else if(classes == 'fa fa-angle-down'){
+	 				arrow.removeClass('fa fa-angle-down').addClass('fa fa-angle-up');
+	 			}
+	 	});
+
 	 	jQuery(this._elRef.nativeElement).find('#editProfile').on('click', function(){
     		vex.open({
     			showCloseButton: true,

@@ -41,6 +41,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this._authenticationService = _authenticationService;
                     this._profileService = _profileService;
                     this.newStoryIcon = 'app/assets/files/dummyNewStory.jpg';
+                    this.defaultUserPic = 'app/assets/files/dummyProfile.jpg';
+                    this.defaultStoryPic = 'app/assets/files/dummyStory.jpg';
                     this.title = "Profile";
                     this.myinfo = "My Info";
                     this.username = "Username:";
@@ -53,9 +55,13 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 }
                 ProfileComponent.prototype.createNewStory = function (storyName) {
                     var _this = this;
-                    console.log("CREATING STORY");
-                    this._profileService.createNewStory(storyName, this.name, "", 0)
-                        .subscribe(function (createdStory) { return _this.createdStory = createdStory; }, function (error) { return _this.errorMessage = error; });
+                    this._profileService.createNewStory(storyName, this.name, "", false)
+                        .subscribe(function (createdStory) {
+                        if (createdStory) {
+                            _this.createdStory = createdStory;
+                            vex.close();
+                        }
+                    }, function (error) { return _this.errorMessage = error; });
                 };
                 ProfileComponent.prototype.ngOnInit = function () {
                     var _this = this;
@@ -65,8 +71,34 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     }
                     else {
                         this._profileService.getUserInfo(this.name)
-                            .subscribe(function (details) { return _this.details = details; }, function (error) { return _this.errorMessage = error; });
+                            .subscribe(function (details) {
+                            _this.details = details;
+                            _this._profileService.getStoriesOfUser(details[0]['id'])
+                                .subscribe(function (stories) { return _this.stories = stories; }, function (error) { return _this.errorMessage = error; });
+                        }, function (error) { return _this.errorMessage = error; });
                     }
+                    jQuery(this._elRef.nativeElement).find('#infoToggle').on('click', function () {
+                        jQuery('.toggleDetails').slideToggle('fast');
+                        var arrow = jQuery(this).find('i');
+                        var classes = arrow.attr('class');
+                        if (classes == 'fa fa-angle-up') {
+                            arrow.removeClass('fa fa-angle-up').addClass('fa fa-angle-down');
+                        }
+                        else if (classes == 'fa fa-angle-down') {
+                            arrow.removeClass('fa fa-angle-down').addClass('fa fa-angle-up');
+                        }
+                    });
+                    jQuery(this._elRef.nativeElement).find('#storiesToggle').on('click', function () {
+                        jQuery('.toggleStories').slideToggle('fast');
+                        var arrow = jQuery(this).find('i');
+                        var classes = arrow.attr('class');
+                        if (classes == 'fa fa-angle-up') {
+                            arrow.removeClass('fa fa-angle-up').addClass('fa fa-angle-down');
+                        }
+                        else if (classes == 'fa fa-angle-down') {
+                            arrow.removeClass('fa fa-angle-down').addClass('fa fa-angle-up');
+                        }
+                    });
                     jQuery(this._elRef.nativeElement).find('#editProfile').on('click', function () {
                         vex.open({
                             showCloseButton: true,

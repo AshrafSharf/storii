@@ -52,6 +52,21 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                         .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
+                ProfileService.prototype.getStoriesOfUser = function (name) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/user/';
+                    return this.http.get(_resultUrl + name + "/getStories", { headers: headers })
+                        .map(this.extractData)
+                        .do(function (data) { return console.log(data); })
+                        .catch(this.handleError);
+                };
                 ProfileService.prototype.createNewStory = function (name, author_name, co_author_name, is_published) {
                     var headers = new http_2.Headers();
                     if (this._authenticationService.isLoggedIn()) {
@@ -63,7 +78,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                         headers.append('Authorization', "");
                     }
                     var _resultUrl = '/story/';
-                    return this.http.post(_resultUrl, JSON.stringify({ "name": name, "author_name": author_name, "co_author_name": "", "is_published": 0 }), { headers: headers })
+                    return this.http.post(_resultUrl, JSON.stringify({ "name": name, "authorName": author_name, "coAuthorName": "", "published": false }), { headers: headers })
                         .map(this.extractData)
                         .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
