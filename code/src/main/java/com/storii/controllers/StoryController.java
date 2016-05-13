@@ -112,14 +112,26 @@ public class StoryController {
 	 */
 
 	@PreAuthorize("hasRole('ADMIN')")
-	@RequestMapping(value = "/story_id}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+	@RequestMapping(value = "/{story_id}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> update(@RequestBody String json, @PathVariable(value = "story_id") Long id)
 			throws JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		Story updatedStory = mapper.readValue(json, Story.class);
 		Story oldStory = storyDAO.findOne(id);
-		oldStory = updatedStory;
+
+		if(!updatedStory.getName().equals("defaultName") && !updatedStory.getName().equals("")){
+			oldStory.setName(updatedStory.getName());
+		}
+
+		if(!updatedStory.getAuthorName().equals("defaultAuthor") && !updatedStory.getAuthorName().equals("")){
+			oldStory.setAuthorName(updatedStory.getAuthorName());
+		}
+		
+		if(!updatedStory.getCoAuthorName().equals("defaultCoAuthor") && !updatedStory.getCoAuthorName().equals("")){
+			oldStory.setCoAuthorName(updatedStory.getCoAuthorName());
+		}
+				
 		storyDAO.save(oldStory);
 
 		return ResponseEntity.ok()
@@ -206,5 +218,24 @@ public class StoryController {
 
 		return ResponseEntity.ok().body("{\"data\":" + "{\"max_level\":\"" + maxLevel + "\"}" + "}");
 	}
+	
+	@RequestMapping(value = "/{story_id}/publish", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> publish(@PathVariable(value = "story_id") Long story_id) {
+		Story myStory = storyDAO.findOne(story_id);
+		myStory.setPublished(true);
+		storyDAO.save(myStory);
+		return ResponseEntity.ok().body("{\"data\":" + "{\"story\":\"" + myStory.getName() + "\", \"published\":\"" + myStory.isPublished() + "\"}" + "}");
+	}
 
+	@RequestMapping(value = "/{story_id}/unpublish", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> unpublish(@PathVariable(value = "story_id") Long story_id) {
+		Story myStory = storyDAO.findOne(story_id);
+		myStory.setPublished(false);
+		storyDAO.save(myStory);
+		return ResponseEntity.ok().body("{\"data\":" + "{\"story\":\"" + myStory.getName() + "\", \"published\":\"" + myStory.isPublished() + "\"}" + "}");
+	}
+
+	
 }

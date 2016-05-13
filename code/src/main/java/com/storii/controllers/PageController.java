@@ -99,7 +99,27 @@ public class PageController {
 		ObjectMapper mapper = new ObjectMapper();
 		Page updatedPage = mapper.readValue(json, Page.class);
 		Page oldPage = pageDAO.findOne(id);
-		oldPage = updatedPage;
+		
+		if(!updatedPage.getTitle().equals("defaultTitle") && !updatedPage.getTitle().equals("")){
+			oldPage.setTitle(updatedPage.getTitle());
+		}
+		
+		if(!updatedPage.getDescription().equals("defaultDescription") && !updatedPage.getDescription().equals("")){
+			oldPage.setDescription(updatedPage.getDescription());
+		}
+		
+		if(updatedPage.getLevel() != -1){
+			oldPage.setLevel(updatedPage.getLevel());
+		}
+		
+		if(updatedPage.getPosition() != -1){
+			oldPage.setPosition(updatedPage.getPosition());
+		}
+		
+		if(!updatedPage.getSerializedContent().equals("")){
+			oldPage.setSerializedContent(updatedPage.getSerializedContent());
+		}
+		
 		pageDAO.save(oldPage);
 
 		return ResponseEntity.ok().body("{\"page\":\"" + oldPage.getTitle() + "\",\"updated\":\"true\"}");

@@ -110,18 +110,27 @@ public class StoriiUserController {
 		StoriiUser updatedUser = mapper.readValue(json, StoriiUser.class);
 		StoriiUser oldUser = userDAO.findOne(id);
 
-		String oldName = oldUser.getName();
-		if (updatedUser.getName() != null) {
+		if (!updatedUser.getName().equals("") && !updatedUser.getName().equals("default")) {
 			oldUser.setName(updatedUser.getName());
 		}
-		if (updatedUser.getPassword() != null) {
+		if (!updatedUser.getPassword().equals("")) {
 			oldUser.setPassword(updatedUser.getPassword());
 		}
+		if (!updatedUser.getEmail().equals("") && !updatedUser.getEmail().equals("default")) {
+			oldUser.setEmail(updatedUser.getEmail());
+		}
+		
+		if (!updatedUser.getAboutMe().equals("") && !updatedUser.getAboutMe().equals("default")) {
+			oldUser.setAboutMe(updatedUser.getAboutMe());
+		}
 
+		if (!updatedUser.getMyInspiration().equals("") && !updatedUser.getMyInspiration().equals("default")) {
+			oldUser.setMyInspiration(updatedUser.getMyInspiration());
+		}
+		
 		userDAO.save(oldUser);
 
-		return ResponseEntity.ok().body("{\"data\":"+"{\"user\":\"" + oldUser.getId() + "\",\"old_name\":\"" + oldName
-				+ "\",\"new_name\":\"" + oldUser.getName() + "\",\"updated\":\"true\"}"+"}");
+		return ResponseEntity.ok().body("{\"user\":\"" + oldUser.getName() + "\",\"updated\":\"true\"}");
 
 	}
 
@@ -184,5 +193,24 @@ public class StoriiUserController {
 		StoriiUser myUser = userDAO.findOne(user_id);
 		return ResponseEntity.ok().body("{\"data\":" + mapper.writeValueAsString(myUser.getStories()) + "}");
 	}
+	
+	@RequestMapping(value = "/{user_id}/publish", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> publish(@PathVariable(value = "user_id") Long user_id) {
+		StoriiUser myUser = userDAO.findOne(user_id);
+		myUser.setTutorialDone(true);
+		userDAO.save(myUser);
+		return ResponseEntity.ok().body("{\"data\":" + "{\"story\":\"" + myUser.getName() + "\", \"published\":\"" + myUser.getTutorialDone() + "\"}" + "}");
+	}
+
+	@RequestMapping(value = "/{user_id}/unpublish", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> unpublish(@PathVariable(value = "user_id") Long user_id) {
+		StoriiUser myUser = userDAO.findOne(user_id);
+		myUser.setTutorialDone(false);
+		userDAO.save(myUser);
+		return ResponseEntity.ok().body("{\"data\":" + "{\"story\":\"" + myUser.getName() + "\", \"published\":\"" + myUser.getTutorialDone() + "\"}" + "}");
+	}
+
 
 }

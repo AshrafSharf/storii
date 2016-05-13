@@ -38,24 +38,25 @@ public class StoriiUser {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Autowired
 	@Column(name = "user_id")
 	private long id;
 
 	@NotNull
-	@Autowired
 	private String name;
 
 	@NotNull
-	@Autowired
 	private String password;
 
 	@NotNull
-	@Autowired
 	private String email;
+	
+	@Column(name = "about_me")
+	private String aboutMe;
+	
+	@Column(name = "my_inspiration")
+	private String myInspiration;
 
 	@NotNull
-	@Autowired
 	@Column(name = "tutorial_done")
 	private Boolean tutorialDone;
 	
@@ -75,7 +76,6 @@ public class StoriiUser {
 	 * defines a one to many relation with the task-entity
 	 */
 
-	@Autowired
 	@OneToMany(mappedBy = "parentUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Story> stories;
 
@@ -84,11 +84,13 @@ public class StoriiUser {
 	 * constructors
 	 */
 	
-	public StoriiUser(String name, String password, String email, Boolean tutorialDone) {
+	public StoriiUser(String name, String password, String email, String aboutMe, String myInspiration, Boolean tutorialDone) {
 		this.name = name;
 		BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
 		this.password = bcryptEncoder.encode(password);
 		this.email = email;
+		this.aboutMe = aboutMe;
+		this.myInspiration = myInspiration;
 		this.tutorialDone = tutorialDone;
 	}
 
@@ -97,15 +99,19 @@ public class StoriiUser {
 		BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
 		this.password = bcryptEncoder.encode("default");
 		this.email = "default";
+		this.aboutMe = "default";
+		this.myInspiration = "default";
 		this.tutorialDone = false;
 		this.role = Role.USER;
 	}
 	
-	public StoriiUser(String name, String password, String email, boolean tutorialDone, Role role) {
+	public StoriiUser(String name, String password, String email, String aboutMe, String myInspiration, boolean tutorialDone, Role role) {
 		this.name = name;
 		BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
 		this.password = bcryptEncoder.encode(password);
 		this.email = email;
+		this.aboutMe = aboutMe;
+		this.myInspiration = myInspiration;
 		this.tutorialDone = tutorialDone;
 		this.role = role;
 	}
@@ -178,8 +184,21 @@ public class StoriiUser {
 	public void setStories(Set<Story> stories) {
 		this.stories = stories;
 	}
-	
-	
-	
 
+	public String getAboutMe() {
+		return aboutMe;
+	}
+
+	public void setAboutMe(String aboutMe) {
+		this.aboutMe = aboutMe;
+	}
+
+	public String getMyInspiration() {
+		return myInspiration;
+	}
+
+	public void setMyInspiration(String myInspiration) {
+		this.myInspiration = myInspiration;
+	}
+	
 }
