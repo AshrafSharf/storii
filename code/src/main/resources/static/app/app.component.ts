@@ -7,6 +7,7 @@ import {ResultComponent} from './scripts/result/result.component';
 import {LogStateComponent} from './scripts/logState/logState.component';
 import {NodeEditorComponent} from './scripts/nodeEditor/nodeEditor.component';
 import {ProfileComponent} from './scripts/profile/profile.component';
+import {AboutComponent} from './scripts/about/about.component';
 
 
     
@@ -22,7 +23,7 @@ import {ProfileComponent} from './scripts/profile/profile.component';
     { path: '/search', name: 'Result', component: ResultComponent},
     { path: '/users/:name/:storyName/node/edit', name: 'NodeEditor', component: NodeEditorComponent},
     { path: '/users/:name', name: 'Profile', component: ProfileComponent},
-   //{ path: '/users/:name/:storyName', name: 'About', component: AboutComponent},
+    { path: '/users/:name/:storyName', name: 'About', component: AboutComponent},
    //{ path: '/users/:name/:storyName/published', name: 'Presentation', component: PresentationComponent} 
     
   ])

@@ -62,6 +62,19 @@ a {
   padding: 2px;
   background-color: #96C3CC; }
 
+#editBar div:first-child{
+	padding:2px;
+	width:145px;
+	background-color: #E1AFB1
+}
+
+#editBar{
+	margin-top: 150px;
+	position: absolute;
+	top: 0px;
+	left: 11%;
+}
+
 .headerContainer {
   width: 80%;
   border-top: dotted 2px black;
@@ -101,7 +114,8 @@ input.buttonStory {
   cursor: pointer; }
 input.buttonStoryInfo {
   width: 145px;
-  font-size: 0.8em;
+  font-size: 18px;
+  line-height:2em;
   font-family: "Architects Daughter", cursive;
   background-color: #E1AFB1;
   border: dotted 2px black;
@@ -256,6 +270,14 @@ input.buttonStoryInfo {
 #profilePage .storyTitle {
   margin-top: 5px;
   text-align: center; }
+@-moz-document url-prefix() {
+	#profilePage .storyTitle {
+ 		margin-top: 0;
+	}
+	#profilePage #createNewStory .storyTitle {
+ 		margin-top: 5px;
+	}
+}
 #profilePage .profileLable {
   margin-right: 20px;
   width: 110px;
@@ -266,7 +288,7 @@ input.buttonStoryInfo {
   width: 130px;
   height: 150px;
   background-color: #96C3CC;
-  padding: 10px;
+  padding: 15px; 
   margin: 20px;
   margin-bottom: 65px;
   float: left; }
@@ -1081,7 +1103,7 @@ input.buttonStoryInfo {
       width: 95%; }
     #profilePage .myInfoFrameContainer, #profilePage .myStoryFrameContainer {
       width: 80%; }
-    #profilePage input.buttonStoryInfo, #profilePage .profileLable {
+    #profilePage .profileLable {
       width: 100%; }
     #profilePage .buttonFrameContainerStoryInfo {
       width: 90%; 

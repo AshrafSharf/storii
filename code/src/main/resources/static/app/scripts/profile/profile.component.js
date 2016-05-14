@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../logState/logState.component', '../login/authentication.service', './profile.service', '../../headerfct'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../logState/logState.component', '../editBar/editBar.component', '../login/authentication.service', './profile.service', '../../headerfct'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, logState_component_1, authentication_service_1, profile_service_1, headerfct_1;
+    var core_1, router_1, logState_component_1, editBar_component_1, authentication_service_1, profile_service_1, headerfct_1;
     var ProfileComponent;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
             },
             function (logState_component_1_1) {
                 logState_component_1 = logState_component_1_1;
+            },
+            function (editBar_component_1_1) {
+                editBar_component_1 = editBar_component_1_1;
             },
             function (authentication_service_1_1) {
                 authentication_service_1 = authentication_service_1_1;
@@ -53,6 +56,20 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.profilepic = "Profile Pic:";
                     this.mystories = "My Strories";
                 }
+                ProfileComponent.prototype.invert = function (element) {
+                    jQuery('.' + element['nextElementSibling']['className']).slideToggle('fast');
+                    var arrow = jQuery('.' + element['className']).find('i');
+                    var classes = arrow.attr('class');
+                    if (classes == 'fa fa-angle-up') {
+                        arrow.removeClass('fa fa-angle-up').addClass('fa fa-angle-down');
+                    }
+                    else if (classes == 'fa fa-angle-down') {
+                        arrow.removeClass('fa fa-angle-down').addClass('fa fa-angle-up');
+                    }
+                };
+                ProfileComponent.prototype.gotoStory = function (storyname) {
+                    this._router.navigate(['About', { name: this.name, storyName: storyname['name'] }]);
+                };
                 ProfileComponent.prototype.createNewStory = function (storyName) {
                     var _this = this;
                     this._profileService.createNewStory(storyName, this.name, "", false)
@@ -60,67 +77,36 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         if (createdStory) {
                             _this.createdStory = createdStory;
                             vex.close();
+                            _this.stories.push(createdStory);
                         }
                     }, function (error) { return _this.errorMessage = error; });
+                };
+                ProfileComponent.prototype.openVex = function () {
+                    var self = this;
+                    vex.open({
+                        showCloseButton: true,
+                        content: "<div id=\"newStoryPage\">\n\t\t\t\t\t    <div class=\"newStoryFrameContainer\">\n\t\t\t\t\t        <div class=\"newStoryContainer\">\n\t\t\t\t\t            <div id=\"content\">\n\t\t\t\t\t                <div class=\"h1bgNewStory\"><h1>NEW STORY</h1></div>\n\t\t\t\t\t                \n\t\t\t\t\t                <form id=\"changeName\" name=\"changeName\">\n\t\t\t\t\t                        <label>WHAT IS THE NAME OF YOUR STORY?</label><br>\n\t\t\t\t\t                 \t\t<input id=\"storyName\" class=\"inputField\" name=\"storyName\" required=\"\" type=\"text\">\n\t\t\t\t\t                        <div class=\"buttonFrameContainer fullWidth\"><input id=\"create\" class=\"button\" value=\"CREATE STORY\" type=\"button\"></div>\n\t\t\t\t\t                </form>\n\t\t\t\t\t              \n\t\t\t\t\t                <div class=\"closeFancyBox\"><input onclick=\"vex.close();\" class=\"button\" value=\"CLOSE\" type=\"button\"></div>\n\t\t\t\t\t                \n\t\t\t\t\t            </div>\n\t\t\t\t\t        </div>\n\t\t\t\t\t    </div>\n\t\t\t\t\t</div>"
+                    });
+                    document.getElementById("create").addEventListener('click', function (event) {
+                        self.createNewStory(document.getElementById("storyName").value);
+                    });
                 };
                 ProfileComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     this.name = this._routeParams.get('name');
-                    if (!this._authenticationService.isLoggedIn()) {
-                        this._router.navigate(['Search']);
-                    }
-                    else {
-                        this._profileService.getUserInfo(this.name)
-                            .subscribe(function (details) {
-                            _this.details = details;
-                            _this._profileService.getStoriesOfUser(details[0]['id'])
-                                .subscribe(function (stories) { return _this.stories = stories; }, function (error) { return _this.errorMessage = error; });
-                        }, function (error) { return _this.errorMessage = error; });
-                    }
-                    jQuery(this._elRef.nativeElement).find('#infoToggle').on('click', function () {
-                        jQuery('.toggleDetails').slideToggle('fast');
-                        var arrow = jQuery(this).find('i');
-                        var classes = arrow.attr('class');
-                        if (classes == 'fa fa-angle-up') {
-                            arrow.removeClass('fa fa-angle-up').addClass('fa fa-angle-down');
-                        }
-                        else if (classes == 'fa fa-angle-down') {
-                            arrow.removeClass('fa fa-angle-down').addClass('fa fa-angle-up');
-                        }
-                    });
-                    jQuery(this._elRef.nativeElement).find('#storiesToggle').on('click', function () {
-                        jQuery('.toggleStories').slideToggle('fast');
-                        var arrow = jQuery(this).find('i');
-                        var classes = arrow.attr('class');
-                        if (classes == 'fa fa-angle-up') {
-                            arrow.removeClass('fa fa-angle-up').addClass('fa fa-angle-down');
-                        }
-                        else if (classes == 'fa fa-angle-down') {
-                            arrow.removeClass('fa fa-angle-down').addClass('fa fa-angle-up');
-                        }
-                    });
-                    jQuery(this._elRef.nativeElement).find('#editProfile').on('click', function () {
-                        vex.open({
-                            showCloseButton: true,
-                            content: "<div id=\"userEditPage\">\n\t\t\t\t\t\t    <div class=\"userEditFrameContainer\">\n\t\t\t\t\t\t        <div class=\"userEditContainer\">\n\t\t\t\t\t\t            <div id=\"content\">\n\t\t\t\t\t\t                <div class=\"h1bgUserEdit\"><h1>EDIT MY INFO</h1></div>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <form method=\"POST\" id=\"changeName\" name=\"changeName\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                        <label>NAME</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField loadData\" placeholder=\"username\" type=\"text\" name=\"userName\" required=\"\">\n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input class=\"button\" type=\"submit\" value=\"CHANGE NAME\"></div>\n\t\t\t\t\t\t                </form>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <form method=\"POST\" id=\"changeEmail\" name=\"changeEmail\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                        <label>EMAIL</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField loadData\" type=\"email\" name=\"userMail\" required=\"\" placeholder=\"email\">\n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input class=\"button\" type=\"submit\" value=\"CHANGE E-MAIL\"></div>\n\t\t\t\t\t\t                </form>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <form method=\"POST\" id=\"changePassword\" name=\"changePassword\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                        <label>PASSWORD</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField\" type=\"password\" name=\"userPassword\" required=\"\">\n\t\t\t\t\t\t                        <label>CONFIRM PASSWORD</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField\" type=\"password\" name=\"userPasswordAgain\" required=\"\">\n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input class=\"button\" type=\"submit\" value=\"CHANGE PASSWORD\"></div>\n\t\t\t\t\t\t                </form>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <div class=\"currPicDiv\"><img src=\"\" alt=\"CurrentPicture\" id=\"currentPicture\" class=\"currentUserPicture\"></div>\n\t\t\t\t\t\t                <div class=\"buttonFrameContainer\" id=\"pictureHandling\">\n\t\t\t\t\t\t                <input class=\"button ajaxFormTrigger userPicture\" type=\"button\" id=\"changePictureButton\" value=\"CHANGE PICTURE\"><br>\n\t\t\t\t\t\t\t\t</div>         \n\t\t\t\t\t\t                <div class=\"closeFancyBox\"><input onclick=\"vex.close();\"  class=\"button\" type=\"button\" value=\"CLOSE\"></div>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t        </div>\n\t\t\t\t\t\t    </div>\n\t\t\t\t\t\t</div>"
-                        });
-                    });
-                    var self = this;
-                    jQuery(this._elRef.nativeElement).find('#createNewStory').on('click', function () {
-                        vex.open({
-                            showCloseButton: true,
-                            content: "<div id=\"newStoryPage\">\n\t\t\t\t\t    <div class=\"newStoryFrameContainer\">\n\t\t\t\t\t        <div class=\"newStoryContainer\">\n\t\t\t\t\t            <div id=\"content\">\n\t\t\t\t\t                <div class=\"h1bgNewStory\"><h1>NEW STORY</h1></div>\n\t\t\t\t\t                \n\t\t\t\t\t                <form id=\"changeName\" name=\"changeName\">\n\t\t\t\t\t                        <label>WHAT IS THE NAME OF YOUR STORY?</label><br>\n\t\t\t\t\t                 \t\t<input id=\"storyName\" class=\"inputField\" name=\"storyName\" required=\"\" type=\"text\">\n\t\t\t\t\t                        <div class=\"buttonFrameContainer fullWidth\"><input id=\"create\" class=\"button\" value=\"CREATE STORY\" type=\"button\"></div>\n\t\t\t\t\t                </form>\n\t\t\t\t\t              \n\t\t\t\t\t                <div class=\"closeFancyBox\"><input onclick=\"vex.close();\" class=\"button\" value=\"CLOSE\" type=\"button\"></div>\n\t\t\t\t\t                \n\t\t\t\t\t            </div>\n\t\t\t\t\t        </div>\n\t\t\t\t\t    </div>\n\t\t\t\t\t</div>"
-                        });
-                        document.getElementById("create").addEventListener('click', function (event) {
-                            self.createNewStory(document.getElementById("storyName").value);
-                        });
-                    });
+                    this.loggedIn = this._authenticationService.isLoggedIn();
+                    this._profileService.getUserInfo(this.name)
+                        .subscribe(function (details) {
+                        _this.details = details;
+                        _this._profileService.getStoriesOfUser(details[0]['id'])
+                            .subscribe(function (stories) { return _this.stories = stories; }, function (error) { return _this.errorMessage = error; });
+                    }, function (error) { return _this.errorMessage = error; });
                 };
                 ProfileComponent = __decorate([
                     core_1.Component({
                         selector: 'profile',
                         templateUrl: "app/html/profile/profile.html",
-                        directives: [logState_component_1.LogStateComponent],
+                        directives: [logState_component_1.LogStateComponent, editBar_component_1.EditBarComponent],
                         styles: ['a {cursor: pointer}'],
                         providers: [authentication_service_1.AuthenticationService, profile_service_1.ProfileService, headerfct_1.HttpClient]
                     }), 
