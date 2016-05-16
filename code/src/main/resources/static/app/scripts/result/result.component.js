@@ -41,6 +41,8 @@ System.register(['angular2/core', 'angular2/router', '../search/search.service',
                     this.title = 'Search:';
                     this.resultsUsers = 'Users:';
                     this.resultsStories = 'Stories:';
+                    this.defaultUserPic = 'app/assets/files/dummyProfile.jpg';
+                    this.defaultStoryPic = 'app/assets/files/dummyStory.jpg';
                 }
                 ResultComponent.prototype.ngOnInit = function () {
                     var cell = document.getElementById('inputField');
@@ -51,6 +53,20 @@ System.register(['angular2/core', 'angular2/router', '../search/search.service',
                 };
                 ResultComponent.prototype.search = function (term) {
                     this._router.navigate(['Result', { key: term }]);
+                };
+                ResultComponent.prototype.gotoStory = function (storyname) {
+                    var _this = this;
+                    var user_id = storyname['parentUser'];
+                    this._searchService.searchUserById(user_id)
+                        .subscribe(function (targetName) {
+                        if (targetName) {
+                            _this.targetName = targetName;
+                            _this._router.navigate(['About', { name: _this.targetName['name'], storyName: storyname['name'] }]);
+                        }
+                    }, function (error) { return _this.errorMessage = error; });
+                };
+                ResultComponent.prototype.gotoUser = function (user) {
+                    this._router.navigate(['Profile', { name: user['name'] }]);
                 };
                 ResultComponent.prototype.doSearch = function (term) {
                     var _this = this;

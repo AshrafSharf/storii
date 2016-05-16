@@ -1,4 +1,4 @@
-<editBar></editBar>
+<editBar  [details]="details"></editBar>
 <logState></logState>
 <div class="container">
  <div id="profilePage">    
@@ -14,12 +14,15 @@
                         <div class="left firstColumn">
                             <p><span class="profileLable">{{username | uppercase}}</span> {{name}}</p>
                             <p><span class="profileLable">{{email | uppercase}}</span> {{detail.email}}</p>
-                            <p><span class="profileLable">{{aboutme | uppercase}}</span> {{detail.aboutme}}XXXX</p>
-                            <p><span class="profileLable">{{myinspiration | uppercase}}</span> {{detail.myinspiration}}XXXX</p>
+                            <p *ngIf="detail.aboutMe"><span class="profileLable">{{aboutme | uppercase}}</span> {{detail.aboutMe}}</p>
+                            <p *ngIf="!detail.aboutMe"><span class="profileLable">{{aboutme | uppercase}}</span><p *ngIf="!detail.aboutMe" class="inlineBlock"><i>Edit profile, for adding text here</i></p>    
+                            <p *ngIf="detail.myInspiration"><span class="profileLable">{{myinspiration | uppercase}}</span> {{detail.myInspiration}}</p>
+                            <p *ngIf="!detail.myInspiration"><span class="profileLable">{{myinspiration | uppercase}}</span><p  *ngIf="!detail.myInspiration" class="inlineBlock"><i>Edit profile, for adding text here</i></p>
+                            
                         </div>
                    
                         <div class="left">
-                            <p>{{profilepic | uppercase}}</p>                       
+                            <p><span>{{profilepic | uppercase}}</span></p>                       
                            <img *ngIf="!detail.userImage"  class="profilePic" src="{{defaultUserPic}}" alt="profile">
                         </div>
                         </div>

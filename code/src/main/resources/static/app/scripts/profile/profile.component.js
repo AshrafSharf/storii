@@ -88,7 +88,9 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         content: "<div id=\"newStoryPage\">\n\t\t\t\t\t    <div class=\"newStoryFrameContainer\">\n\t\t\t\t\t        <div class=\"newStoryContainer\">\n\t\t\t\t\t            <div id=\"content\">\n\t\t\t\t\t                <div class=\"h1bgNewStory\"><h1>NEW STORY</h1></div>\n\t\t\t\t\t                \n\t\t\t\t\t                <form id=\"changeName\" name=\"changeName\">\n\t\t\t\t\t                        <label>WHAT IS THE NAME OF YOUR STORY?</label><br>\n\t\t\t\t\t                 \t\t<input id=\"storyName\" class=\"inputField\" name=\"storyName\" required=\"\" type=\"text\">\n\t\t\t\t\t                        <div class=\"buttonFrameContainer fullWidth\"><input id=\"create\" class=\"button\" value=\"CREATE STORY\" type=\"button\"></div>\n\t\t\t\t\t                </form>\n\t\t\t\t\t              \n\t\t\t\t\t                <div class=\"closeFancyBox\"><input onclick=\"vex.close();\" class=\"button\" value=\"CLOSE\" type=\"button\"></div>\n\t\t\t\t\t                \n\t\t\t\t\t            </div>\n\t\t\t\t\t        </div>\n\t\t\t\t\t    </div>\n\t\t\t\t\t</div>"
                     });
                     document.getElementById("create").addEventListener('click', function (event) {
-                        self.createNewStory(document.getElementById("storyName").value);
+                        if (document.getElementById("storyName").value != "") {
+                            self.createNewStory(document.getElementById("storyName").value);
+                        }
                     });
                 };
                 ProfileComponent.prototype.ngOnInit = function () {
@@ -98,8 +100,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this._profileService.getUserInfo(this.name)
                         .subscribe(function (details) {
                         _this.details = details;
-                        _this._profileService.getStoriesOfUser(details[0]['id'])
-                            .subscribe(function (stories) { return _this.stories = stories; }, function (error) { return _this.errorMessage = error; });
+                        _this.stories = details[0]['stories'];
                     }, function (error) { return _this.errorMessage = error; });
                 };
                 ProfileComponent = __decorate([

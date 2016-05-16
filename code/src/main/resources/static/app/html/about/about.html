@@ -3,16 +3,38 @@
 <div class="container">
 <div id="userStoryPage">
     <div id="content">
-        <div class="infoWidth">
+    <div class="shortInfo"> 
+    	<div>
+    		<img src="{{defaultStoryPic}}" alt="The story picture">
+    		
+    	</div>
+    	<div>
+    		<div class="storyPageAuthor">Author: author.name</div>
+       		<div *ngIf="coAuthor" class="storyPageCoAuthor"> Co-Author:{{coAuthor}} </div>
+    		<div>Rated: *****</div>
+    		<div>Comments: </div>
+    			<ul><li>something</li></ul>
+    	</div>
+   	</div>
+   	<div class="storyDetails">
+   		<div>
         	<h2>{{storyName | uppercase}}</h2>
-		 	<a (click)="gotoProfil()" class="backLink">by {{author}}</a>
+		 	<span>by </span><a (click)="gotoProfile()" class="backLink">{{name}}</a>
+		 	
 		</div>
+   	
+       	
         
-        <div class="storyPageInformation left">
-                <h2>ABOUT THE STORY</h2>
-                <img src="{{defaultStoryPic}}" alt="The story picture">
-                <div class="storyPageAuthor">Author: author.name</div>
-                <div class="storyPageCoAuthor"> Co-Author: IWER</div>
+        <div class="storyPageInformation">
+                <h2>Short Description:</h2>
+                <div>This is the place where you can describe the content of your story</div>             
+        </div>
+        <br>
+        <div class="buttonFrameContainerUserStoryContentModule">
+        	<div class="buttonSize">
+        		<a href="#" class="buttonLookLink">READ</a>
+       		</div>
+     	</div>
         </div>
     </div>
 </div>

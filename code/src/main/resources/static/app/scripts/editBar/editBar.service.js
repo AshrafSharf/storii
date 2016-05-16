@@ -11,7 +11,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, http_1, http_2, Observable_1, headerfct_1, authentication_service_1;
-    var ProfileService;
+    var EditBarService;
     return {
         setters:[
             function (core_1_1) {
@@ -31,43 +31,13 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                 authentication_service_1 = authentication_service_1_1;
             }],
         execute: function() {
-            ProfileService = (function () {
-                function ProfileService(http, httpClient, _authenticationService) {
+            EditBarService = (function () {
+                function EditBarService(http, httpClient, _authenticationService) {
                     this.http = http;
                     this.httpClient = httpClient;
                     this._authenticationService = _authenticationService;
                 }
-                ProfileService.prototype.getUserInfo = function (name) {
-                    var headers = new http_2.Headers();
-                    if (this._authenticationService.isLoggedIn()) {
-                        headers = this.httpClient.createHeader(headers);
-                    }
-                    else {
-                        headers.delete('Authorization');
-                        headers.append('Authorization', "");
-                    }
-                    var _resultUrl = '/user/findByName/';
-                    return this.http.get(_resultUrl + name, { headers: headers })
-                        .map(this.extractData)
-                        .do(function (data) { return console.log(data); })
-                        .catch(this.handleError);
-                };
-                ProfileService.prototype.getStoriesOfUser = function (name) {
-                    var headers = new http_2.Headers();
-                    if (this._authenticationService.isLoggedIn()) {
-                        headers = this.httpClient.createHeader(headers);
-                    }
-                    else {
-                        headers.delete('Authorization');
-                        headers.append('Authorization', "");
-                    }
-                    var _resultUrl = '/user/';
-                    return this.http.get(_resultUrl + name + "/getStories", { headers: headers })
-                        .map(this.extractData)
-                        .do(function (data) { return console.log(data); })
-                        .catch(this.handleError);
-                };
-                ProfileService.prototype.createNewStory = function (name, author_name, co_author_name, is_published) {
+                EditBarService.prototype.updateValues = function (key, value, user_id) {
                     var headers = new http_2.Headers();
                     if (this._authenticationService.isLoggedIn()) {
                         headers = this.httpClient.createHeader(headers);
@@ -78,32 +48,47 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                         headers.delete('Content-Type');
                         headers.append('Authorization', "");
                     }
-                    var _resultUrl = '/story/';
-                    return this.http.post(_resultUrl, JSON.stringify({ "name": name, "authorName": author_name, "coAuthorName": "", "published": false }), { headers: headers })
+                    var _resultUrl = '/user/';
+                    return this.http.put(_resultUrl + user_id, JSON.stringify(new function () { this[key] = value; }), { headers: headers })
                         .map(this.extractData)
                         .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
-                ProfileService.prototype.extractData = function (res) {
+                EditBarService.prototype.getLoggedInUser = function () {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/user/';
+                    return this.http.get(_resultUrl + "me", { headers: headers })
+                        .map(this.extractData)
+                        .do(function (data) { return console.log(data); })
+                        .catch(this.handleError);
+                };
+                EditBarService.prototype.extractData = function (res) {
                     if (res.status < 200 || res.status >= 300) {
                         throw new Error('Bad response status: ' + res.status);
                     }
                     var body = res.json();
                     return body.data || {};
                 };
-                ProfileService.prototype.handleError = function (error) {
+                EditBarService.prototype.handleError = function (error) {
                     var errMsg = error.message || 'Server error';
                     console.error(errMsg); // log to console instead
                     return Observable_1.Observable.throw(errMsg);
                 };
-                ProfileService = __decorate([
+                EditBarService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http, headerfct_1.HttpClient, authentication_service_1.AuthenticationService])
-                ], ProfileService);
-                return ProfileService;
+                ], EditBarService);
+                return EditBarService;
             }());
-            exports_1("ProfileService", ProfileService);
+            exports_1("EditBarService", EditBarService);
         }
     }
 });
-//# sourceMappingURL=profile.service.js.map
+//# sourceMappingURL=editBar.service.js.map

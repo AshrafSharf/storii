@@ -64,8 +64,15 @@ a {
 
 #editBar div:first-child{
 	padding:2px;
-	width:145px;
-	background-color: #E1AFB1
+	background-color: #E1AFB1;
+	float: left;
+}
+
+#editBar .buttonFrameContainerUserStoryContentModule{
+	float:right; 
+	margin-left: 20px; 
+	padding: 2px;
+	background-color: #E1AFB1;
 }
 
 #editBar{
@@ -193,6 +200,17 @@ input.buttonStoryInfo {
   font-size: 18px;
   font-family: "Architects Daughter", cursive; }
 
+.profileContainer .inlineBlock{
+	width: initial;
+	display: inline-block;
+	margin: 0;
+}
+
+.profileContainer .left{
+	margin-left: 15px; 
+}
+
+
 .searchLabel {
   text-align: center;
   font-size: 48px;
@@ -218,7 +236,7 @@ input.buttonStoryInfo {
     left: 5%;
     position: relative; }
     #profilePage .myInfoContainer #content .firstColumn {
-      width: 50%; }
+      width: 75%; }
 #profilePage .myStoryContainer {
   background-color: #D3ECED;
   border: dotted 2px black; }
@@ -280,7 +298,7 @@ input.buttonStoryInfo {
 }
 #profilePage .profileLable {
   margin-right: 20px;
-  width: 110px;
+  width: 140px;
   float: left; }
 #profilePage .storyPic, #profilePage .profilePic {
   width: 130px; }
@@ -294,7 +312,7 @@ input.buttonStoryInfo {
   float: left; }
   #profilePage .storyPicFrame a {
     text-decoration: none;
-    color: #000; }
+    color: #000; } 
 #profilePage .buttonFrameContainerStory {
   width: 145px;
   position: relative;
@@ -445,6 +463,10 @@ input.buttonStoryInfo {
  	width:600px;
  }   
  
+ .vex.vex-theme-os {
+ 	padding-top:0
+ }
+ 
  .vex-overlay{
  	background: white;
  }
@@ -457,8 +479,26 @@ input.buttonStoryInfo {
     border-radius:0;
 }
 
+#userStoryPage{
+	width: 75%;
+	margin: 0px auto;
+}
+
+#userStoryPage .shortInfo{
+	float: left;
+	width: 30%;
+	font-family: "Architects Daughter",cursive;
+	margin-top: 50px;
+}
+
+#userStoryPage .storyDetails{
+	float: left;
+	margin-left: 50px;
+	margin-top: 50px;
+	font-family: "Architects Daughter",cursive;
+}
 #userStoryPage #content {
-  margin-left: 10%; }
+ }
 #userStoryPage h2 {
   font-family: "Architects Daughter", cursive;
   font-size: 30px;
@@ -475,6 +515,9 @@ input.buttonStoryInfo {
   background-color: #96C3CC; }
   #userStoryPage .buttonFrameContainerUserStoryContentModule .buttonSize {
     width: 140px; }
+  #editBar .buttonSize{
+  	width:145px;
+  }
 #userStoryPage .storyPageAuthor, #userStoryPage .storyPageCoAuthor {
   font-family: "Architects Daughter", cursive;
   font-size: 14px; }
@@ -483,8 +526,11 @@ input.buttonStoryInfo {
 #userStoryPage .infoWidth {
   width: 35%; }
 #userStoryPage .storyPageInformation {
-  margin-top: 100px; }
-
+   font-family: "Architects Daughter", cursive;
+   margin-top:50px; }
+#userStoryPage .storyPageInformation h2{
+		font-size:25px;
+	}
 #userEditPage {
   font-family: "Architects Daughter", cursive;
   font-size: 18px; }
@@ -518,12 +564,13 @@ input.buttonStoryInfo {
     font-family: "Architects Daughter", cursive;
     background-color: #F3E0E1;
     border: dotted 2px black; }
-  #userEditPage input.inputField {
+  #userEditPage input.inputField, #userEditPage textarea.inputField {
     width: 55%;
     float: left;
     height: 42px;
     margin-right: 20px;
-    margin-bottom: 18px; }
+    margin-bottom: 18px;
+    font-family: inherit; }
   #userEditPage .buttonFrameContainer {
     width: 40%;
     position: relative;
@@ -1062,11 +1109,15 @@ input.buttonStoryInfo {
  }
  
     
- p, a, input {
+ p, a, input, #profilePage span {
     font-size: 1.2em !important; }
  
-  #profilePage p, a, input {
+  #profilePage p, a, input, #userEditPage p {
     font-size: 1.0em !important; }
+    
+  #userEditPage input {
+  	 font-size: 0.9em !important; 
+  }
  
   #searchPage .searchLabel {
     margin-left: 100px;
@@ -1115,7 +1166,7 @@ input.buttonStoryInfo {
       
       } }
 @media screen and (max-width: 720px) {
-  #userEditPage input.inputField {
+  #userEditPage input.inputField, #userEditPage textarea.inputField {
     width: 100%; }
   #userEditPage .buttonFrameContainer {
     width: 100%; } }

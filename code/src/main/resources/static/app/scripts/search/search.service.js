@@ -52,6 +52,21 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                         .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
+                SearchService.prototype.searchUserById = function (user_id) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/user/'; // URL to JSON file
+                    return this.http.get(_resultUrl + user_id, { headers: headers })
+                        .map(this.extractData)
+                        .do(function (data) { return console.log(data); })
+                        .catch(this.handleError);
+                };
                 SearchService.prototype.searchUser = function (term) {
                     var headers = new http_2.Headers();
                     if (this._authenticationService.isLoggedIn()) {

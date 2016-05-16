@@ -20,7 +20,7 @@ export class AuthenticationService {
     var _resultUrl = '/user/login'; 
     var string = username +":"+ password; 
     var token = "Basic " + btoa(string);
-    
+
     headers.append('Authorization',token);
     console.log(token);
 

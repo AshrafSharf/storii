@@ -45,6 +45,7 @@ System.register(['angular2/core', 'angular2/router', 'angular2/common', './authe
                 }
                 LoginComponent.prototype.login = function (username, password) {
                     var _this = this;
+                    console.log(username);
                     this._authenticationService.login(username, password)
                         .subscribe(function (result) {
                         console.log(result);

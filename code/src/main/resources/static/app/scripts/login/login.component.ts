@@ -28,9 +28,11 @@ export class LoginComponent {
 	      username:  ['', Validators.required],
 	      password:  ['', Validators.required]
 	    });
+	    
 	}
 	
 	login(username, password){
+			console.log(username);
 		  	  this._authenticationService.login(username,password)
 		             		  .subscribe((result) => {
 		             		  		console.log(result);

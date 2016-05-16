@@ -21,7 +21,8 @@ export class AboutComponent implements OnInit {
 	defaultStoryPic = 'app/assets/files/dummyStory.jpg';
 	storyName;
 	name; 
-	loggedIn;
+	loggedIn; 
+	coAuthor; 
 	
 	constructor(private _elRef: ElementRef, private _router: Router,private _routeParams:RouteParams,private _authenticationService: AuthenticationService) {}
 	

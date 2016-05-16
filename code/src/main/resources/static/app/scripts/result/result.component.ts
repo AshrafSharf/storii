@@ -25,7 +25,10 @@ export class ResultComponent implements OnInit{
 	resultsStories = 'Stories:';
   	errorMessage: string;
   	stories: Search[];
+  	targetName; 
   	users: Search[];
+  	defaultUserPic = 'app/assets/files/dummyProfile.jpg';
+	defaultStoryPic = 'app/assets/files/dummyStory.jpg';
 	
 	constructor (private _router: Router, private _searchService: SearchService, private _routeParams: RouteParams) {}
 	
@@ -40,6 +43,22 @@ export class ResultComponent implements OnInit{
   	search(term){
   	 this._router.navigate(['Result', { key: term }]);        
   	} 
+  	
+  	gotoStory(storyname) {	
+  		var user_id = storyname['parentUser'];
+  		this._searchService.searchUserById(user_id)
+		                     .subscribe((targetName) => {
+	      							if (targetName) {
+	      							   this.targetName = targetName;
+	      						       this._router.navigate(['About', { name: this.targetName['name'] , storyName: storyname['name'] }]);
+	      							}},
+                       				error =>  this.errorMessage = <any>error);
+		
+   	}
+   	
+   	gotoUser(user) {	
+  		 this._router.navigate(['Profile', { name: user['name'] }]);	
+   	}
   	
   	doSearch(term){
   		if(term != ""){

@@ -27,6 +27,21 @@ export class SearchService {
             .catch(this.handleError);
   }
   
+  searchUserById(user_id): Observable<Search[]> {
+   	var headers = new Headers();
+   	if (this._authenticationService.isLoggedIn()) {
+  		headers = this.httpClient.createHeader(headers);
+  	}else{
+  		headers.delete('Authorization');
+  		headers.append('Authorization',"");
+  	}
+	var _resultUrl = '/user/'; // URL to JSON file
+    return this.http.get(_resultUrl+user_id,{headers})
+            .map(this.extractData)
+            .do(data => console.log(data))
+            .catch(this.handleError);
+  }
+  
    searchUser (term): Observable<Search[]> {
    	var headers = new Headers();
    	if (this._authenticationService.isLoggedIn()) {

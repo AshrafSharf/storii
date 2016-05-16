@@ -48,6 +48,7 @@ export class ProfileService {
   		headers.append('Content-Type', 'application/json');
   	}else{
   		headers.delete('Authorization');
+  		headers.delete('Content-Type');
   		headers.append('Authorization',"");
   	}
 	var _resultUrl = '/story/'; 

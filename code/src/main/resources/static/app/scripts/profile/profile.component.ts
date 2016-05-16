@@ -37,6 +37,7 @@ export class ProfileComponent implements OnInit {
 	mystories = "My Strories";
 	loggedIn; 
 	
+	
 	details: string[];
 	createdStory: string[];
 	stories: string[];
@@ -96,7 +97,9 @@ export class ProfileComponent implements OnInit {
 			});	
 			
 			document.getElementById("create").addEventListener('click', function(event) {
-				self.createNewStory((<HTMLInputElement>document.getElementById("storyName")).value);			
+				if((<HTMLInputElement>document.getElementById("storyName")).value != ""){
+					self.createNewStory((<HTMLInputElement>document.getElementById("storyName")).value);			
+				}
 			});
     
 	}
@@ -109,9 +112,7 @@ export class ProfileComponent implements OnInit {
 		                     .subscribe(
 		                       details => {    
 		                        this.details = details;
-		                        this._profileService.getStoriesOfUser(details[0]['id'])
-						                     .subscribe(   stories => this.stories = stories,
-									                       error =>  this.errorMessage = <any>error);
+		                        this.stories = details[0]['stories'];
 		                       },
 		                   
 		                       error =>  this.errorMessage = <any>error);

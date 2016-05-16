@@ -18,7 +18,12 @@
 <h2>{{resultsUsers| uppercase}}</h2>
 	<div *ngIf="users">
 	 	<ul>
-      		<li *ngFor="#user of users">{{user.name}}</li>
+      		<li *ngFor="#user of users">
+      			<a (click)="gotoUser(user)">						
+					<img *ngIf="!user.userImage" class="searchPic" src="{{defaultUserPic}}" alt="profil">
+				</a>
+				<a (click)="gotoUser(user)" class="searchLink">{{user.name}}</a>
+      		</li>
       		
     	</ul> 
    	</div>
@@ -29,8 +34,15 @@
 </div>
 <div class="foundStories">
 <h2>{{resultsStories| uppercase}}</h2>
+
 	 	<ul>
-      		<li *ngFor="#story of stories">{{story.name}}</li>
+      		<li *ngFor="#story of stories">
+      			<a (click)="gotoStory(story)">						
+					<img *ngIf="!story.storyImage" class="searchPic" src="{{defaultStoryPic}}" alt="story">
+				</a>
+				<a (click)="gotoStory(story)" class="searchLink">{{story.name}}</a>
+				
+			</li>
       		
     	</ul> 
 
