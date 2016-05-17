@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -113,9 +114,13 @@ public class StoriiUserController {
 		if (!updatedUser.getName().equals("") && !updatedUser.getName().equals("default")) {
 			oldUser.setName(updatedUser.getName());
 		}
-		if (!updatedUser.getPassword().equals("")) {
+		
+		BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
+
+		if (!bcryptEncoder.matches("defaultPW!*!", updatedUser.getPassword())) {
 			oldUser.setPassword(updatedUser.getPassword());
 		}
+
 		if (!updatedUser.getEmail().equals("") && !updatedUser.getEmail().equals("default")) {
 			oldUser.setEmail(updatedUser.getEmail());
 		}

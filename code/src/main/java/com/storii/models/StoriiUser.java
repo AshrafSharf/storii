@@ -97,7 +97,8 @@ public class StoriiUser {
 	public StoriiUser() {
 		this.name = "default";
 		BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
-		this.password = bcryptEncoder.encode("default");
+		this.password = bcryptEncoder.encode("defaultPW!*!");
+		System.out.println(this.password);
 		this.email = "default";
 		this.aboutMe = "default";
 		this.myInspiration = "default";
