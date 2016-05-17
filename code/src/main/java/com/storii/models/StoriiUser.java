@@ -78,7 +78,11 @@ public class StoriiUser {
 
 	@OneToMany(mappedBy = "parentUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Story> stories;
-
+	
+	@Autowired
+	@JsonIdentityReference(alwaysAsId=true)
+	@OneToMany(mappedBy = "ratingUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Rating> ratings;
 
 	/**
 	 * constructors
@@ -194,5 +198,14 @@ public class StoriiUser {
 	public void setMyInspiration(String myInspiration) {
 		this.myInspiration = myInspiration;
 	}
+
+	public Set<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(Set<Rating> ratings) {
+		this.ratings = ratings;
+	}
+	
 	
 }

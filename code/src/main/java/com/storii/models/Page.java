@@ -37,28 +37,22 @@ public class Page {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Autowired
 	@Column(name = "page_id")
 	private long id;
 
 	@NotNull
-	@Autowired
 	private String title;
 
 	@NotNull
-	@Autowired
 	private String description;
 
 	@NotNull
-	@Autowired
 	private int level;
 
 	@NotNull
-	@Autowired
 	private int position;
 
 	@NotNull
-	@Autowired
 	private String serializedContent;
 	
 	/**
@@ -68,7 +62,6 @@ public class Page {
 	@OneToOne(mappedBy = "pageId", cascade = CascadeType.ALL)
 	private PageImage pageImage;
 	
-	@Autowired
 	@ManyToOne
 	@JsonIdentityReference(alwaysAsId=true)
 	@JoinColumn(name = "parent_story")

@@ -37,26 +37,21 @@ public class Story {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Autowired
 	@Column(name = "story_id")
 	private long id;
 
 	@NotNull
-	@Autowired
 	private String name;
 
 	@NotNull
-	@Autowired
 	@Column(name  = "author_name")
 	private String authorName;
 
 	@NotNull
-	@Autowired
 	@Column(name  = "co_author_name")
 	private String coAuthorName;
 
 	@NotNull
-	@Autowired
 	@Column(name  = "is_published")
 	private boolean isPublished;
 
@@ -68,16 +63,19 @@ public class Story {
 	private StoryImage storyImage;
 
 	
-	@Autowired
 	@ManyToOne
 	@JsonIdentityReference(alwaysAsId=true)
 	@JoinColumn(name = "parent_user")
 	private StoriiUser parentUser;
 	
-	@Autowired
 	@JsonIdentityReference(alwaysAsId=true)
 	@OneToMany(mappedBy = "parentStory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Page> pages;
+	
+	@JsonIdentityReference(alwaysAsId=true)
+	@OneToMany(mappedBy = "ratedStory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Rating> ratings;
+
 	
 	@OneToOne
 	@JoinColumn(name = "first_page_id")
@@ -172,6 +170,14 @@ public class Story {
 
 	public void setFirstPage(Page firstPage) {
 		this.firstPage = firstPage;
+	}
+
+	public Set<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(Set<Rating> ratings) {
+		this.ratings = ratings;
 	}
 	
 	

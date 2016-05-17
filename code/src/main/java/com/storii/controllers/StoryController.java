@@ -23,6 +23,7 @@ import com.storii.daos.PageDAO;
 import com.storii.daos.StoriiUserDAO;
 import com.storii.daos.StoryDAO;
 import com.storii.models.Page;
+import com.storii.models.Rating;
 import com.storii.models.StoriiUser;
 import com.storii.models.Story;
 
@@ -163,7 +164,7 @@ public class StoryController {
 	 * @return ResponseEntity
 	 * @throws IOException
 	 */
-	@PreAuthorize("hasRole('USER')")
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/{story_id}/addPage", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> addPage(@RequestBody String json, @PathVariable(value = "story_id") Long story_id)
@@ -237,5 +238,24 @@ public class StoryController {
 		return ResponseEntity.ok().body("{\"data\":" + "{\"story\":\"" + myStory.getName() + "\", \"published\":\"" + myStory.isPublished() + "\"}" + "}");
 	}
 
-	
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
+	@RequestMapping(value = "/{story_id}/addRating", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> addRating(@RequestBody String json, @PathVariable(value = "story_id") Long story_id)
+			throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		StoriiUser myUser = userDAO.findByName(userDetails.getUsername());
+		Story myStory = storyDAO.findOne(story_id);
+		
+		Rating newRating = mapper.readValue(json, Rating.class);
+		
+		myUser.getRatings().add(newRating);
+		newRating.setRatedStory(myStory);
+		newRating.setRatingUser(myUser);
+		storyDAO.save(myStory);
+		
+		return ResponseEntity.ok().body("{\"data\":" + "{\"created\":\"true\"}" + "}");
+	}
 }
