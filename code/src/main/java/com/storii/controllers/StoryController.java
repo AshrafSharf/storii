@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.storii.daos.PageDAO;
+import com.storii.daos.RatingDAO;
 import com.storii.daos.StoriiUserDAO;
 import com.storii.daos.StoryDAO;
 import com.storii.models.Page;
@@ -40,6 +41,10 @@ public class StoryController {
 
 	@Autowired
 	private StoriiUserDAO userDAO;
+	
+	@Autowired
+	private RatingDAO ratingDAO;
+
 
 	@Autowired
 	private PageDAO pageDAO;
@@ -249,6 +254,10 @@ public class StoryController {
 		StoriiUser myUser = userDAO.findByName(userDetails.getUsername());
 		Story myStory = storyDAO.findOne(story_id);
 		
+		if(ratingDAO.findByRatingUserAndRatedStory(myUser, myStory) != null){
+			return ResponseEntity.badRequest().body("{\"data\":" + "{\"exeption\":\"comment_already_exists\"}" + "}");
+		}
+		
 		Rating newRating = mapper.readValue(json, Rating.class);
 		
 		myUser.getRatings().add(newRating);
@@ -258,4 +267,57 @@ public class StoryController {
 		
 		return ResponseEntity.ok().body("{\"data\":" + "{\"created\":\"true\"}" + "}");
 	}
+	
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
+	@RequestMapping(value = "/{story_id}/deleteRating", method = RequestMethod.DELETE, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> deleteRating(@PathVariable(value = "story_id") Long story_id) {
+		
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		StoriiUser myUser = userDAO.findByName(userDetails.getUsername());
+		Story myStory = storyDAO.findOne(story_id);
+		
+		Rating myRating = ratingDAO.findByRatingUserAndRatedStory(myUser, myStory);
+		
+		if(myRating == null){
+			return ResponseEntity.badRequest().body("{\"data\":" + "{\"exeption\":\"no_comment_exists\"}" + "}");
+		}else{
+			ratingDAO.delete(myRating);
+			return ResponseEntity.ok().body("{\"data\":" + "{\"deleted\":\"true\"}" + "}");
+		}
+		
+	}
+	
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
+	@RequestMapping(value = "/{story_id}/editRating", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> editRating(@RequestBody String json, @PathVariable(value = "story_id") Long story_id)
+			throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		StoriiUser myUser = userDAO.findByName(userDetails.getUsername());
+		Story myStory = storyDAO.findOne(story_id);
+		
+		Rating oldRating = ratingDAO.findByRatingUserAndRatedStory(myUser, myStory);
+		
+		if(oldRating == null){
+			return ResponseEntity.badRequest().body("{\"data\":" + "{\"exeption\":\"no_comment_exists\"}" + "}");
+		}
+		
+		Rating newRating = mapper.readValue(json, Rating.class);
+		
+		if(newRating.getComment() != null){
+			oldRating.setComment(newRating.getComment());
+		}
+		
+		if(newRating.getValue() != 0){
+			oldRating.setValue(newRating.getValue());
+		}
+		
+		ratingDAO.save(oldRating);
+		
+		return ResponseEntity.ok().body("{\"data\":" + "{\"edited\":\"true\"}" + "}");
+	}
+	
 }
