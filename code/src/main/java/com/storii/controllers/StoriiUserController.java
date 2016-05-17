@@ -70,6 +70,10 @@ public class StoriiUserController {
 	public ResponseEntity<String> create(@RequestBody String json) throws JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		StoriiUser myUser = mapper.readValue(json, StoriiUser.class);
+		
+		BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
+		myUser.setPassword(bcryptEncoder.encode(myUser.getPassword()));
+		
 		if (userDAO.findByName(myUser.getName()) == null) {
 			userDAO.save(myUser);
 		} else {
@@ -111,25 +115,26 @@ public class StoriiUserController {
 		StoriiUser updatedUser = mapper.readValue(json, StoriiUser.class);
 		StoriiUser oldUser = userDAO.findOne(id);
 
-		if (!updatedUser.getName().equals("") && !updatedUser.getName().equals("default")) {
+		if (updatedUser.getName() != null) {
 			oldUser.setName(updatedUser.getName());
 		}
 		
 		BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
 
-		if (!bcryptEncoder.matches("defaultPW!*!", updatedUser.getPassword())) {
-			oldUser.setPassword(updatedUser.getPassword());
+		
+		if (updatedUser.getPassword() != null) {
+			oldUser.setPassword(bcryptEncoder.encode(updatedUser.getPassword()));
 		}
 
-		if (!updatedUser.getEmail().equals("") && !updatedUser.getEmail().equals("default")) {
+		if (updatedUser.getEmail() != null) {
 			oldUser.setEmail(updatedUser.getEmail());
 		}
 		
-		if (!updatedUser.getAboutMe().equals("") && !updatedUser.getAboutMe().equals("default")) {
+		if (updatedUser.getAboutMe() != null) {
 			oldUser.setAboutMe(updatedUser.getAboutMe());
 		}
 
-		if (!updatedUser.getMyInspiration().equals("") && !updatedUser.getMyInspiration().equals("default")) {
+		if (updatedUser.getMyInspiration() != null) {
 			oldUser.setMyInspiration(updatedUser.getMyInspiration());
 		}
 		

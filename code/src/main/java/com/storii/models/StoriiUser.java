@@ -92,22 +92,12 @@ public class StoriiUser {
 		this.aboutMe = aboutMe;
 		this.myInspiration = myInspiration;
 		this.tutorialDone = tutorialDone;
-	}
-
-	public StoriiUser() {
-		this.name = "default";
-		BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
-		this.password = bcryptEncoder.encode("defaultPW!*!");
-		System.out.println(this.password);
-		this.email = "default";
-		this.aboutMe = "default";
-		this.myInspiration = "default";
-		this.tutorialDone = false;
 		this.role = Role.USER;
 	}
 	
 	public StoriiUser(String name, String password, String email, String aboutMe, String myInspiration, boolean tutorialDone, Role role) {
 		this.name = name;
+		System.out.println(password);
 		BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
 		this.password = bcryptEncoder.encode(password);
 		this.email = email;
@@ -116,6 +106,10 @@ public class StoriiUser {
 		this.tutorialDone = tutorialDone;
 		this.role = role;
 	}
+
+	public StoriiUser() {
+	}
+	
 	
 	/**
 	 * getters and setters
@@ -142,8 +136,7 @@ public class StoriiUser {
 	}
 
 	public void setPassword(String password) {
-		BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
-		this.password = bcryptEncoder.encode(password);
+		this.password = password;
 	}
 
 	public String getEmail() {
