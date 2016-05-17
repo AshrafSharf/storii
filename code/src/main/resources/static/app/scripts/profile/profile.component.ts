@@ -4,6 +4,7 @@ import {LogStateComponent} from '../logState/logState.component';
 import {EditBarComponent} from '../editBar/editBar.component';
 import { AuthenticationService }    from '../login/authentication.service';
 import { ProfileService }    from './profile.service';
+import { EditBarService }    from '../editBar/editBar.service';
 import {HttpClient}           from '../../headerfct';
 
 declare var jQuery: any;
@@ -14,7 +15,7 @@ declare var vex: any;
   templateUrl: `app/html/profile/profile.html`,
   directives: [LogStateComponent, EditBarComponent],
   styles:['a {cursor: pointer}'],
-  providers:[AuthenticationService,ProfileService,HttpClient]
+  providers:[EditBarService,AuthenticationService,ProfileService,HttpClient]
   
 })
 
@@ -36,13 +37,21 @@ export class ProfileComponent implements OnInit {
 	profilepic = "Profile Pic:";
 	mystories = "My Strories";
 	loggedIn; 
+	loggedInUser;
+	allowed;
 	
 	
 	details: string[];
 	createdStory: string[];
 	stories: string[];
 	
-	constructor(private _elRef: ElementRef, private _router: Router,private _routeParams:RouteParams,private _authenticationService: AuthenticationService, private _profileService: ProfileService) {}
+	constructor(
+	private _elRef: ElementRef, 
+	private _router: Router,
+	private _routeParams:RouteParams,
+	private _authenticationService: AuthenticationService,
+	private _profileService: ProfileService ,
+	private _editBarService: EditBarService) {}
 	
 	invert(element){
 		jQuery('.'+element['nextElementSibling']['className']).slideToggle('fast');
@@ -107,6 +116,18 @@ export class ProfileComponent implements OnInit {
 	  ngOnInit():any {
 	  	this.name = this._routeParams.get('name');	
 	 	this.loggedIn = this._authenticationService.isLoggedIn();
+	 	
+	 	if(this.loggedIn){
+ 		this._editBarService.getLoggedInUser()
+		                     .subscribe(
+		                       loggedInUser => {    
+		                        this.loggedInUser = loggedInUser;
+		                        if(this.loggedInUser['name'] === this.name){
+		                        	this.allowed = true; 
+		                        }
+		                       },
+		                       error =>  this.errorMessage = <any>error);
+ 	 	}
 	 	
 	 	this._profileService.getUserInfo(this.name)
 		                     .subscribe(

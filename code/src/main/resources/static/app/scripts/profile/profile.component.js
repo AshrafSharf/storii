@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../logState/logState.component', '../editBar/editBar.component', '../login/authentication.service', './profile.service', '../../headerfct'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../logState/logState.component', '../editBar/editBar.component', '../login/authentication.service', './profile.service', '../editBar/editBar.service', '../../headerfct'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, logState_component_1, editBar_component_1, authentication_service_1, profile_service_1, headerfct_1;
+    var core_1, router_1, logState_component_1, editBar_component_1, authentication_service_1, profile_service_1, editBar_service_1, headerfct_1;
     var ProfileComponent;
     return {
         setters:[
@@ -32,17 +32,21 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
             function (profile_service_1_1) {
                 profile_service_1 = profile_service_1_1;
             },
+            function (editBar_service_1_1) {
+                editBar_service_1 = editBar_service_1_1;
+            },
             function (headerfct_1_1) {
                 headerfct_1 = headerfct_1_1;
             }],
         execute: function() {
             ProfileComponent = (function () {
-                function ProfileComponent(_elRef, _router, _routeParams, _authenticationService, _profileService) {
+                function ProfileComponent(_elRef, _router, _routeParams, _authenticationService, _profileService, _editBarService) {
                     this._elRef = _elRef;
                     this._router = _router;
                     this._routeParams = _routeParams;
                     this._authenticationService = _authenticationService;
                     this._profileService = _profileService;
+                    this._editBarService = _editBarService;
                     this.newStoryIcon = 'app/assets/files/dummyNewStory.jpg';
                     this.defaultUserPic = 'app/assets/files/dummyProfile.jpg';
                     this.defaultStoryPic = 'app/assets/files/dummyStory.jpg';
@@ -97,6 +101,15 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     var _this = this;
                     this.name = this._routeParams.get('name');
                     this.loggedIn = this._authenticationService.isLoggedIn();
+                    if (this.loggedIn) {
+                        this._editBarService.getLoggedInUser()
+                            .subscribe(function (loggedInUser) {
+                            _this.loggedInUser = loggedInUser;
+                            if (_this.loggedInUser['name'] === _this.name) {
+                                _this.allowed = true;
+                            }
+                        }, function (error) { return _this.errorMessage = error; });
+                    }
                     this._profileService.getUserInfo(this.name)
                         .subscribe(function (details) {
                         _this.details = details;
@@ -109,9 +122,9 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         templateUrl: "app/html/profile/profile.html",
                         directives: [logState_component_1.LogStateComponent, editBar_component_1.EditBarComponent],
                         styles: ['a {cursor: pointer}'],
-                        providers: [authentication_service_1.AuthenticationService, profile_service_1.ProfileService, headerfct_1.HttpClient]
+                        providers: [editBar_service_1.EditBarService, authentication_service_1.AuthenticationService, profile_service_1.ProfileService, headerfct_1.HttpClient]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, router_1.Router, router_1.RouteParams, authentication_service_1.AuthenticationService, profile_service_1.ProfileService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, router_1.Router, router_1.RouteParams, authentication_service_1.AuthenticationService, profile_service_1.ProfileService, editBar_service_1.EditBarService])
                 ], ProfileComponent);
                 return ProfileComponent;
             }());

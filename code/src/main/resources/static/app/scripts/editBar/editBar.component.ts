@@ -28,6 +28,7 @@ export class EditBarComponent implements OnInit {
 	profilePage;
 	aboutPage;
 	details;
+	wrongPassword; 
 
 	loggedIn;
 	loggedInUser
@@ -58,7 +59,7 @@ export class EditBarComponent implements OnInit {
 		                     .subscribe(
 		                       update => {    
 		                        this.update = update;
-		                        console.log("DONE");
+		                        
 		                        //change token and url wenn name geändert wird
 		                       },
 		                       error =>  this.errorMessage = <any>error);
@@ -96,19 +97,19 @@ export class EditBarComponent implements OnInit {
 						                        <br>
 						                        <label>CONFIRM PASSWORD</label><br>
 						                        <input class="inputField" type="password" placeholder="Repeat new password" name="userPasswordAgain" required=""> 
-						                        <div class="buttonFrameContainer"><input class="button" type="button" value="CHANGE PASSWORD"></div>
+						                        <div class="buttonFrameContainer"><input id="password" class="button" type="button" value="CHANGE PASSWORD"></div>
 						                </form>
 						                
 						                 <form id="changeAboutMe" class="change" name="changeAboutMe" class="handledAjaxForm">
 						                        <label>ABOUT ME</label><br>
 						                        <textarea class="inputField loadData" type="text" name="userAboutme" required="" ></textarea>
-						                        <div class="buttonFrameContainer"><input class="button" type="button" value="CHANGE ABOUT ME"></div>
+						                        <div class="buttonFrameContainer"><input id="aboutMe" class="button" type="button" value="CHANGE ABOUT ME"></div>
 						               	 </form>
 						               	 
 						               	 <form id="changeMyInspiration" class="change" name="changeMyInpiration" class="handledAjaxForm">
 						                        <label>MY INSPIRATION</label><br>
 						                        <textarea class="inputField loadData" type="text" name="userMyInspiration" required=""></textarea>
-						                        <div class="buttonFrameContainer"><input class="button" type="button" value="CHANGE MY INSPIRATION"></div>
+						                        <div class="buttonFrameContainer"><input id="myInspiration" class="button" type="button" value="CHANGE MY INSPIRATION"></div>
 						               	 </form>
 						                
 						                <div class="currPicDiv"><img src="" alt="CurrentPicture" id="currentPicture" class="currentUserPicture"></div>
@@ -131,8 +132,18 @@ export class EditBarComponent implements OnInit {
 			
 			jQuery('.change input:button').on('click', function(event) {
 				var id = jQuery(this).attr('id');
-				var value = jQuery(this).parent().parent().find('.inputField').val();
-				if(value != ""){
+				var value; 
+				/*if(id == 'password'){
+					var fields = jQuery(this).parent().parent().find('.inputField');
+					if(fields[0].val() != fields[1].val()){
+						wrongPassword = true; 
+					}else{
+						value = fields[0].val();
+					}
+				}else{
+					value = jQuery(this).parent().parent().find('.inputField').val();
+				}*/
+				if(value != self.details[0][id]){
 					self.changeValues(id,value);		
 				}
 				
