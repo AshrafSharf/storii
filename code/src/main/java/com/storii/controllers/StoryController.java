@@ -320,4 +320,29 @@ public class StoryController {
 		return ResponseEntity.ok().body("{\"data\":" + "{\"edited\":\"true\"}" + "}");
 	}
 	
+	@RequestMapping(value = "/{story_id}/averageRating", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> averageRating(@PathVariable(value = "story_id") Long story_id) {
+		
+		Story myStory = storyDAO.findOne(story_id);
+		
+		List<Rating> ratingList = ratingDAO.findByRatedStory(myStory);
+		
+		long averageRating = 0;
+		int numberOfRatings = 0;
+		
+		for(Rating rating : ratingList){
+			averageRating += rating.getValue();
+			numberOfRatings++;
+		}
+		
+		if(numberOfRatings != 0){
+			return ResponseEntity.ok().body("{\"data\":" + "{\"average_rating\":\""+averageRating/numberOfRatings+"\", \"number_of_ratings\":\""+numberOfRatings+"\"}" + "}");
+		}else{
+			return ResponseEntity.ok().body("{\"data\":" + "{\"average_rating\":\""+averageRating+"\", \"number_of_ratings\":\""+numberOfRatings+"\"}" + "}");		
+		}
+		
+
+	}
+	
 }

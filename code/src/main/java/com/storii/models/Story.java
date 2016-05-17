@@ -72,7 +72,6 @@ public class Story {
 	@OneToMany(mappedBy = "parentStory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Page> pages;
 	
-	@JsonIdentityReference(alwaysAsId=true)
 	@OneToMany(mappedBy = "ratedStory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Rating> ratings;
 
