@@ -493,7 +493,7 @@ input.buttonStoryInfo {
 
 #userStoryPage .storyDetails{
 	float: left;
-	margin-left: 50px;
+
 	margin-top: 50px;
 	font-family: "Architects Daughter",cursive;
 }
@@ -1051,15 +1051,25 @@ input.buttonStoryInfo {
   #nodeEditorPage .h1bgEditor {
     width: 240px; } }
 @media screen and (max-width: 1037px) {
+	
+	
   .tellLabel {
     margin-top: 140px !important; }
 
   #nodeEditorPage #pageEditor .optionsDiv {
     width: 100%; } }
 @media screen and (max-width: 1030px) {
+	
   .libelle {
     left: 0%; } }
 @media screen and (max-width: 990px) {
+    #userStoryPage .storyDetails{
+    	margin-top:10px;
+    	padding: 10px;
+    }
+    #userStoryPage .shortInfo{
+    padding: 10px;
+    }
   #nodeEditorPage {
     /*		.buttons {
     			margin-top: -95px;
@@ -1180,6 +1190,14 @@ input.buttonStoryInfo {
     }
      }
 @media screen and (max-width: 530px) {
+	#userStoryPage{
+	width:100%;}
+	#userStoryPage .shortInfo{
+	width:90%;
+	margin-left:25%;}
+	#userStoryPage .shortDetails{
+	}
+		
 	#searchResultPage .searchLabel span{
 		display:block;
 	}
@@ -1206,7 +1224,11 @@ input.buttonStoryInfo {
 	left:0;
 	margin-left:16%;
 	}
-	
+	#userStoryPage .shortInfo{
+	margin-left:15%;}
+	#userStoryPage .shortDetails{
+
+	}
 	
   #userEditPage .userEditContainer h1 {
     font-size: 1.4em; }

@@ -59,15 +59,27 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                 }
                 EditBarComponent.prototype.changeValues = function (key, value) {
                     var _this = this;
-                    //console.log(key+":"+value+":"+this.details[0]['id']);
                     this._editBarService.updateValues(key, value, this.details[0]['id'])
                         .subscribe(function (update) {
                         _this.update = update;
-                        //change token and url wenn name geändert wird
+                        vex.close();
+                        if (key == 'name') {
+                            var string = localStorage.getItem("auth_token");
+                            var headerParts = string.split(" ");
+                            var token = atob(headerParts[1]).split(":");
+                            var pw = token[1];
+                            localStorage.removeItem('auth_token');
+                            var string = value + ":" + pw;
+                            var token = "Basic " + btoa(string);
+                            localStorage.setItem('auth_token', token);
+                            _this._router.navigate(['Profile', { name: value }]);
+                        }
+                        else {
+                            _this.details[0][key] = value;
+                        }
                     }, function (error) { return _this.errorMessage = error; });
                 };
                 EditBarComponent.prototype.openVex = function () {
-                    console.log(this.details[0]['aboutMe']);
                     var self = this;
                     vex.open({
                         showCloseButton: true,
@@ -80,16 +92,18 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     jQuery('.change input:button').on('click', function (event) {
                         var id = jQuery(this).attr('id');
                         var value;
-                        /*if(id == 'password'){
+                        if (id == 'password') {
                             var fields = jQuery(this).parent().parent().find('.inputField');
-                            if(fields[0].val() != fields[1].val()){
-                                wrongPassword = true;
-                            }else{
+                            if (fields[0].val() != fields[1].val()) {
+                                this.wrongPassword = true;
+                            }
+                            else {
                                 value = fields[0].val();
                             }
-                        }else{
+                        }
+                        else {
                             value = jQuery(this).parent().parent().find('.inputField').val();
-                        }*/
+                        }
                         if (value != self.details[0][id]) {
                             self.changeValues(id, value);
                         }

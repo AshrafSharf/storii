@@ -23,7 +23,7 @@ export class EditBarService {
 		var _resultUrl = '/user/'; 
 	    return this.http.put(_resultUrl+user_id, JSON.stringify(new function(){ this[key] = value; }),{headers})
 	            .map(this.extractData)
-	            .do(data => console.log(data))
+	            //.do(data => console.log(data))
 	            .catch(this.handleError);
 	  	
 	}
@@ -39,7 +39,7 @@ export class EditBarService {
 		var _resultUrl = '/user/'; 
 	 	return this.http.get(_resultUrl+"me",{headers})
             .map(this.extractData)
-            .do(data => console.log(data))
+           // .do(data => console.log(data))
             .catch(this.handleError);
 	}
   

@@ -91,6 +91,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         showCloseButton: true,
                         content: "<div id=\"newStoryPage\">\n\t\t\t\t\t    <div class=\"newStoryFrameContainer\">\n\t\t\t\t\t        <div class=\"newStoryContainer\">\n\t\t\t\t\t            <div id=\"content\">\n\t\t\t\t\t                <div class=\"h1bgNewStory\"><h1>NEW STORY</h1></div>\n\t\t\t\t\t                \n\t\t\t\t\t                <form id=\"changeName\" name=\"changeName\">\n\t\t\t\t\t                        <label>WHAT IS THE NAME OF YOUR STORY?</label><br>\n\t\t\t\t\t                 \t\t<input id=\"storyName\" class=\"inputField\" name=\"storyName\" required=\"\" type=\"text\">\n\t\t\t\t\t                        <div class=\"buttonFrameContainer fullWidth\"><input id=\"create\" class=\"button\" value=\"CREATE STORY\" type=\"button\"></div>\n\t\t\t\t\t                </form>\n\t\t\t\t\t              \n\t\t\t\t\t                <div class=\"closeFancyBox\"><input onclick=\"vex.close();\" class=\"button\" value=\"CLOSE\" type=\"button\"></div>\n\t\t\t\t\t                \n\t\t\t\t\t            </div>\n\t\t\t\t\t        </div>\n\t\t\t\t\t    </div>\n\t\t\t\t\t</div>"
                     });
+                    var cell = document.getElementById('create');
+                    cell.focus();
                     document.getElementById("create").addEventListener('click', function (event) {
                         if (document.getElementById("storyName").value != "") {
                             self.createNewStory(document.getElementById("storyName").value);

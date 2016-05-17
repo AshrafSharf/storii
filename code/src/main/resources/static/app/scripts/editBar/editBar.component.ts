@@ -54,20 +54,31 @@ export class EditBarComponent implements OnInit {
 	}
 	
 	changeValues(key, value){
-		//console.log(key+":"+value+":"+this.details[0]['id']);
 		this._editBarService.updateValues(key,value,this.details[0]['id'])
 		                     .subscribe(
 		                       update => {    
 		                        this.update = update;
+		                        vex.close();
+		                        if(key == 'name'){
+		                        	var string = localStorage.getItem("auth_token");
+									var headerParts = string.split(" ");
+									var token = atob(headerParts[1]).split(":");
+									var pw = token[1];
+		                        	localStorage.removeItem('auth_token');
+		                        	 var string = value +":"+ pw; 
+    								 var token = "Basic " + btoa(string);
+    								 localStorage.setItem('auth_token',token);
+    								 this._router.navigate(['Profile', { name: value }]);
+		                        }else{
+		                        	this.details[0][key] = value; 
+		                        }
 		                        
-		                        //change token and url wenn name geändert wird
 		                       },
 		                       error =>  this.errorMessage = <any>error);
 	
 	}
 	
 	openVex(){
-		console.log(this.details[0]['aboutMe']);
 		let self = this;
     		vex.open({
     			showCloseButton: true,
@@ -133,16 +144,16 @@ export class EditBarComponent implements OnInit {
 			jQuery('.change input:button').on('click', function(event) {
 				var id = jQuery(this).attr('id');
 				var value; 
-				/*if(id == 'password'){
+				if(id == 'password'){
 					var fields = jQuery(this).parent().parent().find('.inputField');
 					if(fields[0].val() != fields[1].val()){
-						wrongPassword = true; 
+						this.wrongPassword = true; 
 					}else{
 						value = fields[0].val();
 					}
 				}else{
 					value = jQuery(this).parent().parent().find('.inputField').val();
-				}*/
+				}
 				if(value != self.details[0][id]){
 					self.changeValues(id,value);		
 				}

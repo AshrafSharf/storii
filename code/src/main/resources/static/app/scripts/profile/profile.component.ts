@@ -105,6 +105,9 @@ export class ProfileComponent implements OnInit {
 					
 			});	
 			
+			let cell = document.getElementById('create');
+        	cell.focus();
+			
 			document.getElementById("create").addEventListener('click', function(event) {
 				if((<HTMLInputElement>document.getElementById("storyName")).value != ""){
 					self.createNewStory((<HTMLInputElement>document.getElementById("storyName")).value);			

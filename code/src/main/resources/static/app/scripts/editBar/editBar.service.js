@@ -51,7 +51,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     var _resultUrl = '/user/';
                     return this.http.put(_resultUrl + user_id, JSON.stringify(new function () { this[key] = value; }), { headers: headers })
                         .map(this.extractData)
-                        .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
                 EditBarService.prototype.getLoggedInUser = function () {
@@ -66,7 +65,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     var _resultUrl = '/user/';
                     return this.http.get(_resultUrl + "me", { headers: headers })
                         .map(this.extractData)
-                        .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
                 EditBarService.prototype.extractData = function (res) {

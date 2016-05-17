@@ -23,7 +23,7 @@ export class SearchService {
 	var _resultUrl = '/story/findByName/'; 
     return this.http.get(_resultUrl+term,{headers})
             .map(this.extractData)
-            .do(data => console.log(data))
+            //.do(data => console.log(data))
             .catch(this.handleError);
   }
   
@@ -38,7 +38,7 @@ export class SearchService {
 	var _resultUrl = '/user/'; // URL to JSON file
     return this.http.get(_resultUrl+user_id,{headers})
             .map(this.extractData)
-            .do(data => console.log(data))
+            //.do(data => console.log(data))
             .catch(this.handleError);
   }
   
@@ -47,14 +47,13 @@ export class SearchService {
    	if (this._authenticationService.isLoggedIn()) {
   		headers = this.httpClient.createHeader(headers);
   	}else{
-  		console.log("FFFFALSCH");
   		headers.delete('Authorization');
   		headers.append('Authorization',"");
   	}
 	var _resultUrl = '/user/findByName/'; // URL to JSON file
     return this.http.get(_resultUrl+term,{headers})
             .map(this.extractData)
-            .do(data => console.log(data))
+           // .do(data => console.log(data))
             .catch(this.handleError);
   }
   
