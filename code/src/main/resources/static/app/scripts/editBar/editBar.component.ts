@@ -28,7 +28,7 @@ export class EditBarComponent implements OnInit {
 	profilePage;
 	aboutPage;
 	details;
-	wrongPassword; 
+	notTheSamePW;
 
 	loggedIn;
 	loggedInUser
@@ -62,13 +62,23 @@ export class EditBarComponent implements OnInit {
 		                        if(key == 'name'){
 		                        	var string = localStorage.getItem("auth_token");
 									var headerParts = string.split(" ");
-									var token = atob(headerParts[1]).split(":");
-									var pw = token[1];
+									var getToken = atob(headerParts[1]).split(":");
+									var pw = getToken[1];
 		                        	localStorage.removeItem('auth_token');
-		                        	 var string = value +":"+ pw; 
-    								 var token = "Basic " + btoa(string);
-    								 localStorage.setItem('auth_token',token);
+		                        	 var s = value +":"+ pw; 
+    								 var setToken = "Basic " + btoa(s);
+    								 localStorage.setItem('auth_token',setToken);
     								 this._router.navigate(['Profile', { name: value }]);
+		                        }else if(key == 'password'){
+		                        	var string = localStorage.getItem("auth_token");
+									var headerParts = string.split(" ");
+									var getToken = atob(headerParts[1]).split(":");
+									var user = getToken[0];
+		                        	localStorage.removeItem('auth_token');
+		                        	 var s = user +":"+ value; 
+    								 var setToken = "Basic " + btoa(s);
+    								 localStorage.setItem('auth_token',setToken);
+		                        	//here change token putted in httpclient fcts
 		                        }else{
 		                        	this.details[0][key] = value; 
 		                        }
@@ -106,7 +116,7 @@ export class EditBarComponent implements OnInit {
 						                        <input class="inputField" type="password" placeholder="Enter new password" name="userPassword" required=""><br>
 						                        </p>  
 						                        <br>
-						                        <label>CONFIRM PASSWORD</label><br>
+						                        <label class="confirm">CONFIRM PASSWORD</label><br>
 						                        <input class="inputField" type="password" placeholder="Repeat new password" name="userPasswordAgain" required=""> 
 						                        <div class="buttonFrameContainer"><input id="password" class="button" type="button" value="CHANGE PASSWORD"></div>
 						                </form>
@@ -145,19 +155,27 @@ export class EditBarComponent implements OnInit {
 				var id = jQuery(this).attr('id');
 				var value; 
 				if(id == 'password'){
-					var fields = jQuery(this).parent().parent().find('.inputField');
-					if(fields[0].val() != fields[1].val()){
-						this.wrongPassword = true; 
+					var field1 = jQuery(this).parent().parent().find('.inputField').first().val();
+					var field2 = jQuery(this).parent().parent().find('.inputField').last().val();
+					console.log(field1);
+					if(field1 != field2){
+						if(!this.notTheSamePW){ //not working 
+							jQuery('.confirm').append('<div class="errorPW">Passwords are not equal</div>');
+							this.notTheSamePW = true; 
+						}
 					}else{
-						value = fields[0].val();
+						jQuery('.errorPW').remove();
+						this.notTheSamePW = false; 
+						value = field1;
+						self.changeValues(id,value);
+						//direkt nach updaten des pws sind beide oda mehr pws möglich erst nach neustart spring gehts
 					}
 				}else{
 					value = jQuery(this).parent().parent().find('.inputField').val();
-				}
-				if(value != self.details[0][id]){
-					self.changeValues(id,value);		
-				}
-				
+					if(value != self.details[0][id]){
+						self.changeValues(id,value);		
+					}
+				}				
 			});
 	}
 	

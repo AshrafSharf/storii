@@ -13,4 +13,15 @@ export class HttpClient {
     return headers; 
   }
   
+  changePasswordInToken(pw){
+  	var string = localStorage.getItem("auth_token");
+	var headerParts = string.split(" ");
+	var getToken = atob(headerParts[1]).split(":");
+	var user = getToken[0];
+	localStorage.removeItem('auth_token');
+	 var s = user +":"+ pw; 
+	 var setToken = "Basic " + btoa(s);
+	 localStorage.setItem('auth_token',setToken);
+  }
+  
   }

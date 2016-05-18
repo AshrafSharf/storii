@@ -66,13 +66,23 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         if (key == 'name') {
                             var string = localStorage.getItem("auth_token");
                             var headerParts = string.split(" ");
-                            var token = atob(headerParts[1]).split(":");
-                            var pw = token[1];
+                            var getToken = atob(headerParts[1]).split(":");
+                            var pw = getToken[1];
                             localStorage.removeItem('auth_token');
-                            var string = value + ":" + pw;
-                            var token = "Basic " + btoa(string);
-                            localStorage.setItem('auth_token', token);
+                            var s = value + ":" + pw;
+                            var setToken = "Basic " + btoa(s);
+                            localStorage.setItem('auth_token', setToken);
                             _this._router.navigate(['Profile', { name: value }]);
+                        }
+                        else if (key == 'password') {
+                            var string = localStorage.getItem("auth_token");
+                            var headerParts = string.split(" ");
+                            var getToken = atob(headerParts[1]).split(":");
+                            var user = getToken[0];
+                            localStorage.removeItem('auth_token');
+                            var s = user + ":" + value;
+                            var setToken = "Basic " + btoa(s);
+                            localStorage.setItem('auth_token', setToken);
                         }
                         else {
                             _this.details[0][key] = value;
@@ -83,7 +93,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     var self = this;
                     vex.open({
                         showCloseButton: true,
-                        content: "<div id=\"userEditPage\">\n\t\t\t\t\t\t    <div class=\"userEditFrameContainer\">\n\t\t\t\t\t\t        <div class=\"userEditContainer\">\n\t\t\t\t\t\t            <div id=\"content\">\n\t\t\t\t\t\t                <div class=\"h1bgUserEdit\"><h1>EDIT MY INFO</h1></div>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <form id=\"changeName\" class=\"change\" name=\"changeName\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                        <label>NAME</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField loadData name\" type=\"text\" name=\"userName\" required=\"\">\n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input id=\"name\" class=\"button\" type=\"button\" value=\"CHANGE NAME\"></div>\n\t\t\t\t\t\t                </form>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <form id=\"changeEmail\" class=\"change\" name=\"changeEmail\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                        <label>EMAIL</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField loadData email\" type=\"email\" name=\"userMail\" required=\"\">\n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input id=\"email\" class=\"button\" type=\"button\" value=\"CHANGE E-MAIL\"></div>\n\t\t\t\t\t\t                </form>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <form id=\"changePassword\" class=\"change\" name=\"changePassword\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                \t\t<p>\n\t\t\t\t\t\t                        <label>PASSWORD</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField\" type=\"password\" placeholder=\"Enter new password\" name=\"userPassword\" required=\"\"><br>\n\t\t\t\t\t\t                        </p>  \n\t\t\t\t\t\t                        <br>\n\t\t\t\t\t\t                        <label>CONFIRM PASSWORD</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField\" type=\"password\" placeholder=\"Repeat new password\" name=\"userPasswordAgain\" required=\"\"> \n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input id=\"password\" class=\"button\" type=\"button\" value=\"CHANGE PASSWORD\"></div>\n\t\t\t\t\t\t                </form>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                 <form id=\"changeAboutMe\" class=\"change\" name=\"changeAboutMe\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                        <label>ABOUT ME</label><br>\n\t\t\t\t\t\t                        <textarea class=\"inputField loadData\" type=\"text\" name=\"userAboutme\" required=\"\" ></textarea>\n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input id=\"aboutMe\" class=\"button\" type=\"button\" value=\"CHANGE ABOUT ME\"></div>\n\t\t\t\t\t\t               \t </form>\n\t\t\t\t\t\t               \t \n\t\t\t\t\t\t               \t <form id=\"changeMyInspiration\" class=\"change\" name=\"changeMyInpiration\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                        <label>MY INSPIRATION</label><br>\n\t\t\t\t\t\t                        <textarea class=\"inputField loadData\" type=\"text\" name=\"userMyInspiration\" required=\"\"></textarea>\n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input id=\"myInspiration\" class=\"button\" type=\"button\" value=\"CHANGE MY INSPIRATION\"></div>\n\t\t\t\t\t\t               \t </form>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <div class=\"currPicDiv\"><img src=\"\" alt=\"CurrentPicture\" id=\"currentPicture\" class=\"currentUserPicture\"></div>\n\t\t\t\t\t\t                <div class=\"buttonFrameContainer\" id=\"pictureHandling\">\n\t\t\t\t\t\t                <input class=\"button ajaxFormTrigger userPicture\" type=\"button\" id=\"changePictureButton\" value=\"CHANGE PICTURE\"><br>\n\t\t\t\t\t\t\t\t</div>         \n\t\t\t\t\t\t                <div class=\"closeFancyBox\"><input onclick=\"vex.close();\"  class=\"button\" type=\"button\" value=\"CLOSE\"></div>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t        </div>\n\t\t\t\t\t\t    </div>\n\t\t\t\t\t\t</div>"
+                        content: "<div id=\"userEditPage\">\n\t\t\t\t\t\t    <div class=\"userEditFrameContainer\">\n\t\t\t\t\t\t        <div class=\"userEditContainer\">\n\t\t\t\t\t\t            <div id=\"content\">\n\t\t\t\t\t\t                <div class=\"h1bgUserEdit\"><h1>EDIT MY INFO</h1></div>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <form id=\"changeName\" class=\"change\" name=\"changeName\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                        <label>NAME</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField loadData name\" type=\"text\" name=\"userName\" required=\"\">\n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input id=\"name\" class=\"button\" type=\"button\" value=\"CHANGE NAME\"></div>\n\t\t\t\t\t\t                </form>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <form id=\"changeEmail\" class=\"change\" name=\"changeEmail\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                        <label>EMAIL</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField loadData email\" type=\"email\" name=\"userMail\" required=\"\">\n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input id=\"email\" class=\"button\" type=\"button\" value=\"CHANGE E-MAIL\"></div>\n\t\t\t\t\t\t                </form>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <form id=\"changePassword\" class=\"change\" name=\"changePassword\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                \t\t<p>\n\t\t\t\t\t\t                        <label>PASSWORD</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField\" type=\"password\" placeholder=\"Enter new password\" name=\"userPassword\" required=\"\"><br>\n\t\t\t\t\t\t                        </p>  \n\t\t\t\t\t\t                        <br>\n\t\t\t\t\t\t                        <label class=\"confirm\">CONFIRM PASSWORD</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField\" type=\"password\" placeholder=\"Repeat new password\" name=\"userPasswordAgain\" required=\"\"> \n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input id=\"password\" class=\"button\" type=\"button\" value=\"CHANGE PASSWORD\"></div>\n\t\t\t\t\t\t                </form>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                 <form id=\"changeAboutMe\" class=\"change\" name=\"changeAboutMe\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                        <label>ABOUT ME</label><br>\n\t\t\t\t\t\t                        <textarea class=\"inputField loadData\" type=\"text\" name=\"userAboutme\" required=\"\" ></textarea>\n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input id=\"aboutMe\" class=\"button\" type=\"button\" value=\"CHANGE ABOUT ME\"></div>\n\t\t\t\t\t\t               \t </form>\n\t\t\t\t\t\t               \t \n\t\t\t\t\t\t               \t <form id=\"changeMyInspiration\" class=\"change\" name=\"changeMyInpiration\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                        <label>MY INSPIRATION</label><br>\n\t\t\t\t\t\t                        <textarea class=\"inputField loadData\" type=\"text\" name=\"userMyInspiration\" required=\"\"></textarea>\n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input id=\"myInspiration\" class=\"button\" type=\"button\" value=\"CHANGE MY INSPIRATION\"></div>\n\t\t\t\t\t\t               \t </form>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <div class=\"currPicDiv\"><img src=\"\" alt=\"CurrentPicture\" id=\"currentPicture\" class=\"currentUserPicture\"></div>\n\t\t\t\t\t\t                <div class=\"buttonFrameContainer\" id=\"pictureHandling\">\n\t\t\t\t\t\t                <input class=\"button ajaxFormTrigger userPicture\" type=\"button\" id=\"changePictureButton\" value=\"CHANGE PICTURE\"><br>\n\t\t\t\t\t\t\t\t</div>         \n\t\t\t\t\t\t                <div class=\"closeFancyBox\"><input onclick=\"vex.close();\"  class=\"button\" type=\"button\" value=\"CLOSE\"></div>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t        </div>\n\t\t\t\t\t\t    </div>\n\t\t\t\t\t\t</div>"
                     });
                     jQuery('#changeName input:text').attr("value", self.details[0]['name']);
                     jQuery('#changeEmail .inputField').attr("value", self.details[0]['email']);
@@ -93,19 +103,27 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         var id = jQuery(this).attr('id');
                         var value;
                         if (id == 'password') {
-                            var fields = jQuery(this).parent().parent().find('.inputField');
-                            if (fields[0].val() != fields[1].val()) {
-                                this.wrongPassword = true;
+                            var field1 = jQuery(this).parent().parent().find('.inputField').first().val();
+                            var field2 = jQuery(this).parent().parent().find('.inputField').last().val();
+                            console.log(field1);
+                            if (field1 != field2) {
+                                if (!this.notTheSamePW) {
+                                    jQuery('.confirm').append('<div class="errorPW">Passwords are not equal</div>');
+                                    this.notTheSamePW = true;
+                                }
                             }
                             else {
-                                value = fields[0].val();
+                                jQuery('.errorPW').remove();
+                                this.notTheSamePW = false;
+                                value = field1;
+                                self.changeValues(id, value);
                             }
                         }
                         else {
                             value = jQuery(this).parent().parent().find('.inputField').val();
-                        }
-                        if (value != self.details[0][id]) {
-                            self.changeValues(id, value);
+                            if (value != self.details[0][id]) {
+                                self.changeValues(id, value);
+                            }
                         }
                     });
                 };

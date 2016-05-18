@@ -29,6 +29,16 @@ System.register(['angular2/http', 'angular2/core'], function(exports_1, context_
                     headers.append('Authorization', string);
                     return headers;
                 };
+                HttpClient.prototype.changePasswordInToken = function (pw) {
+                    var string = localStorage.getItem("auth_token");
+                    var headerParts = string.split(" ");
+                    var getToken = atob(headerParts[1]).split(":");
+                    var user = getToken[0];
+                    localStorage.removeItem('auth_token');
+                    var s = user + ":" + pw;
+                    var setToken = "Basic " + btoa(s);
+                    localStorage.setItem('auth_token', setToken);
+                };
                 HttpClient = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http])
