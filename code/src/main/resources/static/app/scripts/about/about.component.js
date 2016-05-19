@@ -42,7 +42,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.defaultStoryPic = 'app/assets/files/dummyStory.jpg';
                 }
                 AboutComponent.prototype.ngOnInit = function () {
-                    this.storyid = this._routeParams.get('storyid');
+                    this.storyName = this._routeParams.get('storyName');
                     this.name = this._routeParams.get('name');
                     this.loggedIn = this._authenticationService.isLoggedIn();
                 };

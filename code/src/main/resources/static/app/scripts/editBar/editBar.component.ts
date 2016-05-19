@@ -70,8 +70,7 @@ export class EditBarComponent implements OnInit {
 					                       		.subscribe((result) => {
 								 					var getToken = this.httpClient.getTokenSplitted();
 													var user = getToken[0];
-		                        					this.httpClient.changePasswordInToken(user,value);
-													
+		                        					this.httpClient.changePasswordInToken(user,value);		
 												});
 		                        	
 		                        }else{

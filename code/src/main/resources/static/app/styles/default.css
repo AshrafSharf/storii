@@ -213,7 +213,7 @@ input.buttonStoryInfo {
 
 .searchLabel {
   text-align: center;
-  font-size: 48px;
+  font-size: 40px;
   font-family: "Architects Daughter", cursive;
   margin-top: 200px; }
 
@@ -415,7 +415,7 @@ input.buttonStoryInfo {
     margin-left: 7%;
     list-style: none;
     line-height: 3em;
-    font-size: 28px;
+    font-size: 25px;
     font-family: "Architects Daughter", cursive; }
     #searchResultPage ul li a {
       text-decoration: none;

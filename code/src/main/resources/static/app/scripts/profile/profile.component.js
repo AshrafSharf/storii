@@ -108,12 +108,12 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             if (_this.loggedInUser['name'] === _this.name) {
                                 _this.allowed = true;
                             }
-                            _this.stories = loggedInUser['stories'];
                         }, function (error) { return _this.errorMessage = error; });
                     }
                     this._profileService.getUserInfo(this.name)
                         .subscribe(function (details) {
                         _this.details = details;
+                        _this.stories = _this.details[0]['stories'];
                     }, function (error) { return _this.errorMessage = error; });
                 };
                 ProfileComponent = __decorate([

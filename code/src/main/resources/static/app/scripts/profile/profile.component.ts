@@ -126,8 +126,7 @@ export class ProfileComponent implements OnInit {
 		                        if(this.loggedInUser['name'] === this.name){
 		                        	this.allowed = true; 
 		                        }
-		                        
-		                        this.stories = loggedInUser['stories'];
+    
 		                       },
 		                       error =>  this.errorMessage = <any>error);
  	 	}
@@ -135,8 +134,8 @@ export class ProfileComponent implements OnInit {
 	 this._profileService.getUserInfo(this.name)
 		                     .subscribe(
 		                       details => {    
-		                        this.details = details;
-		                       
+		                         this.details = details;
+		                         this.stories = this.details[0]['stories'];
 		                       },
 		                   
 		                       error =>  this.errorMessage = <any>error);

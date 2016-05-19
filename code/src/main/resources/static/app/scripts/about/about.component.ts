@@ -27,7 +27,7 @@ export class AboutComponent implements OnInit {
 	constructor(private _elRef: ElementRef, private _router: Router,private _routeParams:RouteParams,private _authenticationService: AuthenticationService) {}
 	
 	  ngOnInit():any {
-	  	this.storyid = this._routeParams.get('storyid');	
+	  	this.storyName = this._routeParams.get('storyName');	
 	  	this.name = this._routeParams.get('name');
 	 	this.loggedIn = this._authenticationService.isLoggedIn();
 	 	
