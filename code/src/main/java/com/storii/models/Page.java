@@ -55,6 +55,15 @@ public class Page {
 	@NotNull
 	private String serializedContent;
 	
+	@JsonIdentityReference(alwaysAsId=true)
+	@OneToMany(mappedBy = "owningPage", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<InternLink> outgoingInternLinks;
+
+	@JsonIdentityReference(alwaysAsId=true)
+	@OneToMany(mappedBy = "nextPage", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<InternLink> incomingInternLinks;
+
+	
 	/**
 	 * defines a one to many relation with the userImage-entity
 	 */
@@ -67,6 +76,7 @@ public class Page {
 	@JoinColumn(name = "parent_story")
 	private Story parentStory;
 	
+	@JsonIdentityReference(alwaysAsId=true)
 	@OneToOne(mappedBy = "firstPage", cascade = CascadeType.ALL)
 	private Story firstPageInStory;
 
@@ -173,6 +183,30 @@ public class Page {
 
 	public void setParentStory(Story parentStory) {
 		this.parentStory = parentStory;
+	}
+
+	public Set<InternLink> getOutgoingInternLinks() {
+		return outgoingInternLinks;
+	}
+
+	public void setOutgoingInternLinks(Set<InternLink> outgoingInternLinks) {
+		this.outgoingInternLinks = outgoingInternLinks;
+	}
+
+	public Set<InternLink> getIncomingInternLinks() {
+		return incomingInternLinks;
+	}
+
+	public void setIncomingInternLinks(Set<InternLink> incomingInternLinks) {
+		this.incomingInternLinks = incomingInternLinks;
+	}
+
+	public Story getFirstPageInStory() {
+		return firstPageInStory;
+	}
+
+	public void setFirstPageInStory(Story firstPageInStory) {
+		this.firstPageInStory = firstPageInStory;
 	}
 	
 	

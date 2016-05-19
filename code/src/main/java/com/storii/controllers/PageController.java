@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.storii.daos.InternLinkDAO;
 import com.storii.daos.PageDAO;
+import com.storii.models.InternLink;
 import com.storii.models.Page;
 
 /**
@@ -29,6 +30,10 @@ public class PageController {
 
 	@Autowired
 	private PageDAO pageDAO;
+	
+	@Autowired
+	private InternLinkDAO internLinkDAO;
+
 
 	/**
 	 * GET / or blank -> get all users.
@@ -125,4 +130,16 @@ public class PageController {
 		return ResponseEntity.ok().body("{\"page\":\"" + oldPage.getTitle() + "\",\"updated\":\"true\"}");
 
 	}
+	
+	@RequestMapping(value = "/{page_id}/addInternLink/{next_page_id}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> addInternLink(@RequestBody String json, @PathVariable(value = "page_id") Long page_id, @PathVariable(value = "next_page_id") Long next_page_id) throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		InternLink myLink = mapper.readValue(json, InternLink.class);
+		myLink.setOwningPage(pageDAO.findOne(page_id));
+		myLink.setNextPage(pageDAO.findOne(next_page_id));
+		internLinkDAO.save(myLink);
+		return ResponseEntity.ok().body("{\"link\":\"safed\"}");
+	}
+
 }
