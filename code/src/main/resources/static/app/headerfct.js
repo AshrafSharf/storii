@@ -29,13 +29,21 @@ System.register(['angular2/http', 'angular2/core'], function(exports_1, context_
                     headers.append('Authorization', string);
                     return headers;
                 };
-                HttpClient.prototype.changePasswordInToken = function (pw) {
+                HttpClient.prototype.getTokenSplitted = function () {
                     var string = localStorage.getItem("auth_token");
                     var headerParts = string.split(" ");
                     var getToken = atob(headerParts[1]).split(":");
-                    var user = getToken[0];
+                    return getToken;
+                };
+                HttpClient.prototype.changePasswordInToken = function (user, pw) {
                     localStorage.removeItem('auth_token');
                     var s = user + ":" + pw;
+                    var setToken = "Basic " + btoa(s);
+                    localStorage.setItem('auth_token', setToken);
+                };
+                HttpClient.prototype.changeUserNameInToken = function (username, pw) {
+                    localStorage.removeItem('auth_token');
+                    var s = username + ":" + pw;
                     var setToken = "Basic " + btoa(s);
                     localStorage.setItem('auth_token', setToken);
                 };

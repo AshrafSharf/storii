@@ -58,7 +58,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.edit = "Edit Profile";
                     this.myinspiration = "My Inspiration:";
                     this.profilepic = "Profile Pic:";
-                    this.mystories = "My Strories";
+                    this.mystories = "My Stories";
                 }
                 ProfileComponent.prototype.invert = function (element) {
                     jQuery('.' + element['nextElementSibling']['className']).slideToggle('fast');
@@ -89,10 +89,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     var self = this;
                     vex.open({
                         showCloseButton: true,
-                        content: "<div id=\"newStoryPage\">\n\t\t\t\t\t    <div class=\"newStoryFrameContainer\">\n\t\t\t\t\t        <div class=\"newStoryContainer\">\n\t\t\t\t\t            <div id=\"content\">\n\t\t\t\t\t                <div class=\"h1bgNewStory\"><h1>NEW STORY</h1></div>\n\t\t\t\t\t                \n\t\t\t\t\t                <form id=\"changeName\" name=\"changeName\">\n\t\t\t\t\t                        <label>WHAT IS THE NAME OF YOUR STORY?</label><br>\n\t\t\t\t\t                 \t\t<input id=\"storyName\" class=\"inputField\" name=\"storyName\" required=\"\" type=\"text\">\n\t\t\t\t\t                        <div class=\"buttonFrameContainer fullWidth\"><input id=\"create\" class=\"button\" value=\"CREATE STORY\" type=\"button\"></div>\n\t\t\t\t\t                </form>\n\t\t\t\t\t              \n\t\t\t\t\t                <div class=\"closeFancyBox\"><input onclick=\"vex.close();\" class=\"button\" value=\"CLOSE\" type=\"button\"></div>\n\t\t\t\t\t                \n\t\t\t\t\t            </div>\n\t\t\t\t\t        </div>\n\t\t\t\t\t    </div>\n\t\t\t\t\t</div>"
+                        content: "<div id=\"newStoryPage\">\n\t\t\t\t\t    <div class=\"newStoryFrameContainer\">\n\t\t\t\t\t        <div class=\"newStoryContainer\">\n\t\t\t\t\t            <div id=\"content\">\n\t\t\t\t\t                <div class=\"h1bgNewStory\"><h1>NEW STORY</h1></div>\n\t\t\t\t\t                \n\t\t\t\t\t                <form onSubmit=\"return false;\" id=\"changeName\" name=\"changeName\">\n\t\t\t\t\t                        <label>WHAT IS THE NAME OF YOUR STORY?</label><br>\n\t\t\t\t\t                 \t\t<input id=\"storyName\" class=\"inputField\" name=\"storyName\" required=\"\" type=\"text\">\n\t\t\t\t\t                        <div class=\"buttonFrameContainer fullWidth\"><input id=\"create\" class=\"button\" value=\"CREATE STORY\" type=\"button\"></div>\n\t\t\t\t\t                </form>\n\t\t\t\t\t              \n\t\t\t\t\t                <div class=\"closeFancyBox\"><input onclick=\"vex.close();\" class=\"button\" value=\"CLOSE\" type=\"button\"></div>\n\t\t\t\t\t                \n\t\t\t\t\t            </div>\n\t\t\t\t\t        </div>\n\t\t\t\t\t    </div>\n\t\t\t\t\t</div>"
                     });
-                    var cell = document.getElementById('create');
-                    cell.focus();
                     document.getElementById("create").addEventListener('click', function (event) {
                         if (document.getElementById("storyName").value != "") {
                             self.createNewStory(document.getElementById("storyName").value);
@@ -110,12 +108,12 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             if (_this.loggedInUser['name'] === _this.name) {
                                 _this.allowed = true;
                             }
+                            _this.stories = loggedInUser['stories'];
                         }, function (error) { return _this.errorMessage = error; });
                     }
                     this._profileService.getUserInfo(this.name)
                         .subscribe(function (details) {
                         _this.details = details;
-                        _this.stories = details[0]['stories'];
                     }, function (error) { return _this.errorMessage = error; });
                 };
                 ProfileComponent = __decorate([

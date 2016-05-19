@@ -4,17 +4,17 @@ import {NgForm, FORM_DIRECTIVES, FormBuilder, Validators, ControlGroup, NgIf} fr
 import {Observable}       from 'rxjs/Observable';
 import {Subject}          from 'rxjs/Subject';
 import { AuthenticationService }    from './authentication.service';
-
+import {HttpClient}           from '../../headerfct';
 
 @Component({
   selector: 'login',
   templateUrl: `app/html/login/login.html`,
   styles:['a {cursor: pointer}'],
-  providers:[AuthenticationService]
+  providers:[AuthenticationService,HttpClient]
 })
 
 export class LoginComponent {
-	title = 'Login:';	
+	title = 'Login';	
 	loginname = 'Username';
 	pw= 'Password';
 	register = 'Register';

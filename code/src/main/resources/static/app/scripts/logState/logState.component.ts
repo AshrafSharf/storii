@@ -4,12 +4,13 @@ import {LoginComponent} from '../login/login.component';
 import { Router, Location} from 'angular2/router';
 import {RegisterComponent} from '../register/register.component';
 import { AuthenticationService }    from '../login/authentication.service';
+import {HttpClient}           from '../../headerfct';
     
 @Component({
       selector: 'logState',
       templateUrl:`app/html/logState/logState.html`,
       styles:['a {cursor: pointer}'],
-  	  providers:[AuthenticationService]
+  	  providers:[AuthenticationService,HttpClient]
 })
 
 
@@ -30,9 +31,6 @@ export class LogStateComponent {
 		var token = atob(headerParts[1]).split(":");
 		this.name = token[0];
  		this.user = this.name;
- 		
- 			
-
  	}
 
   }
@@ -41,10 +39,14 @@ export class LogStateComponent {
    	if (!this.loggedIn) {
    		this._router.navigate(['Login']);
    	}else{
-   		this._authenticationService.logout();
-   		this.loggedIn=this._authenticationService.isLoggedIn();
-   		this.logState = "Login";
-    	this._router.navigate(['Search']);
+   		this._authenticationService.resetUser()
+					 .subscribe((result) => {
+					 					this._authenticationService.logout();
+										this.loggedIn=this._authenticationService.isLoggedIn();
+										this.logState = "Login";
+										this._router.navigate(['Search']);
+		});
+   		
    	}
     
   }

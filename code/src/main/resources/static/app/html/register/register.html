@@ -3,20 +3,22 @@
     <div class="registerFrameContainer">
         <div class="registerContainer">
             <div id="form">
-                <div class="h1bgRegister"><h1>{{title}}</h1></div>
-                <form action="register" method="post">
+                <div class="h1bgRegister"><h1>{{title | uppercase}}</h1></div>
+                <form [ngFormModel]="form">
+                
+			<div *ngIf="errorPW">Check your passwords</div>
+			<div *ngIf="error">Please choose another username</div>
+			 <p class="label">{{userName | uppercase}}<br> <input class="inputField" name="userName" #username ngControl="username"  value="" type="text"></p>
 
-			 <p class="label">USERNAME<br> <input class="inputField" name="userName" value="" type="text"></p>
+			 <p class="label">{{eMail | uppercase}}<br> <input class="inputField" #email ngControl="email"  name="eMail" value="" type="email"></p>
 
-			 <p class="label">E-MAIL<br> <input class="inputField" name="eMail" value="" type="email"></p>
+			 <p class="label">{{ passWord | uppercase}}<br> <input #password ngControl="password"  class="inputField" name="pwOriginal" type="password"></p>
 
-			 <p class="label">PASSWORD<br> <input class="inputField" name="pwOriginal" type="password"></p>
-
-			 <p class="label lastLabel">CONFIRM PASSWORD<br> <input class="inputField" name="pwCopy" type="password"></p>
+			 <p class="label lastLabel">{{confirmPassWord | uppercase}}<br> <input  #confirmPassword ngControl="confirmPassword" class="inputField" name="pwCopy" type="password"></p>
 
 			 <p><input name="proof" value="proofForMe" type="hidden"></p>
 
-			 <p></p><div class="buttonFrameContainer firstButton"><input class="button" value="REGISTER" type="submit"></div><p></p>
+			 <p></p><div class="buttonFrameContainer firstButton"><input [disabled]="!form.valid" (click)="register(username.value,email.value,password.value,confirmPassword.value)" class="button" value="REGISTER" type="submit"></div><p></p>
 
 			 <p></p><div class="buttonFrameContainer secondButton"><div class="buttonSize"><a (click)="goHome()" class="buttonLookLink">CANCEL</a></div></div><p></p>
 			</form>

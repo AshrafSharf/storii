@@ -27,7 +27,7 @@ export class EditBarService {
 	            .catch(this.handleError);
 	  	
 	}
-	
+
 	getLoggedInUser(){
 		var headers = new Headers();
 	    if (this._authenticationService.isLoggedIn()) {

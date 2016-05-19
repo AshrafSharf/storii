@@ -12,16 +12,27 @@ export class HttpClient {
     headers.append('Authorization', string); 
     return headers; 
   }
-  
-  changePasswordInToken(pw){
+    
+  getTokenSplitted(){
   	var string = localStorage.getItem("auth_token");
 	var headerParts = string.split(" ");
 	var getToken = atob(headerParts[1]).split(":");
-	var user = getToken[0];
-	localStorage.removeItem('auth_token');
+	return getToken;
+  }
+  
+  changePasswordInToken(user,pw){
+  	localStorage.removeItem('auth_token');
 	 var s = user +":"+ pw; 
 	 var setToken = "Basic " + btoa(s);
 	 localStorage.setItem('auth_token',setToken);
   }
+  
+  changeUserNameInToken(username,pw){
+  	localStorage.removeItem('auth_token');
+	 var s = username +":"+ pw; 
+	 var setToken = "Basic " + btoa(s);
+	 localStorage.setItem('auth_token',setToken);
+  }
+  
   
   }

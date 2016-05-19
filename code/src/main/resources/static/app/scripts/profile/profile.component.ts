@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit {
 	edit = "Edit Profile";
 	myinspiration = "My Inspiration:";
 	profilepic = "Profile Pic:";
-	mystories = "My Strories";
+	mystories = "My Stories";
 	loggedIn; 
 	loggedInUser;
 	allowed;
@@ -90,7 +90,7 @@ export class ProfileComponent implements OnInit {
 					            <div id="content">
 					                <div class="h1bgNewStory"><h1>NEW STORY</h1></div>
 					                
-					                <form id="changeName" name="changeName">
+					                <form onSubmit="return false;" id="changeName" name="changeName">
 					                        <label>WHAT IS THE NAME OF YOUR STORY?</label><br>
 					                 		<input id="storyName" class="inputField" name="storyName" required="" type="text">
 					                        <div class="buttonFrameContainer fullWidth"><input id="create" class="button" value="CREATE STORY" type="button"></div>
@@ -105,9 +105,7 @@ export class ProfileComponent implements OnInit {
 					
 			});	
 			
-			let cell = document.getElementById('create');
-        	cell.focus();
-			
+
 			document.getElementById("create").addEventListener('click', function(event) {
 				if((<HTMLInputElement>document.getElementById("storyName")).value != ""){
 					self.createNewStory((<HTMLInputElement>document.getElementById("storyName")).value);			
@@ -128,15 +126,17 @@ export class ProfileComponent implements OnInit {
 		                        if(this.loggedInUser['name'] === this.name){
 		                        	this.allowed = true; 
 		                        }
+		                        
+		                        this.stories = loggedInUser['stories'];
 		                       },
 		                       error =>  this.errorMessage = <any>error);
  	 	}
 	 	
-	 	this._profileService.getUserInfo(this.name)
+	 this._profileService.getUserInfo(this.name)
 		                     .subscribe(
 		                       details => {    
 		                        this.details = details;
-		                        this.stories = details[0]['stories'];
+		                       
 		                       },
 		                   
 		                       error =>  this.errorMessage = <any>error);

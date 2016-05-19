@@ -49,7 +49,7 @@ a {
   top: 0; }
   #logState .LogedInHelloState {
     font-family: "Architects Daughter", cursive;
-    font-size: 18px;
+    font-size: 16px;
     float: left;
     margin: 7px 15px; }
     #logState .LogedInHelloState a {
@@ -108,20 +108,20 @@ input.inputField {
   height: 35px; }
 input.button {
   width: 120px;
-  font-size: 18px;
+  font-size: 16px;
   font-family: "Architects Daughter", cursive;
   background-color: #D3ECED;
   border: dotted 2px black; }
 input.buttonStory {
   width: 145px;
-  font-size: 18px;
+  font-size: 16px;
   font-family: "Architects Daughter", cursive;
   background-color: #96C3CC;
   border: dotted 2px black;
   cursor: pointer; }
 input.buttonStoryInfo {
   width: 145px;
-  font-size: 18px;
+  font-size: 16px;
   line-height:2em;
   font-family: "Architects Daughter", cursive;
   background-color: #E1AFB1;
@@ -159,7 +159,7 @@ input.buttonStoryInfo {
 
 #loginPage input.inputField, #registerPage input.inputField, #profilePage input.inputField, #userEditPage input.inputField {
   font-family: inherit;
-  font-size: 18px;
+  font-size: 16px;
   padding: 5px; }
 
 .firstButton {
@@ -176,7 +176,7 @@ input.buttonStoryInfo {
   text-align: center; }
 
 .buttonLookLink {
-  font-size: 18px;
+  font-size: 16px;
   font-family: "Architects Daughter", cursive;
   text-decoration: none;
   color: #000; }
@@ -197,7 +197,7 @@ input.buttonStoryInfo {
 
 .loginContainer p, .registerContainer p, .profileContainer p, .errorContainer p {
   text-align: left;
-  font-size: 18px;
+  font-size: 16px;
   font-family: "Architects Daughter", cursive; }
 
 .profileContainer .inlineBlock{
@@ -298,7 +298,7 @@ input.buttonStoryInfo {
 }
 #profilePage .profileLable {
   margin-right: 20px;
-  width: 140px;
+  width: 145px;
   float: left; }
 #profilePage .storyPic, #profilePage .profilePic {
   width: 130px; }
@@ -369,7 +369,7 @@ input.buttonStoryInfo {
 
 #logoutPage {
   font-family: "Architects Daughter", cursive;
-  font-size: 18px; }
+  font-size: 16px; }
   #logoutPage .infoLink {
     left: 0%; }
   #logoutPage #content {
@@ -380,7 +380,7 @@ input.buttonStoryInfo {
   font-size: 0.75em;
   width: auto;
   height: 46px;
-  margin-left: -20px;
+  margin-left: -25px;
    margin-top: -10px;
   background-color: #96C3CC;
   vertical-align:middle; }
@@ -493,7 +493,7 @@ input.buttonStoryInfo {
 
 #userStoryPage .storyDetails{
 	float: left;
-
+	width:70%;
 	margin-top: 50px;
 	font-family: "Architects Daughter",cursive;
 }
@@ -533,7 +533,7 @@ input.buttonStoryInfo {
 	}
 #userEditPage {
   font-family: "Architects Daughter", cursive;
-  font-size: 18px; }
+  font-size: 16px; }
   #userEditPage .userEditFrameContainer {
     width: 100%;
     margin: 0 auto;
@@ -569,7 +569,7 @@ input.buttonStoryInfo {
     float: left;
     height: 42px;
     margin-right: 20px;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     font-family: inherit; }
   #userEditPage .buttonFrameContainer {
     width: 40%;
@@ -589,7 +589,7 @@ input.buttonStoryInfo {
     float: left; }
   #userEditPage form#changePic input {
     width: 230px;
-    font-size: 18px;
+    font-size: 16px;
     font-family: "Architects Daughter", cursive;
     background-color: #F3E0E1;
     border: dotted 2px black;
@@ -597,14 +597,14 @@ input.buttonStoryInfo {
   #userEditPage .fileUpload {
     position: relative;
     overflow: hidden;
-    font-size: 18px;
+    font-size: 16px;
     font-family: "Architects Daughter", cursive;
     background-color: #F3E0E1;
     border: dotted 2px black;
     text-align: center;
     height: 32.7px;
     line-height: 1.7;
-    font-size: 18px; }
+    font-size: 16px; }
   #userEditPage .fileUpload input.upload {
     position: absolute;
     top: 0;
@@ -667,7 +667,7 @@ input.buttonStoryInfo {
 
 #newStoryPage {
   font-family: "Architects Daughter", cursive;
-  font-size: 18px; }
+  font-size: 16px; }
   #newStoryPage .newStoryFrameContainer {
     width: 100%;
     margin: 0 auto;
@@ -713,7 +713,7 @@ input.buttonStoryInfo {
     margin-bottom: 30px; }
   #newStoryPage form#changePic input {
     width: 230px;
-    font-size: 18px;
+    font-size: 16px;
     font-family: "Architects Daughter", cursive;
     background-color: #D3ECED;
     border: dotted 2px black;
@@ -721,14 +721,14 @@ input.buttonStoryInfo {
   #newStoryPage .fileUpload {
     position: relative;
     overflow: hidden;
-    font-size: 18px;
+    font-size: 16px;
     font-family: "Architects Daughter", cursive;
     background-color: #D3ECED;
     border: dotted 2px black;
     text-align: center;
     height: 32.7px;
     line-height: 1.7;
-    font-size: 18px; }
+    font-size: 16px; }
   #newStoryPage .fileUpload input.upload {
     position: absolute;
     top: 0;

@@ -36,7 +36,7 @@ export class EditBarComponent implements OnInit {
 	update: string[];
 
 
-	constructor(private _elRef: ElementRef, private _router: Router,private _routeParams:RouteParams,private _authenticationService: AuthenticationService,private _editBarService: EditBarService) {
+	constructor(private _elRef: ElementRef, private httpClient: HttpClient, private _router: Router,private _routeParams:RouteParams,private _authenticationService: AuthenticationService,private _editBarService: EditBarService) {
  	this.loggedIn=_authenticationService.isLoggedIn();
  	this.name = this._routeParams.get('name');	
  	if(this.loggedIn){
@@ -60,25 +60,20 @@ export class EditBarComponent implements OnInit {
 		                        this.update = update;
 		                        vex.close();
 		                        if(key == 'name'){
-		                        	var string = localStorage.getItem("auth_token");
-									var headerParts = string.split(" ");
-									var getToken = atob(headerParts[1]).split(":");
+									var getToken = this.httpClient.getTokenSplitted();
 									var pw = getToken[1];
-		                        	localStorage.removeItem('auth_token');
-		                        	 var s = value +":"+ pw; 
-    								 var setToken = "Basic " + btoa(s);
-    								 localStorage.setItem('auth_token',setToken);
-    								 this._router.navigate(['Profile', { name: value }]);
+		                        	this.httpClient.changeUserNameInToken(value,pw);
+    								this._router.navigate(['Profile', { name: value }]);
 		                        }else if(key == 'password'){
-		                        	var string = localStorage.getItem("auth_token");
-									var headerParts = string.split(" ");
-									var getToken = atob(headerParts[1]).split(":");
-									var user = getToken[0];
-		                        	localStorage.removeItem('auth_token');
-		                        	 var s = user +":"+ value; 
-    								 var setToken = "Basic " + btoa(s);
-    								 localStorage.setItem('auth_token',setToken);
-		                        	//here change token putted in httpclient fcts
+		                        	//here send sinnlos get request!
+		                       		this._authenticationService.resetUser()
+					                       		.subscribe((result) => {
+								 					var getToken = this.httpClient.getTokenSplitted();
+													var user = getToken[0];
+		                        					this.httpClient.changePasswordInToken(user,value);
+													
+												});
+		                        	
 		                        }else{
 		                        	this.details[0][key] = value; 
 		                        }

@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', 'angular2/common', './authentication.service'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', 'angular2/common', './authentication.service', '../../headerfct'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', 'angular2/common', './authe
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, common_1, authentication_service_1;
+    var core_1, router_1, common_1, authentication_service_1, headerfct_1;
     var LoginComponent;
     return {
         setters:[
@@ -25,6 +25,9 @@ System.register(['angular2/core', 'angular2/router', 'angular2/common', './authe
             },
             function (authentication_service_1_1) {
                 authentication_service_1 = authentication_service_1_1;
+            },
+            function (headerfct_1_1) {
+                headerfct_1 = headerfct_1_1;
             }],
         execute: function() {
             LoginComponent = (function () {
@@ -33,7 +36,7 @@ System.register(['angular2/core', 'angular2/router', 'angular2/common', './authe
                     this._router = _router;
                     this._authenticationService = _authenticationService;
                     this._routeParams = _routeParams;
-                    this.title = 'Login:';
+                    this.title = 'Login';
                     this.loginname = 'Username';
                     this.pw = 'Password';
                     this.register = 'Register';
@@ -67,7 +70,7 @@ System.register(['angular2/core', 'angular2/router', 'angular2/common', './authe
                         selector: 'login',
                         templateUrl: "app/html/login/login.html",
                         styles: ['a {cursor: pointer}'],
-                        providers: [authentication_service_1.AuthenticationService]
+                        providers: [authentication_service_1.AuthenticationService, headerfct_1.HttpClient]
                     }), 
                     __metadata('design:paramtypes', [common_1.FormBuilder, router_1.Router, authentication_service_1.AuthenticationService, router_1.RouteParams])
                 ], LoginComponent);

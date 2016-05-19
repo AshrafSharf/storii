@@ -35,9 +35,10 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
             }],
         execute: function() {
             EditBarComponent = (function () {
-                function EditBarComponent(_elRef, _router, _routeParams, _authenticationService, _editBarService) {
+                function EditBarComponent(_elRef, httpClient, _router, _routeParams, _authenticationService, _editBarService) {
                     var _this = this;
                     this._elRef = _elRef;
+                    this.httpClient = httpClient;
                     this._router = _router;
                     this._routeParams = _routeParams;
                     this._authenticationService = _authenticationService;
@@ -64,25 +65,19 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         _this.update = update;
                         vex.close();
                         if (key == 'name') {
-                            var string = localStorage.getItem("auth_token");
-                            var headerParts = string.split(" ");
-                            var getToken = atob(headerParts[1]).split(":");
+                            var getToken = _this.httpClient.getTokenSplitted();
                             var pw = getToken[1];
-                            localStorage.removeItem('auth_token');
-                            var s = value + ":" + pw;
-                            var setToken = "Basic " + btoa(s);
-                            localStorage.setItem('auth_token', setToken);
+                            _this.httpClient.changeUserNameInToken(value, pw);
                             _this._router.navigate(['Profile', { name: value }]);
                         }
                         else if (key == 'password') {
-                            var string = localStorage.getItem("auth_token");
-                            var headerParts = string.split(" ");
-                            var getToken = atob(headerParts[1]).split(":");
-                            var user = getToken[0];
-                            localStorage.removeItem('auth_token');
-                            var s = user + ":" + value;
-                            var setToken = "Basic " + btoa(s);
-                            localStorage.setItem('auth_token', setToken);
+                            //here send sinnlos get request!
+                            _this._authenticationService.resetUser()
+                                .subscribe(function (result) {
+                                var getToken = _this.httpClient.getTokenSplitted();
+                                var user = getToken[0];
+                                _this.httpClient.changePasswordInToken(user, value);
+                            });
                         }
                         else {
                             _this.details[0][key] = value;
@@ -143,7 +138,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         styles: ['a {cursor: pointer}'],
                         providers: [editBar_service_1.EditBarService, authentication_service_1.AuthenticationService, profile_service_1.ProfileService, headerfct_1.HttpClient]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, router_2.Router, router_1.RouteParams, authentication_service_1.AuthenticationService, editBar_service_1.EditBarService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, headerfct_1.HttpClient, router_2.Router, router_1.RouteParams, authentication_service_1.AuthenticationService, editBar_service_1.EditBarService])
                 ], EditBarComponent);
                 return EditBarComponent;
             }());

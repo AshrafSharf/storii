@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', 'angular2/common', './register.service', '../login/authentication.service', '../../headerfct'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router'], function(exports_1, contex
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1;
+    var core_1, router_1, common_1, register_service_1, authentication_service_1, headerfct_1;
     var RegisterComponent;
     return {
         setters:[
@@ -19,13 +19,70 @@ System.register(['angular2/core', 'angular2/router'], function(exports_1, contex
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+            },
+            function (common_1_1) {
+                common_1 = common_1_1;
+            },
+            function (register_service_1_1) {
+                register_service_1 = register_service_1_1;
+            },
+            function (authentication_service_1_1) {
+                authentication_service_1 = authentication_service_1_1;
+            },
+            function (headerfct_1_1) {
+                headerfct_1 = headerfct_1_1;
             }],
         execute: function() {
             RegisterComponent = (function () {
-                function RegisterComponent(_router) {
+                function RegisterComponent(fb, _router, _authenticationService, _registerService, _routeParams) {
+                    this.fb = fb;
                     this._router = _router;
-                    this.title = 'REGISTRATION:';
+                    this._authenticationService = _authenticationService;
+                    this._registerService = _registerService;
+                    this._routeParams = _routeParams;
+                    this.title = 'Registration';
+                    this.userName = 'Username';
+                    this.eMail = 'E-mail';
+                    this.passWord = 'Password';
+                    this.confirmPassWord = 'Confirm Password';
+                    this.errorPW = false;
+                    this.error = false;
+                    this.form = fb.group({
+                        username: ['', common_1.Validators.required],
+                        email: ['', common_1.Validators.required],
+                        password: ['', common_1.Validators.required],
+                        confirmPassword: ['', common_1.Validators.required]
+                    });
                 }
+                RegisterComponent.prototype.register = function (username, email, pw, conPw) {
+                    var _this = this;
+                    if (pw != conPw) {
+                        this.errorPW = true;
+                    }
+                    else {
+                        this._registerService.register(username, email, pw)
+                            .subscribe(function (result) {
+                            console.log(result);
+                            if (result) {
+                                _this._authenticationService.login(username, pw)
+                                    .subscribe(function (result) {
+                                    console.log(result);
+                                    if (result) {
+                                        _this._router.navigate(['Search']);
+                                    }
+                                    else {
+                                        _this.error = true;
+                                    }
+                                }, function () {
+                                    _this.error = true;
+                                });
+                            }
+                            else {
+                                _this.error = true;
+                            }
+                        }, function () { _this.error = true; });
+                    }
+                };
                 RegisterComponent.prototype.goHome = function () {
                     this._router.navigate(['Search']);
                 };
@@ -33,9 +90,10 @@ System.register(['angular2/core', 'angular2/router'], function(exports_1, contex
                     core_1.Component({
                         selector: 'register',
                         templateUrl: "app/html/register/register.html",
-                        styles: ['a {cursor: pointer}']
+                        styles: ['a {cursor: pointer}'],
+                        providers: [register_service_1.RegisterService, authentication_service_1.AuthenticationService, headerfct_1.HttpClient]
                     }), 
-                    __metadata('design:paramtypes', [router_1.Router])
+                    __metadata('design:paramtypes', [common_1.FormBuilder, router_1.Router, authentication_service_1.AuthenticationService, register_service_1.RegisterService, router_1.RouteParams])
                 ], RegisterComponent);
                 return RegisterComponent;
             }());
