@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.storii.daos.InternLinkDAO;
 import com.storii.daos.PageDAO;
 import com.storii.daos.RatingDAO;
 import com.storii.daos.StoriiUserDAO;
 import com.storii.daos.StoryDAO;
+import com.storii.models.InternLink;
 import com.storii.models.Page;
 import com.storii.models.Rating;
 import com.storii.models.StoriiUser;
@@ -45,6 +47,8 @@ public class StoryController {
 	@Autowired
 	private RatingDAO ratingDAO;
 
+	@Autowired
+	private InternLinkDAO internLinkDAO;
 
 	@Autowired
 	private PageDAO pageDAO;
@@ -170,15 +174,24 @@ public class StoryController {
 	 * @throws IOException
 	 */
 	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
-	@RequestMapping(value = "/{story_id}/addPage", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	@RequestMapping(value = "/{story_id}/addPage/{parent_page_id}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	@ResponseBody
-	public ResponseEntity<String> addPage(@RequestBody String json, @PathVariable(value = "story_id") Long story_id)
+	public ResponseEntity<String> addPage(@RequestBody String json, @PathVariable(value = "story_id") Long story_id, @PathVariable(value = "parent_page_id") Long parent_page_id)
 			throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
+		
+		Page parentPage = pageDAO.findOne(parent_page_id);
 		Story myStory = storyDAO.findOne(story_id);
 		Page newPage = mapper.readValue(json, Page.class);
+		
+		InternLink myLink = new InternLink();
+		myLink.setName("default");
+		myLink.setOwningPage(parentPage);
+		myLink.setNextPage(newPage);
+		
 		newPage.setParentStory(myStory);
 		pageDAO.save(newPage);
+		internLinkDAO.save(myLink);
 		return ResponseEntity.ok().body("{\"data\":" + "{\"created\":\"true\"}" + "}");
 	}
 

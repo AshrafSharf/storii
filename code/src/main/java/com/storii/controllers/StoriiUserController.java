@@ -221,6 +221,47 @@ public class StoriiUserController {
 		userDAO.save(myUser);
 		return ResponseEntity.ok().body("{\"data\":" + "{\"story\":\"" + myUser.getName() + "\", \"published\":\"" + myUser.getTutorialDone() + "\"}" + "}");
 	}
+	
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
+	@RequestMapping(value = "/updateMe", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> updateMe(@RequestBody String json)
+			throws JsonMappingException, IOException {
+		
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		ObjectMapper mapper = new ObjectMapper();
+		StoriiUser updatedUser = mapper.readValue(json, StoriiUser.class);
+		StoriiUser oldUser = userDAO.findByName(userDetails.getUsername());
+
+		if (updatedUser.getName() != null) {
+			oldUser.setName(updatedUser.getName());
+		}
+		
+		BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
+
+		
+		if (updatedUser.getPassword() != null) {
+			oldUser.setPassword(bcryptEncoder.encode(updatedUser.getPassword()));
+		}
+
+		if (updatedUser.getEmail() != null) {
+			oldUser.setEmail(updatedUser.getEmail());
+		}
+		
+		if (updatedUser.getAboutMe() != null) {
+			oldUser.setAboutMe(updatedUser.getAboutMe());
+		}
+
+		if (updatedUser.getMyInspiration() != null) {
+			oldUser.setMyInspiration(updatedUser.getMyInspiration());
+		}
+		
+		userDAO.save(oldUser);
+
+		return ResponseEntity.ok().body("{\"user\":\"" + oldUser.getName() + "\",\"updated\":\"true\"}");
+
+	}
 
 
 }
