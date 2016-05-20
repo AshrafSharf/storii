@@ -48,8 +48,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                         headers.delete('Content-Type');
                         headers.append('Authorization', "");
                     }
-                    var _resultUrl = '/user/';
-                    return this.http.put(_resultUrl + user_id, JSON.stringify(new function () { this[key] = value; }), { headers: headers })
+                    var _resultUrl = '/user/updateMe';
+                    return this.http.put(_resultUrl, JSON.stringify(new function () { this[key] = value; }), { headers: headers })
                         .map(this.extractData)
                         .catch(this.handleError);
                 };
