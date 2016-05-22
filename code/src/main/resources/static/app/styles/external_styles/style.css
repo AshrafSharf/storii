@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #FFFFFF;
+}
+
+
+#container{
+    overflow:hidden;
+    border: 2px dotted #000;
+}
+
+#nodeEditorPage #previewEditor .previewFrame{
+    height: auto;
+    background-color: white;
+}
+
+#wrapper{
+    margin:10px;
+    padding:20px;
+    background-color: #d3edf0;
+    position:relative;
+}
+
+
+
+@media screen and (max-width: 850px) {
+    #wrapper {
+        width: 95%;
+        margin:0;
+        padding: 2%;
+        float: none;
+        margin: 0 auto !important;
+    }
+    #mobile{
+       padding: 10px;
+    }
+}
+

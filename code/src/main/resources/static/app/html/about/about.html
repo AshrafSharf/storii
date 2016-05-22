@@ -1,16 +1,18 @@
-<editBar></editBar>
+<editBar [details]="details" [allowed]="allowed"></editBar>
 <logState></logState>
 <div class="container">
 <div id="userStoryPage">
-    <div id="content">
+    <div *ngFor="#detail of details" id="content">
     <div class="shortInfo"> 
     	<div>
-    		<img src="{{defaultStoryPic}}" alt="The story picture">
+    		<img *ngIf="!details.storyImage" src="{{defaultStoryPic}}" alt="The story picture">
+   			<img *ngIf="details.storyImage" src="" alt="The story picture">
+    		
     		
     	</div>
     	<div>
-    		<div class="storyPageAuthor">Author: author.name</div>
-       		<div *ngIf="coAuthor" class="storyPageCoAuthor"> Co-Author:{{coAuthor}} </div>
+    		<div class="storyPageAuthor">Author: {{detail.authorName}}</div>
+       		<div *ngIf="details.coAuthorName" class="storyPageCoAuthor"> Co-Author:{{detail.coAuthorName}} </div>
     		<div>Rated: *****</div>
     		<div>Comments: </div>
     			<ul><li>something</li></ul>
@@ -24,13 +26,13 @@
 		</div>
    	
        	
-        
+         
         <div class="storyPageInformation">
                 <h2>Short Description:</h2>
                 <div>This is the place where you can describe the content of your story</div>             
         </div>
         <br>
-        <div class="buttonFrameContainerUserStoryContentModule">
+        <div *ngIf="details.published || allowed" class="buttonFrameContainerUserStoryContentModule">
         	<div class="buttonSize">
         		<a href="#" class="buttonLookLink">READ</a>
        		</div>

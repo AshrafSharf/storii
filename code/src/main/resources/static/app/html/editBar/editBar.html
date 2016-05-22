@@ -1,6 +1,6 @@
 <div *ngIf="allowed" id="editBar">
             <div *ngIf="profilePage"><input (click)="openVex()" id="editProfile" class="buttonLookLink" class="buttonStoryInfo" value="{{editProfile | uppercase}}" type="button"></div> 
-			<div *ngIf="aboutPage" class="buttonFrameContainerUserStoryContentModule"><div class="buttonSize"><a href="#" class="buttonLookLink">{{editPages | uppercase}}</a></div></div>
+			<div *ngIf="aboutPage" class="buttonFrameContainerUserStoryContentModule"><div class="buttonSize"><a (click)="goToNodeEditor()" class="buttonLookLink">{{editPages | uppercase}}</a></div></div>
 			<div *ngIf="aboutPage" class="buttonFrameContainerUserStoryContentModule"><div class="buttonSize"><a class="buttonLookLink" href="#">{{editStory | uppercase}}</a></div></div>
 			
 </div>

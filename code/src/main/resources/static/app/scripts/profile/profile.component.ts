@@ -51,7 +51,8 @@ export class ProfileComponent implements OnInit {
 	private _routeParams:RouteParams,
 	private _authenticationService: AuthenticationService,
 	private _profileService: ProfileService ,
-	private _editBarService: EditBarService) {}
+	private _editBarService: EditBarService) {
+	this.details=[];}
 	
 	invert(element){
 		jQuery('.'+element['nextElementSibling']['className']).slideToggle('fast');
@@ -66,7 +67,7 @@ export class ProfileComponent implements OnInit {
 	
 	
 	gotoStory(storyname) {	
-   		 this._router.navigate(['About', { name: this.name, storyName: storyname['name'] }]);
+   		 this._router.navigate(['About', { name: this.name, storyName: storyname['name'], id: storyname['id']}]);
    	}
 	
 	createNewStory(storyName){

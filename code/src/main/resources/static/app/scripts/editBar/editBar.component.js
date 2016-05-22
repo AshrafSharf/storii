@@ -58,6 +58,10 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         }, function (error) { return _this.errorMessage = error; });
                     }
                 }
+                EditBarComponent.prototype.goToNodeEditor = function () {
+                    this.storyid = this._routeParams.get('id');
+                    this._router.navigate(['NodeEditor', { name: this.name, storyName: this.details[0]['name'], id: this.storyid }]);
+                };
                 EditBarComponent.prototype.changeValues = function (key, value) {
                     var _this = this;
                     this._editBarService.updateValues(key, value, this.details[0]['id'])
@@ -133,7 +137,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                 EditBarComponent = __decorate([
                     core_1.Component({
                         selector: 'editBar',
-                        inputs: ['details'],
+                        inputs: ['details', 'allowed'],
                         templateUrl: "app/html/editBar/editBar.html",
                         styles: ['a {cursor: pointer}'],
                         providers: [editBar_service_1.EditBarService, authentication_service_1.AuthenticationService, profile_service_1.ProfileService, headerfct_1.HttpClient]

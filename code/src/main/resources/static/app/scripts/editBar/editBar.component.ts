@@ -11,7 +11,7 @@ declare var vex: any;
     
 @Component({
       selector: 'editBar',
-      inputs:['details'],
+      inputs:['details','allowed'],
       templateUrl:`app/html/editBar/editBar.html`,
       styles:['a {cursor: pointer}'],
   	  providers:[EditBarService,AuthenticationService,ProfileService,HttpClient]
@@ -23,11 +23,14 @@ export class EditBarComponent implements OnInit {
 	editProfile = "Edit Profile";
 	editPages = "Edit Pages";
 	editStory = "Edit Story";
-	allowed;
+
 	name; 
 	profilePage;
 	aboutPage;
 	details;
+	storyid; 
+	allowed:boolean;
+	story;
 	notTheSamePW;
 
 	loggedIn;
@@ -39,7 +42,7 @@ export class EditBarComponent implements OnInit {
 	constructor(private _elRef: ElementRef, private httpClient: HttpClient, private _router: Router,private _routeParams:RouteParams,private _authenticationService: AuthenticationService,private _editBarService: EditBarService) {
  	this.loggedIn=_authenticationService.isLoggedIn();
  	this.name = this._routeParams.get('name');	
- 	if(this.loggedIn){
+ 		if(this.loggedIn){
  		this._editBarService.getLoggedInUser()
 		                     .subscribe(
 		                       loggedInUser => {    
@@ -47,10 +50,17 @@ export class EditBarComponent implements OnInit {
 		                        if(this.loggedInUser['name'] === this.name){
 		                        	this.allowed = true; 
 		                        }
+    
 		                       },
 		                       error =>  this.errorMessage = <any>error);
- 	 }
+ 	 	}
+ 
  	
+	}
+	
+	goToNodeEditor(){
+	     this.storyid = this._routeParams.get('id');	
+		 this._router.navigate(['NodeEditor',{ name: this.name, storyName: this.details[0]['name'] , id: this.storyid}]);
 	}
 	
 	changeValues(key, value){
@@ -162,7 +172,6 @@ export class EditBarComponent implements OnInit {
 						this.notTheSamePW = false; 
 						value = field1;
 						self.changeValues(id,value);
-						//direkt nach updaten des pws sind beide oda mehr pws möglich erst nach neustart spring gehts
 					}
 				}else{
 					value = jQuery(this).parent().parent().find('.inputField').val();
@@ -174,7 +183,6 @@ export class EditBarComponent implements OnInit {
 	}
 	
 	ngOnInit():any {
-    	
     	if(document.getElementById("profilePage")){
 			this.profilePage = true;
 		}

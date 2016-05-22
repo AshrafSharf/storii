@@ -59,6 +59,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.myinspiration = "My Inspiration:";
                     this.profilepic = "Profile Pic:";
                     this.mystories = "My Stories";
+                    this.details = [];
                 }
                 ProfileComponent.prototype.invert = function (element) {
                     jQuery('.' + element['nextElementSibling']['className']).slideToggle('fast');
@@ -72,7 +73,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     }
                 };
                 ProfileComponent.prototype.gotoStory = function (storyname) {
-                    this._router.navigate(['About', { name: this.name, storyName: storyname['name'] }]);
+                    this._router.navigate(['About', { name: this.name, storyName: storyname['name'], id: storyname['id'] }]);
                 };
                 ProfileComponent.prototype.createNewStory = function (storyName) {
                     var _this = this;
