@@ -44,7 +44,7 @@ public class PageController {
 	public ResponseEntity<String> index() throws JsonProcessingException {
 		Iterable<Page> pageList = pageDAO.findAll();
 		ObjectMapper mapper = new ObjectMapper();
-		return ResponseEntity.ok().body(mapper.writeValueAsString(pageList));
+		return ResponseEntity.ok().body("{\"data\":"+mapper.writeValueAsString(pageList)+"}");
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class PageController {
 	public ResponseEntity<String> show(@PathVariable(value = "page_id") Long id) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		Page myPage = pageDAO.findOne(id);
-		return ResponseEntity.ok().body(mapper.writeValueAsString(myPage));
+		return ResponseEntity.ok().body("{\"data\":"+mapper.writeValueAsString(myPage)+"}");
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class PageController {
 		String userName = deletePage.getTitle();
 		pageDAO.delete(deletePage);
 		return ResponseEntity.ok()
-				.body("{\"page\":\"" + pageId + "\",\"name\":\"" + userName + "\",\"deleted\":\"true\"}");
+				.body("{\"data\":"+"{\"page\":\"" + pageId + "\",\"name\":\"" + userName + "\",\"deleted\":\"true\"}"+"}");
 
 	}
 
@@ -127,7 +127,7 @@ public class PageController {
 		
 		pageDAO.save(oldPage);
 
-		return ResponseEntity.ok().body("{\"page\":\"" + oldPage.getTitle() + "\",\"updated\":\"true\"}");
+		return ResponseEntity.ok().body("{\"data\":"+"{\"page\":\"" + oldPage.getTitle() + "\",\"updated\":\"true\"}"+"}");
 
 	}
 	
@@ -139,7 +139,7 @@ public class PageController {
 		myLink.setOwningPage(pageDAO.findOne(page_id));
 		myLink.setNextPage(pageDAO.findOne(next_page_id));
 		internLinkDAO.save(myLink);
-		return ResponseEntity.ok().body("{\"link\":\"safed\"}");
+		return ResponseEntity.ok().body("{\"data\":"+"{\"link\":\"safed\"}"+"}");
 	}
 
 }
