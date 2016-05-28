@@ -88,8 +88,8 @@ public class Page {
 	public Page(Story parent){
 		this.title = "defaultTitle";
 		this.description = "defaultDescription";
-		this.level = -1;
-		this.position = -1;
+		this.level = 0;
+		this.position = 1;
 		this.serializedContent = "";
 		this.parentStory = parent;
 		this.firstPageInStory = parent;

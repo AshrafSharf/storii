@@ -37,6 +37,54 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     this.httpClient = httpClient;
                     this._authenticationService = _authenticationService;
                 }
+                NodeEditorService.prototype.addNewNode = function (storyID, selectedID, level, position) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                        headers.append('Content-Type', 'application/json');
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/story/' + storyID + '/addPage/' + selectedID;
+                    return this.http.post(_resultUrl, JSON.stringify({ "title": "defaultTitle", "description": "defaultDescription", "level": level, "position": position, "serializedContent": "" }), { headers: headers })
+                        .map(this.extractData)
+                        .do(function (data) { return console.log(data); })
+                        .catch(this.handleError);
+                };
+                NodeEditorService.prototype.deletePageById = function (id) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                        headers.append('Content-Type', 'application/json');
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/page/' + id;
+                    return this.http.delete(_resultUrl, { headers: headers })
+                        .map(this.extractData)
+                        .do(function (data) { return console.log(data); })
+                        .catch(this.handleError);
+                };
+                NodeEditorService.prototype.getPageById = function (id) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                        headers.append('Content-Type', 'application/json');
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/page/';
+                    return this.http.get(_resultUrl + id, { headers: headers })
+                        .map(this.extractData)
+                        .do(function (data) { return console.log(data); })
+                        .catch(this.handleError);
+                };
                 NodeEditorService.prototype.startDrawLines = function (id) {
                     var headers = new http_2.Headers();
                     if (this._authenticationService.isLoggedIn()) {

@@ -75,8 +75,11 @@ export class ProfileComponent implements OnInit {
                      .subscribe((createdStory) => {
 	      							if (createdStory) {
 	      							   this.createdStory = createdStory;
-	      							   vex.close();	
-	      							   this.stories.push(createdStory);
+	      							    vex.close();		
+										var str = JSON.stringify(createdStory);
+										str = str.replace("story","id");
+										var converted  = JSON.parse(str);
+	      							    this.stories.push(converted);
 	      							}},
                        				error =>  this.errorMessage = <any>error);
 	}

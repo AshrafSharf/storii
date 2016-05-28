@@ -1,6 +1,5 @@
 /**
  * Created by Barbara on 04.11.2015.
- * 
  */
 
 var nodeEditor = nodeEditor || {};
@@ -1799,7 +1798,34 @@ nodeEditor.module = (function($) {
       dropReset(e);
     };
 
-   
+    dropReset = function(e){
+        previousShape = undefined;
+        if (movementStyle == "one") {
+            e.target.moveTo(layer);
+            if (e.target.id() == selectedNode) {
+                selectedNode = null;
+            }
+            disable(e.target.id());
+            setDraggable(true);
+        } else {
+            e.target.getChildren(function (n) {
+                return n.getClassName() === "Circle";
+            }).each(function (shape, n) {
+                var x = shape.getAttr('x');
+                var y = shape.getAttr('y');
+                shape.moveTo(layer);
+                shape.setAttr('x', x);
+                shape.setAttr('y', y);
+                shape.setAttr('fill', buttonColorHover);
+                setDraggable(true);
+            });
+        }
+
+        layer.draw();
+        tempLayer.draw();
+        dropStyle = null;
+        movementStyle = null;
+    };
 
     setToolTip = function(toolText,e){
         var textToolT;

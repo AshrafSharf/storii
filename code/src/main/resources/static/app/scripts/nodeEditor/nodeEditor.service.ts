@@ -8,55 +8,107 @@ import { AuthenticationService }    from '../login/authentication.service';
 
 @Injectable()
 export class NodeEditorService {
-  constructor (private http: Http, private httpClient: HttpClient, private _authenticationService: AuthenticationService) {}
+    constructor(private http: Http, private httpClient: HttpClient, private _authenticationService: AuthenticationService) { }
 
-  startDrawLines(id){
+    addNewNode(storyID,selectedID,level,position){
         var headers = new Headers();
         if (this._authenticationService.isLoggedIn()) {
             headers = this.httpClient.createHeader(headers);
             headers.append('Content-Type', 'application/json');
-        }else{
+        } else {
             headers.delete('Authorization');
-            headers.append('Authorization',"");
+            headers.append('Authorization', "");
         }
+        var _resultUrl = '/story/'+storyID+'/addPage/'+selectedID;
+        return this.http.post(_resultUrl, JSON.stringify({ "title": "defaultTitle" ,"description": "defaultDescription" ,"level": level,"position":position,"serializedContent": ""}),{ headers })
+            .map(this.extractData)
+            .do(data => console.log(data))
+            .catch(this.handleError);  
         
-        var _resultUrl = '/story/'+id+'/getMaxLevel'; 
-        return this.http.get(_resultUrl,{headers})
-                .map(this.extractData)
-                .do(data => console.log(data))
-                .catch(this.handleError);
-  }
-  
-  startDrawNodes(id){
-        var headers = new Headers();
-        if (this._authenticationService.isLoggedIn()) {
-            headers = this.httpClient.createHeader(headers);
-            headers.append('Content-Type', 'application/json');
-        }else{
-            headers.delete('Authorization');
-            headers.append('Authorization',"");
-        }
-        
-        var _resultUrl = '/story/'+id+'/getPages'; 
-        return this.http.get(_resultUrl,{headers})
-                .map(this.extractData)
-                .do(data => console.log(data))
-                .catch(this.handleError);
-  }
-  
-  private extractData(res: Response) {
-    if (res.status < 200 || res.status >= 300) {
-      throw new Error('Bad response status: ' + res.status);
     }
-    let body = res.json();
     
-    return body.data || {};
-  }
+    deletePageById(id){
+        var headers = new Headers();
+        if (this._authenticationService.isLoggedIn()) {
+            headers = this.httpClient.createHeader(headers);
+            headers.append('Content-Type', 'application/json');
+        } else {
+            headers.delete('Authorization');
+            headers.append('Authorization', "");
+        }
+        var _resultUrl = '/page/'+id;
+        return this.http.delete(_resultUrl,{ headers })
+            .map(this.extractData)
+            .do(data => console.log(data))
+            .catch(this.handleError);  
+        
+    }
+    
+    getPageById(id){
+       var headers = new Headers();
+        if (this._authenticationService.isLoggedIn()) {
+            headers = this.httpClient.createHeader(headers);
+            headers.append('Content-Type', 'application/json');
+        } else {
+            headers.delete('Authorization');
+            headers.append('Authorization', "");
+        }
 
-  private handleError (error: any) {
-    let errMsg = error.message || 'Server error';
-    console.error(errMsg); // log to console instead
-    return Observable.throw(errMsg);
-  }
-   
+        var _resultUrl = '/page/';
+        return this.http.get(_resultUrl+id, { headers })
+            .map(this.extractData)
+            .do(data => console.log(data))
+            .catch(this.handleError);  
+    }
+    
+    
+    startDrawLines(id) {
+        var headers = new Headers();
+        if (this._authenticationService.isLoggedIn()) {
+            headers = this.httpClient.createHeader(headers);
+            headers.append('Content-Type', 'application/json');
+        } else {
+            headers.delete('Authorization');
+            headers.append('Authorization', "");
+        }
+
+        var _resultUrl = '/story/' + id + '/getMaxLevel';
+        return this.http.get(_resultUrl, { headers })
+            .map(this.extractData)
+            .do(data => console.log(data))
+            .catch(this.handleError);
+    }
+
+    startDrawNodes(id) {
+        var headers = new Headers();
+        if (this._authenticationService.isLoggedIn()) {
+            headers = this.httpClient.createHeader(headers);
+            headers.append('Content-Type', 'application/json');
+        } else {
+            headers.delete('Authorization');
+            headers.append('Authorization', "");
+        }
+
+        var _resultUrl = '/story/' + id + '/getPages';
+        return this.http.get(_resultUrl, { headers })
+            .map(this.extractData)
+            .do(data => console.log(data))
+            .catch(this.handleError);
+    }
+
+    private extractData(res: Response) {
+        if (res.status < 200 || res.status >= 300) {
+            throw new Error('Bad response status: ' + res.status);
+        }
+        let body = res.json();
+
+        return body.data || {};
+    }
+
+    private handleError(error: any) {
+        let errMsg = error.message || 'Server error';
+        console.error(errMsg); // log to console instead
+        return Observable.throw(errMsg);
+    }
+
 }

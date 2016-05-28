@@ -82,7 +82,10 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         if (createdStory) {
                             _this.createdStory = createdStory;
                             vex.close();
-                            _this.stories.push(createdStory);
+                            var str = JSON.stringify(createdStory);
+                            str = str.replace("story", "id");
+                            var converted = JSON.parse(str);
+                            _this.stories.push(converted);
                         }
                     }, function (error) { return _this.errorMessage = error; });
                 };
