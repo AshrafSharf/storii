@@ -1,5 +1,6 @@
 package com.storii.models;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -55,7 +56,6 @@ public class Page {
 	@NotNull
 	private String serializedContent;
 	
-	@JsonIdentityReference(alwaysAsId=true)
 	@OneToMany(mappedBy = "owningPage", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<InternLink> outgoingInternLinks;
 
@@ -114,6 +114,8 @@ public class Page {
 		this.serializedContent = "";
 		this.parentStory = null;
 		this.firstPageInStory = null;
+		this.incomingInternLinks = new HashSet<InternLink>();
+		this.outgoingInternLinks = new HashSet<InternLink>();
 	}
 		
 	/**
@@ -209,7 +211,30 @@ public class Page {
 		this.firstPageInStory = firstPageInStory;
 	}
 	
-	
-	
+	public Page cloneForSwap(){
+		Page cloned = new Page();
+		
+		cloned.setLevel(this.level);
+		cloned.setPosition(this.position);
+				
+		for(InternLink link : this.incomingInternLinks){
+			cloned.getIncomingInternLinks().add(link);
+			//System.out.println(cloned.getIncomingInternLinks());
+		}
+		
+		for(InternLink link : this.outgoingInternLinks){
+			cloned.getOutgoingInternLinks().add(link);
+		}
+		
+		return cloned;
+	}
+		
+	public void adjustBranchLevel(int indicator){
+		this.setLevel(this.getLevel() + indicator);
+		System.out.println(this.getId());
+		for(InternLink link : this.getOutgoingInternLinks()){
+			link.getNextPage().adjustBranchLevel(indicator);
+		}
+	}
 
 }

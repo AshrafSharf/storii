@@ -141,5 +141,107 @@ public class PageController {
 		internLinkDAO.save(myLink);
 		return ResponseEntity.ok().body("{\"data\":"+"{\"link\":\"safed\"}"+"}");
 	}
+	
+	@RequestMapping(value = "/{page_id}/swapWith/{target_page_id}", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> swapWith(@PathVariable(value = "page_id") Long page_id, @PathVariable(value = "target_page_id") Long target_page_id) {
+		Page page1 = pageDAO.findOne(page_id);
+		Page page2 = pageDAO.findOne(target_page_id);
+		
+		Page dummy = page1.cloneForSwap();
+		
+		//actions on page1
+		
+		page1.setLevel(page2.getLevel());
+		page1.setPosition(page2.getPosition());
+		
+		page1.getIncomingInternLinks().clear();
+		
+		for(InternLink link : page2.getIncomingInternLinks()){
+			page1.getIncomingInternLinks().add(link);
+			link.setNextPage(page1);
+			internLinkDAO.save(link);
+		}
+		
+		page1.getOutgoingInternLinks().clear();
+		
+		for(InternLink link : page2.getOutgoingInternLinks()){
+			page1.getOutgoingInternLinks().add(link);
+			link.setOwningPage(page1);
+			internLinkDAO.save(link);
+		}
+		
+		//actions on page2
+		
+		page2.setLevel(dummy.getLevel());
+		page2.setPosition(dummy.getPosition());
+		
+		page2.getIncomingInternLinks().clear();
+		
+		for(InternLink link : dummy.getIncomingInternLinks()){
+			page2.getIncomingInternLinks().add(link);
+			link.setNextPage(page2);
+			internLinkDAO.save(link);
+		}
+		
+		page2.getOutgoingInternLinks().clear();
+		
+		for(InternLink link : dummy.getOutgoingInternLinks()){
+			page2.getOutgoingInternLinks().add(link);
+			link.setOwningPage(page2);
+			internLinkDAO.save(link);
+		}
+		
+		pageDAO.save(page1);
+		pageDAO.save(page2);
+		
+		return ResponseEntity.ok().body("{\"data\":"+"{\"swapped\":\"true\",\"link1\": \""+page_id+"\",\"link2\": \""+target_page_id+"\"}"+"}");
+	}
+	
+	@RequestMapping(value = "/{page_id}/swapWithBranch/{target_page_id}", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> swapWithBranch(@PathVariable(value = "page_id") Long page_id, @PathVariable(value = "target_page_id") Long target_page_id) {
+		Page page1 = pageDAO.findOne(page_id);
+		Page page2 = pageDAO.findOne(target_page_id);
+		
+		Page dummy = page1.cloneForSwap();
+		
+		int LvlIndicatorForPage1 = page2.getLevel() - page1.getLevel();
+		int LvlIndicatorForPage2 = page1.getLevel() - page2.getLevel();
+		
+		//actions on page1
+		
+		page1.setPosition(page2.getPosition());
+		
+		page1.adjustBranchLevel(LvlIndicatorForPage1);
+	
+		page1.getIncomingInternLinks().clear();
+		
+		for(InternLink link : page2.getIncomingInternLinks()){
+			page1.getIncomingInternLinks().add(link);
+			link.setNextPage(page1);
+			internLinkDAO.save(link);
+		}
+		
+		//actions on page2
+		
+		page2.setPosition(dummy.getPosition());
+		
+		page2.adjustBranchLevel(LvlIndicatorForPage2);
+		
+		page2.getIncomingInternLinks().clear();
+		
+		for(InternLink link : dummy.getIncomingInternLinks()){
+			page2.getIncomingInternLinks().add(link);
+			link.setNextPage(page2);
+			internLinkDAO.save(link);
+		}
+		
+		pageDAO.save(page1);
+		pageDAO.save(page2);
+		
+		return ResponseEntity.ok().body("{\"data\":"+"{\"swapped\":\"true\",\"link1\": \""+page_id+"\",\"link2\": \""+target_page_id+"\"}"+"}");
+	}
+
 
 }
