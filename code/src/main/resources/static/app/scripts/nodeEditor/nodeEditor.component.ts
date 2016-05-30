@@ -352,32 +352,34 @@ export class NodeEditorComponent implements OnInit{
                 self.interfaceLayer.draw();
             }
 
-           // self.tooltip.show();
+           //self.tooltip.show();
             //self.layerTEXT.draw();
             self.toolTipText="";
         });
         
         this.layer.on("mouseover", function(e) {
-           /* self.tooltip.position({
-                x : e.target.getAttr('x')-40,
-                y :  e.target.getAttr('y')-50*(1+(1-self.layer.getAttr('scale').x))
-            });
-
-            if(self.toolTipText == ""){
-                    self._nodeEditorService.getPageById(e.target.getAttr('id'))
-                                    .subscribe(
-                                           actualPage => { 
-                                            this.actualPage = actualPage;  
-                                            self.setToolTip(actualPage['title'],e);
-                
-                                           },
-                                           error =>  this.errorMessage = <any>error);
-                    //service get title of page with id
-                     
-                   
-            }else{
-                self.setToolTip(self.toolTipText,e);
-            }*/
+            if(!self.popUpShown){
+                self.tooltip.position({
+                    x : e.target.getAttr('x')-40,
+                    y :  e.target.getAttr('y')-50*(1+(1-self.layer.getAttr('scale').x))
+                });
+    
+                if(self.toolTipText == ""){
+                        self._nodeEditorService.getPageById(e.target.getAttr('id'))
+                                        .subscribe(
+                                               actualPage => { 
+                                                this.actualPage = actualPage;  
+                                                self.setToolTip(actualPage['title'],e);
+                    
+                                               },
+                                               error =>  this.errorMessage = <any>error);
+                        //service get title of page with id
+                         
+                       
+                }else{
+                    self.setToolTip(self.toolTipText,e);
+                }
+            }
 
         }); 
     }
@@ -473,8 +475,8 @@ export class NodeEditorComponent implements OnInit{
             this.stage.on("dragend", function (e) {
                 console.log(self.xDrag +":"+self.yDrag);
             //wieder wegmachen 
-                e.target.setAttr("x", self.xDrag);
-                e.target.setAttr("y", self.yDrag);
+              //  e.target.setAttr("x", self.xDrag);
+              //  e.target.setAttr("y", self.yDrag);
                 if(!self.pause && e.target.id() != 'stage') { 
                     
                     var pos = self.stage.getPointerPosition();
@@ -618,8 +620,8 @@ export class NodeEditorComponent implements OnInit{
       }
     
         addNewNode(selected){
-            this._nodeEditorService.addNewNode(this.storyID,selected,1,1)
-           // this._nodeEditorService.addNewNode(this.storyID,selected,this.actualPage['level']+1,this.actualPage['outgoingInternLinks'].length+1)
+           // this._nodeEditorService.addNewNode(this.storyID,selected,1,1)
+            this._nodeEditorService.addNewNode(this.storyID,selected,this.actualPage['level']+1,this.actualPage['outgoingInternLinks'].length+1)
                             .subscribe( 
                                result => {   
                                 console.log("DONE");
@@ -731,8 +733,8 @@ export class NodeEditorComponent implements OnInit{
                                 this.actualPage = actualPage;
                                    console.log("DONE");  
                                  this.hasChildren = false;
-                                 this.stage.find('#addRect')[0].setAttr('fill', this.buttonColor);//WIEDER WEGMACHEN--> diese zeile
-                       /*        if(actualPage['outgoingInternLinks'].length > 0){
+                                // this.stage.find('#addRect')[0].setAttr('fill', this.buttonColor);//WIEDER WEGMACHEN--> diese zeile
+                               if(actualPage['outgoingInternLinks'].length > 0){
                                     this.hasChildren = true;
                                 }
                                 if(actualPage['outgoingInternLinks'].length < 4){
@@ -743,13 +745,13 @@ export class NodeEditorComponent implements OnInit{
                                 } else {
                                     console.log("NOT ALLOWED");
                                     if(this.movementStyle != null) {
-                                        //this.button1.off('click tap');
-                                       // this.hoverPopUpButtons(['#button1Rect', '#button1Text'], this.buttonColorDisabled, this.buttonColorDisabled);
+                                        this.button1.off('click tap');
+                                        this.hoverPopUpButtons(['#button1Rect', '#button1Text'], this.buttonColorDisabled, this.buttonColorDisabled);
                                     }
                                     if(!this.popUpShown) {
                                         this.stage.find('#addRect')[0].setAttr('fill', this.buttonColorDisabled);
                                     }
-                                }*/
+                                }
                                 this.interfaceLayer.draw();    
                                },
                                error =>  this.errorMessage = <any>error); 
@@ -763,8 +765,8 @@ export class NodeEditorComponent implements OnInit{
                                  
                                 this.actualPage = actualPage;
                                    console.log("DONE");
-                                    this.stage.find('#delRect')[0].setAttr('fill', this.buttonColor);//wieder wegmachen!!!
-                                /* if (actualPage['level'] == 0) {
+                                  //  this.stage.find('#delRect')[0].setAttr('fill', this.buttonColor);//wieder wegmachen!!!
+                                 if (actualPage['level'] == 0) {
                                     if(!this.popUpShown) {
                                         this.stage.find('#delRect')[0].setAttr('fill', this.buttonColorDisabled);
                                     }
@@ -772,7 +774,7 @@ export class NodeEditorComponent implements OnInit{
                                     if(!this.popUpShown) {
                                         this.stage.find('#delRect')[0].setAttr('fill', this.buttonColor);
                                     }
-                                }*/
+                                }
                                 
                                 this.interfaceLayer.draw();    
                                },
@@ -781,6 +783,9 @@ export class NodeEditorComponent implements OnInit{
         };
     
         reorderNodes(ID01, ID02) {
+             
+   
+            
            //REORDER
                     this.startDrawNodes(this.storyID);
                   //  this.debugText.text(data);
@@ -925,7 +930,7 @@ export class NodeEditorComponent implements OnInit{
 
                 } else {
                    //  console.log(data[i]['outgoingInternLinks'][q]); wird 1 sein und 1 gibts nd
-                    nextPageIDinData = this.findID(data, 2); //wegmachen in 3er
+                    nextPageIDinData = this.findID(data, 2); 
                     nextID = nextPageIDinData;
                 }
                 console.log(nextID);//0

@@ -291,31 +291,28 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             self.debugText.setAttr('x', (self.width / 2) - self.debugText.getAttr('width') / 2);
                             self.interfaceLayer.draw();
                         }
-                        // self.tooltip.show();
+                        //self.tooltip.show();
                         //self.layerTEXT.draw();
                         self.toolTipText = "";
                     });
                     this.layer.on("mouseover", function (e) {
-                        /* self.tooltip.position({
-                             x : e.target.getAttr('x')-40,
-                             y :  e.target.getAttr('y')-50*(1+(1-self.layer.getAttr('scale').x))
-                         });
-             
-                         if(self.toolTipText == ""){
-                                 self._nodeEditorService.getPageById(e.target.getAttr('id'))
-                                                 .subscribe(
-                                                        actualPage => {
-                                                         this.actualPage = actualPage;
-                                                         self.setToolTip(actualPage['title'],e);
-                             
-                                                        },
-                                                        error =>  this.errorMessage = <any>error);
-                                 //service get title of page with id
-                                  
-                                
-                         }else{
-                             self.setToolTip(self.toolTipText,e);
-                         }*/
+                        var _this = this;
+                        if (!self.popUpShown) {
+                            self.tooltip.position({
+                                x: e.target.getAttr('x') - 40,
+                                y: e.target.getAttr('y') - 50 * (1 + (1 - self.layer.getAttr('scale').x))
+                            });
+                            if (self.toolTipText == "") {
+                                self._nodeEditorService.getPageById(e.target.getAttr('id'))
+                                    .subscribe(function (actualPage) {
+                                    _this.actualPage = actualPage;
+                                    self.setToolTip(actualPage['title'], e);
+                                }, function (error) { return _this.errorMessage = error; });
+                            }
+                            else {
+                                self.setToolTip(self.toolTipText, e);
+                            }
+                        }
                     });
                 };
                 NodeEditorComponent.prototype.dragEvents = function () {
@@ -403,8 +400,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.stage.on("dragend", function (e) {
                         console.log(self.xDrag + ":" + self.yDrag);
                         //wieder wegmachen 
-                        e.target.setAttr("x", self.xDrag);
-                        e.target.setAttr("y", self.yDrag);
+                        //  e.target.setAttr("x", self.xDrag);
+                        //  e.target.setAttr("y", self.yDrag);
                         if (!self.pause && e.target.id() != 'stage') {
                             var pos = self.stage.getPointerPosition();
                             var overlapping = self.layer.getIntersection(pos);
@@ -524,7 +521,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 };
                 NodeEditorComponent.prototype.addNewNode = function (selected) {
                     var _this = this;
-                    this._nodeEditorService.addNewNode(this.storyID, selected, 1, 1)
+                    // this._nodeEditorService.addNewNode(this.storyID,selected,1,1)
+                    this._nodeEditorService.addNewNode(this.storyID, selected, this.actualPage['level'] + 1, this.actualPage['outgoingInternLinks'].length + 1)
                         .subscribe(function (result) {
                         console.log("DONE");
                         _this.startDrawLines(_this.storyID);
@@ -612,25 +610,26 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         _this.actualPage = actualPage;
                         console.log("DONE");
                         _this.hasChildren = false;
-                        _this.stage.find('#addRect')[0].setAttr('fill', _this.buttonColor); //WIEDER WEGMACHEN--> diese zeile
-                        /*        if(actualPage['outgoingInternLinks'].length > 0){
-                                     this.hasChildren = true;
-                                 }
-                                 if(actualPage['outgoingInternLinks'].length < 4){
-                                     console.log("IS ALLOWED");
-                                     if(!this.popUpShown) {
-                                         this.stage.find('#addRect')[0].setAttr('fill', this.buttonColor);
-                                     }
-                                 } else {
-                                     console.log("NOT ALLOWED");
-                                     if(this.movementStyle != null) {
-                                         //this.button1.off('click tap');
-                                        // this.hoverPopUpButtons(['#button1Rect', '#button1Text'], this.buttonColorDisabled, this.buttonColorDisabled);
-                                     }
-                                     if(!this.popUpShown) {
-                                         this.stage.find('#addRect')[0].setAttr('fill', this.buttonColorDisabled);
-                                     }
-                                 }*/
+                        // this.stage.find('#addRect')[0].setAttr('fill', this.buttonColor);//WIEDER WEGMACHEN--> diese zeile
+                        if (actualPage['outgoingInternLinks'].length > 0) {
+                            _this.hasChildren = true;
+                        }
+                        if (actualPage['outgoingInternLinks'].length < 4) {
+                            console.log("IS ALLOWED");
+                            if (!_this.popUpShown) {
+                                _this.stage.find('#addRect')[0].setAttr('fill', _this.buttonColor);
+                            }
+                        }
+                        else {
+                            console.log("NOT ALLOWED");
+                            if (_this.movementStyle != null) {
+                                _this.button1.off('click tap');
+                                _this.hoverPopUpButtons(['#button1Rect', '#button1Text'], _this.buttonColorDisabled, _this.buttonColorDisabled);
+                            }
+                            if (!_this.popUpShown) {
+                                _this.stage.find('#addRect')[0].setAttr('fill', _this.buttonColorDisabled);
+                            }
+                        }
                         _this.interfaceLayer.draw();
                     }, function (error) { return _this.errorMessage = error; });
                 };
@@ -641,21 +640,43 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         .subscribe(function (actualPage) {
                         _this.actualPage = actualPage;
                         console.log("DONE");
-                        _this.stage.find('#delRect')[0].setAttr('fill', _this.buttonColor); //wieder wegmachen!!!
-                        /* if (actualPage['level'] == 0) {
-                            if(!this.popUpShown) {
-                                this.stage.find('#delRect')[0].setAttr('fill', this.buttonColorDisabled);
+                        //  this.stage.find('#delRect')[0].setAttr('fill', this.buttonColor);//wieder wegmachen!!!
+                        if (actualPage['level'] == 0) {
+                            if (!_this.popUpShown) {
+                                _this.stage.find('#delRect')[0].setAttr('fill', _this.buttonColorDisabled);
                             }
-                        } else {
-                            if(!this.popUpShown) {
-                                this.stage.find('#delRect')[0].setAttr('fill', this.buttonColor);
+                        }
+                        else {
+                            if (!_this.popUpShown) {
+                                _this.stage.find('#delRect')[0].setAttr('fill', _this.buttonColor);
                             }
-                        }*/
+                        }
                         _this.interfaceLayer.draw();
                     }, function (error) { return _this.errorMessage = error; });
                 };
                 ;
                 NodeEditorComponent.prototype.reorderNodes = function (ID01, ID02) {
+                    var _this = this;
+                    this._nodeEditorService.getPageById(ID01)
+                        .subscribe(function (p1) {
+                        var page1 = p1;
+                        var tmp = p1;
+                        _this._nodeEditorService.getPageById(ID02)
+                            .subscribe(function (p2) {
+                            var page2 = p2;
+                            var tmp2 = p2;
+                            page1['level'] = tmp2['level'];
+                            //  page1['position'] = tmp2['position'];
+                            //  page1['outgoingInternLinks'] = tmp2['outgoingInternLinks'];
+                            //  page1['incomingInternLinks'] = tmp2['incomingInternLinks'];
+                            page2['level'] = tmp['level'];
+                            //  page2['position'] = tmp['position'];
+                            // page2['outgoingInternLinks'] = tmp['outgoingInternLinks'];
+                            //page2['incomingInternLinks'] = tmp['incomingInternLinks'];
+                            console.log("PAGE1 " + page1['level']); //1  sollte 0
+                            console.log("PAGE2 " + page2['level']); //0 sollte 1
+                        }, function (error) { return _this.errorMessage = error; });
+                    }, function (error) { return _this.errorMessage = error; });
                     //REORDER
                     this.startDrawNodes(this.storyID);
                     //  this.debugText.text(data);
@@ -778,7 +799,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             }
                             else {
                                 //  console.log(data[i]['outgoingInternLinks'][q]); wird 1 sein und 1 gibts nd
-                                nextPageIDinData = this.findID(data, 2); //wegmachen in 3er
+                                nextPageIDinData = this.findID(data, 2);
                                 nextID = nextPageIDinData;
                             }
                             console.log(nextID); //0
