@@ -181,6 +181,11 @@ public class StoryController {
 		ObjectMapper mapper = new ObjectMapper();
 		
 		Page parentPage = pageDAO.findOne(parent_page_id);
+		
+		if(parentPage.isFull()){
+			return ResponseEntity.badRequest().body("{\"data\":"+"{\"created\":\"false\",\"exception\":\"page_is_full\"}"+"}");
+		}
+		
 		Story myStory = storyDAO.findOne(story_id);
 		Page newPage = mapper.readValue(json, Page.class);
 		

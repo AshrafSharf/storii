@@ -55,37 +55,35 @@ public class Page {
 
 	@NotNull
 	private String serializedContent;
-	
+
 	@OneToMany(mappedBy = "owningPage", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<InternLink> outgoingInternLinks;
 
-	@JsonIdentityReference(alwaysAsId=true)
+	@JsonIdentityReference(alwaysAsId = true)
 	@OneToMany(mappedBy = "nextPage", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<InternLink> incomingInternLinks;
 
-	
 	/**
 	 * defines a one to many relation with the userImage-entity
 	 */
 
 	@OneToOne(mappedBy = "pageId", cascade = CascadeType.ALL)
 	private PageImage pageImage;
-	
+
 	@ManyToOne
-	@JsonIdentityReference(alwaysAsId=true)
+	@JsonIdentityReference(alwaysAsId = true)
 	@JoinColumn(name = "parent_story")
 	private Story parentStory;
-	
-	@JsonIdentityReference(alwaysAsId=true)
+
+	@JsonIdentityReference(alwaysAsId = true)
 	@OneToOne(mappedBy = "firstPage", cascade = CascadeType.ALL)
 	private Story firstPageInStory;
-
 
 	/**
 	 * constructors
 	 */
-	
-	public Page(Story parent){
+
+	public Page(Story parent) {
 		this.title = "defaultTitle";
 		this.description = "defaultDescription";
 		this.level = 0;
@@ -95,8 +93,8 @@ public class Page {
 		this.firstPageInStory = parent;
 
 	}
-	
-	public Page(int level, int position){
+
+	public Page(int level, int position) {
 		this.title = "defaultTitle";
 		this.description = "defaultDescription";
 		this.level = level;
@@ -105,8 +103,8 @@ public class Page {
 		this.parentStory = null;
 		this.firstPageInStory = null;
 	}
-	
-	public Page(){
+
+	public Page() {
 		this.title = "defaultTitle";
 		this.description = "defaultDescription";
 		this.level = -1;
@@ -117,11 +115,10 @@ public class Page {
 		this.incomingInternLinks = new HashSet<InternLink>();
 		this.outgoingInternLinks = new HashSet<InternLink>();
 	}
-		
+
 	/**
 	 * getters and setters
 	 */
-
 
 	public long getId() {
 		return id;
@@ -170,7 +167,7 @@ public class Page {
 	public void setSerializedContent(String serializedContent) {
 		this.serializedContent = serializedContent;
 	}
-	
+
 	public PageImage getPageImage() {
 		return pageImage;
 	}
@@ -210,30 +207,59 @@ public class Page {
 	public void setFirstPageInStory(Story firstPageInStory) {
 		this.firstPageInStory = firstPageInStory;
 	}
-	
-	public Page cloneForSwap(){
+
+	public Page cloneForSwap() {
 		Page cloned = new Page();
-		
+
 		cloned.setLevel(this.level);
 		cloned.setPosition(this.position);
-				
-		for(InternLink link : this.incomingInternLinks){
+
+		for (InternLink link : this.incomingInternLinks) {
 			cloned.getIncomingInternLinks().add(link);
-			//System.out.println(cloned.getIncomingInternLinks());
+			// System.out.println(cloned.getIncomingInternLinks());
 		}
-		
-		for(InternLink link : this.outgoingInternLinks){
+
+		for (InternLink link : this.outgoingInternLinks) {
 			cloned.getOutgoingInternLinks().add(link);
 		}
-		
+
 		return cloned;
 	}
-		
-	public void adjustBranchLevel(int indicator){
+
+	public boolean isFull() {
+		int numberOfLinks = 0;
+		for (InternLink link : this.getOutgoingInternLinks()) {
+			numberOfLinks++;
+		}
+		if (numberOfLinks > 3) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public int numberOfLinks() {
+		int numberOfLinks = 0;
+		for (InternLink link : this.getOutgoingInternLinks()) {
+			numberOfLinks++;
+		}
+		return numberOfLinks;
+	}
+
+	public void adjustBranchLevel(int indicator) {
 		this.setLevel(this.getLevel() + indicator);
 		System.out.println(this.getId());
-		for(InternLink link : this.getOutgoingInternLinks()){
+		for (InternLink link : this.getOutgoingInternLinks()) {
 			link.getNextPage().adjustBranchLevel(indicator);
+		}
+	}
+
+	public void addChildPages(Set<Page> pages) {
+		pages.add(this);
+		if (this.getOutgoingInternLinks() != null) {
+			for (InternLink link : this.getOutgoingInternLinks()) {
+				link.getNextPage().addChildPages(pages);
+			}
 		}
 	}
 

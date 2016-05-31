@@ -1,6 +1,8 @@
 package com.storii.controllers;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -134,13 +136,27 @@ public class PageController {
 	@RequestMapping(value = "/{page_id}/addInternLink/{next_page_id}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> addInternLink(@RequestBody String json, @PathVariable(value = "page_id") Long page_id, @PathVariable(value = "next_page_id") Long next_page_id) throws IOException {
+		
+		Page pageToAdd = pageDAO.findOne(page_id);
+		if(pageToAdd.isFull()){
+			return ResponseEntity.badRequest().body("{\"data\":"+"{\"link\":\"failed\",\"exception\":\"page_is_full\"}"+"}");
+		}
+		
 		ObjectMapper mapper = new ObjectMapper();
 		InternLink myLink = mapper.readValue(json, InternLink.class);
-		myLink.setOwningPage(pageDAO.findOne(page_id));
+		myLink.setOwningPage(pageToAdd);
 		myLink.setNextPage(pageDAO.findOne(next_page_id));
 		internLinkDAO.save(myLink);
 		return ResponseEntity.ok().body("{\"data\":"+"{\"link\":\"safed\"}"+"}");
 	}
+	
+	/*
+	 * TREE-ACTIONS HERE!!
+	 */
+	
+	/*
+	 * swap
+	 */
 	
 	@RequestMapping(value = "/{page_id}/swapWith/{target_page_id}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
@@ -243,5 +259,116 @@ public class PageController {
 		return ResponseEntity.ok().body("{\"data\":"+"{\"swapped\":\"true\",\"link1\": \""+page_id+"\",\"link2\": \""+target_page_id+"\"}"+"}");
 	}
 
+	/*
+	 * append
+	 */
+	/*
+	@RequestMapping(value = "/{page_id}/appendTo/{target_page_id}", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> appendTo(@PathVariable(value = "page_id") Long page_id, @PathVariable(value = "target_page_id") Long target_page_id) {
+		Page page1 = pageDAO.findOne(page_id);
+		Page page2 = pageDAO.findOne(target_page_id);
+		
+		Page dummy1 = page1.cloneForSwap();
+		
+		//actions on page1
+		
+		page1.setLevel(page2.getLevel());
+		page1.setPosition(page2.getPosition());
+		
+		page1.getIncomingInternLinks().clear();
+		
+		for(InternLink link : page2.getIncomingInternLinks()){
+			page1.getIncomingInternLinks().add(link);
+			link.setNextPage(page1);
+			internLinkDAO.save(link);
+		}
+		
+		page1.getOutgoingInternLinks().clear();
+		
+		for(InternLink link : page2.getOutgoingInternLinks()){
+			page1.getOutgoingInternLinks().add(link);
+			link.setOwningPage(page1);
+			internLinkDAO.save(link);
+		}
+		
+		//actions on page2
+		
+		page2.setLevel(dummy.getLevel());
+		page2.setPosition(dummy.getPosition());
+		
+		page2.getIncomingInternLinks().clear();
+		
+		for(InternLink link : dummy.getIncomingInternLinks()){
+			page2.getIncomingInternLinks().add(link);
+			link.setNextPage(page2);
+			internLinkDAO.save(link);
+		}
+		
+		page2.getOutgoingInternLinks().clear();
+		
+		for(InternLink link : dummy.getOutgoingInternLinks()){
+			page2.getOutgoingInternLinks().add(link);
+			link.setOwningPage(page2);
+			internLinkDAO.save(link);
+		}
+		
+		pageDAO.save(page1);
+		pageDAO.save(page2);
+		
+		return ResponseEntity.ok().body("{\"data\":"+"{\"swapped\":\"true\",\"link1\": \""+page_id+"\",\"link2\": \""+target_page_id+"\"}"+"}");
+	}*/
+	
+	@RequestMapping(value = "/{page_id}/appendToBranch/{target_page_id}", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> appendToBranch(@PathVariable(value = "page_id") Long page_id, @PathVariable(value = "target_page_id") Long target_page_id) {
+		Page page1 = pageDAO.findOne(page_id);
+		Page page2 = pageDAO.findOne(target_page_id);
+		
+		if(page2.isFull()){
+			return ResponseEntity.badRequest().body("{\"data\":"+"{\"appended\":\"false\",\"exception\":\"page_is_full\"}"+"}");
+		}
+		
+		for(InternLink link : page1.getIncomingInternLinks()){
+			link.getOwningPage().getOutgoingInternLinks().remove(link);
+			page1.getIncomingInternLinks().remove(link);
+			internLinkDAO.delete(link);
+		}
+				
+		InternLink newLink = new InternLink();
+		
+		newLink.setName("default");
+		newLink.setNextPage(page1);
+		newLink.setOwningPage(page2);
+		
+		page1.adjustBranchLevel(page2.getLevel() - page1.getLevel() + 1);
+		
+		int linkCounter = 1;
+		
+		for(InternLink link : page2.getOutgoingInternLinks()){
+			link.getOwningPage().setPosition(linkCounter);
+			linkCounter++;
+		}
+		
+		page1.setPosition(page2.numberOfLinks() + 1);
 
+		pageDAO.save(page1);
+		pageDAO.save(page2);
+		internLinkDAO.save(newLink);
+		
+				
+		return ResponseEntity.ok().body("{\"data\":"+"{\"appended\":\"true\",\"link1\": \""+page_id+"\",\"link2\": \""+target_page_id+"\"}"+"}");
+	}
+
+	@RequestMapping(value = "/{page_id}/getAllOutgoing", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> getAllOutgoing(@PathVariable(value = "page_id") Long page_id) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		Page page = pageDAO.findOne(page_id);
+		Set<Page> allPages = new HashSet<Page>();
+		page.addChildPages(allPages);
+		return ResponseEntity.ok().body("{\"data\":" + mapper.writeValueAsString(allPages) + "}");
+	}
+
+	
 }
