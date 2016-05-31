@@ -1,6 +1,23 @@
-<div *ngIf="allowed" id="editBar">
-            <div *ngIf="profilePage"><input (click)="openVex()" id="editProfile" class="buttonLookLink" class="buttonStoryInfo" value="{{editProfile | uppercase}}" type="button"></div> 
+<div *ngIf="allowed" id="editBar" >
+			<div *ngIf="profilePage" class="buttonFrameContainerUserStoryContentModule"><div class="buttonSize"><a id="editProfile" (click)="openVex()" class="buttonLookLink">{{editProfile | uppercase}}</a></div></div>
+			
 			<div *ngIf="aboutPage" class="buttonFrameContainerUserStoryContentModule"><div class="buttonSize"><a (click)="goToNodeEditor()" class="buttonLookLink">{{editPages | uppercase}}</a></div></div>
 			<div *ngIf="aboutPage" class="buttonFrameContainerUserStoryContentModule"><div class="buttonSize"><a class="buttonLookLink" href="#">{{editStory | uppercase}}</a></div></div>
+			
+            <div *ngIf="nodeEditorPage"  [class.disableButton]="!addAllowed" class="buttonFrameContainerUserStoryContentModule" ><div class="buttonSize"><a (click)="addNewNode(true)" class="buttonLookLink">{{addPage | uppercase}}</a></div> </div>
+            <div *ngIf="nodeEditorPage"   class="buttonFrameContainerUserStoryContentModule"><div #a3 (click)="invert(a3)" class="buttonSizeDelete" ><a class="buttonLookLink">{{delete | uppercase}}<i class="fa fa-angle-down"></i></a></div>
+            <div style="display:none"  class="toggle1">
+             	<div [class.disableButton]="!deleteAllowed" class="submenu"><div ><a (click)="deleteNode(true)" class="buttonLookLink">{{deletePage | uppercase}}</a></div> </div>
+				<div [class.disableButton]="!deleteAllowed" class="submenu"><div ><a  class="buttonLookLink">{{deleteBranch | uppercase}}</a></div> </div>        	
+            </div>
+            </div>
+            <div *ngIf="nodeEditorPage" class="buttonFrameContainerUserStoryContentModule"><div #a4 (click)="invert(a4)" class="buttonSizeActions" ><a class="buttonLookLink">{{actions | uppercase}}<i class="fa fa-angle-down"></i></a></div>
+            <div style="display:none"  class="toggle2">
+             	<div class="submenu"><div ><a class="buttonLookLink">{{swapNode | uppercase}}</a></div> </div>
+				<div class="submenu" ><div ><a  class="buttonLookLink">{{swapBranch | uppercase}}</a></div> </div>    
+				<div class="submenu" ><div ><a  class="buttonLookLink">{{append | uppercase}}</a></div> </div>     	
+            </div>
+            </div>
+              
 			
 </div>

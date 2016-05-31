@@ -10,6 +10,40 @@ import { AuthenticationService }    from '../login/authentication.service';
 export class NodeEditorService {
     constructor(private http: Http, private httpClient: HttpClient, private _authenticationService: AuthenticationService) { }
 
+    reorderNodes(id1,id2){
+          var headers = new Headers();
+        if (this._authenticationService.isLoggedIn()) {
+            headers = this.httpClient.createHeader(headers);
+            headers.append('Content-Type', 'application/json');
+        } else {
+            headers.delete('Authorization');
+            headers.append('Authorization', "");
+        }
+
+        var _resultUrl = '/page/'+id1+"/swapWith/"+id2;
+        return this.http.get(_resultUrl, { headers })
+            .map(this.extractData)
+            .do(data => console.log(data))
+            .catch(this.handleError);  
+    }
+    
+     reorderBranches(id1,id2){
+          var headers = new Headers();
+        if (this._authenticationService.isLoggedIn()) {
+            headers = this.httpClient.createHeader(headers);
+            headers.append('Content-Type', 'application/json');
+        } else {
+            headers.delete('Authorization');
+            headers.append('Authorization', "");
+        }
+
+        var _resultUrl = '/page/'+id1+"/swapWithBranch/"+id2;
+        return this.http.get(_resultUrl, { headers })
+            .map(this.extractData)
+            .do(data => console.log(data))
+            .catch(this.handleError);  
+    }
+    
     addNewNode(storyID,selectedID,level,position){
         var headers = new Headers();
         if (this._authenticationService.isLoggedIn()) {

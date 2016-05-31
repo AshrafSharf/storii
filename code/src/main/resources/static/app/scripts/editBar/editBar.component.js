@@ -46,6 +46,16 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     this.editProfile = "Edit Profile";
                     this.editPages = "Edit Pages";
                     this.editStory = "Edit Story";
+                    this.addPage = "Add new page";
+                    this.delete = "Delete";
+                    this.deletePage = "Delete Page";
+                    this.deleteBranch = "Delete Branch";
+                    this.actions = "Actions";
+                    this.swapNode = "Swap node";
+                    this.swapBranch = "Swap branch";
+                    this.append = "Append";
+                    this.onAdded = new core_1.EventEmitter();
+                    this.onDeleted = new core_1.EventEmitter();
                     this.loggedIn = _authenticationService.isLoggedIn();
                     this.name = this._routeParams.get('name');
                     if (this.loggedIn) {
@@ -58,9 +68,26 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         }, function (error) { return _this.errorMessage = error; });
                     }
                 }
+                EditBarComponent.prototype.addNewNode = function (newNode) {
+                    this.onAdded.emit(newNode);
+                };
+                EditBarComponent.prototype.deleteNode = function (deleteNode) {
+                    this.onDeleted.emit(deleteNode);
+                };
                 EditBarComponent.prototype.goToNodeEditor = function () {
                     this.storyid = this._routeParams.get('id');
                     this._router.navigate(['NodeEditor', { name: this.name, storyName: this.details[0]['name'], id: this.storyid }]);
+                };
+                EditBarComponent.prototype.invert = function (element) {
+                    jQuery('.' + element['nextElementSibling']['className']).slideToggle('fast');
+                    var arrow = jQuery('.' + element['className']).find('i');
+                    var classes = arrow.attr('class');
+                    if (classes == 'fa fa-angle-up') {
+                        arrow.removeClass('fa fa-angle-up').addClass('fa fa-angle-down');
+                    }
+                    else if (classes == 'fa fa-angle-down') {
+                        arrow.removeClass('fa fa-angle-down').addClass('fa fa-angle-up');
+                    }
                 };
                 EditBarComponent.prototype.changeValues = function (key, value) {
                     var _this = this;
@@ -133,11 +160,29 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     if (document.getElementById("userStoryPage")) {
                         this.aboutPage = true;
                     }
+                    if (document.getElementById("nodeEditorPage")) {
+                        this.nodeEditorPage = true;
+                        this.addAllowed = this.details[0];
+                        this.deleteAllowed = this.details[1];
+                        var self_1 = this;
+                        document.getElementById("wrapper").addEventListener('click', function (event) {
+                            self_1.addAllowed = self_1.details[0];
+                            self_1.deleteAllowed = self_1.details[1];
+                        });
+                    }
                 };
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', Object)
+                ], EditBarComponent.prototype, "onAdded", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', Object)
+                ], EditBarComponent.prototype, "onDeleted", void 0);
                 EditBarComponent = __decorate([
                     core_1.Component({
                         selector: 'editBar',
-                        inputs: ['details', 'allowed'],
+                        inputs: ['details'],
                         templateUrl: "app/html/editBar/editBar.html",
                         styles: ['a {cursor: pointer}'],
                         providers: [editBar_service_1.EditBarService, authentication_service_1.AuthenticationService, profile_service_1.ProfileService, headerfct_1.HttpClient]

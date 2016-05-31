@@ -37,6 +37,38 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     this.httpClient = httpClient;
                     this._authenticationService = _authenticationService;
                 }
+                NodeEditorService.prototype.reorderNodes = function (id1, id2) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                        headers.append('Content-Type', 'application/json');
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/page/' + id1 + "/swapWith/" + id2;
+                    return this.http.get(_resultUrl, { headers: headers })
+                        .map(this.extractData)
+                        .do(function (data) { return console.log(data); })
+                        .catch(this.handleError);
+                };
+                NodeEditorService.prototype.reorderBranches = function (id1, id2) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                        headers.append('Content-Type', 'application/json');
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/page/' + id1 + "/swapWithBranch/" + id2;
+                    return this.http.get(_resultUrl, { headers: headers })
+                        .map(this.extractData)
+                        .do(function (data) { return console.log(data); })
+                        .catch(this.handleError);
+                };
                 NodeEditorService.prototype.addNewNode = function (storyID, selectedID, level, position) {
                     var headers = new http_2.Headers();
                     if (this._authenticationService.isLoggedIn()) {

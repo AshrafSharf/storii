@@ -2,6 +2,8 @@ import {Component,OnInit} from 'angular2/core';
 import {RouteParams, Router} from 'angular2/router';
 import {LogStateComponent} from '../logState/logState.component';
 import {NodeEditorService} from './nodeEditor.service';
+import {EditBarComponent} from '../editBar/editBar.component';
+import { EditBarService }    from '../editBar/editBar.service';
 import {HttpClient}           from '../../headerfct';
 import { AuthenticationService }    from '../login/authentication.service';
 
@@ -11,8 +13,8 @@ declare var Konva:any;
 @Component({
   selector: 'nodeEditor',
   templateUrl: `app/html/nodeEditor/nodeEditor.html`,
-  directives: [LogStateComponent],
-  providers: [NodeEditorService,HttpClient,AuthenticationService]
+  directives: [LogStateComponent,EditBarComponent],
+  providers: [NodeEditorService,HttpClient,AuthenticationService,EditBarService]
 })
 
 export class NodeEditorComponent implements OnInit{
@@ -35,11 +37,13 @@ export class NodeEditorComponent implements OnInit{
     selectedNode = null;
     dropStyle = null; 
     pause = false; 
+    allowed;
     popUpShown=false;
     stage; 
     maxHeight;
     toolTipText="";
     tooltip;
+    found = false;
     previousShape;
     addRect; 
     delRect; 
@@ -117,7 +121,9 @@ export class NodeEditorComponent implements OnInit{
     constructor(
     private _router: Router,
     private _routeParams:RouteParams,
-    private _nodeEditorService: NodeEditorService) {}
+    private _nodeEditorService: NodeEditorService) {
+        this.allowed = [];
+    }
     
     
       ngOnInit():any {
@@ -325,6 +331,12 @@ export class NodeEditorComponent implements OnInit{
                 self.dropStyle = null;
                 self.movementStyle = null;
             }
+        });
+        
+         this.stage.on("mouseout", function (e) {
+            self.tooltip.hide();
+            self.toolTipText="";
+            self.layerTEXT.draw();
         });
           
            this.layer.on("mouseover", function (e) {
@@ -556,17 +568,28 @@ export class NodeEditorComponent implements OnInit{
 
 
     }
+        //BUTTON EVENTS
+   onAdded(added: boolean) {      
+       if(added){
+               this.addNewNode();
+       }
+  }
+    onDeleted(deleted: boolean) {
+        if(deleted){
+                this.deleteNode();
+        }  
+  }
     
     buttonEvents(){
        let self = this; 
-         //BUTTON EVENTS
+     
         
          //add new page
         this.stage.find('#addButton')[0].off('click tap').on('click tap',function(e){
             var rect =  self.stage.find('#addRect')[0];
             var fill = rect.fill() == self.buttonColorDisabled ? self.buttonColorDisabled : self.buttonColorHover;
             if(fill != self.buttonColorDisabled){
-                self.addNewNode(self.selectedNode);
+                self.addNewNode();
             }
         });
 
@@ -578,7 +601,7 @@ export class NodeEditorComponent implements OnInit{
             var rect =  self.stage.find('#delRect')[0];
             var fill = rect.fill() == self.buttonColorDisabled ? self.buttonColorDisabled: self.buttonColorHover;
             if(fill != self.buttonColorDisabled){
-               self.deleteNode(self.selectedNode);
+               self.deleteNode();
             }
         });
 
@@ -605,13 +628,27 @@ export class NodeEditorComponent implements OnInit{
                                pages => {   
                                //falsche lvl und position 
                                // this.pages = pages;
-                                   pages.sort(
+                                  /* pages.sort(
                                         this.firstBy(function (v1, v2) { return v1.level - v2.level; })
                                         .thenBy(function (v1, v2) { return v1.position - v2.position; })
-                                    );
-                                /*pages.sort(function(a, b) {
+                                    );*/
+                                pages.sort(function(a, b) {
                                     return parseFloat(a.level) - parseFloat(b.level);
-                                });*/
+                                });
+                                  // console.log(pages);
+                                for(var i = 0; i < pages.length; i++){
+                                    if(pages[i]['outgoingInternLinks']){
+                                        for(var j = 0;j < pages[i]['outgoingInternLinks'].length;j++){
+                                            var target = this.findID(pages, pages[i]['outgoingInternLinks'][j]['nextPage']);
+                                            //console.log(target);
+                                            pages[i]['outgoingInternLinks'][j]['position'] = pages[target]['position'];
+                                        }
+                                      pages[i]['outgoingInternLinks'].sort(function(a, b) {
+                                                return parseFloat(a.position) - parseFloat(b.position);
+                                            });
+                                    }  
+                                }
+                                   
                                 console.log(pages);
                                this.drawNodes(pages, "first");
     
@@ -619,7 +656,8 @@ export class NodeEditorComponent implements OnInit{
                                error =>  this.errorMessage = <any>error);
       }
     
-        addNewNode(selected){
+        addNewNode(){
+            var selected = this.selectedNode;
            // this._nodeEditorService.addNewNode(this.storyID,selected,1,1)
             this._nodeEditorService.addNewNode(this.storyID,selected,this.actualPage['level']+1,this.actualPage['outgoingInternLinks'].length+1)
                             .subscribe( 
@@ -632,8 +670,8 @@ export class NodeEditorComponent implements OnInit{
             
         }
     
-     deleteNode(id){
-
+     deleteNode(){
+        var id = this.selectedNode;
         this.popUpShown = true;
         this.pause = true;
         this.setDraggable(false);
@@ -738,11 +776,15 @@ export class NodeEditorComponent implements OnInit{
                                     this.hasChildren = true;
                                 }
                                 if(actualPage['outgoingInternLinks'].length < 4){
+                                    this.allowed[0] = true;
+                                     $("#wrapper").trigger( "click" );
                                     console.log("IS ALLOWED"); 
                                     if(!this.popUpShown) {
                                         this.stage.find('#addRect')[0].setAttr('fill', this.buttonColor);
                                     }
                                 } else {
+                                     this.allowed[0] = false;
+                                     $("#wrapper").trigger( "click" );
                                     console.log("NOT ALLOWED");
                                     if(this.movementStyle != null) {
                                         this.button1.off('click tap');
@@ -767,10 +809,16 @@ export class NodeEditorComponent implements OnInit{
                                    console.log("DONE");
                                   //  this.stage.find('#delRect')[0].setAttr('fill', this.buttonColor);//wieder wegmachen!!!
                                  if (actualPage['level'] == 0) {
+                                     
+                                    this.allowed[1] = false;
+                                      $("#wrapper").trigger( "click" );
                                     if(!this.popUpShown) {
                                         this.stage.find('#delRect')[0].setAttr('fill', this.buttonColorDisabled);
                                     }
                                 } else {
+                                     this.allowed[1] = true; 
+                                      $("#wrapper").trigger( "click" );
+                                 
                                     if(!this.popUpShown) {
                                         this.stage.find('#delRect')[0].setAttr('fill', this.buttonColor);
                                     }
@@ -783,16 +831,36 @@ export class NodeEditorComponent implements OnInit{
         };
     
         reorderNodes(ID01, ID02) {
-             
+              this._nodeEditorService.reorderNodes(ID01, ID02)
+                            .subscribe(
+                               result => {
+                                     this.startDrawNodes(this.storyID);
+                                  //  this.debugText.text(data);
+                                    this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
+                    
+                                   // debugText.setAttr('fontSize','25');
+                                    this.interfaceLayer.draw();
+                                   },
+                               error =>  this.errorMessage = <any>error);
    
-            
-           //REORDER
-                    this.startDrawNodes(this.storyID);
-                  //  this.debugText.text(data);
-                    this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
+                  
+               
+        };
     
-                   // debugText.setAttr('fontSize','25');
-                    this.interfaceLayer.draw();
+        reorderBranches(ID01, ID02) {
+              this._nodeEditorService.reorderBranches(ID01, ID02)
+                            .subscribe(
+                               result => {
+                                     this.startDrawNodes(this.storyID);
+                                  //  this.debugText.text(data);
+                                    this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
+                    
+                                   // debugText.setAttr('fontSize','25');
+                                    this.interfaceLayer.draw();
+                                   },
+                               error =>  this.errorMessage = <any>error);
+   
+                  
                
         };
       //###### TRIGGER FUNCTIONS END ######
@@ -880,7 +948,7 @@ export class NodeEditorComponent implements OnInit{
                     y: h+(parseInt(data[i]['level']) + 1) * (this.levelY),
                     fill: this.buttonColorHover,
                     radius: 20,
-                    draggable: true,
+                    draggable: false,
                     name: 'star ' + data[i]['id'],
                     id: data[i]['id'],
                     stroke: 'black',
@@ -904,34 +972,52 @@ export class NodeEditorComponent implements OnInit{
                     points[z] = [];
                     points[z]['pointX'] = star.getAttr('x');
                     points[z]['pointY'] = star.getAttr('y');
-                    points[z][0] = data[i]['outgoingInternLinks'][0];
+                    points[z][0] = data[i]['outgoingInternLinks'][0]['nextPage'];
                     if (data[i]['outgoingInternLinks'][1]) {
-                        points[z][1] = data[i]['outgoingInternLinks'][1];
+                        points[z][1] = data[i]['outgoingInternLinks'][1]['nextPage'];
                     }
                     if (data[i]['outgoingInternLinks'][2]) {
-                        points[z][2] = data[i]['outgoingInternLinks'][2];
+                        points[z][2] = data[i]['outgoingInternLinks'][2]['nextPage'];
                     }
                     if (data[i]['outgoingInternLinks'][3]) {
-                        points[z][3] = data[i]['outgoingInternLinks'][3];
+                        points[z][3] = data[i]['outgoingInternLinks'][3]['nextPage'];
                     }
                     z++;
                 }
 
             }
 
+            console.log("POINTS");
+            console.log(points);
             var sh = IDs.shift();
-
+            console.log("IDs");
+            console.log(IDs);
+ 
+       
+     if(data[i]['outgoingInternLinks']){ //umändern auf 
             //get next node id
             for (var q = 0; q < 4; q++) {
                 if (i != 0) {
-                    nextPageIDinData = this.findID(data, data[sh]['outgoingInternLinks'][q]);
-                    nextID = nextPageIDinData;
+                   if(data[sh]['outgoingInternLinks'][q]){  
+                        nextPageIDinData = this.findID(data, data[sh]['outgoingInternLinks'][q]['nextPage']);
+                        nextID = nextPageIDinData;
+                    }else{
+                        nextPageIDinData = 0;
+                        nextID = nextPageIDinData; 
+                    }
 
 
                 } else {
-                   //  console.log(data[i]['outgoingInternLinks'][q]); wird 1 sein und 1 gibts nd
-                    nextPageIDinData = this.findID(data, 2); 
-                    nextID = nextPageIDinData;
+                    
+                 if(data[i]['outgoingInternLinks'][q]){  
+                       nextPageIDinData = this.findID(data, data[i]['outgoingInternLinks'][q]['nextPage']); 
+                       nextID = nextPageIDinData;
+                }else{
+                    nextPageIDinData = 0;
+                    nextID = nextPageIDinData; 
+                 }
+                  
+                    
                 }
                 console.log(nextID);//0
                 
@@ -965,7 +1051,7 @@ export class NodeEditorComponent implements OnInit{
                             y: h + ((parseInt(data[nextPageIDinData]['level']) + 1) * this.levelY),
                             fill: color,
                             radius: 20,
-                            draggable: true,
+                            draggable: false,
                             name: 'star ' + data[nextPageIDinData]['id'],
                             id: data[nextPageIDinData]['id'],
                             stroke: 'black',
@@ -1050,22 +1136,23 @@ export class NodeEditorComponent implements OnInit{
 
 
                              //connection saving
-                            if (data[i]['outgoingInternLinks'][0]) {
+                            if (data[nextPageIDinData]['outgoingInternLinks'][0]) {
                                 points[z] = [];
                                 points[z]['pointX'] = star.getAttr('x');
                                 points[z]['pointY'] = star.getAttr('y');
-                                points[z][0] = data[i]['outgoingInternLinks'][0];
-                                if (data[i]['outgoingInternLinks'][1]) {
-                                    points[z][1] = data[i]['outgoingInternLinks'][1];
+                                points[z][0] = data[nextPageIDinData]['outgoingInternLinks'][0]['nextPage'];
+                                if (data[nextPageIDinData]['outgoingInternLinks'][1]) {
+                                    points[z][1] = data[nextPageIDinData]['outgoingInternLinks'][1]['nextPage'];
                                 }
-                                if (data[i]['outgoingInternLinks'][2]) {
-                                    points[z][2] = data[i]['outgoingInternLinks'][2];
+                                if (data[nextPageIDinData]['outgoingInternLinks'][2]) {
+                                    points[z][2] = data[nextPageIDinData]['outgoingInternLinks'][2]['nextPage'];
                                 }
-                                if (data[i]['outgoingInternLinks'][3]) {
-                                    points[z][3] = data[i]['outgoingInternLinks'][3];
+                                if (data[nextPageIDinData]['outgoingInternLinks'][3]) {
+                                    points[z][3] = data[nextPageIDinData]['outgoingInternLinks'][3]['nextPage'];
                                 }
                                 z++;
                             }
+
 
                             //connection drawing
                             for (var j = 0; j < points.length; j++) {
@@ -1086,7 +1173,9 @@ export class NodeEditorComponent implements OnInit{
                         multiple = this.levelX;
                     }
                     // }
-               }
+               
+                }
+            }
 
             //}
         }
@@ -1141,11 +1230,12 @@ export class NodeEditorComponent implements OnInit{
                     zoomIn(e, null);
                 }*/
                 //HIER geklickter node in die session
-               
-
-
+            
 
             } else if (fill == this.buttonColorHover) {
+                this.allowed[0]= false;
+                this.allowed[1] = false;
+                $("#wrapper").trigger( "click" );
                 this.debugText.text('Deselected "' + elem.getAttr('id') +'"');
                 this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
 
@@ -1381,7 +1471,7 @@ export class NodeEditorComponent implements OnInit{
             e.target.fill('green');
 
         } else {
-           // this.reorderBranches(this.previousShape.id(),this.found);
+            this.reorderBranches(this.previousShape.id(),this.found);
             this.previousShape.fire('drop', {
                 type: 'drop',
                 target: this.previousShape,

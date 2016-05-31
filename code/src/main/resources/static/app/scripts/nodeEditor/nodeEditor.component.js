@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../logState/logState.component', './nodeEditor.service', '../../headerfct', '../login/authentication.service'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../logState/logState.component', './nodeEditor.service', '../editBar/editBar.component', '../editBar/editBar.service', '../../headerfct', '../login/authentication.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, logState_component_1, nodeEditor_service_1, headerfct_1, authentication_service_1;
+    var core_1, router_1, logState_component_1, nodeEditor_service_1, editBar_component_1, editBar_service_1, headerfct_1, authentication_service_1;
     var NodeEditorComponent;
     return {
         setters:[
@@ -25,6 +25,12 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
             },
             function (nodeEditor_service_1_1) {
                 nodeEditor_service_1 = nodeEditor_service_1_1;
+            },
+            function (editBar_component_1_1) {
+                editBar_component_1 = editBar_component_1_1;
+            },
+            function (editBar_service_1_1) {
+                editBar_service_1 = editBar_service_1_1;
             },
             function (headerfct_1_1) {
                 headerfct_1 = headerfct_1_1;
@@ -53,6 +59,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.pause = false;
                     this.popUpShown = false;
                     this.toolTipText = "";
+                    this.found = false;
                     this.dropText = "Do you want replace this page with the dragged one, OR do you want to add the moving page as sub-page to this page " +
                         "OR do you want to connect this two pages to reunite the branches?";
                     this.moveText = "Do you want to move only this page or all sub-pages as well?";
@@ -95,6 +102,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.emptyLayer = this.tempLayer.clone();
                     this.interfaceLayer = this.tempLayer.clone();
                     this.firstBy = (function () { function e(f) { f.thenBy = t; return f; } function t(y, x) { x = this; return e(function (a, b) { return x(a, b) || y(a, b); }); } return e; })();
+                    this.allowed = [];
                 }
                 NodeEditorComponent.prototype.ngOnInit = function () {
                     this.init();
@@ -270,6 +278,11 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             self.dropStyle = null;
                             self.movementStyle = null;
                         }
+                    });
+                    this.stage.on("mouseout", function (e) {
+                        self.tooltip.hide();
+                        self.toolTipText = "";
+                        self.layerTEXT.draw();
                     });
                     this.layer.on("mouseover", function (e) {
                         var fill = e.target.fill() == 'yellow' ? 'yellow' : 'orange';
@@ -472,15 +485,25 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         }
                     });
                 };
+                //BUTTON EVENTS
+                NodeEditorComponent.prototype.onAdded = function (added) {
+                    if (added) {
+                        this.addNewNode();
+                    }
+                };
+                NodeEditorComponent.prototype.onDeleted = function (deleted) {
+                    if (deleted) {
+                        this.deleteNode();
+                    }
+                };
                 NodeEditorComponent.prototype.buttonEvents = function () {
                     var self = this;
-                    //BUTTON EVENTS
                     //add new page
                     this.stage.find('#addButton')[0].off('click tap').on('click tap', function (e) {
                         var rect = self.stage.find('#addRect')[0];
                         var fill = rect.fill() == self.buttonColorDisabled ? self.buttonColorDisabled : self.buttonColorHover;
                         if (fill != self.buttonColorDisabled) {
-                            self.addNewNode(self.selectedNode);
+                            self.addNewNode();
                         }
                     });
                     this.hoverInterfaceButtons('#addRect', '#addText');
@@ -489,7 +512,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         var rect = self.stage.find('#delRect')[0];
                         var fill = rect.fill() == self.buttonColorDisabled ? self.buttonColorDisabled : self.buttonColorHover;
                         if (fill != self.buttonColorDisabled) {
-                            self.deleteNode(self.selectedNode);
+                            self.deleteNode();
                         }
                     });
                     this.hoverInterfaceButtons('#delRect', '#delText');
@@ -510,17 +533,33 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         .subscribe(function (pages) {
                         //falsche lvl und position 
                         // this.pages = pages;
-                        pages.sort(_this.firstBy(function (v1, v2) { return v1.level - v2.level; })
-                            .thenBy(function (v1, v2) { return v1.position - v2.position; }));
-                        /*pages.sort(function(a, b) {
+                        /* pages.sort(
+                              this.firstBy(function (v1, v2) { return v1.level - v2.level; })
+                              .thenBy(function (v1, v2) { return v1.position - v2.position; })
+                          );*/
+                        pages.sort(function (a, b) {
                             return parseFloat(a.level) - parseFloat(b.level);
-                        });*/
+                        });
+                        // console.log(pages);
+                        for (var i = 0; i < pages.length; i++) {
+                            if (pages[i]['outgoingInternLinks']) {
+                                for (var j = 0; j < pages[i]['outgoingInternLinks'].length; j++) {
+                                    var target = _this.findID(pages, pages[i]['outgoingInternLinks'][j]['nextPage']);
+                                    //console.log(target);
+                                    pages[i]['outgoingInternLinks'][j]['position'] = pages[target]['position'];
+                                }
+                                pages[i]['outgoingInternLinks'].sort(function (a, b) {
+                                    return parseFloat(a.position) - parseFloat(b.position);
+                                });
+                            }
+                        }
                         console.log(pages);
                         _this.drawNodes(pages, "first");
                     }, function (error) { return _this.errorMessage = error; });
                 };
-                NodeEditorComponent.prototype.addNewNode = function (selected) {
+                NodeEditorComponent.prototype.addNewNode = function () {
                     var _this = this;
+                    var selected = this.selectedNode;
                     // this._nodeEditorService.addNewNode(this.storyID,selected,1,1)
                     this._nodeEditorService.addNewNode(this.storyID, selected, this.actualPage['level'] + 1, this.actualPage['outgoingInternLinks'].length + 1)
                         .subscribe(function (result) {
@@ -529,7 +568,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         _this.startDrawNodes(_this.storyID);
                     }, function (error) { return _this.errorMessage = error; });
                 };
-                NodeEditorComponent.prototype.deleteNode = function (id) {
+                NodeEditorComponent.prototype.deleteNode = function () {
+                    var id = this.selectedNode;
                     this.popUpShown = true;
                     this.pause = true;
                     this.setDraggable(false);
@@ -615,12 +655,16 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             _this.hasChildren = true;
                         }
                         if (actualPage['outgoingInternLinks'].length < 4) {
+                            _this.allowed[0] = true;
+                            $("#wrapper").trigger("click");
                             console.log("IS ALLOWED");
                             if (!_this.popUpShown) {
                                 _this.stage.find('#addRect')[0].setAttr('fill', _this.buttonColor);
                             }
                         }
                         else {
+                            _this.allowed[0] = false;
+                            $("#wrapper").trigger("click");
                             console.log("NOT ALLOWED");
                             if (_this.movementStyle != null) {
                                 _this.button1.off('click tap');
@@ -642,11 +686,15 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         console.log("DONE");
                         //  this.stage.find('#delRect')[0].setAttr('fill', this.buttonColor);//wieder wegmachen!!!
                         if (actualPage['level'] == 0) {
+                            _this.allowed[1] = false;
+                            $("#wrapper").trigger("click");
                             if (!_this.popUpShown) {
                                 _this.stage.find('#delRect')[0].setAttr('fill', _this.buttonColorDisabled);
                             }
                         }
                         else {
+                            _this.allowed[1] = true;
+                            $("#wrapper").trigger("click");
                             if (!_this.popUpShown) {
                                 _this.stage.find('#delRect')[0].setAttr('fill', _this.buttonColor);
                             }
@@ -657,32 +705,26 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 ;
                 NodeEditorComponent.prototype.reorderNodes = function (ID01, ID02) {
                     var _this = this;
-                    this._nodeEditorService.getPageById(ID01)
-                        .subscribe(function (p1) {
-                        var page1 = p1;
-                        var tmp = p1;
-                        _this._nodeEditorService.getPageById(ID02)
-                            .subscribe(function (p2) {
-                            var page2 = p2;
-                            var tmp2 = p2;
-                            page1['level'] = tmp2['level'];
-                            //  page1['position'] = tmp2['position'];
-                            //  page1['outgoingInternLinks'] = tmp2['outgoingInternLinks'];
-                            //  page1['incomingInternLinks'] = tmp2['incomingInternLinks'];
-                            page2['level'] = tmp['level'];
-                            //  page2['position'] = tmp['position'];
-                            // page2['outgoingInternLinks'] = tmp['outgoingInternLinks'];
-                            //page2['incomingInternLinks'] = tmp['incomingInternLinks'];
-                            console.log("PAGE1 " + page1['level']); //1  sollte 0
-                            console.log("PAGE2 " + page2['level']); //0 sollte 1
-                        }, function (error) { return _this.errorMessage = error; });
+                    this._nodeEditorService.reorderNodes(ID01, ID02)
+                        .subscribe(function (result) {
+                        _this.startDrawNodes(_this.storyID);
+                        //  this.debugText.text(data);
+                        _this.debugText.setAttr('x', (_this.width / 2) - _this.debugText.getAttr('width') / 2);
+                        // debugText.setAttr('fontSize','25');
+                        _this.interfaceLayer.draw();
                     }, function (error) { return _this.errorMessage = error; });
-                    //REORDER
-                    this.startDrawNodes(this.storyID);
-                    //  this.debugText.text(data);
-                    this.debugText.setAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
-                    // debugText.setAttr('fontSize','25');
-                    this.interfaceLayer.draw();
+                };
+                ;
+                NodeEditorComponent.prototype.reorderBranches = function (ID01, ID02) {
+                    var _this = this;
+                    this._nodeEditorService.reorderBranches(ID01, ID02)
+                        .subscribe(function (result) {
+                        _this.startDrawNodes(_this.storyID);
+                        //  this.debugText.text(data);
+                        _this.debugText.setAttr('x', (_this.width / 2) - _this.debugText.getAttr('width') / 2);
+                        // debugText.setAttr('fontSize','25');
+                        _this.interfaceLayer.draw();
+                    }, function (error) { return _this.errorMessage = error; });
                 };
                 ;
                 //###### TRIGGER FUNCTIONS END ######
@@ -757,7 +799,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                 y: h + (parseInt(data[i]['level']) + 1) * (this.levelY),
                                 fill: this.buttonColorHover,
                                 radius: 20,
-                                draggable: true,
+                                draggable: false,
                                 name: 'star ' + data[i]['id'],
                                 id: data[i]['id'],
                                 stroke: 'black',
@@ -777,166 +819,183 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                 points[z] = [];
                                 points[z]['pointX'] = star.getAttr('x');
                                 points[z]['pointY'] = star.getAttr('y');
-                                points[z][0] = data[i]['outgoingInternLinks'][0];
+                                points[z][0] = data[i]['outgoingInternLinks'][0]['nextPage'];
                                 if (data[i]['outgoingInternLinks'][1]) {
-                                    points[z][1] = data[i]['outgoingInternLinks'][1];
+                                    points[z][1] = data[i]['outgoingInternLinks'][1]['nextPage'];
                                 }
                                 if (data[i]['outgoingInternLinks'][2]) {
-                                    points[z][2] = data[i]['outgoingInternLinks'][2];
+                                    points[z][2] = data[i]['outgoingInternLinks'][2]['nextPage'];
                                 }
                                 if (data[i]['outgoingInternLinks'][3]) {
-                                    points[z][3] = data[i]['outgoingInternLinks'][3];
+                                    points[z][3] = data[i]['outgoingInternLinks'][3]['nextPage'];
                                 }
                                 z++;
                             }
                         }
+                        console.log("POINTS");
+                        console.log(points);
                         var sh = IDs.shift();
-                        //get next node id
-                        for (var q = 0; q < 4; q++) {
-                            if (i != 0) {
-                                nextPageIDinData = this.findID(data, data[sh]['outgoingInternLinks'][q]);
-                                nextID = nextPageIDinData;
-                            }
-                            else {
-                                //  console.log(data[i]['outgoingInternLinks'][q]); wird 1 sein und 1 gibts nd
-                                nextPageIDinData = this.findID(data, 2);
-                                nextID = nextPageIDinData;
-                            }
-                            console.log(nextID); //0
-                            if (this.layer.find('#' + data[nextPageIDinData]['id'])[0] == undefined) {
-                                if (nextID != 0) {
-                                    IDs.push(nextID);
-                                    numb = this.count(data, nextPageIDinData);
-                                    nodeCounter++;
-                                    if (numb > 1) {
-                                        center = (((numb * (distance)) / 2) + distance / 2);
-                                        multiple += distance;
+                        console.log("IDs");
+                        console.log(IDs);
+                        if (data[i]['outgoingInternLinks']) {
+                            //get next node id
+                            for (var q = 0; q < 4; q++) {
+                                if (i != 0) {
+                                    if (data[sh]['outgoingInternLinks'][q]) {
+                                        nextPageIDinData = this.findID(data, data[sh]['outgoingInternLinks'][q]['nextPage']);
+                                        nextID = nextPageIDinData;
                                     }
                                     else {
-                                        center = 0;
-                                        multiple = this.levelX;
+                                        nextPageIDinData = 0;
+                                        nextID = nextPageIDinData;
                                     }
-                                    //HIGHLIGHTED NODES
-                                    /*  if (this.highLight != null && highLight.indexOf(data[nextPageIDinData]['id']) != -1) {
-                                          color = '#e2b0b3';
-                                      } else {
-                                          color = buttonColorHover;
-                                      }*/
-                                    star = new Konva.Circle({
-                                        x: ((multiple - center) * scaleFactor) - this.offset,
-                                        y: h + ((parseInt(data[nextPageIDinData]['level']) + 1) * this.levelY),
-                                        fill: color,
-                                        radius: 20,
-                                        draggable: true,
-                                        name: 'star ' + data[nextPageIDinData]['id'],
-                                        id: data[nextPageIDinData]['id'],
-                                        stroke: 'black',
-                                        strokeWidth: 2
-                                    });
-                                    this.layer.add(star);
-                                    /* if ((star.getAbsolutePosition().x < 20 || star.getAbsolutePosition().x > width - 20 || star.getAbsolutePosition().y > height - 20) && layer.getAttr('scale').x <= 1) {
-                                         toBig = true;
-                                         startScale = layer.scaleX().toFixed(2) - 0.02;
-                                         if (window.innerWidth < 850) {
-                                             offset = 50;
-                                         }
-                                        if(layer.getAttr('scale').y < 1.0){
-                                             startY = 10 *(1+(1-layer.getAttr('scale').y));
-                                             offset = -10 *(1+(1-layer.getAttr('scale').x));
-                                         }
-                                         //offset weiter rechts
-                                         //offset= -10*(1+(1-layer.getAttr('scale').x));
-             
-                                         layer.scale({
-                                             x: startScale,
-                                             y: startScale
-                                         });
-                                         layerConn.scale({
-                                             x: startScale,
-                                             y: startScale
-                                         });
-                                         backgroundLayer.scale({
-                                             x: 1.0,
-                                             y: startScale
-                                         });
-                                         levelTextLayer.scale({
-                                             x: startScale,
-                                             y: startScale
-                                         });
-                                         layerTEXT.scale({
-                                             x: startScale,
-                                             y: startScale
-                                         });
-                                         tempLayer.scale({
-                                             x: startScale,
-                                             y: startScale
-                                         });
-             
-                                         layerConn.offset({
-                                             x: layer.offsetX() - 20,
-                                             y: 0
-                                         });
-                                         layerTEXT.offset({
-                                             x: layer.offsetX() - 20,
-                                             y: 0
-                                         });
-             
-                                         tempLayer.offset({
-                                             x: layer.offsetX() - 20,
-                                             y: 0
-                                         });
-                                         layer.offset({
-                                             x: layer.offsetX() - 20,
-                                             y: 0
-                                         });
-             
-             
-                                         startOffsetX = layer.offsetX();
-             
-                                         startDrawLines();
-                                         startDrawNodes();
-                                     } else {*/
-                                    //TITLE
-                                    toBig = false;
-                                    idText = new Konva.Text({
-                                        x: star.getAttr('x') - (6),
-                                        y: star.getAttr('y') - 6,
-                                        text: star.getAttr('id'),
-                                        fontSize: 20,
-                                        fill: 'black'
-                                    });
-                                    this.layerTEXT.add(idText);
-                                    //connection saving
-                                    if (data[i]['outgoingInternLinks'][0]) {
-                                        points[z] = [];
-                                        points[z]['pointX'] = star.getAttr('x');
-                                        points[z]['pointY'] = star.getAttr('y');
-                                        points[z][0] = data[i]['outgoingInternLinks'][0];
-                                        if (data[i]['outgoingInternLinks'][1]) {
-                                            points[z][1] = data[i]['outgoingInternLinks'][1];
-                                        }
-                                        if (data[i]['outgoingInternLinks'][2]) {
-                                            points[z][2] = data[i]['outgoingInternLinks'][2];
-                                        }
-                                        if (data[i]['outgoingInternLinks'][3]) {
-                                            points[z][3] = data[i]['outgoingInternLinks'][3];
-                                        }
-                                        z++;
+                                }
+                                else {
+                                    if (data[i]['outgoingInternLinks'][q]) {
+                                        nextPageIDinData = this.findID(data, data[i]['outgoingInternLinks'][q]['nextPage']);
+                                        nextID = nextPageIDinData;
                                     }
-                                    //connection drawing
-                                    for (var j = 0; j < points.length; j++) {
-                                        for (var k = 0; k < 4; k++) {
-                                            if (points[j][k] == data[nextPageIDinData]['id']) {
-                                                this.drawConnection(points[j][k], data[i]['id'], points[j]['pointX'], points[j]['pointY'], star.getAttr('x'), star.getAttr('y'));
+                                    else {
+                                        nextPageIDinData = 0;
+                                        nextID = nextPageIDinData;
+                                    }
+                                }
+                                console.log(nextID); //0
+                                if (this.layer.find('#' + data[nextPageIDinData]['id'])[0] == undefined) {
+                                    if (nextID != 0) {
+                                        IDs.push(nextID);
+                                        numb = this.count(data, nextPageIDinData);
+                                        nodeCounter++;
+                                        if (numb > 1) {
+                                            center = (((numb * (distance)) / 2) + distance / 2);
+                                            multiple += distance;
+                                        }
+                                        else {
+                                            center = 0;
+                                            multiple = this.levelX;
+                                        }
+                                        //HIGHLIGHTED NODES
+                                        /*  if (this.highLight != null && highLight.indexOf(data[nextPageIDinData]['id']) != -1) {
+                                              color = '#e2b0b3';
+                                          } else {
+                                              color = buttonColorHover;
+                                          }*/
+                                        star = new Konva.Circle({
+                                            x: ((multiple - center) * scaleFactor) - this.offset,
+                                            y: h + ((parseInt(data[nextPageIDinData]['level']) + 1) * this.levelY),
+                                            fill: color,
+                                            radius: 20,
+                                            draggable: false,
+                                            name: 'star ' + data[nextPageIDinData]['id'],
+                                            id: data[nextPageIDinData]['id'],
+                                            stroke: 'black',
+                                            strokeWidth: 2
+                                        });
+                                        this.layer.add(star);
+                                        /* if ((star.getAbsolutePosition().x < 20 || star.getAbsolutePosition().x > width - 20 || star.getAbsolutePosition().y > height - 20) && layer.getAttr('scale').x <= 1) {
+                                             toBig = true;
+                                             startScale = layer.scaleX().toFixed(2) - 0.02;
+                                             if (window.innerWidth < 850) {
+                                                 offset = 50;
+                                             }
+                                            if(layer.getAttr('scale').y < 1.0){
+                                                 startY = 10 *(1+(1-layer.getAttr('scale').y));
+                                                 offset = -10 *(1+(1-layer.getAttr('scale').x));
+                                             }
+                                             //offset weiter rechts
+                                             //offset= -10*(1+(1-layer.getAttr('scale').x));
+                 
+                                             layer.scale({
+                                                 x: startScale,
+                                                 y: startScale
+                                             });
+                                             layerConn.scale({
+                                                 x: startScale,
+                                                 y: startScale
+                                             });
+                                             backgroundLayer.scale({
+                                                 x: 1.0,
+                                                 y: startScale
+                                             });
+                                             levelTextLayer.scale({
+                                                 x: startScale,
+                                                 y: startScale
+                                             });
+                                             layerTEXT.scale({
+                                                 x: startScale,
+                                                 y: startScale
+                                             });
+                                             tempLayer.scale({
+                                                 x: startScale,
+                                                 y: startScale
+                                             });
+                 
+                                             layerConn.offset({
+                                                 x: layer.offsetX() - 20,
+                                                 y: 0
+                                             });
+                                             layerTEXT.offset({
+                                                 x: layer.offsetX() - 20,
+                                                 y: 0
+                                             });
+                 
+                                             tempLayer.offset({
+                                                 x: layer.offsetX() - 20,
+                                                 y: 0
+                                             });
+                                             layer.offset({
+                                                 x: layer.offsetX() - 20,
+                                                 y: 0
+                                             });
+                 
+                 
+                                             startOffsetX = layer.offsetX();
+                 
+                                             startDrawLines();
+                                             startDrawNodes();
+                                         } else {*/
+                                        //TITLE
+                                        toBig = false;
+                                        idText = new Konva.Text({
+                                            x: star.getAttr('x') - (6),
+                                            y: star.getAttr('y') - 6,
+                                            text: star.getAttr('id'),
+                                            fontSize: 20,
+                                            fill: 'black'
+                                        });
+                                        this.layerTEXT.add(idText);
+                                        //connection saving
+                                        if (data[nextPageIDinData]['outgoingInternLinks'][0]) {
+                                            points[z] = [];
+                                            points[z]['pointX'] = star.getAttr('x');
+                                            points[z]['pointY'] = star.getAttr('y');
+                                            points[z][0] = data[nextPageIDinData]['outgoingInternLinks'][0]['nextPage'];
+                                            if (data[nextPageIDinData]['outgoingInternLinks'][1]) {
+                                                points[z][1] = data[nextPageIDinData]['outgoingInternLinks'][1]['nextPage'];
+                                            }
+                                            if (data[nextPageIDinData]['outgoingInternLinks'][2]) {
+                                                points[z][2] = data[nextPageIDinData]['outgoingInternLinks'][2]['nextPage'];
+                                            }
+                                            if (data[nextPageIDinData]['outgoingInternLinks'][3]) {
+                                                points[z][3] = data[nextPageIDinData]['outgoingInternLinks'][3]['nextPage'];
+                                            }
+                                            z++;
+                                        }
+                                        //connection drawing
+                                        for (var j = 0; j < points.length; j++) {
+                                            for (var k = 0; k < 4; k++) {
+                                                if (points[j][k] == data[nextPageIDinData]['id']) {
+                                                    this.drawConnection(points[j][k], data[i]['id'], points[j]['pointX'], points[j]['pointY'], star.getAttr('x'), star.getAttr('y'));
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
-                            if (nodeCounter == numb) {
-                                nodeCounter = 0;
-                                center = 0;
-                                multiple = this.levelX;
+                                if (nodeCounter == numb) {
+                                    nodeCounter = 0;
+                                    center = 0;
+                                    multiple = this.levelX;
+                                }
                             }
                         }
                     }
@@ -982,6 +1041,9 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             this.selectedNode = elem.id();
                         }
                         else if (fill == this.buttonColorHover) {
+                            this.allowed[0] = false;
+                            this.allowed[1] = false;
+                            $("#wrapper").trigger("click");
                             this.debugText.text('Deselected "' + elem.getAttr('id') + '"');
                             this.debugText.setAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
                             this.selectedNode = null;
@@ -1199,7 +1261,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         e.target.fill('green');
                     }
                     else {
-                        // this.reorderBranches(this.previousShape.id(),this.found);
+                        this.reorderBranches(this.previousShape.id(), this.found);
                         this.previousShape.fire('drop', {
                             type: 'drop',
                             target: this.previousShape,
@@ -1479,8 +1541,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     core_1.Component({
                         selector: 'nodeEditor',
                         templateUrl: "app/html/nodeEditor/nodeEditor.html",
-                        directives: [logState_component_1.LogStateComponent],
-                        providers: [nodeEditor_service_1.NodeEditorService, headerfct_1.HttpClient, authentication_service_1.AuthenticationService]
+                        directives: [logState_component_1.LogStateComponent, editBar_component_1.EditBarComponent],
+                        providers: [nodeEditor_service_1.NodeEditorService, headerfct_1.HttpClient, authentication_service_1.AuthenticationService, editBar_service_1.EditBarService]
                     }), 
                     __metadata('design:paramtypes', [router_1.Router, router_1.RouteParams, nodeEditor_service_1.NodeEditorService])
                 ], NodeEditorComponent);

@@ -1,4 +1,4 @@
-import {Component,bind,Input,OnInit,ElementRef} from 'angular2/core';
+import {Component,bind,Input,EventEmitter, Output,OnInit,ElementRef} from 'angular2/core';
 import {ROUTER_PROVIDERS,RouteConfig, ROUTER_DIRECTIVES,APP_BASE_HREF,LocationStrategy,RouteParams,ROUTER_BINDINGS} from 'angular2/router';
 import { Router, Location} from 'angular2/router';
 import { AuthenticationService }    from '../login/authentication.service';
@@ -11,7 +11,7 @@ declare var vex: any;
     
 @Component({
       selector: 'editBar',
-      inputs:['details','allowed'],
+      inputs:['details'],
       templateUrl:`app/html/editBar/editBar.html`,
       styles:['a {cursor: pointer}'],
   	  providers:[EditBarService,AuthenticationService,ProfileService,HttpClient]
@@ -23,25 +23,40 @@ export class EditBarComponent implements OnInit {
 	editProfile = "Edit Profile";
 	editPages = "Edit Pages";
 	editStory = "Edit Story";
+	addPage = "Add new page";
+	delete = "Delete";
+	deletePage="Delete Page";
+	deleteBranch="Delete Branch";
+	actions="Actions";
+	swapNode="Swap node";
+	swapBranch="Swap branch";
+	append="Append";
 
 	name; 
 	profilePage;
 	aboutPage;
+	nodeEditorPage;
 	details;
 	storyid; 
 	allowed:boolean;
 	story;
 	notTheSamePW;
+	addAllowed;
+	deleteAllowed;
 
 	loggedIn;
 	loggedInUser
 	errorMessage;
 	update: string[];
+	
+	 @Output() onAdded = new EventEmitter<boolean>();
+	 @Output() onDeleted = new EventEmitter<boolean>();
 
 
 	constructor(private _elRef: ElementRef, private httpClient: HttpClient, private _router: Router,private _routeParams:RouteParams,private _authenticationService: AuthenticationService,private _editBarService: EditBarService) {
  	this.loggedIn=_authenticationService.isLoggedIn();
  	this.name = this._routeParams.get('name');	
+ 	
  		if(this.loggedIn){
  		this._editBarService.getLoggedInUser()
 		                     .subscribe(
@@ -58,9 +73,29 @@ export class EditBarComponent implements OnInit {
  	
 	}
 	
+	
+	addNewNode(newNode:boolean){
+		this.onAdded.emit(newNode);
+	}
+	
+	deleteNode(deleteNode:boolean){
+		this.onDeleted.emit(deleteNode);
+	}
 	goToNodeEditor(){
 	     this.storyid = this._routeParams.get('id');	
 		 this._router.navigate(['NodeEditor',{ name: this.name, storyName: this.details[0]['name'] , id: this.storyid}]);
+	}
+	
+	
+	invert(element){
+		jQuery('.'+element['nextElementSibling']['className']).slideToggle('fast');
+		var arrow = jQuery('.'+element['className']).find('i');
+		var classes = arrow.attr('class');
+		if(classes == 'fa fa-angle-up'){
+			arrow.removeClass('fa fa-angle-up').addClass('fa fa-angle-down');
+		}else if(classes == 'fa fa-angle-down'){
+			arrow.removeClass('fa fa-angle-down').addClass('fa fa-angle-up');
+		}
 	}
 	
 	changeValues(key, value){
@@ -189,7 +224,21 @@ export class EditBarComponent implements OnInit {
 		if(document.getElementById("userStoryPage")){
 			this.aboutPage = true;
 		}
-
+		if(document.getElementById("nodeEditorPage")){
+			this.nodeEditorPage = true;	
+	
+			this.addAllowed = this.details[0];
+			this.deleteAllowed = this.details[1]; 
+			
+			let self = this;
+			document.getElementById("wrapper").addEventListener('click', function(event) {
+				self.addAllowed = self.details[0];
+				self.deleteAllowed = self.details[1]; 
+			
+	
+			});
+		}
+		
     	
     	}
   

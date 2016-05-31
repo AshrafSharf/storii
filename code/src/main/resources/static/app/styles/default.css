@@ -62,14 +62,13 @@ a {
   padding: 2px;
   background-color: #96C3CC; }
 
-#editBar div:first-child{
+#editBar div{
 	padding:2px;
-	background-color: #E1AFB1;
-	float: left;
+
 }
 
 #editBar .buttonFrameContainerUserStoryContentModule{
-	float:right; 
+	float:left; 
 	margin-left: 20px; 
 	padding: 2px;
 	background-color: #E1AFB1;
@@ -79,7 +78,12 @@ a {
 	margin-top: 150px;
 	position: absolute;
 	top: 0px;
-	left: 11%;
+	left: 8%;
+}
+
+#editBar .disableButton{
+	pointer-events: none; 
+    opacity: 0.4;
 }
 
 .headerContainer {
@@ -174,12 +178,38 @@ input.buttonStoryInfo {
   border: black dotted 2px;
   line-height: 2em;
   text-align: center; }
+  
+.buttonSizeActions, .buttonSizeDelete{
+	height: 32px;
+	border: black dotted 2px;
+	line-height: 2em;
+	text-align: center;
+}
+#editBar .toggle1 .submenu, #editBar .toggle2 .submenu{
+	height: 32px;
+	line-height: 2em;
+	text-align: center;
+	width:172px;
+	float:none;
+}
+
+
+#editBar .toggle1 .submenu:hover, #editBar .toggle2 .submenu:hover{
+	background-color:#CE9B9D;
+}
+
 
 .buttonLookLink {
   font-size: 16px;
   font-family: "Architects Daughter", cursive;
   text-decoration: none;
-  color: #000; }
+  color: #000;
+  margin:5px; }
+  
+ .buttonSizeActions i, .buttonSizeDelete i{
+ 	font-size: 20px;
+	padding: 5px;
+ }
 
 .buttonFrameContainer {
   width: 120px;
@@ -515,8 +545,8 @@ input.buttonStoryInfo {
   background-color: #96C3CC; }
   #userStoryPage .buttonFrameContainerUserStoryContentModule .buttonSize {
     width: 140px; }
-  #editBar .buttonSize{
-  	width:145px;
+  #editBar .buttonSize, .buttonSizeActions, .buttonSizeDelete{
+  	width:172px;
   }
 #userStoryPage .storyPageAuthor, #userStoryPage .storyPageCoAuthor {
   font-family: "Architects Daughter", cursive;
@@ -813,7 +843,6 @@ input.buttonStoryInfo {
   #nodeEditorPage .h1bgNodeEditor {
     width: 270px;
     margin: 0 auto;
-    position: relative;
     text-align: center; }
     #nodeEditorPage .h1bgNodeEditor h1 {
       text-align: center;
