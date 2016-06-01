@@ -23,8 +23,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.storii.daos.StoriiUserDAO;
+import com.storii.daos.UserImageDAO;
 import com.storii.models.StoriiUser;
 import com.storii.models.Story;
+import com.storii.models.UserImage;
 
 /**
  * REST controller for managing users.
@@ -36,6 +38,9 @@ public class StoriiUserController {
 
 	@Autowired
 	private StoriiUserDAO userDAO;
+
+	@Autowired
+	private UserImageDAO userImageDAO;
 
 
 	/**
@@ -259,8 +264,24 @@ public class StoriiUserController {
 		
 		userDAO.save(oldUser);
 
-		return ResponseEntity.ok().body("{\"user\":\"" + oldUser.getName() + "\",\"updated\":\"true\"}");
+		return ResponseEntity.ok().body("{\"data\":" + "{\"user\":\"" + oldUser.getName() + "\",\"updated\":\"true\"}" + "}");
 
+	}
+
+	@RequestMapping(value = "/setAsProfilePic/{img_id}", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> setAsProfilePic(@PathVariable(value = "img_id") long img_id) {
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		StoriiUser user = userDAO.findByName(userDetails.getUsername());
+
+		UserImage image = userImageDAO.findOne(img_id);
+		
+		//user.setSetUserImage(image);
+		
+		image.setUserIdSet(user);
+		
+		userImageDAO.save(image);
+		return ResponseEntity.ok().body("{\"data\":" + "{\"user\":\"" + user.getName() + "\",\"image_change\":\"true\"}" + "}");
 	}
 
 

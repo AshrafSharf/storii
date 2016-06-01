@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -35,8 +37,13 @@ public class UserImage {
 	private String path;
 	
 	@OneToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "setUserImage")
+	private StoriiUser userIdSet;
+	
+	@ManyToOne
+	@JoinColumn(name = "allUserImages")
 	private StoriiUser userId;
+
 
 	public long getId() {
 		return id;
@@ -68,6 +75,14 @@ public class UserImage {
 
 	public void setUserId(StoriiUser userId) {
 		this.userId = userId;
+	}
+
+	public StoriiUser getUserIdSet() {
+		return userIdSet;
+	}
+
+	public void setUserIdSet(StoriiUser userIdSet) {
+		this.userIdSet = userIdSet;
 	}
 
 	

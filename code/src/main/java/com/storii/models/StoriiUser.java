@@ -69,8 +69,12 @@ public class StoriiUser {
 	 * defines a one to many relation with the userImage-entity
 	 */
 
-	@OneToOne(mappedBy = "userId", cascade = CascadeType.ALL)
-	private UserImage userImage;
+	@OneToOne(mappedBy = "userIdSet", cascade = CascadeType.ALL)
+	private UserImage setUserImage;
+	
+	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<UserImage> allUserImages;
+
 	
 	/**
 	 * defines a one to many relation with the task-entity
@@ -159,14 +163,6 @@ public class StoriiUser {
 		this.tutorialDone = tutorialDone;
 	}
 
-	public UserImage getUserImage() {
-		return userImage;
-	}
-
-	public void setUserImage(UserImage userImage) {
-		this.userImage = userImage;
-	}
-
 	public Role getRole() {
 		return role;
 	}
@@ -205,6 +201,22 @@ public class StoriiUser {
 
 	public void setRatings(Set<Rating> ratings) {
 		this.ratings = ratings;
+	}
+
+	public UserImage getSetUserImage() {
+		return setUserImage;
+	}
+
+	public void setSetUserImage(UserImage setUserImage) {
+		this.setUserImage = setUserImage;
+	}
+
+	public Set<UserImage> getAllUserImages() {
+		return allUserImages;
+	}
+
+	public void setAllUserImages(Set<UserImage> allUserImages) {
+		this.allUserImages = allUserImages;
 	}
 	
 	
