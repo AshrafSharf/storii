@@ -359,6 +359,37 @@ public class PageController {
 				
 		return ResponseEntity.ok().body("{\"data\":"+"{\"appended\":\"true\",\"link1\": \""+page_id+"\",\"link2\": \""+target_page_id+"\"}"+"}");
 	}
+	
+	@RequestMapping(value = "/{page_id}/deleteSingle", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> deleteSingle(@PathVariable(value = "page_id") Long page_id) {
+		Page page = pageDAO.findOne(page_id);
+		
+		Page firstIncomingPage = null;
+		
+		
+		for(InternLink link : page.getIncomingInternLinks()){
+			firstIncomingPage = link.getOwningPage();
+			break;
+		}
+		
+		for(InternLink link : page.getOutgoingInternLinks()){
+			link.setOwningPage(firstIncomingPage);
+			internLinkDAO.save(link);
+		}
+		
+		for(InternLink link : page.getIncomingInternLinks()){
+			link.getOwningPage().getOutgoingInternLinks().remove(link);
+			page.getIncomingInternLinks().remove(link);
+			internLinkDAO.delete(link);
+		}
+		
+		pageDAO.delete(page);
+		
+		return ResponseEntity.ok().body("{\"data\":"+"{\"deleted\":\"true\",\"link1\": \""+page_id+"\"}"+"}");
+		
+	}
+
 
 	@RequestMapping(value = "/{page_id}/getAllOutgoing", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
