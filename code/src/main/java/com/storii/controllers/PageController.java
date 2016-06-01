@@ -390,6 +390,36 @@ public class PageController {
 		
 	}
 
+	@RequestMapping(value = "/{page_id}/deleteBranch", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> deleteBranch(@PathVariable(value = "page_id") Long page_id) {
+		Page page = pageDAO.findOne(page_id);
+		
+		Set<Page> allPages = new HashSet<Page>();
+		page.addChildPages(allPages);
+		
+		for(InternLink link : page.getIncomingInternLinks()){
+			link.getOwningPage().getOutgoingInternLinks().remove(link);
+			page.getIncomingInternLinks().remove(link);
+			internLinkDAO.delete(link);
+		}
+		
+		for(Page singlePage : allPages){
+			for(InternLink link : singlePage.getIncomingInternLinks()){
+				link.getOwningPage().getOutgoingInternLinks().remove(link);
+				singlePage.getIncomingInternLinks().remove(link);
+				internLinkDAO.delete(link);
+			}
+			
+			pageDAO.delete(singlePage);
+		}
+		
+		
+		
+		return ResponseEntity.ok().body("{\"data\":"+"{\"deleted\":\"true\",\"link1\": \""+page_id+"\"}"+"}");
+		
+	}
+
 
 	@RequestMapping(value = "/{page_id}/getAllOutgoing", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
