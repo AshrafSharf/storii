@@ -44,6 +44,40 @@ export class NodeEditorService {
             .catch(this.handleError);  
     }
     
+    appendBranch(id1,id2){
+          var headers = new Headers();
+        if (this._authenticationService.isLoggedIn()) {
+            headers = this.httpClient.createHeader(headers);
+            headers.append('Content-Type', 'application/json');
+        } else {
+            headers.delete('Authorization');
+            headers.append('Authorization', "");
+        }
+
+        var _resultUrl = '/page/'+id1+"/appendToBranch/"+id2;
+        return this.http.get(_resultUrl, { headers })
+            .map(this.extractData)
+            .do(data => console.log(data))
+            .catch(this.handleError);  
+    }
+    
+    getChildren(id){
+          var headers = new Headers();
+        if (this._authenticationService.isLoggedIn()) {
+            headers = this.httpClient.createHeader(headers);
+            headers.append('Content-Type', 'application/json');
+        } else {
+            headers.delete('Authorization');
+            headers.append('Authorization', "");
+        }
+
+        var _resultUrl = '/page/'+id+"/getAllOutgoing/";
+        return this.http.get(_resultUrl, { headers })
+            .map(this.extractData)
+            .do(data => console.log(data))
+            .catch(this.handleError);  
+    }
+    
     addNewNode(storyID,selectedID,level,position){
         var headers = new Headers();
         if (this._authenticationService.isLoggedIn()) {

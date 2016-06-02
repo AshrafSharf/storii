@@ -83,24 +83,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         align: 'center',
                         fontFamily: "Architects Daughter"
                     });
-                    this.backgroundLayer = new Konva.Layer({
-                        width: this.width,
-                        height: this.height,
-                        scale: {
-                            x: 1,
-                            y: 1
-                        }
-                    });
-                    this.layer = this.backgroundLayer.clone();
-                    this.layerConn = this.backgroundLayer.clone();
-                    this.layerTEXT = this.backgroundLayer.clone();
-                    this.levelTextLayer = this.backgroundLayer.clone();
-                    this.tempLayer = new Konva.Layer({
-                        width: this.width,
-                        height: this.height
-                    });
-                    this.emptyLayer = this.tempLayer.clone();
-                    this.interfaceLayer = this.tempLayer.clone();
                     this.firstBy = (function () { function e(f) { f.thenBy = t; return f; } function t(y, x) { x = this; return e(function (a, b) { return x(a, b) || y(a, b); }); } return e; })();
                     this.allowed = [];
                 }
@@ -204,42 +186,67 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         align: 'center',
                         lineHeight: 1.5
                     });
+                    this.backgroundLayer = new Konva.Layer({
+                        width: this.width,
+                        height: this.height,
+                        scale: {
+                            x: 1,
+                            y: 1
+                        }
+                    });
+                    this.layer = this.backgroundLayer.clone();
+                    this.layerConn = this.backgroundLayer.clone();
+                    this.layerTEXT = this.backgroundLayer.clone();
+                    this.levelTextLayer = this.backgroundLayer.clone();
+                    this.tempLayer = new Konva.Layer({
+                        width: this.width,
+                        height: this.height
+                    });
+                    this.emptyLayer = this.tempLayer.clone();
+                    this.interfaceLayer = this.tempLayer.clone();
                 };
                 NodeEditorComponent.prototype.buildCanvas = function () {
                     this.debugText.setAttr('x', this.width / 2 - 30);
                     this.interfaceLayer.add(this.debugText);
                     //ADD NEW PAGE BUTTON
-                    this.addButton.add(this.addRect);
-                    this.addButton.add(this.addText);
-                    this.addButton.add(this.dottedLineAdd);
-                    this.interfaceLayer.add(this.addButton);
-                    //DELETE PAGE BUTTON
-                    this.deleteButton.add(this.delRect);
-                    this.deleteButton.add(this.delText);
-                    this.deleteButton.add(this.dottedLineDel);
-                    this.interfaceLayer.add(this.deleteButton);
+                    /*    this.addButton.add(this.addRect);
+                        this.addButton.add(this.addText);
+                        this.addButton.add(this.dottedLineAdd);
+                        this.interfaceLayer.add(this.addButton);
+                
+                        //DELETE PAGE BUTTON
+                        this.deleteButton.add(this.delRect);
+                        this.deleteButton.add(this.delText);
+                        this.deleteButton.add(this.dottedLineDel);
+                        this.interfaceLayer.add(this.deleteButton);*/
                     //DELETE POPUP
-                    this.popUp.add(this.popUpRect);
-                    this.popUp.add(this.popText);
-                    this.button1.add(this.button1Rect);
-                    this.button1.add(this.dottedLineAdd.clone({ id: 'button1dotted' }));
-                    this.button1.add(this.delText.clone({ id: 'button1Text' }));
-                    this.popUp.add(this.button1);
-                    this.button2.add(this.button1Rect.clone({ id: 'button2Rect' }));
-                    this.button2.add(this.dottedLineAdd.clone({ id: 'button2dotted' }));
-                    this.button2.add(this.delText.clone({ id: 'button2Text' }));
-                    this.popUp.add(this.button2);
-                    this.button3.add(this.button1Rect.clone({ id: 'button3Rect' }));
-                    this.button3.add(this.dottedLineAdd.clone({ id: 'button3dotted' }));
-                    this.button3.add(this.delText.clone({ id: 'button3Text' }));
-                    this.popUp.add(this.button3);
-                    this.button4.add(this.button1Rect.clone({ id: 'button4Rect' }));
-                    this.button4.add(this.dottedLineAdd.clone({ id: 'button4dotted' }));
-                    this.button4.add(this.delText.clone({ id: 'button4Text' }));
-                    this.popUp.add(this.button4);
-                    this.popUp.add(this.dottedLinePopUp);
-                    this.interfaceLayer.add(this.popUp);
-                    this.interfaceLayer.find('#popUp')[0].hide();
+                    /*    this.popUp.add( this.popUpRect);
+                        this.popUp.add( this.popText);
+               
+                        this.button1.add( this.button1Rect);
+                        this.button1.add( this.dottedLineAdd.clone({id:'button1dotted'}));
+                        this.button1.add( this.delText.clone({id:'button1Text'}));
+                        this.popUp.add( this.button1);
+               
+                        this.button2.add( this.button1Rect.clone({id:'button2Rect'}));
+                        this.button2.add( this.dottedLineAdd.clone({id:'button2dotted'}));
+                        this.button2.add( this.delText.clone({id:'button2Text'}));
+                        this.popUp.add( this.button2);
+               
+                        this.button3.add( this.button1Rect.clone({id:'button3Rect'}));
+                        this.button3.add( this.dottedLineAdd.clone({id:'button3dotted'}));
+                        this.button3.add( this.delText.clone({id:'button3Text'}));
+                        this.popUp.add( this.button3);
+               
+                        this.button4.add( this.button1Rect.clone({id:'button4Rect'}));
+                        this.button4.add( this.dottedLineAdd.clone({id:'button4dotted'}));
+                        this.button4.add( this.delText.clone({id:'button4Text'}));
+                        this.popUp.add( this.button4);
+               
+                        this.popUp.add( this.dottedLinePopUp);
+                        this.interfaceLayer.add( this.popUp);
+               
+                        this.interfaceLayer.find('#popUp')[0].hide();*/
                     this.stage.add(this.emptyLayer);
                     this.stage.add(this.backgroundLayer);
                     this.stage.add(this.levelTextLayer);
@@ -249,9 +256,9 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.stage.add(this.interfaceLayer);
                     this.stage.add(this.layerTEXT);
                     this.startDrawLines(this.storyID);
-                    this.startDrawNodes(this.storyID);
+                    this.startDrawNodes(this.storyID, "first");
                     this.isMobile = false;
-                    this.initFontSize = this.stage.find('#button1Text')[0].getAttr('fontSize');
+                    // this.initFontSize = this.stage.find('#button1Text')[0].getAttr('fontSize');
                 };
                 NodeEditorComponent.prototype.mouseEvents = function () {
                     var self = this;
@@ -262,21 +269,26 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             self.disable(e.target.id()); //check if add node is allowed
                         }
                         else if (self.movementStyle != null && self.movementStyle != 'one') {
+                            console.log("CLICK");
                             self.layer.find('#movingGroup')[0].getChildren(function (n) {
                                 return n.getClassName() === "Circle";
                             }).each(function (shape, n) {
                                 var x = shape.getAttr('x');
                                 var y = shape.getAttr('y');
-                                shape.moveTo(this.layer);
+                                shape.moveTo(self.layer);
                                 shape.setAttr('x', x);
                                 shape.setAttr('y', y);
                                 shape.setAttr('fill', self.buttonColorHover);
-                                self.setDraggable(true);
+                                // self.setDraggable(true);
                             });
                             self.layer.draw();
                             self.tempLayer.draw();
                             self.dropStyle = null;
                             self.movementStyle = null;
+                            self.allowed[0] = false;
+                            self.allowed[1] = false;
+                            self.allowed[2] = false;
+                            $("#wrapper").trigger("click");
                         }
                     });
                     this.stage.on("mouseout", function (e) {
@@ -300,7 +312,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         self.tooltip.hide();
                         self.layerTEXT.draw();
                         if (self.selectedNode == null) {
-                            self.debugText.text('');
+                            self.debugText.text('Select a node');
                             self.debugText.setAttr('x', (self.width / 2) - self.debugText.getAttr('width') / 2);
                             self.interfaceLayer.draw();
                         }
@@ -309,7 +321,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         self.toolTipText = "";
                     });
                     this.layer.on("mouseover", function (e) {
-                        var _this = this;
                         if (!self.popUpShown) {
                             self.tooltip.position({
                                 x: e.target.getAttr('x') - 40,
@@ -318,9 +329,9 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             if (self.toolTipText == "") {
                                 self._nodeEditorService.getPageById(e.target.getAttr('id'))
                                     .subscribe(function (actualPage) {
-                                    _this.actualPage = actualPage;
+                                    self.actualPage = actualPage;
                                     self.setToolTip(actualPage['title'], e);
-                                }, function (error) { return _this.errorMessage = error; });
+                                }, function (error) { return self.errorMessage = error; });
                             }
                             else {
                                 self.setToolTip(self.toolTipText, e);
@@ -332,90 +343,89 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     var self = this;
                     //dragEVENTS
                     self.layer.on("dragstart", function (e) {
-                        if (!self.pause && self.movementStyle == null) {
-                            self.pause = true;
-                            // self.zoomOut();
-                            if (e.target.id() != self.selectedNode) {
-                                self.nodeSelection(e.target);
-                            }
-                            self.popUpShown = true;
-                            self.setDraggable(false);
-                            $.when(self.checkAdditionalNode(e.target.id()), self.checkDeleteNode(e.target.id())).done(function (a1, a2) {
-                                self.tooltip.hide();
-                                self.layerTEXT.draw();
-                                self.toolTipText = "";
-                                self.moveQuestion(e);
-                            });
-                            e.target.fill('yellow');
-                            self.interfaceLayer.draw();
-                        }
-                        else if (!self.pause && self.movementStyle == "one") {
+                        /*    if (!self.pause && self.movementStyle == null) {
+                               self.pause = true;
+                               // self.zoomOut();
+                                if(e.target.id() != self.selectedNode){
+                                    self.nodeSelection(e.target);
+                                }
+                                self.popUpShown = true;
+                                self.setDraggable(false);
+                                $.when(self.checkAdditionalNode(e.target.id()), self.checkDeleteNode(e.target.id())).done(function (a1, a2) {
+                                    self.tooltip.hide();
+                                    self.layerTEXT.draw();
+                                   self.toolTipText="";
+                                    self.moveQuestion(e);
+                                });
+                                e.target.fill('yellow');
+                                self.interfaceLayer.draw();
+                            } else*/
+                        if (self.movementStyle == "one") {
                             self.xDrag = e.target.getAttr('x');
                             self.yDrag = e.target.getAttr('y');
                             e.target.moveTo(self.tempLayer);
                             e.target.fill('yellow');
                             self.layer.draw();
                         }
-                        else if (!self.pause && self.movementStyle != "one" && self.movementStyle != null) {
-                            self.selectedNode = e.target.find('#' + self.movementStyle[0])[0].getAttr('id');
+                        else if (self.movementStyle != "one" && self.movementStyle != null) {
+                            self.selectedNode = e.target.find('#' + self.movementStyle[0]['id'])[0].getAttr('id');
                             self.movingGroup.moveTo(self.tempLayer);
                             self.layer.draw();
                             self.tempLayer.draw();
                         }
                     });
                     this.stage.on("dragmove", function (evt) {
-                        if (!self.pause) {
-                            var pos = self.stage.getPointerPosition();
-                            var shape = self.layer.getIntersection(pos);
-                            if (self.previousShape && shape) {
-                                if (self.previousShape !== shape) {
-                                    // leave from old target
-                                    self.previousShape.fire('dragleave', {
-                                        type: 'dragleave',
-                                        target: self.previousShape,
-                                        evt: evt.evt
-                                    }, true);
-                                    // enter new target
-                                    shape.fire('dragenter', {
-                                        type: 'dragenter',
-                                        target: shape,
-                                        evt: evt.evt
-                                    }, true);
-                                    self.previousShape = shape;
-                                }
-                                else {
-                                    self.previousShape.fire('dragover', {
-                                        type: 'dragover',
-                                        target: self.previousShape,
-                                        evt: evt.evt
-                                    }, true);
-                                }
-                            }
-                            else if (!self.previousShape && shape) {
-                                self.previousShape = shape;
-                                shape.fire('dragenter', {
-                                    type: 'dragenter',
-                                    target: shape,
-                                    evt: evt.evt
-                                }, true);
-                            }
-                            else if (self.previousShape && !shape) {
+                        //  if(!self.pause) {
+                        var pos = self.stage.getPointerPosition();
+                        var shape = self.layer.getIntersection(pos);
+                        if (self.previousShape && shape) {
+                            if (self.previousShape !== shape) {
+                                // leave from old target
                                 self.previousShape.fire('dragleave', {
                                     type: 'dragleave',
                                     target: self.previousShape,
                                     evt: evt.evt
                                 }, true);
-                                self.previousShape = undefined;
+                                // enter new target
+                                shape.fire('dragenter', {
+                                    type: 'dragenter',
+                                    target: shape,
+                                    evt: evt.evt
+                                }, true);
+                                self.previousShape = shape;
                             }
-                            self.tempLayer.draw();
+                            else {
+                                self.previousShape.fire('dragover', {
+                                    type: 'dragover',
+                                    target: self.previousShape,
+                                    evt: evt.evt
+                                }, true);
+                            }
                         }
+                        else if (!self.previousShape && shape) {
+                            self.previousShape = shape;
+                            shape.fire('dragenter', {
+                                type: 'dragenter',
+                                target: shape,
+                                evt: evt.evt
+                            }, true);
+                        }
+                        else if (self.previousShape && !shape) {
+                            self.previousShape.fire('dragleave', {
+                                type: 'dragleave',
+                                target: self.previousShape,
+                                evt: evt.evt
+                            }, true);
+                            self.previousShape = undefined;
+                        }
+                        self.tempLayer.draw();
+                        //   }
                     });
                     this.stage.on("dragend", function (e) {
-                        console.log(self.xDrag + ":" + self.yDrag);
                         //wieder wegmachen 
                         //  e.target.setAttr("x", self.xDrag);
                         //  e.target.setAttr("y", self.yDrag);
-                        if (!self.pause && e.target.id() != 'stage') {
+                        if (e.target.id() != 'stage') {
                             var pos = self.stage.getPointerPosition();
                             var overlapping = self.layer.getIntersection(pos);
                             if (overlapping) {
@@ -452,37 +462,37 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         }*/
                     });
                     this.stage.on("dragleave", function (e) {
-                        if (!self.pause) {
-                            self.over = false;
-                            e.target.fill(self.buttonColorHover);
-                            self.debugText.setAttr('fontSize', '20');
-                            self.debugText.text('');
-                            self.layer.draw();
-                            self.interfaceLayer.draw();
-                        }
+                        // if(!self.pause) {
+                        self.over = false;
+                        e.target.fill(self.buttonColorHover);
+                        self.debugText.setAttr('fontSize', '20');
+                        self.debugText.text('');
+                        self.layer.draw();
+                        self.interfaceLayer.draw();
+                        // }
                     });
                     this.stage.on("dragover", function (e) {
-                        if (!self.pause) {
-                            self.over = true;
-                            e.target.fill('green');
-                            self.xDrop = e.target.getAbsolutePosition().x;
-                            self.yDrop = e.target.getAbsolutePosition().y;
-                            self.debugText.setAttr('fontSize', '20');
-                            self.debugText.text('Drag over ' + e.target.id());
-                            self.layer.draw();
-                            self.interfaceLayer.draw();
-                        }
+                        // if(!self.pause) {
+                        self.over = true;
+                        e.target.fill('green');
+                        self.xDrop = e.target.getAbsolutePosition().x;
+                        self.yDrop = e.target.getAbsolutePosition().y;
+                        self.debugText.setAttr('fontSize', '20');
+                        self.debugText.text('Drag over ' + e.target.id());
+                        self.layer.draw();
+                        self.interfaceLayer.draw();
+                        // }
                     });
                     this.stage.on("drop", function (e) {
-                        if (!self.pause) {
-                            e.target.setAttr("x", self.xDrag);
-                            e.target.setAttr("y", self.yDrag);
-                            e.target.fill('green');
-                            self.debugText.setAttr('fontSize', '20');
-                            self.debugText.text('Drop ' + e.target.id());
-                            self.layer.draw();
-                            self.interfaceLayer.draw();
-                        }
+                        // if(!self.pause) {
+                        e.target.setAttr("x", self.xDrag);
+                        e.target.setAttr("y", self.yDrag);
+                        e.target.fill('green');
+                        self.debugText.setAttr('fontSize', '20');
+                        self.debugText.text('Drop ' + e.target.id());
+                        self.layer.draw();
+                        self.interfaceLayer.draw();
+                        // }
                     });
                 };
                 //BUTTON EVENTS
@@ -496,26 +506,91 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         this.deleteNode();
                     }
                 };
+                NodeEditorComponent.prototype.onSwapNode = function (swap) {
+                    if (swap) {
+                        this.debugText.text("Start Dragging");
+                        this.debugText.setAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
+                        this.interfaceLayer.draw();
+                        this.layer.find('#' + this.selectedNode).draggable(true);
+                        this.movementStyle = "one";
+                    }
+                };
+                NodeEditorComponent.prototype.onSwapBranch = function (swap) {
+                    var _this = this;
+                    if (swap) {
+                        this.debugText.text("Start Dragging");
+                        this.debugText.setAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
+                        this.interfaceLayer.draw();
+                        this._nodeEditorService.getChildren(this.selectedNode)
+                            .subscribe(function (data) {
+                            _this.movementStyle = data;
+                            _this.movingGroup.setAttr('x', 0);
+                            _this.movingGroup.setAttr('y', 0);
+                            for (var i = 0; i < _this.movementStyle.length; i++) {
+                                //this.layer.find('#'+this.movementStyle[i]['id']).draggable(true);
+                                var node = _this.layer.find('#' + _this.movementStyle[i]['id']);
+                                node.fill('yellow');
+                                node.moveTo(_this.movingGroup);
+                            }
+                            _this.layer.add(_this.movingGroup);
+                            _this.xDrag = _this.layer.find('#' + _this.selectedNode)[0].getAttr('x');
+                            _this.yDrag = _this.layer.find('#' + _this.selectedNode)[0].getAttr('y');
+                            _this.layer.draw();
+                            _this.interfaceLayer.draw();
+                            console.log(_this.movingGroup);
+                        }, function (error) { return _this.errorMessage = error; });
+                    }
+                };
+                NodeEditorComponent.prototype.onAppend = function (append) {
+                    var _this = this;
+                    if (append) {
+                        this.debugText.text("Start Dragging");
+                        this.debugText.setAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
+                        this.interfaceLayer.draw();
+                        this._nodeEditorService.getChildren(this.selectedNode)
+                            .subscribe(function (data) {
+                            _this.movementStyle = data;
+                            _this.movingGroup.setAttr('x', 0);
+                            _this.movingGroup.setAttr('y', 0);
+                            for (var i = 0; i < _this.movementStyle.length; i++) {
+                                //this.layer.find('#'+this.movementStyle[i]['id']).draggable(true);
+                                var node = _this.layer.find('#' + _this.movementStyle[i]['id']);
+                                node.fill('yellow');
+                                node.moveTo(_this.movingGroup);
+                            }
+                            _this.layer.add(_this.movingGroup);
+                            _this.xDrag = _this.layer.find('#' + _this.selectedNode)[0].getAttr('x');
+                            _this.yDrag = _this.layer.find('#' + _this.selectedNode)[0].getAttr('y');
+                            _this.layer.draw();
+                            _this.interfaceLayer.draw();
+                            console.log(_this.movingGroup);
+                        }, function (error) { return _this.errorMessage = error; });
+                    }
+                };
                 NodeEditorComponent.prototype.buttonEvents = function () {
                     var self = this;
                     //add new page
-                    this.stage.find('#addButton')[0].off('click tap').on('click tap', function (e) {
-                        var rect = self.stage.find('#addRect')[0];
-                        var fill = rect.fill() == self.buttonColorDisabled ? self.buttonColorDisabled : self.buttonColorHover;
-                        if (fill != self.buttonColorDisabled) {
-                            self.addNewNode();
-                        }
-                    });
-                    this.hoverInterfaceButtons('#addRect', '#addText');
-                    //delete page
-                    this.stage.find('#deleteButton')[0].off('click tap').on('click tap', function (e) {
-                        var rect = self.stage.find('#delRect')[0];
-                        var fill = rect.fill() == self.buttonColorDisabled ? self.buttonColorDisabled : self.buttonColorHover;
-                        if (fill != self.buttonColorDisabled) {
-                            self.deleteNode();
-                        }
-                    });
-                    this.hoverInterfaceButtons('#delRect', '#delText');
+                    /*    this.stage.find('#addButton')[0].off('click tap').on('click tap',function(e){
+                            var rect =  self.stage.find('#addRect')[0];
+                            var fill = rect.fill() == self.buttonColorDisabled ? self.buttonColorDisabled : self.buttonColorHover;
+                            if(fill != self.buttonColorDisabled){
+                                self.addNewNode();
+                            }
+                        });
+                
+                        this.hoverInterfaceButtons('#addRect','#addText');
+                
+                
+                       //delete page
+                        this.stage.find('#deleteButton')[0].off('click tap').on('click tap',function(e){
+                            var rect =  self.stage.find('#delRect')[0];
+                            var fill = rect.fill() == self.buttonColorDisabled ? self.buttonColorDisabled: self.buttonColorHover;
+                            if(fill != self.buttonColorDisabled){
+                               self.deleteNode();
+                            }
+                        });
+                
+                        this.hoverInterfaceButtons('#delRect','#delText');*/
                 };
                 //###### TRIGGER FUNCTIONS ######
                 NodeEditorComponent.prototype.startDrawLines = function (id) {
@@ -527,16 +602,10 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         _this.drawLines(maxLevel['max_level'] - 1);
                     }, function (error) { return _this.errorMessage = error; });
                 };
-                NodeEditorComponent.prototype.startDrawNodes = function (id) {
+                NodeEditorComponent.prototype.startDrawNodes = function (id, first) {
                     var _this = this;
                     this._nodeEditorService.startDrawNodes(id)
                         .subscribe(function (pages) {
-                        //falsche lvl und position 
-                        // this.pages = pages;
-                        /* pages.sort(
-                              this.firstBy(function (v1, v2) { return v1.level - v2.level; })
-                              .thenBy(function (v1, v2) { return v1.position - v2.position; })
-                          );*/
                         pages.sort(function (a, b) {
                             return parseFloat(a.level) - parseFloat(b.level);
                         });
@@ -554,7 +623,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             }
                         }
                         console.log(pages);
-                        _this.drawNodes(pages, "first");
+                        _this.drawNodes(pages, first);
                     }, function (error) { return _this.errorMessage = error; });
                 };
                 NodeEditorComponent.prototype.addNewNode = function () {
@@ -565,80 +634,92 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         .subscribe(function (result) {
                         console.log("DONE");
                         _this.startDrawLines(_this.storyID);
-                        _this.startDrawNodes(_this.storyID);
+                        _this.startDrawNodes(_this.storyID, "");
+                        _this.debugText.text("Successfully added");
+                        _this.debugText.setAttr('x', (_this.width / 2) - _this.debugText.getAttr('width') / 2);
+                        //self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                        //debugText.setAttr('fontSize','25');
+                        _this.interfaceLayer.draw();
                     }, function (error) { return _this.errorMessage = error; });
                 };
                 NodeEditorComponent.prototype.deleteNode = function () {
                     var id = this.selectedNode;
-                    this.popUpShown = true;
-                    this.pause = true;
-                    this.setDraggable(false);
-                    this.button3.hide();
-                    this.button4.hide();
-                    this.interfaceLayer.find('#button1Text')[0].setAttr('text', 'DELETE');
-                    this.interfaceLayer.find('#button1Text')[0].setAttr('x', this.addRect.getAttr('width') / 2 - this.interfaceLayer.find('#button1Text')[0].getAttr('width') / 2);
-                    this.interfaceLayer.find('#button2Text')[0].setAttr('text', 'CANCEL');
-                    this.interfaceLayer.find('#button2Text')[0].setAttr('x', this.addRect.getAttr('width') / 2 - this.interfaceLayer.find('#button2Text')[0].getAttr('width') / 2);
-                    this.popUpRect.setAttr('width', this.addRect.getAttr('width') * 2 + 80);
-                    this.popText.setAttr('text', this.deleteText);
-                    this.popText.setAttr('width', (this.addRect.getAttr('width') * 2 + 80) - 20);
-                    this.popText.setAttr('x', this.popUpRect.getAttr('width') / 2 - this.popText.getAttr('width') / 2);
-                    this.popText.setAttr('y', 25);
-                    this.popUp.setAttr('x', this.width / 2 - ((this.addRect.getAttr('width') * 2 + 80) / 2));
-                    this.popUp.setAttr('y', this.height / 2 - ((this.addRect.getAttr('height') * 2 + 80) / 2));
-                    if (this.isMobile) {
-                        this.popUpRect.setAttr('height', (this.addRect.getAttr('height') * 2 + 100 + this.popText.getAttr('height')) - 20);
-                    }
-                    else {
-                        this.popUpRect.setAttr('height', 250);
-                    }
-                    this.dottedLinePopUp.setAttr('points', [10, 10, this.popUpRect.getAttr('width') - 10, 10, this.popUpRect.getAttr('width') - 10, this.popUpRect.getAttr('height') - 10, 10, this.popUpRect.getAttr('height') - 10, 10, 10]);
-                    if (!this.isMobile) {
-                        this.button1.setAttr('x', (this.popUpRect.getAttr('width') / 2) - this.button1Rect.getAttr('width') - 10);
-                        this.button1.setAttr('y', 130);
-                        this.button2.setAttr('x', this.button1.getAttr('x') + this.button1Rect.getAttr('width') + 20);
-                        this.button2.setAttr('y', 130);
-                    }
-                    else {
-                        this.button1.setAttr('x', (this.popUpRect.getAttr('width') / 2) - this.button1Rect.getAttr('width') / 2);
-                        this.button1.setAttr('y', this.popText.getAttr('y') + this.popText.getAttr('height') + 10);
-                        this.button2.setAttr('x', (this.popUpRect.getAttr('width') / 2) - this.button1Rect.getAttr('width') / 2);
-                        this.button2.setAttr('y', this.button1.getAttr('y') + this.button1Rect.getAttr('height') + 10);
-                    }
+                    /*  this.popUpShown = true;
+                     this.pause = true;
+                     this.setDraggable(false);
+                     this.button3.hide();
+                     this.button4.hide();
+             
+             
+                     this.interfaceLayer.find('#button1Text')[0].setAttr('text','DELETE');
+                     this.interfaceLayer.find('#button1Text')[0].setAttr('x',this.addRect.getAttr('width')/2-this.interfaceLayer.find('#button1Text')[0].getAttr('width')/2);
+             
+                     this.interfaceLayer.find('#button2Text')[0].setAttr('text','CANCEL');
+                     this.interfaceLayer.find('#button2Text')[0].setAttr('x',this.addRect.getAttr('width')/2-this.interfaceLayer.find('#button2Text')[0].getAttr('width')/2);
+             
+                     this.popUpRect.setAttr('width',this.addRect.getAttr('width')*2+80);
+                     this.popText.setAttr('text',this.deleteText);
+                     this.popText.setAttr('width',(this.addRect.getAttr('width')*2+80)-20);
+                     this.popText.setAttr('x',this.popUpRect.getAttr('width')/2-this.popText.getAttr('width')/2);
+                     this.popText.setAttr('y',25);
+             
+                     this.popUp.setAttr('x',this.width/2-((this.addRect.getAttr('width')*2+80)/2));
+                     this.popUp.setAttr('y',this.height/2-((this.addRect.getAttr('height')*2+80)/2));
+                     if(this.isMobile){
+                         this.popUpRect.setAttr('height',(this.addRect.getAttr('height')*2+100+this.popText.getAttr('height'))-20);
+                     }else{
+                         this.popUpRect.setAttr('height',250);
+                     }
+             
+                     this.dottedLinePopUp.setAttr('points',[10, 10, this.popUpRect.getAttr('width')-10, 10, this.popUpRect.getAttr('width')-10, this.popUpRect.getAttr('height')-10, 10,this.popUpRect.getAttr('height')-10,10,10]);
+                     if(!this.isMobile){
+                         this.button1.setAttr('x',(this.popUpRect.getAttr('width')/2)-this.button1Rect.getAttr('width')-10);
+                         this.button1.setAttr('y',130);
+                         this.button2.setAttr('x',this.button1.getAttr('x')+this.button1Rect.getAttr('width')+20);
+                         this.button2.setAttr('y',130);
+                     }else{
+                         this.button1.setAttr('x',(this.popUpRect.getAttr('width')/2)-this.button1Rect.getAttr('width')/2);
+                         this.button1.setAttr('y',this.popText.getAttr('y')+ this.popText.getAttr('height')+10);
+                         this.button2.setAttr('x',(this.popUpRect.getAttr('width')/2)-this.button1Rect.getAttr('width')/2);
+                         this.button2.setAttr('y',this.button1.getAttr('y')+this.button1Rect.getAttr('height')+10);
+                     }
+             
                     // button2.setAttr('id','button2');
-                    this.popUp.show();
-                    this.interfaceLayer.draw();
-                    var self = this;
-                    this.button2.off('click tap').on('click tap', function (e) {
+             
+                     this.popUp.show();
+                     this.interfaceLayer.draw();
+                     let self = this;
+             
+                    this.button2.off('click tap').on('click tap',function(e){
                         self.interfaceLayer.find('#button2Rect')[0].fill(self.buttonColor);
-                        self.popUp.hide();
-                        self.setDraggable(true);
+                         self.popUp.hide();
+                         self.setDraggable(true);
                         self.pause = false;
                         self.popUpShown = false;
-                        self.interfaceLayer.find('#button1Text')[0].setAttr('text', '');
+                        self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
                         self.interfaceLayer.draw();
-                    });
-                    this.button1.off('click tap').on('click tap', function (e) {
-                        self._nodeEditorService.deletePageById(id)
-                            .subscribe(function (result) {
-                            console.log("deleted");
-                            self.interfaceLayer.find('#button1Rect')[0].fill(self.buttonColor);
-                            self.popUp.hide();
-                            self.pause = false;
-                            self.popUpShown = false;
-                            self.setDraggable(true);
-                            if (self.layer.getAttr('scale') < 1.0) {
-                            }
-                            self.startDrawLines(self.storyID);
-                            self.startDrawNodes(self.storyID);
-                            self.debugText.text("Successfully deleted");
-                            self.debugText.setAttr('x', self.width / 2 - 70 - self.offset);
-                            self.debugText.setAttr('x', (self.width / 2) - self.debugText.getAttr('width') / 2);
-                            self.interfaceLayer.find('#button1Text')[0].setAttr('text', '');
-                            //debugText.setAttr('fontSize','25');
-                            self.interfaceLayer.draw();
-                        }, function (error) { return self.errorMessage = error; });
-                    });
+                     });*/
+                    //  this.button1.off('click tap').on('click tap',function(e){
+                    var self = this;
+                    self._nodeEditorService.deletePageById(id)
+                        .subscribe(function (result) {
+                        console.log("deleted");
+                        /* self.interfaceLayer.find('#button1Rect')[0].fill(self.buttonColor);
+                         self.popUp.hide();
+                         self.pause = false;
+                         self.popUpShown = false;
+                         self.setDraggable(true);*/
+                        if (self.layer.getAttr('scale') < 1.0) {
+                        }
+                        self.startDrawLines(self.storyID);
+                        self.startDrawNodes(self.storyID, "");
+                        self.debugText.text("Successfully deleted");
+                        self.debugText.setAttr('x', (self.width / 2) - self.debugText.getAttr('width') / 2);
+                        //self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                        //debugText.setAttr('fontSize','25');
+                        self.interfaceLayer.draw();
+                    }, function (error) { return self.errorMessage = error; });
+                    // });
                     this.hoverPopUpButtons(['#button1Rect', '#button1Text'], this.buttonColorHover, this.buttonColor);
                     this.hoverPopUpButtons(['#button2Rect', '#button2Text'], this.buttonColorHover, this.buttonColor);
                 };
@@ -659,7 +740,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             $("#wrapper").trigger("click");
                             console.log("IS ALLOWED");
                             if (!_this.popUpShown) {
-                                _this.stage.find('#addRect')[0].setAttr('fill', _this.buttonColor);
                             }
                         }
                         else {
@@ -671,7 +751,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                 _this.hoverPopUpButtons(['#button1Rect', '#button1Text'], _this.buttonColorDisabled, _this.buttonColorDisabled);
                             }
                             if (!_this.popUpShown) {
-                                _this.stage.find('#addRect')[0].setAttr('fill', _this.buttonColorDisabled);
                             }
                         }
                         _this.interfaceLayer.draw();
@@ -689,14 +768,12 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             _this.allowed[1] = false;
                             $("#wrapper").trigger("click");
                             if (!_this.popUpShown) {
-                                _this.stage.find('#delRect')[0].setAttr('fill', _this.buttonColorDisabled);
                             }
                         }
                         else {
                             _this.allowed[1] = true;
                             $("#wrapper").trigger("click");
                             if (!_this.popUpShown) {
-                                _this.stage.find('#delRect')[0].setAttr('fill', _this.buttonColor);
                             }
                         }
                         _this.interfaceLayer.draw();
@@ -707,10 +784,10 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     var _this = this;
                     this._nodeEditorService.reorderNodes(ID01, ID02)
                         .subscribe(function (result) {
-                        _this.startDrawNodes(_this.storyID);
-                        //  this.debugText.text(data);
+                        _this.startDrawNodes(_this.storyID, "");
+                        _this.debugText.text("Successfully reordered");
                         _this.debugText.setAttr('x', (_this.width / 2) - _this.debugText.getAttr('width') / 2);
-                        // debugText.setAttr('fontSize','25');
+                        //debugText.setAttr('fontSize','25');
                         _this.interfaceLayer.draw();
                     }, function (error) { return _this.errorMessage = error; });
                 };
@@ -719,10 +796,22 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     var _this = this;
                     this._nodeEditorService.reorderBranches(ID01, ID02)
                         .subscribe(function (result) {
-                        _this.startDrawNodes(_this.storyID);
-                        //  this.debugText.text(data);
+                        _this.startDrawNodes(_this.storyID, "");
+                        _this.debugText.text("Successfully reordered");
                         _this.debugText.setAttr('x', (_this.width / 2) - _this.debugText.getAttr('width') / 2);
-                        // debugText.setAttr('fontSize','25');
+                        //debugText.setAttr('fontSize','25');
+                        _this.interfaceLayer.draw();
+                    }, function (error) { return _this.errorMessage = error; });
+                };
+                ;
+                NodeEditorComponent.prototype.appendBranch = function (ID01, ID02) {
+                    var _this = this;
+                    this._nodeEditorService.appendBranch(ID02, ID01)
+                        .subscribe(function (result) {
+                        _this.startDrawNodes(_this.storyID, "");
+                        _this.debugText.text("Successfully appended");
+                        _this.debugText.setAttr('x', (_this.width / 2) - _this.debugText.getAttr('width') / 2);
+                        //debugText.setAttr('fontSize','25');
                         _this.interfaceLayer.draw();
                     }, function (error) { return _this.errorMessage = error; });
                 };
@@ -764,8 +853,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.layer.destroyChildren();
                     this.layerTEXT.destroyChildren();
                     this.layerConn.destroyChildren();
-                    this.stage.find('#addRect')[0].setAttr('fill', this.buttonColorDisabled);
-                    this.stage.find('#delRect')[0].setAttr('fill', this.buttonColorDisabled);
+                    // this.stage.find('#addRect')[0].setAttr('fill',this.buttonColorDisabled);
+                    // this.stage.find('#delRect')[0].setAttr('fill',this.buttonColorDisabled);
                     this.interfaceLayer.draw();
                     this.selectedNode = null;
                     // resetInputFields();
@@ -832,11 +921,11 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                 z++;
                             }
                         }
-                        console.log("POINTS");
-                        console.log(points);
+                        // console.log("POINTS");
+                        // console.log(points);
                         var sh = IDs.shift();
-                        console.log("IDs");
-                        console.log(IDs);
+                        // console.log("IDs");
+                        // console.log(IDs);
                         if (data[i]['outgoingInternLinks']) {
                             //get next node id
                             for (var q = 0; q < 4; q++) {
@@ -1004,8 +1093,13 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         this.layerConn.draw();
                         this.layerTEXT.draw();
                         this.emptyLayer.draw();
-                        if (first) {
+                        if (first == "first") {
                             this.nodeSelection(this.layer.find('#' + this.firstNode)[0]);
+                        }
+                        else {
+                            this.debugText.text("Select a node");
+                            this.debugText.setAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
+                            this.interfaceLayer.draw();
                         }
                         this.checkAdditionalNode(this.firstNode);
                     }
@@ -1036,16 +1130,20 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             this.layer.find('#' + this.selectedNode).fill(this.buttonColorHover);
                         }
                         if (fill == 'yellow') {
-                            this.debugText.text('Selected "' + elem.getAttr('id') + '"');
+                            this.allowed[2] = true;
+                            $("#wrapper").trigger("click");
+                            this.debugText.text('Choose the action');
                             this.debugText.setAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
                             this.selectedNode = elem.id();
                         }
                         else if (fill == this.buttonColorHover) {
                             this.allowed[0] = false;
                             this.allowed[1] = false;
+                            this.allowed[2] = false;
                             $("#wrapper").trigger("click");
-                            this.debugText.text('Deselected "' + elem.getAttr('id') + '"');
+                            this.debugText.text("Select a node");
                             this.debugText.setAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
+                            this.interfaceLayer.draw();
                             this.selectedNode = null;
                         }
                         this.interfaceLayer.draw();
@@ -1062,9 +1160,9 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         e.target.moveTo(this.layer);
                         if (e.target.id() == this.selectedNode) {
                             this.selectedNode = null;
+                            this.disable(e.target.id());
                         }
-                        this.disable(e.target.id());
-                        this.setDraggable(true);
+                        this.setDraggable(false);
                     }
                     else {
                         e.target.getChildren(function (n) {
@@ -1076,9 +1174,16 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             shape.setAttr('x', x);
                             shape.setAttr('y', y);
                             shape.setAttr('fill', self.buttonColorHover);
-                            self.setDraggable(true);
+                            self.setDraggable(false);
                         });
                     }
+                    this.allowed[0] = false;
+                    this.allowed[1] = false;
+                    this.allowed[2] = false;
+                    $("#wrapper").trigger("click");
+                    this.debugText.text("Select a node");
+                    this.debugText.setAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
+                    this.interfaceLayer.draw();
                     this.layer.draw();
                     this.tempLayer.draw();
                     this.dropStyle = null;
@@ -1098,9 +1203,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 NodeEditorComponent.prototype.disable = function (id) {
                     if (this.popUpShown == false) {
                         if (this.selectedNode == null) {
-                            this.stage.find('#addRect')[0].setAttr('fill', this.buttonColorDisabled);
-                            this.stage.find('#delRect')[0].setAttr('fill', this.buttonColorDisabled);
-                            this.interfaceLayer.draw();
                         }
                         else {
                             if (this.selectedNode == id) {
@@ -1176,29 +1278,30 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 //###### TOOLTIP END ######
                 //###### BUTTON HOVER #####
                 NodeEditorComponent.prototype.hoverInterfaceButtons = function (rect, text) {
-                    var self = this;
-                    this.stage.find(rect)[0].on('mouseover', function (e) {
-                        var fill = e.target.fill() == self.buttonColorDisabled ? self.buttonColorDisabled : self.buttonColor;
-                        if (fill != self.buttonColorDisabled) {
-                            e.target.fill(self.buttonColorHover);
-                            self.interfaceLayer.draw();
-                        }
-                    });
-                    this.stage.find(rect)[0].on('mouseout', function (e) {
-                        var fill = e.target.fill() == self.buttonColorDisabled ? self.buttonColorDisabled : self.buttonColorHover;
-                        if (fill != self.buttonColorDisabled) {
-                            e.target.fill(self.buttonColor);
-                            self.interfaceLayer.draw();
-                        }
-                    });
-                    this.stage.find(text)[0].on('mouseover', function (e) {
-                        var rec = self.stage.find(rect)[0];
-                        var fill = rec.fill() == self.buttonColorDisabled ? self.buttonColorDisabled : self.buttonColor;
-                        if (fill != self.buttonColorDisabled) {
-                            rec.fill(self.buttonColorHover);
-                            self.interfaceLayer.draw();
-                        }
-                    });
+                    /*   let self = this;
+                       this.stage.find(rect)[0].on('mouseover',function(e){
+                           var fill = e.target.fill() == self.buttonColorDisabled ? self.buttonColorDisabled : self.buttonColor;
+                           if(fill != self.buttonColorDisabled){
+                               e.target.fill(self.buttonColorHover);
+                               self.interfaceLayer.draw();
+                           }
+                       });
+                       this.stage.find(rect)[0].on('mouseout',function(e){
+                           var fill = e.target.fill() ==  self.buttonColorDisabled ?  self.buttonColorDisabled :  self.buttonColorHover;
+                           if(fill !=  self.buttonColorDisabled) {
+                               e.target.fill( self.buttonColor);
+                                self.interfaceLayer.draw();
+                           }
+                       });
+                        this.stage.find(text)[0].on('mouseover',function(e){
+                           var rec =   self.stage.find(rect)[0];
+                           var fill = rec.fill() ==  self.buttonColorDisabled ?  self.buttonColorDisabled :  self.buttonColor;
+                           if(fill !=  self.buttonColorDisabled){
+                               rec.fill( self.buttonColorHover);
+                                self.interfaceLayer.draw();
+                           }
+                       });
+               */
                 };
                 ;
                 NodeEditorComponent.prototype.hoverPopUpButtons = function (element, colorHover, colorOut) {
@@ -1261,7 +1364,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         e.target.fill('green');
                     }
                     else {
-                        this.reorderBranches(this.previousShape.id(), this.found);
+                        this.reorderBranches(this.previousShape.id(), this.selectedNode);
                         this.previousShape.fire('drop', {
                             type: 'drop',
                             target: this.previousShape,
@@ -1271,270 +1374,384 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.dropReset(e);
                 };
                 ;
+                NodeEditorComponent.prototype.append = function (e) {
+                    this.dropStyle = "append";
+                    this.popUpShown = false;
+                    this.appendBranch(this.previousShape.id(), this.selectedNode);
+                    this.previousShape.fire('drop', {
+                        type: 'drop',
+                        target: this.previousShape,
+                        evt: e.evt
+                    }, true);
+                    this.dropReset(e);
+                };
+                ;
                 //######## HELPER FUNCTIONS END ########
                 //######## POPUPS ########
                 NodeEditorComponent.prototype.moveQuestion = function (evt) {
-                    this.popText.setAttr('text', this.moveText);
-                    this.popText.setAttr('x', 10);
-                    this.popText.setAttr('y', 65);
-                    this.button3.show();
-                    this.button4.hide();
-                    if (!this.isMobile) {
-                        this.popText.setAttr('width', (this.addRect.getAttr('width') * 3 + 80) - 30);
-                    }
-                    else {
-                        this.popText.setAttr('width', (this.addRect.getAttr('width') * 2 + 80) - 30);
-                    }
-                    this.interfaceLayer.find('#button1Text')[0].setAttr('text', 'MOVE BRANCH');
-                    this.interfaceLayer.find('#button1Text')[0].setAttr('fontSize', this.initFontSize);
-                    this.interfaceLayer.find('#button1Text')[0].setAttr('x', this.addRect.getAttr('width') / 2 - this.interfaceLayer.find('#button1Text')[0].getAttr('width') / 2);
-                    this.interfaceLayer.find('#button2Text')[0].setAttr('text', 'MOVE PAGE');
-                    this.interfaceLayer.find('#button2Text')[0].setAttr('x', this.addRect.getAttr('width') / 2 - this.interfaceLayer.find('#button2Text')[0].getAttr('width') / 2);
-                    if (!this.isMobile) {
-                        this.popUpRect.setAttr('width', this.addRect.getAttr('width') * 3 + 80);
-                        this.popUp.setAttr('x', this.width / 2 - ((this.addRect.getAttr('width') * 3 + 80) / 2));
-                        this.popUp.setAttr('y', this.height / 2 - ((this.addRect.getAttr('height') * 2 + 80) / 2));
-                        this.popUpRect.setAttr('height', 250);
-                    }
-                    else {
-                        this.popUpRect.setAttr('width', this.addRect.getAttr('width') * 2 + 80);
-                        this.popUp.setAttr('x', this.width / 2 - ((this.addRect.getAttr('width') * 2 + 80) / 2));
-                        this.popUpRect.setAttr('height', (this.addRect.getAttr('height') * 3 + 150 + this.popText.getAttr('height')) - 20);
-                        this.popUp.setAttr('y', this.height / 2 - this.popUpRect.getAttr('height') / 2);
-                    }
-                    this.dottedLinePopUp.setAttr('points', [10, 10, this.popUpRect.getAttr('width') - 10, 10, this.popUpRect.getAttr('width') - 10, this.popUpRect.getAttr('height') - 10, 10, this.popUpRect.getAttr('height') - 10, 10, 10]);
-                    // button2.setAttr('id','button2Move');
-                    if (!this.isMobile) {
-                        this.button1.setAttr('x', 15);
-                        this.button1.setAttr('y', 130);
-                        this.button2.setAttr('x', this.button1.getAttr('x') + this.button1Rect.getAttr('width') + 20);
-                        this.button2.setAttr('y', 130);
-                        this.button3.setAttr('x', this.button2.getAttr('x') + this.button1Rect.getAttr('width') + 20);
-                        this.button3.setAttr('y', 130);
-                    }
-                    else {
-                        this.button1.setAttr('x', (this.popUpRect.getAttr('width') / 2) - this.button1Rect.getAttr('width') / 2);
-                        this.button1.setAttr('y', this.popText.getAttr('y') + this.popText.getAttr('height') + 10);
-                        this.button2.setAttr('x', (this.popUpRect.getAttr('width') / 2) - this.button1Rect.getAttr('width') / 2);
-                        this.button2.setAttr('y', this.button1.getAttr('y') + this.button1Rect.getAttr('height') + 10);
-                        this.button3.setAttr('x', (this.popUpRect.getAttr('width') / 2) - this.button1Rect.getAttr('width') / 2);
-                        this.button3.setAttr('y', this.button2.getAttr('y') + this.button1Rect.getAttr('height') + 10);
-                    }
-                    this.interfaceLayer.find('#button3Text')[0].setAttr('text', 'CANCEL');
-                    this.interfaceLayer.find('#button3Text')[0].setAttr('x', this.addRect.getAttr('width') / 2 - this.interfaceLayer.find('#button3Text')[0].getAttr('width') / 2);
-                    this.interfaceLayer.find('#button3Text')[0].setAttr('id', 'button3Text');
-                    this.interfaceLayer.find('#button3Rect')[0].setAttr('id', 'button3Rect');
-                    this.popUp.show();
-                    this.interfaceLayer.draw();
-                    this.hoverPopUpButtons(['#button2Rect', '#button2Text'], this.buttonColorHover, this.buttonColor);
-                    this.hoverPopUpButtons(['#button3Rect', '#button3Text'], this.buttonColorHover, this.buttonColor);
-                    var self = this;
-                    this.button3.off('click tap').on('click tap', function (e) {
-                        self.interfaceLayer.find('#button3Rect')[0].fill(self.buttonColor);
-                        self.button3.hide();
-                        self.popUp.hide();
-                        self.interfaceLayer.draw();
-                        self.pause = false;
-                        self.movementStyle = null;
-                        evt.target.fill(self.buttonColorHover);
-                        self.layer.draw();
-                        self.selectedNode = null;
-                        self.setDraggable(true);
+                    /* this.popText.setAttr('text',this.moveText);
+                     this.popText.setAttr('x',10);
+                     this.popText.setAttr('y',65);
+                     this.button3.show();
+                     this.button4.hide();
+                     if(!this.isMobile){
+                         this.popText.setAttr('width',(this.addRect.getAttr('width')*3+80)-30);
+                     }else{
+                         this.popText.setAttr('width',(this.addRect.getAttr('width')*2+80)-30);
+                     }
+             
+             
+                     this.interfaceLayer.find('#button1Text')[0].setAttr('text','MOVE BRANCH');
+                     this.interfaceLayer.find('#button1Text')[0].setAttr('fontSize',this.initFontSize);
+                     this.interfaceLayer.find('#button1Text')[0].setAttr('x', this.addRect.getAttr('width')/2-this.interfaceLayer.find('#button1Text')[0].getAttr('width')/2);
+             
+             
+                     this.interfaceLayer.find('#button2Text')[0].setAttr('text','MOVE PAGE');
+                     this.interfaceLayer.find('#button2Text')[0].setAttr('x',this.addRect.getAttr('width')/2-this.interfaceLayer.find('#button2Text')[0].getAttr('width')/2);
+             
+                     if(!this.isMobile){
+                         this.popUpRect.setAttr('width',this.addRect.getAttr('width')*3+80);
+                         this.popUp.setAttr('x',this.width/2-((this.addRect.getAttr('width')*3+80)/2));
+                         this.popUp.setAttr('y',this.height/2-((this.addRect.getAttr('height')*2+80)/2));
+                         this.popUpRect.setAttr('height',250);
+                     }else{
+                         this.popUpRect.setAttr('width',this.addRect.getAttr('width')*2+80);
+                         this.popUp.setAttr('x',this.width/2-((this.addRect.getAttr('width')*2+80)/2));
+                         this.popUpRect.setAttr('height',(this.addRect.getAttr('height')*3+150+this.popText.getAttr('height'))-20);
+                         this.popUp.setAttr('y',this.height/2- this.popUpRect.getAttr('height')/2);
+             
+                     }
+             
+                     this.dottedLinePopUp.setAttr('points',[10, 10, this.popUpRect.getAttr('width')-10, 10, this.popUpRect.getAttr('width')-10, this.popUpRect.getAttr('height')-10, 10,this.popUpRect.getAttr('height')-10,10,10]);
+             
+             
+                   // button2.setAttr('id','button2Move');
+             
+             
+                     if(!this.isMobile){
+                         this.button1.setAttr('x',15);
+                         this.button1.setAttr('y',130);
+                         this.button2.setAttr('x', this.button1.getAttr('x')+this.button1Rect.getAttr('width')+20);
+                         this.button2.setAttr('y',130);
+                         this.button3.setAttr('x',this.button2.getAttr('x')+this.button1Rect.getAttr('width')+20);
+                         this.button3.setAttr('y',130);
+                     }else{
+                         this.button1.setAttr('x',(this.popUpRect.getAttr('width')/2)-this.button1Rect.getAttr('width')/2);
+                         this.button1.setAttr('y',this.popText.getAttr('y')+ this.popText.getAttr('height')+10);
+                         this.button2.setAttr('x',(this.popUpRect.getAttr('width')/2)-this.button1Rect.getAttr('width')/2);
+                         this.button2.setAttr('y',this.button1.getAttr('y')+this.button1Rect.getAttr('height')+10);
+                         this.button3.setAttr('x',(this.popUpRect.getAttr('width')/2)-this.button1Rect.getAttr('width')/2);
+                         this.button3.setAttr('y',this.button2.getAttr('y')+this.button1Rect.getAttr('height')+10);
+                     }
+             
+             
+             
+                     this.interfaceLayer.find('#button3Text')[0].setAttr('text','CANCEL');
+                     this.interfaceLayer.find('#button3Text')[0].setAttr('x',this.addRect.getAttr('width')/2-this.interfaceLayer.find('#button3Text')[0].getAttr('width')/2);
+                     this.interfaceLayer.find('#button3Text')[0].setAttr('id','button3Text');
+             
+                     this.interfaceLayer.find('#button3Rect')[0].setAttr('id','button3Rect');
+             
+                     this.popUp.show();
+                     this.interfaceLayer.draw();
+             
+                     this.hoverPopUpButtons(['#button2Rect','#button2Text'],this.buttonColorHover,this.buttonColor);
+                     this.hoverPopUpButtons(['#button3Rect','#button3Text'],this.buttonColorHover,this.buttonColor);
+                     
+                     let self = this;
+                     this.button3.off('click tap').on('click tap',function(e){
+                         self.interfaceLayer.find('#button3Rect')[0].fill(self.buttonColor);
+                         self.button3.hide();
+                         self.popUp.hide();
+                         self.interfaceLayer.draw();
+                         self.pause = false;
+                         self.movementStyle = null;
+                         evt.target.fill(self.buttonColorHover);
+                         self.layer.draw();
+                         self.selectedNode = null;
+                         self.setDraggable(true);
                         // startDrawNodes();
-                        self.popUpShown = false;
-                        self.interfaceLayer.find('#button1Text')[0].setAttr('text', '');
-                        //debugText.setAttr('fontSize','25');
-                        self.interfaceLayer.draw();
-                    });
-                    if (this.hasChildren == false) {
-                        this.button1.off('click tap');
-                        this.hoverPopUpButtons(['#button1Rect', '#button1Text'], this.buttonColorDisabled, this.buttonColorDisabled);
-                    }
-                    else {
-                        this.hoverPopUpButtons(['#button1Rect', '#button1Text'], this.buttonColorHover, this.buttonColor);
-                        this.button1.off('click tap').on('click tap', function (e) {
-                            //MOVE BRANCH check ob kinder 
-                            /*       self.interfaceLayer.find('#button1Rect')[0].fill(self.buttonColor);
-                                   self.button3.hide();
-                                   self.popUp.hide();
-                                   self.interfaceLayer.draw();
-                                   self.pause = false;
-                                   self.movementStyle = data;
-                                   self.movementStyle = movementStyle.replace(/"/g, "");
-                                   self.movementStyle = movementStyle.split(",");
-           
-                                   self.movingGroup.setAttr('x', 0);
-                                   self.movingGroup.setAttr('y', 0);
-           
-                                   for (var i = 0; i < self.movementStyle.length; i++) {
-                                       var node = layer.find('#' + self.movementStyle[i]);
-                                       node.fill('yellow');
-                                       node.moveTo(self.movingGroup);
-                                   }
-                                   self.layer.add(self.movingGroup);
-                                   self.xDrag = evt.target.getAbsolutePosition().x;
-                                   self.yDrag = evt.target.getAbsolutePosition().y;
-                                   self.layer.draw();
-                                   self.popUpShown = false;
-                                   self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
-                                   self.interfaceLayer.draw();*/
-                        });
-                    }
-                    this.button2.off('click tap').on('click tap', function (e) {
+                         self.popUpShown = false;
+                         self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                         //debugText.setAttr('fontSize','25');
+                         self.interfaceLayer.draw();
+                     });
+             
+             
+                     if(this.hasChildren == false) {
+                         this.button1.off('click tap');
+                         this.hoverPopUpButtons(['#button1Rect','#button1Text'],this.buttonColorDisabled,this.buttonColorDisabled);
+                     }else {
+                         this.hoverPopUpButtons(['#button1Rect', '#button1Text'], this.buttonColorHover, this.buttonColor);
+                         this.button1.off('click tap').on('click tap', function (e) {
+                          //MOVE BRANCH check ob kinder
+                              /*       self.interfaceLayer.find('#button1Rect')[0].fill(self.buttonColor);
+                                     self.button3.hide();
+                                     self.popUp.hide();
+                                     self.interfaceLayer.draw();
+                                     self.pause = false;
+                                     self.movementStyle = data;
+                                     self.movementStyle = movementStyle.replace(/"/g, "");
+                                     self.movementStyle = movementStyle.split(",");
+             
+                                     self.movingGroup.setAttr('x', 0);
+                                     self.movingGroup.setAttr('y', 0);
+             
+                                     for (var i = 0; i < self.movementStyle.length; i++) {
+                                         var node = layer.find('#' + self.movementStyle[i]);
+                                         node.fill('yellow');
+                                         node.moveTo(self.movingGroup);
+                                     }
+                                     self.layer.add(self.movingGroup);
+                                     self.xDrag = evt.target.getAbsolutePosition().x;
+                                     self.yDrag = evt.target.getAbsolutePosition().y;
+                                     self.layer.draw();
+                                     self.popUpShown = false;
+                                     self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                                     self.interfaceLayer.draw();
+                                
+                                 
+                         });
+                     }
+             
+                    this.button2.off('click tap').on('click tap',function(e){
                         //MOVE ONE
                         self.interfaceLayer.find('#button2Rect')[0].fill(self.buttonColor);
-                        self.button3.hide();
-                        self.popUp.hide();
+                         self.button3.hide();
+                         self.popUp.hide();
                         self.interfaceLayer.draw();
-                        self.pause = false;
-                        self.movementStyle = "one";
-                        self.layer.find('#' + evt.target.id()).draggable(true);
+                         self.pause = false;
+                         self.movementStyle = "one";
+                         self.layer.find('#'+evt.target.id()).draggable(true);
                         self.popUpShown = false;
-                        self.interfaceLayer.find('#button1Text')[0].setAttr('text', '');
+                        self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
                         self.interfaceLayer.draw();
-                    });
+                     });*/
                 };
                 ;
                 NodeEditorComponent.prototype.dropQuestion = function (evt) {
-                    this.pause = true;
-                    this.popUpShown = true;
-                    this.button3.show();
-                    this.button4.show();
-                    this.setDraggable(false);
-                    evt.target.moveDown();
-                    this.popText.setAttr('text', this.dropText);
-                    this.popText.setAttr('y', 55);
-                    if (!this.isMobile) {
-                        this.popText.setAttr('width', (this.addRect.getAttr('width') * 4 + 80) - 30);
+                    if (this.movementStyle == "one") {
+                        this.reorder(evt);
                     }
-                    else {
-                        this.popText.setAttr('width', (this.addRect.getAttr('width') * 2 + 80) - 30);
+                    else if (this.movementStyle != "one" && this.movementStyle != "append" && this.movementStyle != null) {
+                        this.reorder(evt);
                     }
-                    this.interfaceLayer.find('#button1Text')[0].setAttr('text', 'ADD AS SUB-PAGE');
-                    this.interfaceLayer.find('#button1Text')[0].setAttr('fontSize', this.initFontSize - 1);
-                    this.interfaceLayer.find('#button1Text')[0].setAttr('x', this.addRect.getAttr('width') / 2 - this.interfaceLayer.find('#button1Text')[0].getAttr('width') / 2);
-                    this.interfaceLayer.find('#button2Text')[0].setAttr('text', 'REPLACE PAGES');
-                    this.interfaceLayer.find('#button2Text')[0].setAttr('x', this.addRect.getAttr('width') / 2 - this.interfaceLayer.find('#button2Text')[0].getAttr('width') / 2);
-                    if (!this.isMobile) {
-                        this.popUpRect.setAttr('width', this.addRect.getAttr('width') * 4 + 100);
-                        this.popUp.setAttr('x', this.width / 2 - ((this.addRect.getAttr('width') * 4 + 80) / 2));
-                        this.popUp.setAttr('y', this.height / 2 - ((this.addRect.getAttr('height') * 2 + 80) / 2));
-                        this.popUpRect.setAttr('height', 250);
+                    else if (this.movementStyle == "append") {
+                        this.append(evt);
                     }
-                    else {
-                        this.popUpRect.setAttr('width', this.addRect.getAttr('width') * 2 + 80);
-                        this.popUp.setAttr('x', this.width / 2 - ((this.addRect.getAttr('width') * 2 + 80) / 2));
-                        this.popUpRect.setAttr('height', (this.addRect.getAttr('height') * 4 + 150 + this.popText.getAttr('height')) - 20);
-                        this.popUp.setAttr('y', this.height / 2 - this.popUpRect.getAttr('height') / 2);
-                    }
-                    this.popText.setAttr('x', this.popUpRect.getAttr('width') / 2 - this.popText.getAttr('width') / 2);
-                    this.dottedLinePopUp.setAttr('points', [10, 10, this.popUpRect.getAttr('width') - 10, 10, this.popUpRect.getAttr('width') - 10, this.popUpRect.getAttr('height') - 10, 10, this.popUpRect.getAttr('height') - 10, 10, 10]);
-                    if (!this.isMobile) {
-                        this.button1.setAttr('x', 15);
-                        this.button1.setAttr('y', this.popText.getAttr('y') + this.popText.getAttr('height') + 10);
-                        this.button2.setAttr('x', this.button1.getAttr('x') + this.button1Rect.getAttr('width') + 20);
-                        this.button2.setAttr('y', this.popText.getAttr('y') + this.popText.getAttr('height') + 10);
-                        this.button4.setAttr('x', this.button2.getAttr('x') + this.button1Rect.getAttr('width') + 20);
-                        this.button4.setAttr('y', this.popText.getAttr('y') + this.popText.getAttr('height') + 10);
-                        this.button3.setAttr('x', this.button4.getAttr('x') + this.button1Rect.getAttr('width') + 20);
-                        this.button3.setAttr('y', this.popText.getAttr('y') + this.popText.getAttr('height') + 10);
-                    }
-                    else {
-                        this.button1.setAttr('x', (this.popUpRect.getAttr('width') / 2) - this.button1Rect.getAttr('width') / 2);
-                        this.button1.setAttr('y', this.popText.getAttr('y') + this.popText.getAttr('height') + 10);
-                        this.button2.setAttr('x', (this.popUpRect.getAttr('width') / 2) - this.button1Rect.getAttr('width') / 2);
-                        this.button2.setAttr('y', this.button1.getAttr('y') + this.button1Rect.getAttr('height') + 10);
-                        this.button4.setAttr('x', (this.popUpRect.getAttr('width') / 2) - this.button1Rect.getAttr('width') / 2);
-                        this.button4.setAttr('y', this.button2.getAttr('y') + this.button1Rect.getAttr('height') + 10);
-                        this.button3.setAttr('x', (this.popUpRect.getAttr('width') / 2) - this.button1Rect.getAttr('width') / 2);
-                        this.button3.setAttr('y', this.button4.getAttr('y') + this.button1Rect.getAttr('height') + 10);
-                    }
-                    this.interfaceLayer.find('#button3Text')[0].setAttr('text', 'CANCEL');
-                    this.interfaceLayer.find('#button3Text')[0].setAttr('id', 'button3Text');
-                    this.interfaceLayer.find('#button3Text')[0].setAttr('x', this.addRect.getAttr('width') / 2 - this.interfaceLayer.find('#button3Text')[0].getAttr('width') / 2);
-                    this.interfaceLayer.find('#button4Text')[0].setAttr('text', 'ADD CONNECTION');
-                    this.interfaceLayer.find('#button4Text')[0].setAttr('fontSize', this.initFontSize - 1);
-                    this.interfaceLayer.find('#button4Text')[0].setAttr('id', 'button4Text');
-                    this.interfaceLayer.find('#button4Text')[0].setAttr('x', this.addRect.getAttr('width') / 2 - this.interfaceLayer.find('#button4Text')[0].getAttr('width') / 2);
-                    this.interfaceLayer.find('#button3Rect')[0].setAttr('id', 'button3Rect');
-                    this.interfaceLayer.find('#button4Rect')[0].setAttr('id', 'button4Rect');
-                    this.popUp.show();
-                    this.interfaceLayer.draw();
-                    this.hoverPopUpButtons(['#button1Rect', '#button1Text'], this.buttonColorHover, this.buttonColor);
-                    this.hoverPopUpButtons(['#button2Rect', '#button2Text'], this.buttonColorHover, this.buttonColor);
-                    this.hoverPopUpButtons(['#button3Rect', '#button3Text'], this.buttonColorHover, this.buttonColor);
-                    this.hoverPopUpButtons(['#button4Rect', '#button4Text'], this.buttonColorHover, this.buttonColor);
-                    var self = this;
-                    this.button3.off('click tap').on('click tap', function (e) {
-                        self.interfaceLayer.find('#button3Rect')[0].fill(self.buttonColor);
-                        self.button3.hide();
-                        self.popUp.hide();
-                        self.interfaceLayer.draw();
-                        self.pause = false;
-                        self.selectedNode = null;
-                        self.setDraggable(true);
-                        if (self.movementStyle == "one") {
-                            evt.target.setAttr("x", self.xDrag);
-                            evt.target.setAttr("y", self.yDrag);
-                            evt.target.fill(self.buttonColorHover);
-                        }
-                        else {
-                            evt.target.setAttr("x", self.xDrag);
-                            evt.target.setAttr("y", self.yDrag);
-                        }
-                        self.dropReset(evt);
-                        self.startDrawNodes(self.storyID);
-                        self.popUpShown = false;
-                        self.interfaceLayer.find('#button1Text')[0].setAttr('text', '');
-                        self.interfaceLayer.draw();
-                    });
-                    if (this.movementStyle == 'one') {
-                        this.button4.off('click tap').on('click tap', function (e) {
-                            //ADD CONNECTION
-                            /*    self.interfaceLayer.find('#button4Rect')[0].fill(self.buttonColor);
-                                self.button3.hide();
-                                self.button4.hide();
-                                self.popUp.hide();
-                                self.pause = false;
-                                self.dropStyle = "connection";
-                                self.dropReset(evt);
-                                self.popUpShown = false;
-                                self.startDrawLines(self.storyID);
-                                self.startDrawNodes(self.storyID);
-                                self.debugText.text(data);
-                                self.debugText.setAttr('x', (self.width/2)-self.debugText.getAttr('width')/2);
-        
-                                self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
-                                self.interfaceLayer.draw();*/
-                        });
-                    }
-                    else {
-                        this.button4.off('click tap');
-                        this.hoverPopUpButtons(['#button4Rect', '#button4Text'], this.buttonColorDisabled, this.buttonColorDisabled);
-                    }
-                    if (this.hasChildren && this.movementStyle == "one") {
-                        this.button1.off('click tap');
-                        this.hoverPopUpButtons(['#button1Rect', '#button1Text'], this.buttonColorDisabled, this.buttonColorDisabled);
-                    }
-                    else {
-                        this.hoverPopUpButtons(['#button1Rect', '#button1Text'], this.buttonColorHover, this.buttonColor);
-                        this.button1.off('click tap').on('click tap', function (e) {
-                            if (self.movementStyle == "one") {
-                            }
-                            else {
-                            }
-                        });
-                    }
-                    this.button2.off('click tap').on('click tap', function (e) {
-                        if (self.movementStyle != "one") {
-                        }
-                        else {
-                            self.interfaceLayer.find('#button2Rect')[0].fill(self.buttonColor);
-                            self.button3.hide();
-                            self.button4.hide();
-                            self.reorder(evt);
-                        }
-                    });
+                    /*   this.pause = true;
+                       this.popUpShown = true;
+                       this.button3.show();
+                       this.button4.show();
+                       this.setDraggable(false);
+                       evt.target.moveDown();
+               
+                       this.popText.setAttr('text',this.dropText);
+                       this.popText.setAttr('y',55);
+                       if(!this.isMobile){
+                           this.popText.setAttr('width',(this.addRect.getAttr('width')*4+80)-30);
+                       }else{
+                           this.popText.setAttr('width',(this.addRect.getAttr('width')*2+80)-30);
+                       }
+               
+                       this.interfaceLayer.find('#button1Text')[0].setAttr('text','ADD AS SUB-PAGE');
+                       this.interfaceLayer.find('#button1Text')[0].setAttr('fontSize',this.initFontSize-1);
+                       this.interfaceLayer.find('#button1Text')[0].setAttr('x',this.addRect.getAttr('width')/2-this.interfaceLayer.find('#button1Text')[0].getAttr('width')/2);
+               
+               
+                       this.interfaceLayer.find('#button2Text')[0].setAttr('text','REPLACE PAGES');
+                       this.interfaceLayer.find('#button2Text')[0].setAttr('x',this.addRect.getAttr('width')/2-this.interfaceLayer.find('#button2Text')[0].getAttr('width')/2);
+               
+                       if(!this.isMobile){
+                           this.popUpRect.setAttr('width',this.addRect.getAttr('width')*4+100);
+                           this.popUp.setAttr('x',this.width/2-((this.addRect.getAttr('width')*4+80)/2));
+                           this.popUp.setAttr('y',this.height/2-((this.addRect.getAttr('height')*2+80)/2));
+                           this.popUpRect.setAttr('height',250);
+                       }else{
+                           this.popUpRect.setAttr('width',this.addRect.getAttr('width')*2+80);
+                           this.popUp.setAttr('x',this.width/2-((this.addRect.getAttr('width')*2+80)/2));
+                           this.popUpRect.setAttr('height',(this.addRect.getAttr('height')*4+150+this.popText.getAttr('height'))-20);
+                           this.popUp.setAttr('y',this.height/2- this.popUpRect.getAttr('height')/2);
+               
+                       }
+                       this.popText.setAttr('x',this.popUpRect.getAttr('width')/2 - this.popText.getAttr('width')/2);
+               
+                       this.dottedLinePopUp.setAttr('points',[10, 10, this.popUpRect.getAttr('width')-10, 10, this.popUpRect.getAttr('width')-10, this.popUpRect.getAttr('height')-10, 10,this.popUpRect.getAttr('height')-10,10,10]);
+               
+                       if(!this.isMobile){
+                           this.button1.setAttr('x',15);
+                           this.button1.setAttr('y',this.popText.getAttr('y')+ this.popText.getAttr('height')+10);
+                           this.button2.setAttr('x', this.button1.getAttr('x')+this.button1Rect.getAttr('width')+20);
+                           this.button2.setAttr('y',this.popText.getAttr('y')+ this.popText.getAttr('height')+10);
+                           this.button4.setAttr('x',this.button2.getAttr('x')+this.button1Rect.getAttr('width')+20);
+                           this.button4.setAttr('y',this.popText.getAttr('y')+ this.popText.getAttr('height')+10);
+                           this.button3.setAttr('x',this.button4.getAttr('x')+this.button1Rect.getAttr('width')+20);
+                           this.button3.setAttr('y',this.popText.getAttr('y')+ this.popText.getAttr('height')+10);
+               
+                       }else{
+                           this.button1.setAttr('x',(this.popUpRect.getAttr('width')/2)-this.button1Rect.getAttr('width')/2);
+                           this.button1.setAttr('y',this.popText.getAttr('y')+ this.popText.getAttr('height')+10);
+                           this.button2.setAttr('x',(this.popUpRect.getAttr('width')/2)-this.button1Rect.getAttr('width')/2);
+                           this.button2.setAttr('y',this.button1.getAttr('y')+this.button1Rect.getAttr('height')+10);
+                           this.button4.setAttr('x',(this.popUpRect.getAttr('width')/2)-this.button1Rect.getAttr('width')/2);
+                           this.button4.setAttr('y',this.button2.getAttr('y')+this.button1Rect.getAttr('height')+10);
+                           this.button3.setAttr('x',(this.popUpRect.getAttr('width')/2)-this.button1Rect.getAttr('width')/2);
+                           this.button3.setAttr('y',this.button4.getAttr('y')+this.button1Rect.getAttr('height')+10);
+                       }
+               
+               
+                       this.interfaceLayer.find('#button3Text')[0].setAttr('text','CANCEL');
+                       this.interfaceLayer.find('#button3Text')[0].setAttr('id','button3Text');
+                       this.interfaceLayer.find('#button3Text')[0].setAttr('x',this.addRect.getAttr('width')/2-this.interfaceLayer.find('#button3Text')[0].getAttr('width')/2);
+               
+                       this.interfaceLayer.find('#button4Text')[0].setAttr('text','ADD CONNECTION');
+                       this.interfaceLayer.find('#button4Text')[0].setAttr('fontSize',this.initFontSize-1);
+                       this.interfaceLayer.find('#button4Text')[0].setAttr('id','button4Text');
+                       this.interfaceLayer.find('#button4Text')[0].setAttr('x',this.addRect.getAttr('width')/2-this.interfaceLayer.find('#button4Text')[0].getAttr('width')/2);
+               
+               
+                       this.interfaceLayer.find('#button3Rect')[0].setAttr('id','button3Rect');
+                       this.interfaceLayer.find('#button4Rect')[0].setAttr('id','button4Rect');
+               
+                       this.popUp.show();
+                       this.interfaceLayer.draw();
+               
+                       this.hoverPopUpButtons(['#button1Rect','#button1Text'],this.buttonColorHover,this.buttonColor);
+                       this.hoverPopUpButtons(['#button2Rect','#button2Text'],this.buttonColorHover,this.buttonColor);
+                       this.hoverPopUpButtons(['#button3Rect','#button3Text'],this.buttonColorHover,this.buttonColor);
+                       this.hoverPopUpButtons(['#button4Rect','#button4Text'],this.buttonColorHover,this.buttonColor);
+               
+                       let self = this;
+                       this.button3.off('click tap').on('click tap',function(e){
+                           self.interfaceLayer.find('#button3Rect')[0].fill(self.buttonColor);
+                           self.button3.hide();
+                           self.popUp.hide();
+                           self.interfaceLayer.draw();
+                           self.pause = false;
+                           self.selectedNode = null;
+                           self.setDraggable(true);
+                           if (self.movementStyle == "one") {
+                               evt.target.setAttr("x", self.xDrag);
+                               evt.target.setAttr("y", self.yDrag);
+                               evt.target.fill(self.buttonColorHover);
+                           } else {
+                               evt.target.setAttr("x", self.xDrag);
+                               evt.target.setAttr("y", self.yDrag);
+                           }
+                           self.dropReset(evt);
+                           self.startDrawNodes(self.storyID);
+                           self.popUpShown = false;
+                           self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                           self.interfaceLayer.draw();
+                       });
+               
+               
+                       if(this.movementStyle == 'one'){
+                           this.button4.off('click tap').on('click tap',function(e){
+                             //ADD CONNECTION
+                                   /*    self.interfaceLayer.find('#button4Rect')[0].fill(self.buttonColor);
+                                       self.button3.hide();
+                                       self.button4.hide();
+                                       self.popUp.hide();
+                                       self.pause = false;
+                                       self.dropStyle = "connection";
+                                       self.dropReset(evt);
+                                       self.popUpShown = false;
+                                       self.startDrawLines(self.storyID);
+                                       self.startDrawNodes(self.storyID);
+                                       self.debugText.text(data);
+                                       self.debugText.setAttr('x', (self.width/2)-self.debugText.getAttr('width')/2);
+               
+                                       self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                                       self.interfaceLayer.draw();
+               
+                                
+                           });
+               
+                       }else{
+                           this.button4.off('click tap');
+                           this.hoverPopUpButtons(['#button4Rect', '#button4Text'], this.buttonColorDisabled, this.buttonColorDisabled);
+                       }
+               
+               
+                       if(this.hasChildren && this.movementStyle == "one") {
+                           this.button1.off('click tap');
+                           this.hoverPopUpButtons(['#button1Rect','#button1Text'],this.buttonColorDisabled,this.buttonColorDisabled);
+                       }else{
+                           this.hoverPopUpButtons(['#button1Rect','#button1Text'],this.buttonColorHover,this.buttonColor);
+                           this.button1.off('click tap').on('click tap', function (e) {
+                               if(self.movementStyle == "one") {
+                               //ADD NODE AS CHILD
+                                      /*     self.interfaceLayer.find('#button2Rect')[0].fill(self.buttonColor);
+                                           self.button3.hide();
+                                           self.button4.hide();
+                                           self.popUp.hide();
+                                           self.pause = false;
+                                           self.dropStyle = "child";
+                                           self.dropReset(evt);
+                                           self.popUpShown = false;
+                                           self.startDrawLines(self.storyID);
+                                           self.startDrawNodes(self.storyID);
+                                           self.debugText.text(data);
+                                           self.debugText.setAttr('x', (self.width/2)-self.debugText.getAttr('width')/2);
+               
+                                           self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                                           self.interfaceLayer.draw();
+                                   
+                               }else{
+                                  //ADD BRANCH AS CHILD
+                                       /*    self.interfaceLayer.find('#button2Rect')[0].fill(self.buttonColor);
+                                           self.button3.hide();
+                                           self.button4.hide();
+                                           self.popUp.hide();
+                                           self.pause = false;
+                                           self.dropStyle = "child";
+                                           self.dropReset(evt);
+                                           self.popUpShown = false;
+                                           self.startDrawLines(self.storyID);
+                                           self.startDrawNodes(self.storyID);
+                                           self.debugText.text(data);
+                                           self.debugText.setAttr('x', (self.width/2)-self.debugText.getAttr('width')/2);
+               
+                                           self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                                           self.interfaceLayer.draw();
+                                      
+                               }
+                           });
+                       }
+               
+                       this.button2.off('click tap').on('click tap',function(e){
+                           if(self.movementStyle != "one") {
+                              //CHECK IF PARENT
+                                 /*    if(data == 'false'){
+                                         self.found = false;
+                                         self.interfaceLayer.find('#button2Rect')[0].fill(self.buttonColor);
+                                         self.button3.hide();
+                                         self.button4.hide();
+                                         self.reorder(evt);
+                                      }else{
+                                         self.found = true;
+                                         self.interfaceLayer.find('#button2Rect')[0].fill(self.buttonColor);
+                                         self.button3.hide();
+                                         self.button4.hide();
+                                         self.popUp.hide();
+                                         self.interfaceLayer.draw();
+                                         self.pause = false;
+                                         self.dropStyle = "reorder";
+                                         self.popUpShown = false;
+                                         self.dropQuestion2(evt);
+                                     }
+                                       //interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                                       self.interfaceLayer.draw();
+               
+                           }else{
+                               self.interfaceLayer.find('#button2Rect')[0].fill(self.buttonColor);
+                               self.button3.hide();
+                               self.button4.hide();
+                               self.reorder(evt);
+                           }
+                       });
+               */
                 };
                 ;
                 NodeEditorComponent = __decorate([

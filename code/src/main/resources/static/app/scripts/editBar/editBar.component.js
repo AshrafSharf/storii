@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../login/authentication.service', '../profile/profile.service', './editBar.service', '../../headerfct'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../login/authentication.service', '../profile/profile.service', './editBar.service', './hover', '../../headerfct'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, router_2, authentication_service_1, profile_service_1, editBar_service_1, headerfct_1;
+    var core_1, router_1, router_2, authentication_service_1, profile_service_1, editBar_service_1, hover_1, headerfct_1;
     var EditBarComponent;
     return {
         setters:[
@@ -29,6 +29,9 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
             },
             function (editBar_service_1_1) {
                 editBar_service_1 = editBar_service_1_1;
+            },
+            function (hover_1_1) {
+                hover_1 = hover_1_1;
             },
             function (headerfct_1_1) {
                 headerfct_1 = headerfct_1_1;
@@ -55,7 +58,10 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     this.swapBranch = "Swap branch";
                     this.append = "Append";
                     this.onAdded = new core_1.EventEmitter();
+                    this.onAppend = new core_1.EventEmitter();
                     this.onDeleted = new core_1.EventEmitter();
+                    this.onSwapNode = new core_1.EventEmitter();
+                    this.onSwapBranch = new core_1.EventEmitter();
                     this.loggedIn = _authenticationService.isLoggedIn();
                     this.name = this._routeParams.get('name');
                     if (this.loggedIn) {
@@ -68,6 +74,15 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         }, function (error) { return _this.errorMessage = error; });
                     }
                 }
+                EditBarComponent.prototype.startSwapNode = function (swapNode) {
+                    this.onSwapNode.emit(swapNode);
+                };
+                EditBarComponent.prototype.startSwapBranch = function (swap) {
+                    this.onSwapBranch.emit(swap);
+                };
+                EditBarComponent.prototype.startAppend = function (append) {
+                    this.onAppend.emit(append);
+                };
                 EditBarComponent.prototype.addNewNode = function (newNode) {
                     this.onAdded.emit(newNode);
                 };
@@ -164,10 +179,12 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         this.nodeEditorPage = true;
                         this.addAllowed = this.details[0];
                         this.deleteAllowed = this.details[1];
+                        this.moveAllowed = this.details[2];
                         var self_1 = this;
                         document.getElementById("wrapper").addEventListener('click', function (event) {
                             self_1.addAllowed = self_1.details[0];
                             self_1.deleteAllowed = self_1.details[1];
+                            self_1.moveAllowed = self_1.details[2];
                         });
                     }
                 };
@@ -178,12 +195,25 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', Object)
+                ], EditBarComponent.prototype, "onAppend", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', Object)
                 ], EditBarComponent.prototype, "onDeleted", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', Object)
+                ], EditBarComponent.prototype, "onSwapNode", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', Object)
+                ], EditBarComponent.prototype, "onSwapBranch", void 0);
                 EditBarComponent = __decorate([
                     core_1.Component({
                         selector: 'editBar',
                         inputs: ['details'],
                         templateUrl: "app/html/editBar/editBar.html",
+                        directives: [hover_1.Hover],
                         styles: ['a {cursor: pointer}'],
                         providers: [editBar_service_1.EditBarService, authentication_service_1.AuthenticationService, profile_service_1.ProfileService, headerfct_1.HttpClient]
                     }), 

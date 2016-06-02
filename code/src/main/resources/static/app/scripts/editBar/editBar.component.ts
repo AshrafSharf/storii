@@ -4,6 +4,7 @@ import { Router, Location} from 'angular2/router';
 import { AuthenticationService }    from '../login/authentication.service';
 import { ProfileService }    from '../profile/profile.service';
 import { EditBarService }    from './editBar.service';
+import { Hover }    from './hover';
 import {HttpClient}           from '../../headerfct';
   
 declare var jQuery: any;
@@ -13,6 +14,7 @@ declare var vex: any;
       selector: 'editBar',
       inputs:['details'],
       templateUrl:`app/html/editBar/editBar.html`,
+      directives: [Hover],
       styles:['a {cursor: pointer}'],
   	  providers:[EditBarService,AuthenticationService,ProfileService,HttpClient]
 })
@@ -43,6 +45,7 @@ export class EditBarComponent implements OnInit {
 	notTheSamePW;
 	addAllowed;
 	deleteAllowed;
+	moveAllowed;
 
 	loggedIn;
 	loggedInUser
@@ -50,7 +53,10 @@ export class EditBarComponent implements OnInit {
 	update: string[];
 	
 	 @Output() onAdded = new EventEmitter<boolean>();
+	 @Output() onAppend = new EventEmitter<boolean>();
 	 @Output() onDeleted = new EventEmitter<boolean>();
+	 @Output() onSwapNode = new EventEmitter<boolean>();
+	 @Output() onSwapBranch = new EventEmitter<boolean>();
 
 
 	constructor(private _elRef: ElementRef, private httpClient: HttpClient, private _router: Router,private _routeParams:RouteParams,private _authenticationService: AuthenticationService,private _editBarService: EditBarService) {
@@ -73,6 +79,16 @@ export class EditBarComponent implements OnInit {
  	
 	}
 	
+	startSwapNode(swapNode:boolean){
+		this.onSwapNode.emit(swapNode);
+	}
+	startSwapBranch(swap:boolean){
+		this.onSwapBranch.emit(swap);
+	}
+	
+	startAppend(append:boolean){
+		this.onAppend.emit(append);
+	}
 	
 	addNewNode(newNode:boolean){
 		this.onAdded.emit(newNode);
@@ -81,6 +97,8 @@ export class EditBarComponent implements OnInit {
 	deleteNode(deleteNode:boolean){
 		this.onDeleted.emit(deleteNode);
 	}
+	
+	
 	goToNodeEditor(){
 	     this.storyid = this._routeParams.get('id');	
 		 this._router.navigate(['NodeEditor',{ name: this.name, storyName: this.details[0]['name'] , id: this.storyid}]);
@@ -229,12 +247,15 @@ export class EditBarComponent implements OnInit {
 	
 			this.addAllowed = this.details[0];
 			this.deleteAllowed = this.details[1]; 
+			this.moveAllowed = this.details[2]; 
+	
 			
 			let self = this;
 			document.getElementById("wrapper").addEventListener('click', function(event) {
 				self.addAllowed = self.details[0];
 				self.deleteAllowed = self.details[1]; 
-			
+				self.moveAllowed = self.details[2]; 
+				
 	
 			});
 		}

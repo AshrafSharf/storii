@@ -28,6 +28,7 @@ export class NodeEditorComponent implements OnInit{
     levelX;
     startY = 0;
     offset = 0.0;
+    isDragging; 
     xDrag;
     yDrag; 
     xDrop;
@@ -69,7 +70,15 @@ export class NodeEditorComponent implements OnInit{
             "OR do you want to connect this two pages to reunite the branches?";
     moveText = "Do you want to move only this page or all sub-pages as well?";
     deleteText = "ATTENTION:\n All sub-pages will be deleted as well.\nDo you really want to delete this page?";
-
+    emptyLayer;
+    backgroundLayer
+    levelTextLayer;
+    layerConn;
+    layer;
+    tempLayer;
+    interfaceLayer;
+    layerTEXT;
+                
     
     
     storyID; 
@@ -97,24 +106,7 @@ export class NodeEditorComponent implements OnInit{
             fontFamily: "Architects Daughter"
         });
        
-        backgroundLayer = new Konva.Layer({
-            width: this.width,
-            height:this.height,
-            scale:{
-                x: 1,
-                y: 1
-            }
-        });
-        layer  = this.backgroundLayer.clone();
-        layerConn =this.backgroundLayer.clone();
-        layerTEXT = this.backgroundLayer.clone();
-        levelTextLayer= this.backgroundLayer.clone();
-        tempLayer = new Konva.Layer({
-            width: this.width,
-            height: this.height
-        });
-        emptyLayer = this.tempLayer.clone();
-        interfaceLayer = this.tempLayer.clone();
+       
       
     
         
@@ -239,6 +231,25 @@ export class NodeEditorComponent implements OnInit{
                     lineHeight: 1.5
                 });
         
+             this.backgroundLayer = new Konva.Layer({
+                width: this.width,
+                height:this.height,
+                scale:{
+                    x: 1,
+                    y: 1
+                }
+            });
+            this.layer  = this.backgroundLayer.clone();
+            this.layerConn =this.backgroundLayer.clone();
+            this.layerTEXT = this.backgroundLayer.clone();
+            this.levelTextLayer= this.backgroundLayer.clone();
+            this.tempLayer = new Konva.Layer({
+                width: this.width,
+                height: this.height
+            });
+            this.emptyLayer = this.tempLayer.clone();
+            this.interfaceLayer = this.tempLayer.clone();
+                
     }
     
     buildCanvas(){    
@@ -246,7 +257,7 @@ export class NodeEditorComponent implements OnInit{
                 this.interfaceLayer.add(this.debugText);
 
                 //ADD NEW PAGE BUTTON
-                this.addButton.add(this.addRect);
+            /*    this.addButton.add(this.addRect);
                 this.addButton.add(this.addText);
                 this.addButton.add(this.dottedLineAdd);
                 this.interfaceLayer.add(this.addButton);
@@ -255,10 +266,10 @@ export class NodeEditorComponent implements OnInit{
                 this.deleteButton.add(this.delRect);
                 this.deleteButton.add(this.delText);
                 this.deleteButton.add(this.dottedLineDel);
-                this.interfaceLayer.add(this.deleteButton);
+                this.interfaceLayer.add(this.deleteButton);*/
         
                  //DELETE POPUP
-                 this.popUp.add( this.popUpRect);
+             /*    this.popUp.add( this.popUpRect);
                  this.popUp.add( this.popText);
         
                  this.button1.add( this.button1Rect);
@@ -284,7 +295,7 @@ export class NodeEditorComponent implements OnInit{
                  this.popUp.add( this.dottedLinePopUp);
                  this.interfaceLayer.add( this.popUp);
         
-                 this.interfaceLayer.find('#popUp')[0].hide();
+                 this.interfaceLayer.find('#popUp')[0].hide();*/
 
                 
                this.stage.add(this.emptyLayer);
@@ -299,10 +310,10 @@ export class NodeEditorComponent implements OnInit{
                 
                 
                 this.startDrawLines(this.storyID);
-                this.startDrawNodes(this.storyID);
+                this.startDrawNodes(this.storyID,"first");
         
                 this.isMobile = false;
-                this.initFontSize = this.stage.find('#button1Text')[0].getAttr('fontSize');
+               // this.initFontSize = this.stage.find('#button1Text')[0].getAttr('fontSize');
     }
     
     mouseEvents(){
@@ -314,22 +325,26 @@ export class NodeEditorComponent implements OnInit{
             if(self.movementStyle == null) {
                 self.nodeSelection(e.target);
                 self.disable(e.target.id()); //check if add node is allowed
-            }else if(self.movementStyle != null && self.movementStyle != 'one'){
+            }else if(self.movementStyle != null && self.movementStyle != 'one'){ console.log("CLICK");
                 self.layer.find('#movingGroup')[0].getChildren(function (n) {
                     return n.getClassName() === "Circle";
                 }).each(function (shape, n) {
                     var x = shape.getAttr('x');
                     var y = shape.getAttr('y');
-                    shape.moveTo(this.layer);
+                    shape.moveTo(self.layer);
                     shape.setAttr('x', x);
                     shape.setAttr('y', y);
                     shape.setAttr('fill', self.buttonColorHover);
-                    self.setDraggable(true);
+                   // self.setDraggable(true);
                 });
                 self.layer.draw();
                 self.tempLayer.draw();
                 self.dropStyle = null;
                 self.movementStyle = null;
+                self.allowed[0]= false;
+                self.allowed[1] = false;
+                self.allowed[2] = false;
+                $("#wrapper").trigger( "click" );
             }
         });
         
@@ -358,7 +373,7 @@ export class NodeEditorComponent implements OnInit{
             self.tooltip.hide();
             self.layerTEXT.draw();
             if(self.selectedNode == null){
-                self.debugText.text('');
+                self.debugText.text('Select a node');
                 self.debugText.setAttr('x', (self.width/2)-self.debugText.getAttr('width')/2);
 
                 self.interfaceLayer.draw();
@@ -380,11 +395,11 @@ export class NodeEditorComponent implements OnInit{
                         self._nodeEditorService.getPageById(e.target.getAttr('id'))
                                         .subscribe(
                                                actualPage => { 
-                                                this.actualPage = actualPage;  
+                                                self.actualPage = actualPage;  
                                                 self.setToolTip(actualPage['title'],e);
                     
                                                },
-                                               error =>  this.errorMessage = <any>error);
+                                               error =>  self.errorMessage = <any>error);
                         //service get title of page with id
                          
                        
@@ -401,7 +416,7 @@ export class NodeEditorComponent implements OnInit{
           //dragEVENTS
        
          self.layer.on("dragstart", function (e) {
-          if (!self.pause && self.movementStyle == null) {
+      /*    if (!self.pause && self.movementStyle == null) {
              self.pause = true;
              // self.zoomOut();
               if(e.target.id() != self.selectedNode){
@@ -417,29 +432,31 @@ export class NodeEditorComponent implements OnInit{
               });
               e.target.fill('yellow');
               self.interfaceLayer.draw();
-          } else if (!self.pause && self.movementStyle == "one") {
+          } else*/ 
+             if (/*!self.pause && */self.movementStyle == "one") {
               self.xDrag = e.target.getAttr('x');
               self.yDrag = e.target.getAttr('y');
 
               e.target.moveTo(self.tempLayer);
               e.target.fill('yellow');
               self.layer.draw();
-        } else if (!self.pause && self.movementStyle != "one" && self.movementStyle != null) {
-              self.selectedNode = e.target.find('#' + self.movementStyle[0])[0].getAttr('id');
-              self.movingGroup.moveTo(self.tempLayer);
+        } else if (/*!self.pause && */self.movementStyle != "one" && self.movementStyle != null) {               
+              self.selectedNode = e.target.find('#' + self.movementStyle[0]['id'])[0].getAttr('id');  
+              self.movingGroup.moveTo(self.tempLayer); 
               self.layer.draw();
               self.tempLayer.draw();
           }
 
-
+        
       });
 
   
        
          this.stage.on("dragmove", function (evt) {
-            if(!self.pause) {
+          //  if(!self.pause) {
                 var pos = self.stage.getPointerPosition();
                 var shape = self.layer.getIntersection(pos);
+            
                 if (self.previousShape && shape) {
                     if (self.previousShape !== shape) {
                         // leave from old target
@@ -479,21 +496,23 @@ export class NodeEditorComponent implements OnInit{
                     self.previousShape = undefined;
                 }
                 self.tempLayer.draw();
-            }
+         //   }
         });
 
         
             
-            this.stage.on("dragend", function (e) {
-                console.log(self.xDrag +":"+self.yDrag);
+            this.stage.on("dragend", function (e) { 
+           
+
             //wieder wegmachen 
               //  e.target.setAttr("x", self.xDrag);
               //  e.target.setAttr("y", self.yDrag);
-                if(!self.pause && e.target.id() != 'stage') { 
+                if(/*!self.pause &&*/ e.target.id() != 'stage') { 
                     
                     var pos = self.stage.getPointerPosition();
-                    var overlapping = self.layer.getIntersection(pos);
-                  if (overlapping) {
+                    var overlapping = self.layer.getIntersection(pos); 
+                 
+                  if (overlapping) { 
                         if (self.dropStyle == null) {
                             self.checkAdditionalNode(self.previousShape.id());
                             self.tooltip.hide();
@@ -530,18 +549,19 @@ export class NodeEditorComponent implements OnInit{
         });
 
         this.stage.on("dragleave", function (e) {
-            if(!self.pause) {
+           // if(!self.pause) {
                 self.over = false;
                 e.target.fill(self.buttonColorHover);
                 self.debugText.setAttr('fontSize','20');
                 self.debugText.text('');
                 self.layer.draw();
                 self.interfaceLayer.draw();
-            }
+           // }
         });
        
         this.stage.on("dragover", function (e) {
-            if(!self.pause) {
+           // if(!self.pause) {
+                
                 self.over = true;
                 e.target.fill('green');
                 self.xDrop = e.target.getAbsolutePosition().x;
@@ -550,11 +570,11 @@ export class NodeEditorComponent implements OnInit{
                 self.debugText.text('Drag over ' + e.target.id());
                 self.layer.draw();
                 self.interfaceLayer.draw();
-            }
+           // }
         });
 
         this.stage.on("drop", function (e) {
-            if(!self.pause) {
+           // if(!self.pause) {
                 e.target.setAttr("x", self.xDrag);
                e.target.setAttr("y", self.yDrag);
 
@@ -563,7 +583,7 @@ export class NodeEditorComponent implements OnInit{
                 self.debugText.text('Drop ' + e.target.id());
                 self.layer.draw();
                 self.interfaceLayer.draw();
-            }
+           // }
         });
 
 
@@ -579,13 +599,82 @@ export class NodeEditorComponent implements OnInit{
                 this.deleteNode();
         }  
   }
+    onSwapNode(swap: boolean) {      
+       if(swap){
+             this.debugText.text("Start Dragging");
+             this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
+             this.interfaceLayer.draw();
+             this.layer.find('#'+this.selectedNode).draggable(true);
+             this.movementStyle = "one";   
+       }
+  }
+    onSwapBranch(swap: boolean) {      
+       if(swap){
+             this.debugText.text("Start Dragging");
+             this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
+             this.interfaceLayer.draw();
+           
+             this._nodeEditorService.getChildren(this.selectedNode)
+                            .subscribe(
+                               data => {    
+                                    this.movementStyle = data;
+                                    this.movingGroup.setAttr('x', 0);
+                                    this.movingGroup.setAttr('y', 0);
+
+                                    for (var i = 0; i < this.movementStyle.length; i++) {
+                                        //this.layer.find('#'+this.movementStyle[i]['id']).draggable(true);
+                                        var node = this.layer.find('#' + this.movementStyle[i]['id']);
+                                        node.fill('yellow');
+                                        node.moveTo(this.movingGroup);
+                                    }
+                                 this.layer.add(this.movingGroup);
+                                 this.xDrag =  this.layer.find('#'+this.selectedNode)[0].getAttr('x');
+                                 this.yDrag =  this.layer.find('#'+this.selectedNode)[0].getAttr('y');
+                                 this.layer.draw();
+                                 this.interfaceLayer.draw();
+                                   console.log(this.movingGroup);
+                               },
+                               error =>  this.errorMessage = <any>error); 
+       }
+  }
+    
+     onAppend(append: boolean) {      
+       if(append){
+             this.debugText.text("Start Dragging");
+             this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
+             this.interfaceLayer.draw();
+           
+             this._nodeEditorService.getChildren(this.selectedNode)
+                            .subscribe(
+                               data => {    
+                                    this.movementStyle = data;
+                                    this.movingGroup.setAttr('x', 0);
+                                    this.movingGroup.setAttr('y', 0);
+
+                                    for (var i = 0; i < this.movementStyle.length; i++) {
+                                        //this.layer.find('#'+this.movementStyle[i]['id']).draggable(true);
+                                        var node = this.layer.find('#' + this.movementStyle[i]['id']);
+                                        node.fill('yellow');
+                                        node.moveTo(this.movingGroup);
+                                    }
+                                 this.layer.add(this.movingGroup);
+                                 this.xDrag =  this.layer.find('#'+this.selectedNode)[0].getAttr('x');
+                                 this.yDrag =  this.layer.find('#'+this.selectedNode)[0].getAttr('y');
+                                 this.layer.draw();
+                                 this.interfaceLayer.draw();
+                                   console.log(this.movingGroup);
+                               },
+                               error =>  this.errorMessage = <any>error); 
+       }
+  }
+    
     
     buttonEvents(){
        let self = this; 
      
         
          //add new page
-        this.stage.find('#addButton')[0].off('click tap').on('click tap',function(e){
+    /*    this.stage.find('#addButton')[0].off('click tap').on('click tap',function(e){
             var rect =  self.stage.find('#addRect')[0];
             var fill = rect.fill() == self.buttonColorDisabled ? self.buttonColorDisabled : self.buttonColorHover;
             if(fill != self.buttonColorDisabled){
@@ -605,7 +694,7 @@ export class NodeEditorComponent implements OnInit{
             }
         });
 
-        this.hoverInterfaceButtons('#delRect','#delText');
+        this.hoverInterfaceButtons('#delRect','#delText');*/
     }
     
     
@@ -622,16 +711,10 @@ export class NodeEditorComponent implements OnInit{
                                error =>  this.errorMessage = <any>error);
       }
       
-      startDrawNodes(id){
+      startDrawNodes(id,first){
         this._nodeEditorService.startDrawNodes(id)
                             .subscribe(
                                pages => {   
-                               //falsche lvl und position 
-                               // this.pages = pages;
-                                  /* pages.sort(
-                                        this.firstBy(function (v1, v2) { return v1.level - v2.level; })
-                                        .thenBy(function (v1, v2) { return v1.position - v2.position; })
-                                    );*/
                                 pages.sort(function(a, b) {
                                     return parseFloat(a.level) - parseFloat(b.level);
                                 });
@@ -650,7 +733,7 @@ export class NodeEditorComponent implements OnInit{
                                 }
                                    
                                 console.log(pages);
-                               this.drawNodes(pages, "first");
+                               this.drawNodes(pages, first);
     
                                },
                                error =>  this.errorMessage = <any>error);
@@ -664,15 +747,22 @@ export class NodeEditorComponent implements OnInit{
                                result => {   
                                 console.log("DONE");
                                 this.startDrawLines(this.storyID);
-                                this.startDrawNodes(this.storyID);
+                                this.startDrawNodes(this.storyID,"");
+                                this.debugText.text("Successfully added");
+                                 this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
+        
+        
+                                 //self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                                 //debugText.setAttr('fontSize','25');
+                                 this.interfaceLayer.draw();
                                },
                                error =>  this.errorMessage = <any>error);
             
         }
     
      deleteNode(){
-        var id = this.selectedNode;
-        this.popUpShown = true;
+       var id = this.selectedNode;
+       /*  this.popUpShown = true;
         this.pause = true;
         this.setDraggable(false);
         this.button3.hide();
@@ -726,36 +816,37 @@ export class NodeEditorComponent implements OnInit{
            self.popUpShown = false;
            self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
            self.interfaceLayer.draw();
-        });
+        });*/
 
 
-        this.button1.off('click tap').on('click tap',function(e){
+      //  this.button1.off('click tap').on('click tap',function(e){
+             
+     let self = this;
            self._nodeEditorService.deletePageById(id)
                             .subscribe(
                                result => {                                 
                                 console.log("deleted");    
-                                 self.interfaceLayer.find('#button1Rect')[0].fill(self.buttonColor);
+                                /* self.interfaceLayer.find('#button1Rect')[0].fill(self.buttonColor);
                                  self.popUp.hide();
                                  self.pause = false;
                                  self.popUpShown = false;
-                                 self.setDraggable(true);
+                                 self.setDraggable(true);*/
                                  if(self.layer.getAttr('scale') < 1.0){
                                    //  self.resetScale();
                                  }
                                  self.startDrawLines(self.storyID);
-                                 self.startDrawNodes(self.storyID);
+                                 self.startDrawNodes(self.storyID,"");
                                  self.debugText.text("Successfully deleted");
-                                 self.debugText.setAttr('x',self.width/2-70-self.offset);
                                  self.debugText.setAttr('x', (self.width/2)-self.debugText.getAttr('width')/2);
         
         
-                                 self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                                 //self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
                                  //debugText.setAttr('fontSize','25');
                                  self.interfaceLayer.draw();
                         },
                    error =>  self.errorMessage = <any>error); 
 
-        });
+       // });
 
 
         this.hoverPopUpButtons(['#button1Rect','#button1Text'],this.buttonColorHover,this.buttonColor);
@@ -780,7 +871,7 @@ export class NodeEditorComponent implements OnInit{
                                      $("#wrapper").trigger( "click" );
                                     console.log("IS ALLOWED"); 
                                     if(!this.popUpShown) {
-                                        this.stage.find('#addRect')[0].setAttr('fill', this.buttonColor);
+                                       // this.stage.find('#addRect')[0].setAttr('fill', this.buttonColor);
                                     }
                                 } else {
                                      this.allowed[0] = false;
@@ -791,7 +882,7 @@ export class NodeEditorComponent implements OnInit{
                                         this.hoverPopUpButtons(['#button1Rect', '#button1Text'], this.buttonColorDisabled, this.buttonColorDisabled);
                                     }
                                     if(!this.popUpShown) {
-                                        this.stage.find('#addRect')[0].setAttr('fill', this.buttonColorDisabled);
+                                       // this.stage.find('#addRect')[0].setAttr('fill', this.buttonColorDisabled);
                                     }
                                 }
                                 this.interfaceLayer.draw();    
@@ -813,14 +904,14 @@ export class NodeEditorComponent implements OnInit{
                                     this.allowed[1] = false;
                                       $("#wrapper").trigger( "click" );
                                     if(!this.popUpShown) {
-                                        this.stage.find('#delRect')[0].setAttr('fill', this.buttonColorDisabled);
+                                      //  this.stage.find('#delRect')[0].setAttr('fill', this.buttonColorDisabled);
                                     }
                                 } else {
                                      this.allowed[1] = true; 
                                       $("#wrapper").trigger( "click" );
                                  
                                     if(!this.popUpShown) {
-                                        this.stage.find('#delRect')[0].setAttr('fill', this.buttonColor);
+                                        //this.stage.find('#delRect')[0].setAttr('fill', this.buttonColor);
                                     }
                                 }
                                 
@@ -834,11 +925,11 @@ export class NodeEditorComponent implements OnInit{
               this._nodeEditorService.reorderNodes(ID01, ID02)
                             .subscribe(
                                result => {
-                                     this.startDrawNodes(this.storyID);
-                                  //  this.debugText.text(data);
+                                     this.startDrawNodes(this.storyID,"");
+                                    this.debugText.text("Successfully reordered");
                                     this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
                     
-                                   // debugText.setAttr('fontSize','25');
+                                    //debugText.setAttr('fontSize','25');
                                     this.interfaceLayer.draw();
                                    },
                                error =>  this.errorMessage = <any>error);
@@ -851,14 +942,29 @@ export class NodeEditorComponent implements OnInit{
               this._nodeEditorService.reorderBranches(ID01, ID02)
                             .subscribe(
                                result => {
-                                     this.startDrawNodes(this.storyID);
-                                  //  this.debugText.text(data);
+                                     this.startDrawNodes(this.storyID,"");
+                                    this.debugText.text("Successfully reordered");
                                     this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
                     
-                                   // debugText.setAttr('fontSize','25');
+                                    //debugText.setAttr('fontSize','25');
                                     this.interfaceLayer.draw();
                                    },
                                error =>  this.errorMessage = <any>error);
+        };
+    
+    
+        appendBranch(ID01, ID02) {
+          this._nodeEditorService.appendBranch(ID02, ID01)
+                        .subscribe(
+                           result => {
+                                 this.startDrawNodes(this.storyID,"");
+                                this.debugText.text("Successfully appended");
+                                this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
+                
+                                //debugText.setAttr('fontSize','25');
+                                this.interfaceLayer.draw();
+                               },
+                           error =>  this.errorMessage = <any>error);
    
                   
                
@@ -908,8 +1014,8 @@ export class NodeEditorComponent implements OnInit{
         this.layerTEXT.destroyChildren();
         this.layerConn.destroyChildren();
 
-       this.stage.find('#addRect')[0].setAttr('fill',this.buttonColorDisabled);
-       this.stage.find('#delRect')[0].setAttr('fill',this.buttonColorDisabled);
+      // this.stage.find('#addRect')[0].setAttr('fill',this.buttonColorDisabled);
+      // this.stage.find('#delRect')[0].setAttr('fill',this.buttonColorDisabled);
        this.interfaceLayer.draw();
 
         this.selectedNode = null;
@@ -987,11 +1093,11 @@ export class NodeEditorComponent implements OnInit{
 
             }
 
-            console.log("POINTS");
-            console.log(points);
+           // console.log("POINTS");
+           // console.log(points);
             var sh = IDs.shift();
-            console.log("IDs");
-            console.log(IDs);
+           // console.log("IDs");
+           // console.log(IDs);
  
        
      if(data[i]['outgoingInternLinks']){ //umändern auf 
@@ -1184,9 +1290,14 @@ export class NodeEditorComponent implements OnInit{
             this.layerConn.draw();
             this.layerTEXT.draw();
             this.emptyLayer.draw();
-            if(first){
+            if(first == "first"){
                 this.nodeSelection(this.layer.find('#'+ this.firstNode)[0]);
+            }else{
+                this.debugText.text("Select a node");
+                this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
+                this.interfaceLayer.draw();
             }
+            
             this.checkAdditionalNode(this.firstNode);
         }
         this.drawToolTip();
@@ -1222,8 +1333,9 @@ export class NodeEditorComponent implements OnInit{
             }
 
             if (fill == 'yellow') {
-              
-                this.debugText.text('Selected "' + elem.getAttr('id')+'"');
+                this.allowed[2] = true;
+                $("#wrapper").trigger( "click" );
+                this.debugText.text('Choose the action');
                 this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
                 this.selectedNode = elem.id();
                 /*if(zoomStyle == "zoomJump") {
@@ -1235,9 +1347,12 @@ export class NodeEditorComponent implements OnInit{
             } else if (fill == this.buttonColorHover) {
                 this.allowed[0]= false;
                 this.allowed[1] = false;
+                this.allowed[2] = false;
                 $("#wrapper").trigger( "click" );
-                this.debugText.text('Deselected "' + elem.getAttr('id') +'"');
+            
+                this.debugText.text("Select a node");
                 this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
+                this.interfaceLayer.draw();
 
                 this.selectedNode = null;
                /* if(zoomStyle == "zoomJump"){
@@ -1254,15 +1369,18 @@ export class NodeEditorComponent implements OnInit{
     };
     
      dropReset(e){
+         
+     
         this.previousShape = undefined;
-        let self = this; 
+        let self = this;  
         if (this.movementStyle == "one") {
             e.target.moveTo(this.layer);
             if (e.target.id() == this.selectedNode) {
                 this.selectedNode = null;
+                this.disable(e.target.id());
             }
-            this.disable(e.target.id());
-            this.setDraggable(true);
+            
+            this.setDraggable(false);
         } else {
             e.target.getChildren(function (n) {
                 return n.getClassName() === "Circle";
@@ -1273,10 +1391,18 @@ export class NodeEditorComponent implements OnInit{
                 shape.setAttr('x', x);
                 shape.setAttr('y', y);
                 shape.setAttr('fill', self.buttonColorHover);
-                self.setDraggable(true);
+                self.setDraggable(false);
             });
+               
         }  
 
+        this.allowed[0]= false;
+        this.allowed[1] = false;
+        this.allowed[2] = false;
+        $("#wrapper").trigger( "click" );
+        this.debugText.text("Select a node");
+        this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
+        this.interfaceLayer.draw();
         this.layer.draw();
         this.tempLayer.draw();
         this.dropStyle = null;
@@ -1298,9 +1424,9 @@ export class NodeEditorComponent implements OnInit{
      disable(id) {    
          if(this.popUpShown == false){
             if (this.selectedNode == null) {
-                this.stage.find('#addRect')[0].setAttr('fill',this.buttonColorDisabled);
-               this.stage.find('#delRect')[0].setAttr('fill',this.buttonColorDisabled);
-                this.interfaceLayer.draw();
+               // this.stage.find('#addRect')[0].setAttr('fill',this.buttonColorDisabled);
+             //  this.stage.find('#delRect')[0].setAttr('fill',this.buttonColorDisabled);
+             //   this.interfaceLayer.draw();
     
             } else {
                 if (this.selectedNode == id ) {
@@ -1382,7 +1508,7 @@ export class NodeEditorComponent implements OnInit{
     
     //###### BUTTON HOVER #####
     hoverInterfaceButtons(rect, text){
-        let self = this; 
+     /*   let self = this; 
         this.stage.find(rect)[0].on('mouseover',function(e){
             var fill = e.target.fill() == self.buttonColorDisabled ? self.buttonColorDisabled : self.buttonColor;
             if(fill != self.buttonColorDisabled){
@@ -1405,7 +1531,7 @@ export class NodeEditorComponent implements OnInit{
                  self.interfaceLayer.draw();
             }
         });
-
+*/
     };
     
     hoverPopUpButtons(element,colorHover, colorOut){
@@ -1459,7 +1585,7 @@ export class NodeEditorComponent implements OnInit{
         this.pause = false;
         this.dropStyle = "reorder";
         this.popUpShown = false;
-        if (this.movementStyle == "one") {
+        if (this.movementStyle == "one") { 
             e.target.setAttr("x", this.xDrop);
             e.target.setAttr("y", this.yDrop);
             this.reorderNodes(this.previousShape.id(), e.target.id());
@@ -1471,7 +1597,7 @@ export class NodeEditorComponent implements OnInit{
             e.target.fill('green');
 
         } else {
-            this.reorderBranches(this.previousShape.id(),this.found);
+            this.reorderBranches(this.previousShape.id(), this.selectedNode);
             this.previousShape.fire('drop', {
                 type: 'drop',
                 target: this.previousShape,
@@ -1481,12 +1607,25 @@ export class NodeEditorComponent implements OnInit{
       this.dropReset(e);
     };
     
+    append(e){
+        this.dropStyle = "append";
+        this.popUpShown = false;  
+        this.appendBranch(this.previousShape.id(), this.selectedNode);
+        this.previousShape.fire('drop', {
+            type: 'drop',
+            target: this.previousShape,
+            evt: e.evt
+        }, true);
+        
+      this.dropReset(e);
+    };
+    
     firstBy=(function(){function e(f){f.thenBy=t;return f}function t(y,x){x=this;return e(function(a,b){return x(a,b)||y(a,b)})}return e})();
     //######## HELPER FUNCTIONS END ########
     
     //######## POPUPS ########
       moveQuestion(evt){
-        this.popText.setAttr('text',this.moveText);
+       /* this.popText.setAttr('text',this.moveText);
         this.popText.setAttr('x',10);
         this.popText.setAttr('y',65);
         this.button3.show();
@@ -1605,7 +1744,7 @@ export class NodeEditorComponent implements OnInit{
                         self.layer.draw();
                         self.popUpShown = false;
                         self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
-                        self.interfaceLayer.draw();*/
+                        self.interfaceLayer.draw();
                    
                     
             });
@@ -1623,13 +1762,21 @@ export class NodeEditorComponent implements OnInit{
            self.popUpShown = false;
            self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
            self.interfaceLayer.draw();
-        });
+        });*/
 
     };
     
     dropQuestion(evt){
+        
+        if(this.movementStyle == "one"){
+             this.reorder(evt);
+        }else if(this.movementStyle != "one" && this.movementStyle != "append" && this.movementStyle != null){
+           this.reorder(evt); 
+        }else if(this.movementStyle == "append"){
+            this.append(evt);
+        } 
 
-        this.pause = true;
+     /*   this.pause = true;
         this.popUpShown = true;
         this.button3.show();
         this.button4.show();
@@ -1753,7 +1900,7 @@ export class NodeEditorComponent implements OnInit{
                         self.debugText.setAttr('x', (self.width/2)-self.debugText.getAttr('width')/2);
 
                         self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
-                        self.interfaceLayer.draw();*/
+                        self.interfaceLayer.draw();
 
                  
             });
@@ -1786,7 +1933,7 @@ export class NodeEditorComponent implements OnInit{
                             self.debugText.setAttr('x', (self.width/2)-self.debugText.getAttr('width')/2);
 
                             self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
-                            self.interfaceLayer.draw();*/
+                            self.interfaceLayer.draw();
                     
                 }else{
                    //ADD BRANCH AS CHILD
@@ -1804,7 +1951,7 @@ export class NodeEditorComponent implements OnInit{
                             self.debugText.setAttr('x', (self.width/2)-self.debugText.getAttr('width')/2);
 
                             self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
-                            self.interfaceLayer.draw();*/
+                            self.interfaceLayer.draw();
                        
                 }
             });
@@ -1832,7 +1979,7 @@ export class NodeEditorComponent implements OnInit{
                           self.dropQuestion2(evt);
                       }
                         //interfaceLayer.find('#button1Text')[0].setAttr('text','');
-                        self.interfaceLayer.draw();*/
+                        self.interfaceLayer.draw();
 
             }else{
                 self.interfaceLayer.find('#button2Rect')[0].fill(self.buttonColor);
@@ -1841,7 +1988,7 @@ export class NodeEditorComponent implements OnInit{
                 self.reorder(evt);
             }
         });
-
+*/
     };
 
 
