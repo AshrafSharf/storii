@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -35,8 +36,13 @@ public class StoryImage {
 	private String path;
 	
 	@OneToOne
-	@JoinColumn(name = "story_id")
+	@JoinColumn(name = "setStoryImage")
+	private Story storyIdSet;
+	
+	@ManyToOne
+	@JoinColumn(name = "storyId")
 	private Story storyId;
+
 
 	public long getId() {
 		return id;
@@ -62,6 +68,14 @@ public class StoryImage {
 		this.path = path;
 	}
 
+	public Story getStoryIdSet() {
+		return storyIdSet;
+	}
+
+	public void setStoryIdSet(Story storyIdSet) {
+		this.storyIdSet = storyIdSet;
+	}
+
 	public Story getStoryId() {
 		return storyId;
 	}
@@ -69,5 +83,7 @@ public class StoryImage {
 	public void setStoryId(Story storyId) {
 		this.storyId = storyId;
 	}
+
+	
 
 }

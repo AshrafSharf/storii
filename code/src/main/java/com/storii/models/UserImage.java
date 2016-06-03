@@ -41,7 +41,7 @@ public class UserImage {
 	private StoriiUser userIdSet;
 	
 	@ManyToOne
-	@JoinColumn(name = "allUserImages")
+	@JoinColumn(name = "userId")
 	private StoriiUser userId;
 
 

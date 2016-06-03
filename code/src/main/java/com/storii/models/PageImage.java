@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -35,8 +36,13 @@ public class PageImage {
 	private String path;
 	
 	@OneToOne
-	@JoinColumn(name = "page_id")
+	@JoinColumn(name = "setPageImage")
+	private Page pageIdSet;
+		
+	@ManyToOne
+	@JoinColumn(name = "pageId")
 	private Page pageId;
+
 
 	public long getId() {
 		return id;
@@ -60,6 +66,14 @@ public class PageImage {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public Page getPageIdSet() {
+		return pageIdSet;
+	}
+
+	public void setPageIdSet(Page pageIdSet) {
+		this.pageIdSet = pageIdSet;
 	}
 
 	public Page getPageId() {

@@ -67,8 +67,11 @@ public class Page {
 	 * defines a one to many relation with the userImage-entity
 	 */
 
-	@OneToOne(mappedBy = "pageId", cascade = CascadeType.ALL)
-	private PageImage pageImage;
+	@OneToOne(mappedBy = "pageIdSet", cascade = CascadeType.ALL)
+	private PageImage setPageImage;
+	
+	@OneToMany(mappedBy = "pageId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<PageImage> allPageImages;
 
 	@ManyToOne
 	@JsonIdentityReference(alwaysAsId = true)
@@ -168,12 +171,20 @@ public class Page {
 		this.serializedContent = serializedContent;
 	}
 
-	public PageImage getPageImage() {
-		return pageImage;
+	public PageImage getSetPageImage() {
+		return setPageImage;
 	}
 
-	public void setPageImage(PageImage pageImage) {
-		this.pageImage = pageImage;
+	public void setSetPageImage(PageImage setPageImage) {
+		this.setPageImage = setPageImage;
+	}
+
+	public Set<PageImage> getAllPageImages() {
+		return allPageImages;
+	}
+
+	public void setAllPageImages(Set<PageImage> allPageImages) {
+		this.allPageImages = allPageImages;
 	}
 
 	public Story getParentStory() {

@@ -59,8 +59,12 @@ public class Story {
 	 * defines a one to many relation with the userImage-entity
 	 */
 
-	@OneToOne(mappedBy = "storyId", cascade = CascadeType.ALL)
-	private StoryImage storyImage;
+	@OneToOne(mappedBy = "storyIdSet", cascade = CascadeType.ALL)
+	private StoryImage setStoryImage;
+	
+	@OneToMany(mappedBy = "storyId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<StoryImage> allStoryImages;
+
 
 	
 	@ManyToOne
@@ -138,13 +142,20 @@ public class Story {
 		this.isPublished = isPublished;
 	}
 
-
-	public StoryImage getStoryImage() {
-		return storyImage;
+	public StoryImage getSetStoryImage() {
+		return setStoryImage;
 	}
 
-	public void setStoryImage(StoryImage storyImage) {
-		this.storyImage = storyImage;
+	public void setSetStoryImage(StoryImage setStoryImage) {
+		this.setStoryImage = setStoryImage;
+	}
+
+	public Set<StoryImage> getAllStoryImages() {
+		return allStoryImages;
+	}
+
+	public void setAllStoryImages(Set<StoryImage> allStoryImages) {
+		this.allStoryImages = allStoryImages;
 	}
 
 	public StoriiUser getParentUser() {
