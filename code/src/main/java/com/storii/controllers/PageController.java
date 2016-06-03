@@ -7,6 +7,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +21,12 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.storii.daos.InternLinkDAO;
 import com.storii.daos.PageDAO;
+import com.storii.daos.PageImageDAO;
 import com.storii.models.InternLink;
 import com.storii.models.Page;
+import com.storii.models.PageImage;
+import com.storii.models.StoriiUser;
+import com.storii.models.UserImage;
 
 /**
  * REST controller for managing users.
@@ -32,6 +38,10 @@ public class PageController {
 
 	@Autowired
 	private PageDAO pageDAO;
+	
+	@Autowired
+	private PageImageDAO pageImageDAO;
+
 	
 	@Autowired
 	private InternLinkDAO internLinkDAO;
@@ -431,5 +441,18 @@ public class PageController {
 		return ResponseEntity.ok().body("{\"data\":" + mapper.writeValueAsString(allPages) + "}");
 	}
 
+	@RequestMapping(value = "{page_id}/setPic/{img_id}", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> setAsPagePic(@PathVariable(value = "page_id") long page_id, @PathVariable(value = "img_id") long img_id) {
+
+		PageImage image = pageImageDAO.findOne(img_id);
+		
+		Page page = pageDAO.findOne(page_id);
+				
+		image.setPageIdSet(page);
+		
+		pageImageDAO.save(image);
+		return ResponseEntity.ok().body("{\"data\":" + "{\"page\":\"" + page.getTitle() + "\",\"image_change\":\"true\"}" + "}");
+	}
 	
 }

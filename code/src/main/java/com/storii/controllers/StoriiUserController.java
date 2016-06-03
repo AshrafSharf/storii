@@ -268,7 +268,7 @@ public class StoriiUserController {
 
 	}
 
-	@RequestMapping(value = "/setAsProfilePic/{img_id}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/setPic/{img_id}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> setAsProfilePic(@PathVariable(value = "img_id") long img_id) {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

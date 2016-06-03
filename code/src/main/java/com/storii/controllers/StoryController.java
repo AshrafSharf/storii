@@ -24,11 +24,14 @@ import com.storii.daos.PageDAO;
 import com.storii.daos.RatingDAO;
 import com.storii.daos.StoriiUserDAO;
 import com.storii.daos.StoryDAO;
+import com.storii.daos.StoryImageDAO;
 import com.storii.models.InternLink;
 import com.storii.models.Page;
+import com.storii.models.PageImage;
 import com.storii.models.Rating;
 import com.storii.models.StoriiUser;
 import com.storii.models.Story;
+import com.storii.models.StoryImage;
 
 /**
  * REST controller for managing users.
@@ -53,6 +56,9 @@ public class StoryController {
 	@Autowired
 	private PageDAO pageDAO;
 
+	@Autowired
+	private StoryImageDAO storyImageDAO;
+	
 	/**
 	 * GET / or blank -> get all stories.
 	 */
@@ -362,5 +368,20 @@ public class StoryController {
 		
 
 	}
+	
+	@RequestMapping(value = "{story_id}/setPic/{img_id}", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> setAsPagePic(@PathVariable(value = "story_id") long story_id, @PathVariable(value = "img_id") long img_id) {
+
+		StoryImage image = storyImageDAO.findOne(img_id);
+		
+		Story story = storyDAO.findOne(story_id);
+				
+		image.setStoryIdSet(story);
+		
+		storyImageDAO.save(image);
+		return ResponseEntity.ok().body("{\"data\":" + "{\"story\":\"" + story.getName() + "\",\"image_change\":\"true\"}" + "}");
+	}
+
 	
 }
