@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,6 +13,8 @@ import java.sql.Timestamp;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -96,6 +99,41 @@ public class UploadController {
 
 		return ResponseEntity.ok().body("{\"uploaded\":\"true\", \"img_name\":\"" + filename + "\"}");
 	} // method uploadFile
+	
+	@RequestMapping(value = "/getUserImage/{user_image_id}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+	@ResponseBody
+	public ResponseEntity<byte[]> getUserImage(@PathVariable(value = "user_image_id") Long user_image_id) {
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		StoriiUser myUser = userDAO.findByName(userDetails.getUsername());
+		String filename = "";
+		
+		UserImage objImage = userImageDAO.findOne(user_image_id);
+		
+		String path = "";
+		
+		if(objImage.getUserId().getId() != myUser.getId()){
+			path = "uploadedFiles/bad_connection.jpg";
+		}else{
+			path = "uploadedFiles/"+objImage.getPath();
+		}
+		
+		File image = new File(path);
+		byte[] imageContent = null;
+		try {
+			imageContent = Files.readAllBytes(image.toPath());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+
+		return ResponseEntity.ok().headers(headers).body(imageContent);
+	} // method uploadFile
+
 
 	@RequestMapping(value = "/deleteUserImage/{user_image_id}", method = RequestMethod.DELETE)
 	@ResponseBody
