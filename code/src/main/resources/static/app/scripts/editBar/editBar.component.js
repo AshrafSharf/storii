@@ -48,7 +48,9 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     this._editBarService = _editBarService;
                     this.editProfile = "Edit Profile";
                     this.editPages = "Edit Pages";
+                    this.editPage = "Edit Page";
                     this.editStory = "Edit Story";
+                    this.addDelete = "Add/Delete";
                     this.addPage = "Add new page";
                     this.delete = "Delete";
                     this.deletePage = "Delete Page";
@@ -60,6 +62,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     this.onAdded = new core_1.EventEmitter();
                     this.onAppend = new core_1.EventEmitter();
                     this.onDeleted = new core_1.EventEmitter();
+                    this.onDeleteBranch = new core_1.EventEmitter();
                     this.onSwapNode = new core_1.EventEmitter();
                     this.onSwapBranch = new core_1.EventEmitter();
                     this.loggedIn = _authenticationService.isLoggedIn();
@@ -88,6 +91,9 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                 };
                 EditBarComponent.prototype.deleteNode = function (deleteNode) {
                     this.onDeleted.emit(deleteNode);
+                };
+                EditBarComponent.prototype.startDeleteBranch = function (deleteNode) {
+                    this.onDeleteBranch.emit(deleteNode);
                 };
                 EditBarComponent.prototype.goToNodeEditor = function () {
                     this.storyid = this._routeParams.get('id');
@@ -134,7 +140,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     var self = this;
                     vex.open({
                         showCloseButton: true,
-                        content: "<div id=\"userEditPage\">\n\t\t\t\t\t\t    <div class=\"userEditFrameContainer\">\n\t\t\t\t\t\t        <div class=\"userEditContainer\">\n\t\t\t\t\t\t            <div id=\"content\">\n\t\t\t\t\t\t                <div class=\"h1bgUserEdit\"><h1>EDIT MY INFO</h1></div>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <form id=\"changeName\" class=\"change\" name=\"changeName\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                        <label>NAME</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField loadData name\" type=\"text\" name=\"userName\" required=\"\">\n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input id=\"name\" class=\"button\" type=\"button\" value=\"CHANGE NAME\"></div>\n\t\t\t\t\t\t                </form>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <form id=\"changeEmail\" class=\"change\" name=\"changeEmail\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                        <label>EMAIL</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField loadData email\" type=\"email\" name=\"userMail\" required=\"\">\n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input id=\"email\" class=\"button\" type=\"button\" value=\"CHANGE E-MAIL\"></div>\n\t\t\t\t\t\t                </form>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <form id=\"changePassword\" class=\"change\" name=\"changePassword\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                \t\t<p>\n\t\t\t\t\t\t                        <label>PASSWORD</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField\" type=\"password\" placeholder=\"Enter new password\" name=\"userPassword\" required=\"\"><br>\n\t\t\t\t\t\t                        </p>  \n\t\t\t\t\t\t                        <br>\n\t\t\t\t\t\t                        <label class=\"confirm\">CONFIRM PASSWORD</label><br>\n\t\t\t\t\t\t                        <input class=\"inputField\" type=\"password\" placeholder=\"Repeat new password\" name=\"userPasswordAgain\" required=\"\"> \n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input id=\"password\" class=\"button\" type=\"button\" value=\"CHANGE PASSWORD\"></div>\n\t\t\t\t\t\t                </form>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                 <form id=\"changeAboutMe\" class=\"change\" name=\"changeAboutMe\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                        <label>ABOUT ME</label><br>\n\t\t\t\t\t\t                        <textarea class=\"inputField loadData\" type=\"text\" name=\"userAboutme\" required=\"\" ></textarea>\n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input id=\"aboutMe\" class=\"button\" type=\"button\" value=\"CHANGE ABOUT ME\"></div>\n\t\t\t\t\t\t               \t </form>\n\t\t\t\t\t\t               \t \n\t\t\t\t\t\t               \t <form id=\"changeMyInspiration\" class=\"change\" name=\"changeMyInpiration\" class=\"handledAjaxForm\">\n\t\t\t\t\t\t                        <label>MY INSPIRATION</label><br>\n\t\t\t\t\t\t                        <textarea class=\"inputField loadData\" type=\"text\" name=\"userMyInspiration\" required=\"\"></textarea>\n\t\t\t\t\t\t                        <div class=\"buttonFrameContainer\"><input id=\"myInspiration\" class=\"button\" type=\"button\" value=\"CHANGE MY INSPIRATION\"></div>\n\t\t\t\t\t\t               \t </form>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t                <div class=\"currPicDiv\"><img src=\"\" alt=\"CurrentPicture\" id=\"currentPicture\" class=\"currentUserPicture\"></div>\n\t\t\t\t\t\t                <div class=\"buttonFrameContainer\" id=\"pictureHandling\">\n\t\t\t\t\t\t                <input class=\"button ajaxFormTrigger userPicture\" type=\"button\" id=\"changePictureButton\" value=\"CHANGE PICTURE\"><br>\n\t\t\t\t\t\t\t\t</div>         \n\t\t\t\t\t\t                <div class=\"closeFancyBox\"><input onclick=\"vex.close();\"  class=\"button\" type=\"button\" value=\"CLOSE\"></div>\n\t\t\t\t\t\t                \n\t\t\t\t\t\t            </div>\n\t\t\t\t\t\t        </div>\n\t\t\t\t\t\t    </div>\n\t\t\t\t\t\t</div>"
+                        content: "<div id=\"userEditPage\">\n                            <div class=\"userEditFrameContainer\">\n                                <div class=\"userEditContainer\">\n                                    <div id=\"content\">\n                                        <div class=\"h1bgUserEdit\"><h1>EDIT MY INFO</h1></div>\n                                        \n                                        <form id=\"changeName\" class=\"change\" name=\"changeName\" class=\"handledAjaxForm\">\n                                                <label>NAME</label><br>\n                                                <input class=\"inputField loadData name\" type=\"text\" name=\"userName\" required=\"\">\n                                                <div class=\"buttonFrameContainer\"><input id=\"name\" class=\"button\" type=\"button\" value=\"CHANGE NAME\"></div>\n                                        </form>\n                                        \n                                        <form id=\"changeEmail\" class=\"change\" name=\"changeEmail\" class=\"handledAjaxForm\">\n                                                <label>EMAIL</label><br>\n                                                <input class=\"inputField loadData email\" type=\"email\" name=\"userMail\" required=\"\">\n                                                <div class=\"buttonFrameContainer\"><input id=\"email\" class=\"button\" type=\"button\" value=\"CHANGE E-MAIL\"></div>\n                                        </form>\n                                        \n                                        <form id=\"changePassword\" class=\"change\" name=\"changePassword\" class=\"handledAjaxForm\">\n                                                <p>\n                                                <label>PASSWORD</label><br>\n                                                <input class=\"inputField\" type=\"password\" placeholder=\"Enter new password\" name=\"userPassword\" required=\"\"><br>\n                                                </p>  \n                                                <br>\n                                                <label class=\"confirm\">CONFIRM PASSWORD</label><br>\n                                                <input class=\"inputField\" type=\"password\" placeholder=\"Repeat new password\" name=\"userPasswordAgain\" required=\"\"> \n                                                <div class=\"buttonFrameContainer\"><input id=\"password\" class=\"button\" type=\"button\" value=\"CHANGE PASSWORD\"></div>\n                                        </form>\n                                        \n                                         <form id=\"changeAboutMe\" class=\"change\" name=\"changeAboutMe\" class=\"handledAjaxForm\">\n                                                <label>ABOUT ME</label><br>\n                                                <textarea class=\"inputField loadData\" type=\"text\" name=\"userAboutme\" required=\"\" ></textarea>\n                                                <div class=\"buttonFrameContainer\"><input id=\"aboutMe\" class=\"button\" type=\"button\" value=\"CHANGE ABOUT ME\"></div>\n                                         </form>\n                                         \n                                         <form id=\"changeMyInspiration\" class=\"change\" name=\"changeMyInpiration\" class=\"handledAjaxForm\">\n                                                <label>MY INSPIRATION</label><br>\n                                                <textarea class=\"inputField loadData\" type=\"text\" name=\"userMyInspiration\" required=\"\"></textarea>\n                                                <div class=\"buttonFrameContainer\"><input id=\"myInspiration\" class=\"button\" type=\"button\" value=\"CHANGE MY INSPIRATION\"></div>\n                                         </form>\n                                        \n                                        <div class=\"currPicDiv\"><img src=\"\" alt=\"CurrentPicture\" id=\"currentPicture\" class=\"currentUserPicture\"></div>\n                                        <div class=\"buttonFrameContainer\" id=\"pictureHandling\">\n                                        <input class=\"button ajaxFormTrigger userPicture\" type=\"button\" id=\"changePictureButton\" value=\"CHANGE PICTURE\"><br>\n                                </div>         \n                                        <div class=\"closeFancyBox\"><input onclick=\"vex.close();\"  class=\"button\" type=\"button\" value=\"CLOSE\"></div>\n                                        \n                                    </div>\n                                </div>\n                            </div>\n                        </div>"
                     });
                     jQuery('#changeName input:text').attr("value", self.details[0]['name']);
                     jQuery('#changeEmail .inputField').attr("value", self.details[0]['email']);
@@ -165,6 +171,229 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                             if (value != self.details[0][id]) {
                                 self.changeValues(id, value);
                             }
+                        }
+                    });
+                };
+                EditBarComponent.prototype.openPageEditor = function () {
+                    var self = this;
+                    vex.open({
+                        showCloseButton: true,
+                        content: "<div class=\"pageEditorFrameContainer\"><div class=\"h1bgPageEditor\"><h1>PAGE-EDITOR</h1></div></div>\n                          <div id=\"links\">\n                                <a id=\"edit\" href=\"#\">Edit</a>\n                                <a id=\"clear-grid\" class=\"\" href=\"#\">Clear</a>\n                                <a id=\"load-grid\" class=\"\" href=\"#\">Load</a>\n                            </div>\n                            <!--<textarea id=\"saved-data\" cols=\"100\" rows=\"20\" readonly=\"readonly\"></textarea>-->\n                        \n                            <div class=\"sidebar\">\n                                <div>\n                                    <div class=\"widgets\" id=\"imageWidget\">\n                                        <div class=\"image grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD IMAGE</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"textWidget\">\n                                        <div class=\"text grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD TEXT</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"linkWidget\">\n                                        <div class=\"link grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\"><div><a href=\"#\">ADD LINK</a></div></div></div>\n                                    </div>\n                                        <div class=\"trash\"><div>DELETE</div></div>\n                                </div>\n                            </div>       \n                           <div id=\"outer\">\n                                        <div class=\"grid-stack\" id=\"inner\">\n                                        </div>\n                        </div>\n                        \n                        </div>"
+                    });
+                    this.loadPageEditor();
+                    jQuery('.vex.vex-theme-os .vex-content').css('width', '100%');
+                    jQuery('.vex.vex-theme-os .vex-content').css('padding', '10px');
+                    jQuery('.vex.vex-theme-os .vex-content').css('background', 'white');
+                    jQuery('.vex.vex-theme-os .vex-content').css('box-shadow', 'unset');
+                };
+                EditBarComponent.prototype.loadPageEditor = function () {
+                    var options = {
+                        float: true,
+                        staticGrid: true,
+                        removable: '.trash',
+                        removeTimeout: 100,
+                        acceptWidgets: '.grid-stack-item'
+                    };
+                    var gridStack = jQuery('.grid-stack');
+                    var makeEditable;
+                    gridStack.gridstack(options);
+                    new function () {
+                        this.images = [
+                            { x: 3, y: 1, width: 6, height: 6 }
+                        ];
+                        this.texts = [
+                            { x: 3, y: 0, width: 6, height: 1, content: "defaultTitle" },
+                            { x: 3, y: 7, width: 6, height: 2, content: "defaultText" }
+                        ];
+                        this.links = [
+                            { x: 2, y: 9, width: 4, height: 1, content: "default" },
+                            { x: 6, y: 9, width: 4, height: 1, content: "default" },
+                            { x: 2, y: 10, width: 4, height: 1, content: "default" },
+                            { x: 6, y: 10, width: 4, height: 1, content: "default" }
+                        ];
+                        var grid = jQuery('#inner').data('gridstack');
+                        var editButton = jQuery('#edit');
+                        this.newTextWidget = function () {
+                            var el = '<div class="text grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content">ADD TEXT</div></div>';
+                            jQuery('#textWidget').append(el);
+                            jQuery('#textWidget .text').draggable({
+                                revert: 'invalid',
+                                handle: '.grid-stack-item-content',
+                                scroll: false,
+                                appendTo: '#inner'
+                            });
+                            jQuery('#textWidget .text').on('remove', this.newTextWidget);
+                        }.bind(this);
+                        this.newLinkWidget = function () {
+                            var el = '<div class="link grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content"><div><a href="#">ADD LINK</a></div></div></div>';
+                            jQuery('#linkWidget').append(el);
+                            jQuery('#linkWidget .link').draggable({
+                                revert: 'invalid',
+                                handle: '.grid-stack-item-content',
+                                scroll: false,
+                                appendTo: '#inner'
+                            });
+                            jQuery('#linkWidget .link').on('remove', this.newLinkWidget);
+                        }.bind(this);
+                        makeEditable = function () {
+                            jQuery('.grid-stack .delete').on('click', this.deleteWidget);
+                            jQuery('.grid-stack .delete').each(function () {
+                                if (jQuery('.grid-stack .delete').hasClass('hidden')) {
+                                    jQuery(this).removeClass('hidden');
+                                }
+                            });
+                            jQuery('.grid-stack .text .grid-stack-item-content').each(function () {
+                                if (jQuery(this).find('textarea').length == 0) {
+                                    var t = jQuery(this).text();
+                                    jQuery(this).text('');
+                                    jQuery(this).append('<textarea>' + t + '</textarea>');
+                                }
+                            });
+                            jQuery('.grid-stack .link .grid-stack-item-content div:first-of-type').each(function () {
+                                if (jQuery(this).find('input').length == 0) {
+                                    var l = jQuery(this).text();
+                                    jQuery(this).find('a').addClass('hidden');
+                                    jQuery(this).append('<input type="text" value="' + l + '">');
+                                }
+                            });
+                        }.bind(this);
+                        this.edit = function () {
+                            jQuery('.sidebar').slideToggle('fast');
+                            if (editButton.text() == 'Edit') {
+                                makeEditable();
+                                jQuery('#inner').data('gridstack').setStatic(false);
+                                editButton.text('Save');
+                            }
+                            else if (editButton.text() == 'Save') {
+                                jQuery('.grid-stack .delete').addClass('hidden');
+                                jQuery('.grid-stack .text .grid-stack-item-content textarea').each(function () {
+                                    var t = jQuery(this).val();
+                                    jQuery(this).parent().text(t);
+                                    jQuery(this).remove();
+                                });
+                                jQuery('.grid-stack .link .grid-stack-item-content input').each(function () {
+                                    var l = jQuery(this).val();
+                                    jQuery(this).parent().find('a').text(l);
+                                    jQuery(this).parent().find('a').removeClass('hidden');
+                                    jQuery(this).remove();
+                                });
+                                this.saveGrid();
+                                jQuery('#inner').data('gridstack').setStatic(true);
+                                editButton.text('Edit');
+                            }
+                            return false;
+                        }.bind(this);
+                        this.deleteWidget = function (e) {
+                            grid.remove_widget(e.currentTarget.offsetParent);
+                        }.bind(this);
+                        this.loadGrid = function () {
+                            this.clearGrid();
+                            this.loadText();
+                            this.loadImages();
+                            this.loadLinks();
+                            return false;
+                        }.bind(this);
+                        this.loadImages = function () {
+                            var images = GridStackUI.Utils.sort(this.images);
+                            _.each(images, function (node) {
+                                grid.addWidget(jQuery('<div class="image"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img src="Tulips.jpg"><div/><div/>'), node.x, node.y, node.width, node.height);
+                            }, this);
+                            return false;
+                        }.bind(this);
+                        this.loadText = function () {
+                            var texts = GridStackUI.Utils.sort(this.texts);
+                            _.each(texts, function (node) {
+                                grid.addWidget(jQuery('<div class="text"><button class="delete hidden">X</button><div class="grid-stack-item-content">' + node.content + '<div/><div/>'), node.x, node.y, node.width, node.height);
+                            }, this);
+                            return false;
+                        }.bind(this);
+                        this.loadLinks = function () {
+                            var links = GridStackUI.Utils.sort(this.links);
+                            _.each(links, function (node) {
+                                grid.addWidget(jQuery('<div class="link"><button class="delete hidden">X</button><div class="grid-stack-item-content"><div><a href="#">' + node.content + '</a></div><div/><div/>'), node.x, node.y, node.width, node.height);
+                            }, this);
+                            return false;
+                        }.bind(this);
+                        this.saveGrid = function () {
+                            this.saveImages();
+                            this.saveTexts();
+                            this.saveLinks();
+                            this.save();
+                            return false;
+                        }.bind(this);
+                        this.save = function () {
+                            var _this = this;
+                            this._editBarService.saveData(this.images, this.texts, this.links, this.details[3]['id'])
+                                .subscribe(function (update) {
+                                console.log("saved");
+                            }, function (error) { return _this.errorMessage = error; });
+                        };
+                        this.saveImages = function () {
+                            this.images = _.map(jQuery('.grid-stack > .image:visible'), function (el) {
+                                el = jQuery(el);
+                                var node = el.data('_gridstack_node');
+                                return {
+                                    x: node.x,
+                                    y: node.y,
+                                    width: node.width,
+                                    height: node.height
+                                };
+                            }, this);
+                            jQuery('#saved-data').val(JSON.stringify(this.images, null, '    '));
+                            return false;
+                        }.bind(this);
+                        this.saveTexts = function () {
+                            this.texts = _.map(jQuery('.grid-stack > .text:visible'), function (el) {
+                                el = jQuery(el);
+                                var node = el.data('_gridstack_node');
+                                return {
+                                    x: node.x,
+                                    y: node.y,
+                                    width: node.width,
+                                    height: node.height,
+                                    content: el.find('.grid-stack-item-content').text()
+                                };
+                            }, this);
+                            jQuery('#saved-data').val(jQuery('#saved-data').val() + JSON.stringify(this.texts, null, '    '));
+                            return false;
+                        }.bind(this);
+                        this.saveLinks = function () {
+                            this.links = _.map(jQuery('.grid-stack > .link:visible'), function (el) {
+                                el = jQuery(el);
+                                var node = el.data('_gridstack_node');
+                                return {
+                                    x: node.x,
+                                    y: node.y,
+                                    width: node.width,
+                                    height: node.height,
+                                    content: el.find('a').text()
+                                };
+                            }, this);
+                            jQuery('#saved-data').val(jQuery('#saved-data').val() + JSON.stringify(this.links, null, '    '));
+                            return false;
+                        }.bind(this);
+                        this.clearGrid = function () {
+                            grid.removeAll();
+                            return false;
+                        }.bind(this);
+                        jQuery('#save-grid').click(this.saveGrid);
+                        jQuery('#load-grid').click(this.loadGrid);
+                        jQuery('#clear-grid').click(this.clearGrid);
+                        editButton.click(this.edit);
+                        jQuery('#textWidget .text').on('remove', this.newTextWidget);
+                        jQuery('#linkWidget .link').on('remove', this.newLinkWidget);
+                        this.loadGrid();
+                        jQuery('.sidebar .grid-stack-item').draggable({
+                            revert: 'invalid',
+                            handle: '.grid-stack-item-content',
+                            scroll: false,
+                            appendTo: '#inner'
+                        });
+                    };
+                    //ausschaltn wenns nur geladen wird
+                    gridStack.on('change', function () {
+                        if (jQuery('#edit').text() == 'Save') {
+                            makeEditable();
                         }
                     });
                 };
@@ -200,6 +429,10 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     core_1.Output(), 
                     __metadata('design:type', Object)
                 ], EditBarComponent.prototype, "onDeleted", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', Object)
+                ], EditBarComponent.prototype, "onDeleteBranch", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', Object)

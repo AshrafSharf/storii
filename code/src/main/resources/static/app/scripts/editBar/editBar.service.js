@@ -53,6 +53,23 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                         .map(this.extractData)
                         .catch(this.handleError);
                 };
+                EditBarService.prototype.saveData = function (images, texts, links, id) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                        headers.append('Content-Type', 'application/json');
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.delete('Content-Type');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/page/' + id;
+                    /* return this.http.put(_resultUrl, JSON.stringify(),{headers})
+                             .map(this.extractData)
+                             //.do(data => console.log(data))
+                             .catch(this.handleError);*/
+                };
                 EditBarService.prototype.getLoggedInUser = function () {
                     var headers = new http_2.Headers();
                     if (this._authenticationService.isLoggedIn()) {

@@ -1,0 +1,138 @@
+body {
+    font-family: "Architects Daughter", cursive;
+}
+
+.grid-stack {
+    background: none;
+}
+
+textarea{
+    width:90%;
+    height:100%;
+}
+.hidden{
+    display:none;
+}
+
+.delete{
+    float:left;
+    margin-left:-30px;
+}
+.placeholder-content{
+    border: 2px black dotted !important;
+}
+
+#links{
+    text-align: center;
+}
+
+
+
+#outer{
+    background: #eeeeee;
+    padding:10px;
+}
+
+.grid-stack .grid-stack-item-content {
+    text-align: center;
+    background: #eeeeee;
+    overflow-y: hidden!important;
+    border: 2px dotted black;
+}
+
+.pageEditorFrameContainer {
+    border: 2px dotted;
+    line-height: 3px;
+    width: 97%;
+    margin: 0 auto;
+}
+.h1bgPageEditor {
+    width: 270px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+}
+
+.grid-border{
+    border: 2px black dotted !important;
+}
+
+.sidebar {
+    background: #d3edf0;
+    padding: 20px;
+    text-align: center;
+    width:auto;
+    display:none;
+}
+
+.sidebar > div:first-of-type{
+    border: 2px dotted black;
+}
+
+.widgets{
+    display:inline;
+}
+
+
+.sidebar .grid-stack-item {
+    width: 200px;
+    height: 100px;
+    margin: 20px;
+    padding:10px;
+    text-align: center;
+    line-height: 100px;
+    z-index: 10;
+    background: #96C3CC;
+    cursor: default;
+    display: inline-block;
+}
+
+
+.sidebar .grid-stack-item .grid-stack-item-content {
+    background: none;
+    border: 2px dotted black;
+    font-size:1.4em;
+}
+
+.trash {
+    font-size:1.4em;
+    width: 400px;
+    margin: 0 20px 0 0;
+    padding:10px;
+    text-align: center;
+    line-height: 100px;
+    z-index: 10;
+    cursor: default;
+    display: inline-block;
+    background: #E1AFB1;
+}
+
+.trash > div{
+    background: none;
+    border: 2px dotted black;
+}
+
+.grid-stack .link > .grid-stack-item-content{
+    padding:10px;
+    background:#96C3CC;
+    line-height: 2.3em;
+}
+
+.sidebar .link .grid-stack-item-content {
+    padding:0;
+}
+
+
+.grid-stack .link > .grid-stack-item-content > div:first-of-type {
+    border: 2px black dotted;
+    height:100%;
+}
+
+.grid-stack a{
+    font-size: 18px;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}

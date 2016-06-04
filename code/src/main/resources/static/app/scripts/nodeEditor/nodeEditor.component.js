@@ -506,6 +506,11 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         this.deleteNode();
                     }
                 };
+                NodeEditorComponent.prototype.onDeleteBranch = function (deleted) {
+                    if (deleted) {
+                        this.deleteBranch();
+                    }
+                };
                 NodeEditorComponent.prototype.onSwapNode = function (swap) {
                     if (swap) {
                         this.debugText.text("Start Dragging");
@@ -550,6 +555,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         this._nodeEditorService.getChildren(this.selectedNode)
                             .subscribe(function (data) {
                             _this.movementStyle = data;
+                            _this.action = "append";
                             _this.movingGroup.setAttr('x', 0);
                             _this.movingGroup.setAttr('y', 0);
                             for (var i = 0; i < _this.movementStyle.length; i++) {
@@ -563,7 +569,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             _this.yDrag = _this.layer.find('#' + _this.selectedNode)[0].getAttr('y');
                             _this.layer.draw();
                             _this.interfaceLayer.draw();
-                            console.log(_this.movingGroup);
                         }, function (error) { return _this.errorMessage = error; });
                     }
                 };
@@ -641,6 +646,28 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         //debugText.setAttr('fontSize','25');
                         _this.interfaceLayer.draw();
                     }, function (error) { return _this.errorMessage = error; });
+                };
+                NodeEditorComponent.prototype.deleteBranch = function () {
+                    var id = this.selectedNode;
+                    var self = this;
+                    self._nodeEditorService.deleteBranch(id)
+                        .subscribe(function (result) {
+                        console.log("deleted");
+                        /* self.interfaceLayer.find('#button1Rect')[0].fill(self.buttonColor);
+                         self.popUp.hide();
+                         self.pause = false;
+                         self.popUpShown = false;
+                         self.setDraggable(true);*/
+                        if (self.layer.getAttr('scale') < 1.0) {
+                        }
+                        self.startDrawLines(self.storyID);
+                        self.startDrawNodes(self.storyID, "");
+                        self.debugText.text("Successfully deleted");
+                        self.debugText.setAttr('x', (self.width / 2) - self.debugText.getAttr('width') / 2);
+                        //self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                        //debugText.setAttr('fontSize','25');
+                        self.interfaceLayer.draw();
+                    }, function (error) { return self.errorMessage = error; });
                 };
                 NodeEditorComponent.prototype.deleteNode = function () {
                     var id = this.selectedNode;
@@ -720,8 +747,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         self.interfaceLayer.draw();
                     }, function (error) { return self.errorMessage = error; });
                     // });
-                    this.hoverPopUpButtons(['#button1Rect', '#button1Text'], this.buttonColorHover, this.buttonColor);
-                    this.hoverPopUpButtons(['#button2Rect', '#button2Text'], this.buttonColorHover, this.buttonColor);
+                    //this.hoverPopUpButtons(['#button1Rect','#button1Text'],this.buttonColorHover,this.buttonColor);
+                    //this.hoverPopUpButtons(['#button2Rect','#button2Text'],this.buttonColorHover,this.buttonColor);
                 };
                 ;
                 NodeEditorComponent.prototype.checkAdditionalNode = function (id) {
@@ -731,6 +758,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         _this.actualPage = actualPage;
                         console.log("DONE");
                         _this.hasChildren = false;
+                        _this.allowed[3] = actualPage;
                         // this.stage.find('#addRect')[0].setAttr('fill', this.buttonColor);//WIEDER WEGMACHEN--> diese zeile
                         if (actualPage['outgoingInternLinks'].length > 0) {
                             _this.hasChildren = true;
@@ -1097,9 +1125,14 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             this.nodeSelection(this.layer.find('#' + this.firstNode)[0]);
                         }
                         else {
+                            this.selectedNode = null;
                             this.debugText.text("Select a node");
                             this.debugText.setAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
                             this.interfaceLayer.draw();
+                            this.allowed[0] = false;
+                            this.allowed[1] = false;
+                            this.allowed[2] = false;
+                            $("#wrapper").trigger("click");
                         }
                         this.checkAdditionalNode(this.firstNode);
                     }
@@ -1140,6 +1173,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             this.allowed[0] = false;
                             this.allowed[1] = false;
                             this.allowed[2] = false;
+                            this.allowed[3] = false;
                             $("#wrapper").trigger("click");
                             this.debugText.text("Select a node");
                             this.debugText.setAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
@@ -1375,8 +1409,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 };
                 ;
                 NodeEditorComponent.prototype.append = function (e) {
-                    this.dropStyle = "append";
-                    this.popUpShown = false;
                     this.appendBranch(this.previousShape.id(), this.selectedNode);
                     this.previousShape.fire('drop', {
                         type: 'drop',
@@ -1533,11 +1565,11 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     if (this.movementStyle == "one") {
                         this.reorder(evt);
                     }
-                    else if (this.movementStyle != "one" && this.movementStyle != "append" && this.movementStyle != null) {
-                        this.reorder(evt);
-                    }
-                    else if (this.movementStyle == "append") {
+                    else if (this.action == "append") {
                         this.append(evt);
+                    }
+                    else if (this.movementStyle != "one" && this.action != "append" && this.movementStyle != null) {
+                        this.reorder(evt);
                     }
                     /*   this.pause = true;
                        this.popUpShown = true;

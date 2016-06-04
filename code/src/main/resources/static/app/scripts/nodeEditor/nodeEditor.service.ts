@@ -104,8 +104,27 @@ export class NodeEditorService {
             headers.delete('Authorization');
             headers.append('Authorization', "");
         }
-        var _resultUrl = '/page/'+id;
-        return this.http.delete(_resultUrl,{ headers })
+       // var _resultUrl = '/page/'+id;
+      //  return this.http.delete(_resultUrl,{ headers })
+         var _resultUrl = '/page/'+id+'/deleteSingle';
+         return this.http.get(_resultUrl,{ headers })
+            .map(this.extractData)
+            .do(data => console.log(data))
+            .catch(this.handleError);  
+        
+    }
+    
+    deleteBranch(id){
+        var headers = new Headers();
+        if (this._authenticationService.isLoggedIn()) {
+            headers = this.httpClient.createHeader(headers);
+            headers.append('Content-Type', 'application/json');
+        } else {
+            headers.delete('Authorization');
+            headers.append('Authorization', "");
+        }
+        var _resultUrl = '/page/'+id+'/deleteBranch';
+        return this.http.get(_resultUrl,{ headers })
             .map(this.extractData)
             .do(data => console.log(data))
             .catch(this.handleError);  

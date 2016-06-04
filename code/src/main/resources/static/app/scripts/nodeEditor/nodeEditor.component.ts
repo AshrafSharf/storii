@@ -54,6 +54,7 @@ export class NodeEditorComponent implements OnInit{
     hasChildren;
     delText; 
     actualPage;
+    action;
     firstNode;
     button1;
     button2;
@@ -397,7 +398,7 @@ export class NodeEditorComponent implements OnInit{
                                                actualPage => { 
                                                 self.actualPage = actualPage;  
                                                 self.setToolTip(actualPage['title'],e);
-                    
+                                             
                                                },
                                                error =>  self.errorMessage = <any>error);
                         //service get title of page with id
@@ -599,6 +600,11 @@ export class NodeEditorComponent implements OnInit{
                 this.deleteNode();
         }  
   }
+     onDeleteBranch(deleted: boolean) {
+        if(deleted){
+                this.deleteBranch();
+        }  
+  }
     onSwapNode(swap: boolean) {      
        if(swap){
              this.debugText.text("Start Dragging");
@@ -648,6 +654,7 @@ export class NodeEditorComponent implements OnInit{
                             .subscribe(
                                data => {    
                                     this.movementStyle = data;
+                                    this.action = "append";
                                     this.movingGroup.setAttr('x', 0);
                                     this.movingGroup.setAttr('y', 0);
 
@@ -662,7 +669,7 @@ export class NodeEditorComponent implements OnInit{
                                  this.yDrag =  this.layer.find('#'+this.selectedNode)[0].getAttr('y');
                                  this.layer.draw();
                                  this.interfaceLayer.draw();
-                                   console.log(this.movingGroup);
+                           
                                },
                                error =>  this.errorMessage = <any>error); 
        }
@@ -760,6 +767,34 @@ export class NodeEditorComponent implements OnInit{
             
         }
     
+    deleteBranch(){
+        var id = this.selectedNode;
+        let self = this;
+        self._nodeEditorService.deleteBranch(id)
+                            .subscribe(
+                               result => {                                 
+                                console.log("deleted");    
+                                /* self.interfaceLayer.find('#button1Rect')[0].fill(self.buttonColor);
+                                 self.popUp.hide();
+                                 self.pause = false;
+                                 self.popUpShown = false;
+                                 self.setDraggable(true);*/
+                                 if(self.layer.getAttr('scale') < 1.0){
+                                   //  self.resetScale();
+                                 }
+                                 self.startDrawLines(self.storyID);
+                                 self.startDrawNodes(self.storyID,"");
+                                 self.debugText.text("Successfully deleted");
+                                 self.debugText.setAttr('x', (self.width/2)-self.debugText.getAttr('width')/2);
+        
+        
+                                 //self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                                 //debugText.setAttr('fontSize','25');
+                                 self.interfaceLayer.draw();
+                        },
+                   error =>  self.errorMessage = <any>error);  
+    }
+    
      deleteNode(){
        var id = this.selectedNode;
        /*  this.popUpShown = true;
@@ -849,8 +884,8 @@ export class NodeEditorComponent implements OnInit{
        // });
 
 
-        this.hoverPopUpButtons(['#button1Rect','#button1Text'],this.buttonColorHover,this.buttonColor);
-        this.hoverPopUpButtons(['#button2Rect','#button2Text'],this.buttonColorHover,this.buttonColor);
+        //this.hoverPopUpButtons(['#button1Rect','#button1Text'],this.buttonColorHover,this.buttonColor);
+        //this.hoverPopUpButtons(['#button2Rect','#button2Text'],this.buttonColorHover,this.buttonColor);
 
     };
     
@@ -862,6 +897,7 @@ export class NodeEditorComponent implements OnInit{
                                 this.actualPage = actualPage;
                                    console.log("DONE");  
                                  this.hasChildren = false;
+                                 this.allowed[3] = actualPage;
                                 // this.stage.find('#addRect')[0].setAttr('fill', this.buttonColor);//WIEDER WEGMACHEN--> diese zeile
                                if(actualPage['outgoingInternLinks'].length > 0){
                                     this.hasChildren = true;
@@ -1293,9 +1329,14 @@ export class NodeEditorComponent implements OnInit{
             if(first == "first"){
                 this.nodeSelection(this.layer.find('#'+ this.firstNode)[0]);
             }else{
+                this.selectedNode = null;
                 this.debugText.text("Select a node");
                 this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
-                this.interfaceLayer.draw();
+                this.interfaceLayer.draw();   
+                this.allowed[0]= false;
+                this.allowed[1] = false;
+                this.allowed[2] = false;
+                $("#wrapper").trigger( "click" );
             }
             
             this.checkAdditionalNode(this.firstNode);
@@ -1348,6 +1389,7 @@ export class NodeEditorComponent implements OnInit{
                 this.allowed[0]= false;
                 this.allowed[1] = false;
                 this.allowed[2] = false;
+                this.allowed[3] = false;
                 $("#wrapper").trigger( "click" );
             
                 this.debugText.text("Select a node");
@@ -1608,8 +1650,7 @@ export class NodeEditorComponent implements OnInit{
     };
     
     append(e){
-        this.dropStyle = "append";
-        this.popUpShown = false;  
+     
         this.appendBranch(this.previousShape.id(), this.selectedNode);
         this.previousShape.fire('drop', {
             type: 'drop',
@@ -1770,10 +1811,10 @@ export class NodeEditorComponent implements OnInit{
         
         if(this.movementStyle == "one"){
              this.reorder(evt);
-        }else if(this.movementStyle != "one" && this.movementStyle != "append" && this.movementStyle != null){
-           this.reorder(evt); 
-        }else if(this.movementStyle == "append"){
+        }else if(this.action == "append"){
             this.append(evt);
+        }else if(this.movementStyle != "one" && this.action != "append" && this.movementStyle != null){
+           this.reorder(evt); 
         } 
 
      /*   this.pause = true;

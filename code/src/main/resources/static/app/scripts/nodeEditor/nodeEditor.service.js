@@ -127,8 +127,26 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                         headers.delete('Authorization');
                         headers.append('Authorization', "");
                     }
-                    var _resultUrl = '/page/' + id;
-                    return this.http.delete(_resultUrl, { headers: headers })
+                    // var _resultUrl = '/page/'+id;
+                    //  return this.http.delete(_resultUrl,{ headers })
+                    var _resultUrl = '/page/' + id + '/deleteSingle';
+                    return this.http.get(_resultUrl, { headers: headers })
+                        .map(this.extractData)
+                        .do(function (data) { return console.log(data); })
+                        .catch(this.handleError);
+                };
+                NodeEditorService.prototype.deleteBranch = function (id) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                        headers.append('Content-Type', 'application/json');
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/page/' + id + '/deleteBranch';
+                    return this.http.get(_resultUrl, { headers: headers })
                         .map(this.extractData)
                         .do(function (data) { return console.log(data); })
                         .catch(this.handleError);

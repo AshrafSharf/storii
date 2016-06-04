@@ -28,6 +28,23 @@ export class EditBarService {
 	  	
 	}
 
+	saveData(images,texts,links,id){
+	    var headers = new Headers();
+	    if (this._authenticationService.isLoggedIn()) {
+	  		headers = this.httpClient.createHeader(headers);
+	 		headers.append('Content-Type', 'application/json');
+  		}else{
+  			headers.delete('Authorization');
+  			headers.delete('Content-Type');
+  			headers.append('Authorization',"");
+  		}
+		var _resultUrl = '/page/'+id; 
+	   /* return this.http.put(_resultUrl, JSON.stringify(),{headers})
+	            .map(this.extractData)
+	            //.do(data => console.log(data))
+	            .catch(this.handleError);*/
+	}
+
 	getLoggedInUser(){
 		var headers = new Headers();
 	    if (this._authenticationService.isLoggedIn()) {

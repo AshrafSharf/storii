@@ -61,7 +61,7 @@ System.register(['angular2/core', 'angular2/router', '../search/search.service',
                         .subscribe(function (targetName) {
                         if (targetName) {
                             _this.targetName = targetName;
-                            _this._router.navigate(['About', { name: _this.targetName['name'], storyName: storyname['name'] }]);
+                            _this._router.navigate(['About', { name: _this.targetName['name'], storyName: storyname['name'], id: storyname['id'] }]);
                         }
                     }, function (error) { return _this.errorMessage = error; });
                 };

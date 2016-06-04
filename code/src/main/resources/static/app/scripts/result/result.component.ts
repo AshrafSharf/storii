@@ -50,7 +50,7 @@ export class ResultComponent implements OnInit{
 		                     .subscribe((targetName) => {
 	      							if (targetName) {
 	      							   this.targetName = targetName;
-	      						       this._router.navigate(['About', { name: this.targetName['name'] , storyName: storyname['name'] }]);
+	      						       this._router.navigate(['About', { name: this.targetName['name'] , storyName: storyname['name'], id: storyname['id'] }]);
 	      							}},
                        				error =>  this.errorMessage = <any>error);
 		
