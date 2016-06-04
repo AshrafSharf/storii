@@ -54,7 +54,7 @@ export class NodeEditorComponent implements OnInit{
     hasChildren;
     delText; 
     actualPage;
-    action;
+    action = null;
     firstNode;
     button1;
     button2;
@@ -608,10 +608,11 @@ export class NodeEditorComponent implements OnInit{
     onSwapNode(swap: boolean) {      
        if(swap){
              this.debugText.text("Start Dragging");
-             this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
+             this.debugText.setmßAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
              this.interfaceLayer.draw();
              this.layer.find('#'+this.selectedNode).draggable(true);
-             this.movementStyle = "one";   
+             this.movementStyle = "one"; 
+             this.action="one";  
        }
   }
     onSwapBranch(swap: boolean) {      
@@ -638,6 +639,7 @@ export class NodeEditorComponent implements OnInit{
                                  this.yDrag =  this.layer.find('#'+this.selectedNode)[0].getAttr('y');
                                  this.layer.draw();
                                  this.interfaceLayer.draw();
+                                 this.action="branch";  
                                    console.log(this.movingGroup);
                                },
                                error =>  this.errorMessage = <any>error); 
@@ -1809,11 +1811,11 @@ export class NodeEditorComponent implements OnInit{
     
     dropQuestion(evt){
         
-        if(this.movementStyle == "one"){
+        if(this.action == "one"){
              this.reorder(evt);
         }else if(this.action == "append"){
             this.append(evt);
-        }else if(this.movementStyle != "one" && this.action != "append" && this.movementStyle != null){
+        }else if(this.action = "branch"){
            this.reorder(evt); 
         } 
 

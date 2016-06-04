@@ -60,6 +60,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.popUpShown = false;
                     this.toolTipText = "";
                     this.found = false;
+                    this.action = null;
                     this.dropText = "Do you want replace this page with the dragged one, OR do you want to add the moving page as sub-page to this page " +
                         "OR do you want to connect this two pages to reunite the branches?";
                     this.moveText = "Do you want to move only this page or all sub-pages as well?";
@@ -514,10 +515,11 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 NodeEditorComponent.prototype.onSwapNode = function (swap) {
                     if (swap) {
                         this.debugText.text("Start Dragging");
-                        this.debugText.setAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
+                        this.debugText.setmßAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
                         this.interfaceLayer.draw();
                         this.layer.find('#' + this.selectedNode).draggable(true);
                         this.movementStyle = "one";
+                        this.action = "one";
                     }
                 };
                 NodeEditorComponent.prototype.onSwapBranch = function (swap) {
@@ -542,6 +544,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             _this.yDrag = _this.layer.find('#' + _this.selectedNode)[0].getAttr('y');
                             _this.layer.draw();
                             _this.interfaceLayer.draw();
+                            _this.action = "branch";
                             console.log(_this.movingGroup);
                         }, function (error) { return _this.errorMessage = error; });
                     }
@@ -1562,13 +1565,13 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 };
                 ;
                 NodeEditorComponent.prototype.dropQuestion = function (evt) {
-                    if (this.movementStyle == "one") {
+                    if (this.action == "one") {
                         this.reorder(evt);
                     }
                     else if (this.action == "append") {
                         this.append(evt);
                     }
-                    else if (this.movementStyle != "one" && this.action != "append" && this.movementStyle != null) {
+                    else if (this.action = "branch") {
                         this.reorder(evt);
                     }
                     /*   this.pause = true;

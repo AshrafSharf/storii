@@ -251,6 +251,7 @@ export class EditBarComponent implements OnInit {
                 content:`<div class="pageEditorFrameContainer"><div class="h1bgPageEditor"><h1>PAGE-EDITOR</h1></div></div>
                           <div id="links">
                                 <a id="edit" href="#">Edit</a>
+                                <a id="reset" class="" href="#">Reset</a>
                                 <a id="clear-grid" class="" href="#">Clear</a>
                                 <a id="load-grid" class="" href="#">Load</a>
                             </div>
@@ -315,9 +316,6 @@ export class EditBarComponent implements OnInit {
             {x: 2, y: 10, width: 4, height: 1, content:"default"},
             {x: 6, y: 10, width: 4, height: 1, content:"default"}
         ];
-        
-        
-        
         
 
         var grid = jQuery('#inner').data('gridstack');
