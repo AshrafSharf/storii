@@ -259,7 +259,7 @@ public class Page {
 
 	public void adjustBranchLevel(int indicator) {
 		this.setLevel(this.getLevel() + indicator);
-		System.out.println(this.getId());
+		//System.out.println(this.getId());
 		for (InternLink link : this.getOutgoingInternLinks()) {
 			link.getNextPage().adjustBranchLevel(indicator);
 		}
@@ -272,6 +272,19 @@ public class Page {
 				link.getNextPage().addChildPages(pages);
 			}
 		}
+	}
+	
+	public boolean countAfterDelete(){
+		
+		Page firstIncomingPage = null;
+		
+		for(InternLink link : this.getIncomingInternLinks()){
+			firstIncomingPage = link.getOwningPage();
+			break;
+		}
+		
+		return this.getOutgoingInternLinks().size() + firstIncomingPage.getOutgoingInternLinks().size() <= 5;
+
 	}
 
 }

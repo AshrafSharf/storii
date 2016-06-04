@@ -356,7 +356,7 @@ public class PageController {
 		int linkCounter = 1;
 		
 		for(InternLink link : page2.getOutgoingInternLinks()){
-			link.getOwningPage().setPosition(linkCounter);
+			link.getNextPage().setPosition(linkCounter);
 			linkCounter++;
 		}
 		
@@ -377,15 +377,13 @@ public class PageController {
 		
 		Page firstIncomingPage = null;
 		
+		if(!page.countAfterDelete()){
+			return ResponseEntity.ok().body("{\"data\":"+"{\"deleted\":\"false\",\"link1\": \""+page_id+"\"}"+"}");
+		}
 		
 		for(InternLink link : page.getIncomingInternLinks()){
 			firstIncomingPage = link.getOwningPage();
 			break;
-		}
-		
-		for(InternLink link : page.getOutgoingInternLinks()){
-			link.setOwningPage(firstIncomingPage);
-			internLinkDAO.save(link);
 		}
 		
 		for(InternLink link : page.getIncomingInternLinks()){
@@ -393,9 +391,27 @@ public class PageController {
 			page.getIncomingInternLinks().remove(link);
 			internLinkDAO.delete(link);
 		}
+				
+		for(InternLink link : page.getOutgoingInternLinks()){
+			link.setOwningPage(firstIncomingPage);
+			firstIncomingPage.getOutgoingInternLinks().add(link);
+			link.getNextPage().adjustBranchLevel(-1);
+			internLinkDAO.save(link);
+		}
 		
+		page.getIncomingInternLinks().clear();
+		page.getOutgoingInternLinks().clear();
 		pageDAO.delete(page);
 		
+		int linkCounter = 1;
+		
+		for(InternLink link : firstIncomingPage.getOutgoingInternLinks()){
+			Page thisPage = link.getNextPage();
+			thisPage.setPosition(linkCounter);
+			pageDAO.save(thisPage);
+			linkCounter++;
+		}
+
 		return ResponseEntity.ok().body("{\"data\":"+"{\"deleted\":\"true\",\"link1\": \""+page_id+"\"}"+"}");
 		
 	}
