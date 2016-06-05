@@ -46,7 +46,7 @@ export class EditBarService {
 		var serializedContent =  btoa(JSON.stringify(object));
   		
 		var _resultUrl = '/page/'+id; 
-	    return this.http.put(_resultUrl, JSON.stringify({'serializedContent' : 'test' ,'title': texts[0]['content'], 'description': texts[1]['content']}),{headers})
+	    return this.http.put(_resultUrl, JSON.stringify({'serializedContent' : serializedContent ,'title': texts[0]['content'], 'description': texts[1]['content']}),{headers})
 	            .map(this.extractData)
 	            .do(data => console.log(data))
 	            .catch(this.handleError);

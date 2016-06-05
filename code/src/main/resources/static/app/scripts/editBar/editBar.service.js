@@ -70,7 +70,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     object['links'] = links;
                     var serializedContent = btoa(JSON.stringify(object));
                     var _resultUrl = '/page/' + id;
-                    return this.http.put(_resultUrl, JSON.stringify({ 'serializedContent': 'test', 'title': texts[0]['content'], 'description': texts[1]['content'] }), { headers: headers })
+                    return this.http.put(_resultUrl, JSON.stringify({ 'serializedContent': serializedContent, 'title': texts[0]['content'], 'description': texts[1]['content'] }), { headers: headers })
                         .map(this.extractData)
                         .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
