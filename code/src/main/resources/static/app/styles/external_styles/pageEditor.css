@@ -24,6 +24,7 @@ textarea{
 
 #links{
     text-align: center;
+    margin: 20px;
 }
 
 
@@ -63,6 +64,7 @@ textarea{
     text-align: center;
     width:auto;
     display:none;
+    margin-bottom: 20px;
 }
 
 .sidebar > div:first-of-type{
@@ -76,7 +78,6 @@ textarea{
 
 .sidebar .grid-stack-item {
     width: 200px;
-    height: 100px;
     margin: 20px;
     padding:10px;
     text-align: center;
@@ -97,7 +98,7 @@ textarea{
 .trash {
     font-size:1.4em;
     width: 400px;
-    margin: 0 20px 0 0;
+    margin: 20px;
     padding:10px;
     text-align: center;
     line-height: 100px;
@@ -123,6 +124,7 @@ textarea{
 }
 
 
+
 .grid-stack .link > .grid-stack-item-content > div:first-of-type {
     border: 2px black dotted;
     height:100%;
@@ -135,4 +137,6 @@ textarea{
 a {
     text-decoration: none;
     color: #000;
+    cursor: pointer;
+    
 }

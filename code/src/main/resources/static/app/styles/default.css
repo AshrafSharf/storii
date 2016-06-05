@@ -81,7 +81,7 @@ a {
 	left: 8%;
 }
 
-#editBar .disableButton{
+#editBar .disableButton, #links .disableButton{
 	pointer-events: none; 
     opacity: 0.4;
 }
@@ -491,6 +491,7 @@ input.buttonStoryInfo {
  	padding:0;
  	line-height:inherit;
  	width:600px;
+ 	color: black;
  }   
  
  .vex.vex-theme-os {
@@ -545,7 +546,7 @@ input.buttonStoryInfo {
   background-color: #96C3CC; }
   #userStoryPage .buttonFrameContainerUserStoryContentModule .buttonSize {
     width: 140px; }
-  #editBar .buttonSize, .buttonSizeActions, .buttonSizeDelete{
+  #editBar .buttonSize, .buttonSizeActions, .buttonSizeDelete, #links .buttonSize{
   	width:172px;
   }
 #userStoryPage .storyPageAuthor, #userStoryPage .storyPageCoAuthor {

@@ -66,7 +66,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     var _resultUrl = '/page/' + id1 + "/swapWithBranch/" + id2;
                     return this.http.get(_resultUrl, { headers: headers })
                         .map(this.extractData)
-                        .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
                 NodeEditorService.prototype.appendBranch = function (id1, id2) {
@@ -82,7 +81,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     var _resultUrl = '/page/' + id1 + "/appendToBranch/" + id2;
                     return this.http.get(_resultUrl, { headers: headers })
                         .map(this.extractData)
-                        .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
                 NodeEditorService.prototype.getChildren = function (id) {
@@ -98,7 +96,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     var _resultUrl = '/page/' + id + "/getAllOutgoing/";
                     return this.http.get(_resultUrl, { headers: headers })
                         .map(this.extractData)
-                        .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
                 NodeEditorService.prototype.addNewNode = function (storyID, selectedID, level, position) {
@@ -114,7 +111,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     var _resultUrl = '/story/' + storyID + '/addPage/' + selectedID;
                     return this.http.post(_resultUrl, JSON.stringify({ "title": "defaultTitle", "description": "defaultDescription", "level": level, "position": position, "serializedContent": "" }), { headers: headers })
                         .map(this.extractData)
-                        .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
                 NodeEditorService.prototype.deletePageById = function (id) {
@@ -132,7 +128,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     var _resultUrl = '/page/' + id + '/deleteSingle';
                     return this.http.get(_resultUrl, { headers: headers })
                         .map(this.extractData)
-                        .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
                 NodeEditorService.prototype.deleteBranch = function (id) {
@@ -148,7 +143,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     var _resultUrl = '/page/' + id + '/deleteBranch';
                     return this.http.get(_resultUrl, { headers: headers })
                         .map(this.extractData)
-                        .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
                 NodeEditorService.prototype.getPageById = function (id) {
@@ -164,7 +158,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     var _resultUrl = '/page/';
                     return this.http.get(_resultUrl + id, { headers: headers })
                         .map(this.extractData)
-                        .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
                 NodeEditorService.prototype.startDrawLines = function (id) {
@@ -180,7 +173,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     var _resultUrl = '/story/' + id + '/getMaxLevel';
                     return this.http.get(_resultUrl, { headers: headers })
                         .map(this.extractData)
-                        .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
                 NodeEditorService.prototype.startDrawNodes = function (id) {
@@ -196,7 +188,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     var _resultUrl = '/story/' + id + '/getPages';
                     return this.http.get(_resultUrl, { headers: headers })
                         .map(this.extractData)
-                        .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
                 NodeEditorService.prototype.extractData = function (res) {

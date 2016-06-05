@@ -40,10 +40,12 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
             }],
         execute: function() {
             NodeEditorComponent = (function () {
-                function NodeEditorComponent(_router, _routeParams, _nodeEditorService) {
+                function NodeEditorComponent(_router, _routeParams, _nodeEditorService, _authenticationService, _editBarService) {
                     this._router = _router;
                     this._routeParams = _routeParams;
                     this._nodeEditorService = _nodeEditorService;
+                    this._authenticationService = _authenticationService;
+                    this._editBarService = _editBarService;
                     this.title = 'NodeEditor:';
                     this.width = $('#container').width();
                     this.height = window.innerHeight;
@@ -88,14 +90,34 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.allowed = [];
                 }
                 NodeEditorComponent.prototype.ngOnInit = function () {
+                    var _this = this;
                     this.init();
                     var self = this;
+                    this.name = this._routeParams.get('name');
+                    this.loggedIn = this._authenticationService.isLoggedIn();
+                    if (this.loggedIn) {
+                        this._editBarService.getLoggedInUser()
+                            .subscribe(function (loggedInUser) {
+                            _this.ownStory = false;
+                            for (var i = 0; i < loggedInUser['stories'].length; i++) {
+                                if (loggedInUser['stories'][i]['id'] == _this._routeParams.get('id')) {
+                                    _this.ownStory = true;
+                                }
+                            }
+                            if (!_this.ownStory) {
+                                _this._router.navigate(['Search']);
+                            }
+                        }, function (error) { return _this.errorMessage = error; });
+                    }
+                    else {
+                        this._router.navigate(['Search']);
+                    }
                     //refresh page on browser resize
                     $(window).bind('resize', function (e) {
-                        /*  $(this).delay(500).queue(function() {
-                              self.init();
-                              $(this).dequeue();
-                          });*/
+                        $(this).delay(500).queue(function () {
+                            self.init();
+                            $(this).dequeue();
+                        });
                     });
                 };
                 NodeEditorComponent.prototype.init = function () {
@@ -369,7 +391,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             self.layer.draw();
                         }
                         else if (self.movementStyle != "one" && self.movementStyle != null) {
-                            self.selectedNode = e.target.find('#' + self.movementStyle[0]['id'])[0].getAttr('id');
                             self.movingGroup.moveTo(self.tempLayer);
                             self.layer.draw();
                             self.tempLayer.draw();
@@ -515,7 +536,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 NodeEditorComponent.prototype.onSwapNode = function (swap) {
                     if (swap) {
                         this.debugText.text("Start Dragging");
-                        this.debugText.setmßAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
+                        this.debugText.setAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
                         this.interfaceLayer.draw();
                         this.layer.find('#' + this.selectedNode).draggable(true);
                         this.movementStyle = "one";
@@ -545,7 +566,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             _this.layer.draw();
                             _this.interfaceLayer.draw();
                             _this.action = "branch";
-                            console.log(_this.movingGroup);
                         }, function (error) { return _this.errorMessage = error; });
                     }
                 };
@@ -651,6 +671,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     }, function (error) { return _this.errorMessage = error; });
                 };
                 NodeEditorComponent.prototype.deleteBranch = function () {
+                    var _this = this;
                     var id = this.selectedNode;
                     var self = this;
                     self._nodeEditorService.deleteBranch(id)
@@ -667,6 +688,12 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         self.startDrawNodes(self.storyID, "");
                         self.debugText.text("Successfully deleted");
                         self.debugText.setAttr('x', (self.width / 2) - self.debugText.getAttr('width') / 2);
+                        _this.selectedNode = null;
+                        _this.allowed[0] = false;
+                        _this.allowed[1] = false;
+                        _this.allowed[2] = false;
+                        _this.allowed[3] = false;
+                        $("#wrapper").trigger("click");
                         //self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
                         //debugText.setAttr('fontSize','25');
                         self.interfaceLayer.draw();
@@ -733,7 +760,13 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     var self = this;
                     self._nodeEditorService.deletePageById(id)
                         .subscribe(function (result) {
-                        console.log("deleted");
+                        console.log(result);
+                        if (result['deleted'] == 'false') {
+                            self.debugText.text("Delete is not possible - choose DELETE BRANCH");
+                        }
+                        else {
+                            self.debugText.text("Successfully deleted");
+                        }
                         /* self.interfaceLayer.find('#button1Rect')[0].fill(self.buttonColor);
                          self.popUp.hide();
                          self.pause = false;
@@ -743,8 +776,13 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         }
                         self.startDrawLines(self.storyID);
                         self.startDrawNodes(self.storyID, "");
-                        self.debugText.text("Successfully deleted");
                         self.debugText.setAttr('x', (self.width / 2) - self.debugText.getAttr('width') / 2);
+                        self.selectedNode = null;
+                        self.allowed[0] = false;
+                        self.allowed[1] = false;
+                        self.allowed[2] = false;
+                        self.allowed[3] = false;
+                        $("#wrapper").trigger("click");
                         //self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
                         //debugText.setAttr('fontSize','25');
                         self.interfaceLayer.draw();
@@ -815,9 +853,16 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     var _this = this;
                     this._nodeEditorService.reorderNodes(ID01, ID02)
                         .subscribe(function (result) {
+                        _this.startDrawLines(_this.storyID);
                         _this.startDrawNodes(_this.storyID, "");
                         _this.debugText.text("Successfully reordered");
                         _this.debugText.setAttr('x', (_this.width / 2) - _this.debugText.getAttr('width') / 2);
+                        _this.selectedNode = null;
+                        _this.allowed[0] = false;
+                        _this.allowed[1] = false;
+                        _this.allowed[2] = false;
+                        _this.allowed[3] = false;
+                        $("#wrapper").trigger("click");
                         //debugText.setAttr('fontSize','25');
                         _this.interfaceLayer.draw();
                     }, function (error) { return _this.errorMessage = error; });
@@ -827,9 +872,16 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     var _this = this;
                     this._nodeEditorService.reorderBranches(ID01, ID02)
                         .subscribe(function (result) {
+                        _this.startDrawLines(_this.storyID);
                         _this.startDrawNodes(_this.storyID, "");
                         _this.debugText.text("Successfully reordered");
                         _this.debugText.setAttr('x', (_this.width / 2) - _this.debugText.getAttr('width') / 2);
+                        _this.selectedNode = null;
+                        _this.allowed[0] = false;
+                        _this.allowed[1] = false;
+                        _this.allowed[2] = false;
+                        _this.allowed[3] = false;
+                        $("#wrapper").trigger("click");
                         //debugText.setAttr('fontSize','25');
                         _this.interfaceLayer.draw();
                     }, function (error) { return _this.errorMessage = error; });
@@ -839,9 +891,16 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     var _this = this;
                     this._nodeEditorService.appendBranch(ID02, ID01)
                         .subscribe(function (result) {
+                        _this.startDrawLines(_this.storyID);
                         _this.startDrawNodes(_this.storyID, "");
                         _this.debugText.text("Successfully appended");
                         _this.debugText.setAttr('x', (_this.width / 2) - _this.debugText.getAttr('width') / 2);
+                        _this.selectedNode = null;
+                        _this.allowed[0] = false;
+                        _this.allowed[1] = false;
+                        _this.allowed[2] = false;
+                        _this.allowed[3] = false;
+                        $("#wrapper").trigger("click");
                         //debugText.setAttr('fontSize','25');
                         _this.interfaceLayer.draw();
                     }, function (error) { return _this.errorMessage = error; });
@@ -887,7 +946,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     // this.stage.find('#addRect')[0].setAttr('fill',this.buttonColorDisabled);
                     // this.stage.find('#delRect')[0].setAttr('fill',this.buttonColorDisabled);
                     this.interfaceLayer.draw();
-                    this.selectedNode = null;
+                    //this.selectedNode = null;
                     // resetInputFields();
                     var star;
                     var multiple = this.levelX;
@@ -914,10 +973,16 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         //first node
                         if (i == 0) {
                             this.firstNode = data[i]['id'];
+                            if (this.firstNode == this.selectedNode) {
+                                color = 'yellow';
+                            }
+                            else {
+                                color = this.buttonColorHover;
+                            }
                             star = new Konva.Circle({
                                 x: ((multiple - center) * scaleFactor) - this.offset,
                                 y: h + (parseInt(data[i]['level']) + 1) * (this.levelY),
-                                fill: this.buttonColorHover,
+                                fill: color,
                                 radius: 20,
                                 draggable: false,
                                 name: 'star ' + data[i]['id'],
@@ -1000,6 +1065,12 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                           } else {
                                               color = buttonColorHover;
                                           }*/
+                                        if (data[nextPageIDinData]['id'] == this.selectedNode) {
+                                            color = 'yellow';
+                                        }
+                                        else {
+                                            color = this.buttonColorHover;
+                                        }
                                         star = new Konva.Circle({
                                             x: ((multiple - center) * scaleFactor) - this.offset,
                                             y: h + ((parseInt(data[nextPageIDinData]['level']) + 1) * this.levelY),
@@ -1126,18 +1197,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         this.emptyLayer.draw();
                         if (first == "first") {
                             this.nodeSelection(this.layer.find('#' + this.firstNode)[0]);
+                            this.checkAdditionalNode(this.firstNode);
                         }
-                        else {
-                            this.selectedNode = null;
-                            this.debugText.text("Select a node");
-                            this.debugText.setAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
-                            this.interfaceLayer.draw();
-                            this.allowed[0] = false;
-                            this.allowed[1] = false;
-                            this.allowed[2] = false;
-                            $("#wrapper").trigger("click");
-                        }
-                        this.checkAdditionalNode(this.firstNode);
                     }
                     this.drawToolTip();
                 };
@@ -1401,6 +1462,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         e.target.fill('green');
                     }
                     else {
+                        console.log("previousshape" + this.previousShape.id() + "selectednode" + this.selectedNode);
                         this.reorderBranches(this.previousShape.id(), this.selectedNode);
                         this.previousShape.fire('drop', {
                             type: 'drop',
@@ -1412,6 +1474,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 };
                 ;
                 NodeEditorComponent.prototype.append = function (e) {
+                    console.log("previousshape" + this.previousShape.id() + "selectednode" + this.selectedNode);
                     this.appendBranch(this.previousShape.id(), this.selectedNode);
                     this.previousShape.fire('drop', {
                         type: 'drop',
@@ -1796,7 +1859,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         directives: [logState_component_1.LogStateComponent, editBar_component_1.EditBarComponent],
                         providers: [nodeEditor_service_1.NodeEditorService, headerfct_1.HttpClient, authentication_service_1.AuthenticationService, editBar_service_1.EditBarService]
                     }), 
-                    __metadata('design:paramtypes', [router_1.Router, router_1.RouteParams, nodeEditor_service_1.NodeEditorService])
+                    __metadata('design:paramtypes', [router_1.Router, router_1.RouteParams, nodeEditor_service_1.NodeEditorService, authentication_service_1.AuthenticationService, editBar_service_1.EditBarService])
                 ], NodeEditorComponent);
                 return NodeEditorComponent;
             }());

@@ -48,6 +48,7 @@ export class EditBarComponent implements OnInit {
     story;
     notTheSamePW;
     addAllowed;
+    actualPage;
     deleteAllowed;
     moveAllowed;
 
@@ -250,10 +251,8 @@ export class EditBarComponent implements OnInit {
                 showCloseButton: true,
                 content:`<div class="pageEditorFrameContainer"><div class="h1bgPageEditor"><h1>PAGE-EDITOR</h1></div></div>
                           <div id="links">
-                                <a id="edit" href="#">Edit</a>
-                                <a id="reset" class="" href="#">Reset</a>
-                                <a id="clear-grid" class="" href="#">Clear</a>
-                                <a id="load-grid" class="" href="#">Load</a>
+                             <a id="edit" >EDIT</a>
+                             <a id="reset" class="disableButton">RESET</a>           
                             </div>
                             <!--<textarea id="saved-data" cols="100" rows="20" readonly="readonly"></textarea>-->
                         
@@ -289,6 +288,7 @@ export class EditBarComponent implements OnInit {
     }
     
     loadPageEditor(){
+       let self = this;
        var options = {
         float:true,
         staticGrid:true,
@@ -320,6 +320,7 @@ export class EditBarComponent implements OnInit {
 
         var grid = jQuery('#inner').data('gridstack');
         var editButton = jQuery('#edit');
+        var resetButton = jQuery('#reset');
 
         this.newTextWidget = function(){
             var el = '<div class="text grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content">ADD TEXT</div></div>';
@@ -372,12 +373,14 @@ export class EditBarComponent implements OnInit {
 
         this.edit = function(){
             jQuery('.sidebar').slideToggle('fast');
-            if(editButton.text() == 'Edit'){
+            if(editButton.text() == 'EDIT'){
                 makeEditable();
                 jQuery('#inner').data('gridstack').setStatic(false);
-                editButton.text('Save');
-            }else if(editButton.text() == 'Save'){
+                resetButton.removeClass('disableButton');
+                editButton.text('SAVE');
+            }else if(editButton.text() == 'SAVE'){
                 jQuery('.grid-stack .delete').addClass('hidden');
+                resetButton.addClass('disableButton');
                 jQuery('.grid-stack .text .grid-stack-item-content textarea').each(function() {
                     var t = jQuery(this).val();
                     jQuery(this).parent().text(t);
@@ -393,7 +396,7 @@ export class EditBarComponent implements OnInit {
 
                     jQuery('#inner').data('gridstack').setStatic(true);
 
-                editButton.text('Edit');
+                editButton.text('EDIT');
             }
             return false;
         }.bind(this);
@@ -406,17 +409,49 @@ export class EditBarComponent implements OnInit {
 
 
         this.loadGrid = function () {
+            this.loadData();
             this.clearGrid();
             this.loadText();
             this.loadImages();
             this.loadLinks();
             return false;
         }.bind(this);
+        
+        this.reloadGrid = function () {
+            this.loadData();
+            this.clearGrid();
+            this.loadText();
+            this.loadImages();
+            this.loadLinks();
+            makeEditable();
+            return false;
+        }.bind(this);
+        
+       this.loadData = function(){
+           console.log(self.actualPage['serializedContent']);
+       }.bind(this);
+        
+          this.saveGrid = function () {
+            this.saveImages();
+            this.saveTexts();
+            this.saveLinks();
+            this.save();
+            return false;
+        }.bind(this);
+
+        this.save = function(){
+            self._editBarService.saveData(this.images,this.texts,this.links,self.actualPage['id'])
+            .subscribe( update => {    
+                                   console.log("saved");
+                                
+                               },
+                               error =>  self.errorMessage = <any>error);
+        }.bind(this);
 
         this.loadImages = function () {
             var images = GridStackUI.Utils.sort(this.images);
             _.each(images, function (node) {
-                grid.addWidget(jQuery('<div class="image"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img src="Tulips.jpg"><div/><div/>'),
+                grid.addWidget(jQuery('<div class="image"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img src=""><div/><div/>'),
                     node.x, node.y, node.width, node.height);
             }, this);
             return false;
@@ -442,22 +477,7 @@ export class EditBarComponent implements OnInit {
 
 
 
-        this.saveGrid = function () {
-            this.saveImages();
-            this.saveTexts();
-            this.saveLinks();
-            this.save();
-            return false;
-        }.bind(this);
-
-        this.save = function(){
-            this._editBarService.saveData(this.images,this.texts,this.links,this.details[3]['id'])
-            .subscribe( update => {    
-                                   console.log("saved");
-                                
-                               },
-                               error =>  this.errorMessage = <any>error);
-        }
+      
         
         this.saveImages= function () {
             this.images = _.map(jQuery('.grid-stack > .image:visible'), function (el) {
@@ -514,7 +534,7 @@ export class EditBarComponent implements OnInit {
 
 
         jQuery('#save-grid').click(this.saveGrid);
-        jQuery('#load-grid').click(this.loadGrid);
+        jQuery('#reset').click(this.reloadGrid);
         jQuery('#clear-grid').click(this.clearGrid);
         editButton.click(this.edit);
         jQuery('#textWidget .text').on('remove',this.newTextWidget);
@@ -556,7 +576,7 @@ export class EditBarComponent implements OnInit {
             this.addAllowed = this.details[0];
             this.deleteAllowed = this.details[1]; 
             this.moveAllowed = this.details[2]; 
-          
+            this.actualPage = this.details[3];
     
             
             let self = this;
@@ -564,7 +584,7 @@ export class EditBarComponent implements OnInit {
                 self.addAllowed = self.details[0];
                 self.deleteAllowed = self.details[1]; 
                 self.moveAllowed = self.details[2]; 
-                
+                self.actualPage = self.details[3];
     
             });
         }

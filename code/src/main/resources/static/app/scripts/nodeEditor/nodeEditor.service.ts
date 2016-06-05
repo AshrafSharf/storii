@@ -40,7 +40,7 @@ export class NodeEditorService {
         var _resultUrl = '/page/'+id1+"/swapWithBranch/"+id2;
         return this.http.get(_resultUrl, { headers })
             .map(this.extractData)
-            .do(data => console.log(data))
+            //.do(data => console.log(data))
             .catch(this.handleError);  
     }
     
@@ -57,7 +57,7 @@ export class NodeEditorService {
         var _resultUrl = '/page/'+id1+"/appendToBranch/"+id2;
         return this.http.get(_resultUrl, { headers })
             .map(this.extractData)
-            .do(data => console.log(data))
+           // .do(data => console.log(data))
             .catch(this.handleError);  
     }
     
@@ -74,7 +74,7 @@ export class NodeEditorService {
         var _resultUrl = '/page/'+id+"/getAllOutgoing/";
         return this.http.get(_resultUrl, { headers })
             .map(this.extractData)
-            .do(data => console.log(data))
+           // .do(data => console.log(data))
             .catch(this.handleError);  
     }
     
@@ -90,7 +90,7 @@ export class NodeEditorService {
         var _resultUrl = '/story/'+storyID+'/addPage/'+selectedID;
         return this.http.post(_resultUrl, JSON.stringify({ "title": "defaultTitle" ,"description": "defaultDescription" ,"level": level,"position":position,"serializedContent": ""}),{ headers })
             .map(this.extractData)
-            .do(data => console.log(data))
+           // .do(data => console.log(data))
             .catch(this.handleError);  
         
     }
@@ -109,7 +109,7 @@ export class NodeEditorService {
          var _resultUrl = '/page/'+id+'/deleteSingle';
          return this.http.get(_resultUrl,{ headers })
             .map(this.extractData)
-            .do(data => console.log(data))
+           // .do(data => console.log(data))
             .catch(this.handleError);  
         
     }
@@ -126,7 +126,7 @@ export class NodeEditorService {
         var _resultUrl = '/page/'+id+'/deleteBranch';
         return this.http.get(_resultUrl,{ headers })
             .map(this.extractData)
-            .do(data => console.log(data))
+           // .do(data => console.log(data))
             .catch(this.handleError);  
         
     }
@@ -144,7 +144,7 @@ export class NodeEditorService {
         var _resultUrl = '/page/';
         return this.http.get(_resultUrl+id, { headers })
             .map(this.extractData)
-            .do(data => console.log(data))
+            //.do(data => console.log(data))
             .catch(this.handleError);  
     }
     
@@ -162,7 +162,7 @@ export class NodeEditorService {
         var _resultUrl = '/story/' + id + '/getMaxLevel';
         return this.http.get(_resultUrl, { headers })
             .map(this.extractData)
-            .do(data => console.log(data))
+          //  .do(data => console.log(data))
             .catch(this.handleError);
     }
 
@@ -179,7 +179,7 @@ export class NodeEditorService {
         var _resultUrl = '/story/' + id + '/getPages';
         return this.http.get(_resultUrl, { headers })
             .map(this.extractData)
-            .do(data => console.log(data))
+           // .do(data => console.log(data))
             .catch(this.handleError);
     }
 

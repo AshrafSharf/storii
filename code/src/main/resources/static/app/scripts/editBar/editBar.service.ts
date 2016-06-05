@@ -38,11 +38,18 @@ export class EditBarService {
   			headers.delete('Content-Type');
   			headers.append('Authorization',"");
   		}
+  		
+		var object = {};
+		object['images'] = images; 
+		object['texts'] = texts; 
+		object['links'] = links;
+		var serializedContent =  btoa(JSON.stringify(object));
+  		
 		var _resultUrl = '/page/'+id; 
-	   /* return this.http.put(_resultUrl, JSON.stringify(),{headers})
+	    return this.http.put(_resultUrl, JSON.stringify({'serializedContent' : 'test' ,'title': texts[0]['content'], 'description': texts[1]['content']}),{headers})
 	            .map(this.extractData)
-	            //.do(data => console.log(data))
-	            .catch(this.handleError);*/
+	            .do(data => console.log(data))
+	            .catch(this.handleError);
 	}
 
 	getLoggedInUser(){
