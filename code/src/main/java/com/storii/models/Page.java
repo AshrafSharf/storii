@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -54,6 +55,7 @@ public class Page {
 	private int position;
 
 	@NotNull
+	@Lob
 	private String serializedContent;
 
 	@OneToMany(mappedBy = "owningPage", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
