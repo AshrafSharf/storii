@@ -175,16 +175,21 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     });
                 };
                 EditBarComponent.prototype.openPageEditor = function () {
-                    var self = this;
-                    vex.open({
-                        showCloseButton: true,
-                        content: "<div class=\"pageEditorFrameContainer\"><div class=\"h1bgPageEditor\"><h1>PAGE-EDITOR</h1></div></div>\n                          <div id=\"links\">\n                             <a id=\"edit\" >EDIT</a>\n                             <a id=\"reset\" class=\"disableButton\">RESET</a>           \n                            </div>\n                            <!--<textarea id=\"saved-data\" cols=\"100\" rows=\"20\" readonly=\"readonly\"></textarea>-->\n                        \n                            <div class=\"sidebar\">\n                                <div>\n                                    <div class=\"widgets\" id=\"imageWidget\">\n                                        <div class=\"image grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD IMAGE</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"textWidget\">\n                                        <div class=\"text grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD TEXT</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"linkWidget\">\n                                        <div class=\"link grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\"><div><a href=\"#\">ADD LINK</a></div></div></div>\n                                    </div>\n                                        <div class=\"trash\"><div>DELETE</div></div>\n                                </div>\n                            </div>       \n                           <div id=\"outer\">\n                                        <div class=\"grid-stack\" id=\"inner\">\n                                        </div>\n                        </div>\n                        \n                        </div>"
-                    });
-                    this.loadPageEditor();
-                    jQuery('.vex.vex-theme-os .vex-content').css('width', '100%');
-                    jQuery('.vex.vex-theme-os .vex-content').css('padding', '10px');
-                    jQuery('.vex.vex-theme-os .vex-content').css('background', 'white');
-                    jQuery('.vex.vex-theme-os .vex-content').css('box-shadow', 'unset');
+                    var _this = this;
+                    this._editBarService.getPageById(this.actualPage['id'])
+                        .subscribe(function (actualPage) {
+                        _this.actualPage = actualPage;
+                        var self = _this;
+                        vex.open({
+                            showCloseButton: true,
+                            content: "<div class=\"pageEditorFrameContainer\"><div class=\"h1bgPageEditor\"><h1>PAGE-EDITOR</h1></div></div>\n                          <div id=\"links\">\n                             <a id=\"edit\" >EDIT</a>\n                             <a id=\"reset\" class=\"disableButton\">RESET</a>           \n                            </div>\n                            <!--<textarea id=\"saved-data\" cols=\"100\" rows=\"20\" readonly=\"readonly\"></textarea>-->\n                        \n                            <div class=\"sidebar\">\n                                <div>\n                                    <div class=\"widgets\" id=\"imageWidget\">\n                                        <div class=\"image grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD IMAGE</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"textWidget\">\n                                        <div class=\"text grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD TEXT</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"linkWidget\">\n                                        <div class=\"link grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\"><div><a href=\"#\">ADD LINK</a></div></div></div>\n                                    </div>\n                                        <div class=\"trash\"><div>DELETE</div></div>\n                                </div>\n                            </div>       \n                           <div id=\"outer\">\n                                        <div class=\"grid-stack\" id=\"inner\">\n                                        </div>\n                        </div>\n                        \n                        </div>"
+                        });
+                        _this.loadPageEditor();
+                        jQuery('.vex.vex-theme-os .vex-content').css('width', '100%');
+                        jQuery('.vex.vex-theme-os .vex-content').css('padding', '10px');
+                        jQuery('.vex.vex-theme-os .vex-content').css('background', 'white');
+                        jQuery('.vex.vex-theme-os .vex-content').css('box-shadow', 'unset');
+                    }, function (error) { return _this.errorMessage = error; });
                 };
                 EditBarComponent.prototype.loadPageEditor = function () {
                     var self = this;
@@ -206,12 +211,13 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                             { x: 3, y: 0, width: 6, height: 1, content: "defaultTitle" },
                             { x: 3, y: 7, width: 6, height: 2, content: "defaultText" }
                         ];
-                        this.links = [
-                            { x: 2, y: 9, width: 4, height: 1, content: "default" },
-                            { x: 6, y: 9, width: 4, height: 1, content: "default" },
-                            { x: 2, y: 10, width: 4, height: 1, content: "default" },
-                            { x: 6, y: 10, width: 4, height: 1, content: "default" }
-                        ];
+                        this.links = [];
+                        /*this.links = [
+                            {x: 2, y: 9, width: 4, height: 1, content:"default"},
+                            {x: 6, y: 9, width: 4, height: 1, content:"default"},
+                            {x: 2, y: 10, width: 4, height: 1, content:"default"},
+                            {x: 6, y: 10, width: 4, height: 1, content:"default"}
+                        ];*/
                         var grid = jQuery('#inner').data('gridstack');
                         var editButton = jQuery('#edit');
                         var resetButton = jQuery('#reset');
@@ -308,7 +314,46 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                             return false;
                         }.bind(this);
                         this.loadData = function () {
-                            console.log(self.actualPage['serializedContent']);
+                            if (self.actualPage['serializedContent'] != '') {
+                                var deserializedContent = atob(self.actualPage['serializedContent']);
+                                var object = JSON.parse(deserializedContent);
+                                console.log(object);
+                                this.images = object['images'];
+                                this.texts = object['texts'];
+                                this.links = object['links'];
+                                this.setUpLinks();
+                            }
+                            else {
+                                this.setUpLinks();
+                            }
+                        }.bind(this);
+                        this.setUpLinks = function () {
+                            if (self.actualPage['outgoingInternLinks'].length == 4) {
+                                this.links = [
+                                    { x: 2, y: 9, width: 4, height: 1, content: "default" },
+                                    { x: 6, y: 9, width: 4, height: 1, content: "default" },
+                                    { x: 2, y: 10, width: 4, height: 1, content: "default" },
+                                    { x: 6, y: 10, width: 4, height: 1, content: "default" }
+                                ];
+                            }
+                            else if (self.actualPage['outgoingInternLinks'].length == 3) {
+                                this.links = [
+                                    { x: 2, y: 9, width: 4, height: 1, content: "default" },
+                                    { x: 6, y: 9, width: 4, height: 1, content: "default" },
+                                    { x: 2, y: 10, width: 4, height: 1, content: "default" }
+                                ];
+                            }
+                            else if (self.actualPage['outgoingInternLinks'].length == 2) {
+                                this.links = [
+                                    { x: 2, y: 9, width: 4, height: 1, content: "default" },
+                                    { x: 6, y: 9, width: 4, height: 1, content: "default" }
+                                ];
+                            }
+                            else if (self.actualPage['outgoingInternLinks'].length == 1) {
+                                this.links = [
+                                    { x: 2, y: 9, width: 4, height: 1, content: "default" }
+                                ];
+                            }
                         }.bind(this);
                         this.saveGrid = function () {
                             this.saveImages();
@@ -408,7 +453,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     };
                     //ausschaltn wenns nur geladen wird
                     gridStack.on('change', function () {
-                        if (jQuery('#edit').text() == 'Save') {
+                        if (jQuery('#edit').text() == 'SAVE') {
                             makeEditable();
                         }
                     });

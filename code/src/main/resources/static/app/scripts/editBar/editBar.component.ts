@@ -246,7 +246,11 @@ export class EditBarComponent implements OnInit {
     }
     
     openPageEditor(){
-        let self = this;
+    this._editBarService.getPageById(this.actualPage['id'])
+                        .subscribe(
+                               actualPage => { 
+                                this.actualPage = actualPage;
+                                      let self = this;
             vex.open({
                 showCloseButton: true,
                 content:`<div class="pageEditorFrameContainer"><div class="h1bgPageEditor"><h1>PAGE-EDITOR</h1></div></div>
@@ -285,6 +289,10 @@ export class EditBarComponent implements OnInit {
         jQuery('.vex.vex-theme-os .vex-content').css('padding','10px');
         jQuery('.vex.vex-theme-os .vex-content').css('background','white');
         jQuery('.vex.vex-theme-os .vex-content').css('box-shadow','unset');
+                               },
+                               error =>  this.errorMessage = <any>error);
+            
+       
     }
     
     loadPageEditor(){
@@ -310,12 +318,15 @@ export class EditBarComponent implements OnInit {
             {x: 3, y: 0, width: 6, height: 1, content:"defaultTitle"},
             {x: 3, y: 7, width: 6, height: 2, content:"defaultText"}
         ];
-        this.links = [
+        this.links = [];
+        /*this.links = [
             {x: 2, y: 9, width: 4, height: 1, content:"default"},
             {x: 6, y: 9, width: 4, height: 1, content:"default"},
             {x: 2, y: 10, width: 4, height: 1, content:"default"},
             {x: 6, y: 10, width: 4, height: 1, content:"default"}
-        ];
+        ];*/
+        
+        
         
 
         var grid = jQuery('#inner').data('gridstack');
@@ -369,8 +380,7 @@ export class EditBarComponent implements OnInit {
                 }
             });
         }.bind(this);
-
-
+       
         this.edit = function(){
             jQuery('.sidebar').slideToggle('fast');
             if(editButton.text() == 'EDIT'){
@@ -428,8 +438,50 @@ export class EditBarComponent implements OnInit {
         }.bind(this);
         
        this.loadData = function(){
-           console.log(self.actualPage['serializedContent']);
+           if(self.actualPage['serializedContent'] != ''){
+                  var deserializedContent = atob(self.actualPage['serializedContent']);
+                  var object = JSON.parse(deserializedContent);
+                  console.log(object);
+               
+            this.images = object['images'];
+            this.texts = object['texts'];
+            this.links = object['links'];
+                 this.setUpLinks(); 
+           }else{
+              this.setUpLinks(); 
+           }
+         
+            
        }.bind(this);
+        
+         
+        this.setUpLinks = function(){
+            if(self.actualPage['outgoingInternLinks'].length == 4){
+               this.links = [
+                    {x: 2, y: 9, width: 4, height: 1, content:"default"},
+                    {x: 6, y: 9, width: 4, height: 1, content:"default"},
+                    {x: 2, y: 10, width: 4, height: 1, content:"default"},
+                    {x: 6, y: 10, width: 4, height: 1, content:"default"}
+                ];
+            }else if(self.actualPage['outgoingInternLinks'].length == 3){
+               this.links = [
+                    {x: 2, y: 9, width: 4, height: 1, content:"default"},
+                    {x: 6, y: 9, width: 4, height: 1, content:"default"},
+                    {x: 2, y: 10, width: 4, height: 1, content:"default"}
+                ];
+            } else if(self.actualPage['outgoingInternLinks'].length == 2){
+               this.links = [
+                    {x: 2, y: 9, width: 4, height: 1, content:"default"},
+                    {x: 6, y: 9, width: 4, height: 1, content:"default"}
+                ];
+            }else if(self.actualPage['outgoingInternLinks'].length == 1){
+               this.links = [
+                    {x: 2, y: 9, width: 4, height: 1, content:"default"}
+                ];
+            }
+        }.bind(this);
+
+
         
           this.saveGrid = function () {
             this.saveImages();
@@ -556,7 +608,7 @@ export class EditBarComponent implements OnInit {
     //ausschaltn wenns nur geladen wird
 
     gridStack.on('change',function(){
-        if(jQuery('#edit').text() == 'Save'){
+        if(jQuery('#edit').text() == 'SAVE'){
             makeEditable();
         }
 

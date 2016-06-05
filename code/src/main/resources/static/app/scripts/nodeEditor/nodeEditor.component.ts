@@ -787,7 +787,7 @@ export class NodeEditorComponent implements OnInit{
                                 this.startDrawNodes(this.storyID,"");
                                 this.debugText.text("Successfully added");
                                 this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
-        
+                                
                                
                                   
               
@@ -1411,6 +1411,7 @@ export class NodeEditorComponent implements OnInit{
                 this.nodeSelection(this.layer.find('#'+ this.firstNode)[0]);          
                 this.checkAdditionalNode(this.firstNode);
             }
+           
             
         }
         this.drawToolTip();

@@ -66,6 +66,23 @@ export class EditBarService {
            // .do(data => console.log(data))
             .catch(this.handleError);
 	}
+	
+	 getPageById(id){
+       var headers = new Headers();
+        if (this._authenticationService.isLoggedIn()) {
+            headers = this.httpClient.createHeader(headers);
+            headers.append('Content-Type', 'application/json');
+        } else {
+            headers.delete('Authorization');
+            headers.append('Authorization', "");
+        }
+
+        var _resultUrl = '/page/';
+        return this.http.get(_resultUrl+id, { headers })
+            .map(this.extractData)
+            //.do(data => console.log(data))
+            .catch(this.handleError);  
+    }
   
   
   private extractData(res: Response) {
