@@ -352,7 +352,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             if (self.toolTipText == "") {
                                 self._nodeEditorService.getPageById(e.target.getAttr('id'))
                                     .subscribe(function (actualPage) {
-                                    self.actualPage = actualPage;
                                     self.setToolTip(actualPage['title'], e);
                                 }, function (error) { return self.errorMessage = error; });
                             }
@@ -657,17 +656,20 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 NodeEditorComponent.prototype.addNewNode = function () {
                     var _this = this;
                     var selected = this.selectedNode;
-                    // this._nodeEditorService.addNewNode(this.storyID,selected,1,1)
-                    this._nodeEditorService.addNewNode(this.storyID, selected, this.actualPage['level'] + 1, this.actualPage['outgoingInternLinks'].length + 1)
-                        .subscribe(function (result) {
-                        console.log("DONE");
-                        _this.startDrawLines(_this.storyID);
-                        _this.startDrawNodes(_this.storyID, "");
-                        _this.debugText.text("Successfully added");
-                        _this.debugText.setAttr('x', (_this.width / 2) - _this.debugText.getAttr('width') / 2);
-                        //self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
-                        //debugText.setAttr('fontSize','25');
-                        _this.interfaceLayer.draw();
+                    this._nodeEditorService.getPageById(this.selectedNode)
+                        .subscribe(function (actualPage) {
+                        _this.actualPage = actualPage;
+                        _this._nodeEditorService.addNewNode(_this.storyID, selected, _this.actualPage['level'] + 1, _this.actualPage['outgoingInternLinks'].length + 1)
+                            .subscribe(function (result) {
+                            console.log("DONE");
+                            _this.startDrawLines(_this.storyID);
+                            _this.startDrawNodes(_this.storyID, "");
+                            _this.debugText.text("Successfully added");
+                            _this.debugText.setAttr('x', (_this.width / 2) - _this.debugText.getAttr('width') / 2);
+                            //self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                            //debugText.setAttr('fontSize','25');
+                            _this.interfaceLayer.draw();
+                        }, function (error) { return _this.errorMessage = error; });
                     }, function (error) { return _this.errorMessage = error; });
                 };
                 NodeEditorComponent.prototype.deleteBranch = function () {

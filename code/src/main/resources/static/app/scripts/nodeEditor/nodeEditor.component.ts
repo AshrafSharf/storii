@@ -424,9 +424,7 @@ export class NodeEditorComponent implements OnInit{
                         self._nodeEditorService.getPageById(e.target.getAttr('id'))
                                         .subscribe(
                                                actualPage => { 
-                                                self.actualPage = actualPage;  
                                                 self.setToolTip(actualPage['title'],e);
-                                             
                                                },
                                                error =>  self.errorMessage = <any>error);
                         //service get title of page with id
@@ -778,24 +776,32 @@ export class NodeEditorComponent implements OnInit{
     
         addNewNode(){
             var selected = this.selectedNode;
-           // this._nodeEditorService.addNewNode(this.storyID,selected,1,1)
-            this._nodeEditorService.addNewNode(this.storyID,selected,this.actualPage['level']+1,this.actualPage['outgoingInternLinks'].length+1)
-                            .subscribe( 
-                               result => {   
-                                console.log("DONE");
-                                this.startDrawLines(this.storyID);
-                                this.startDrawNodes(this.storyID,"");
-                                this.debugText.text("Successfully added");
-                                this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
-                                
-                               
-                                  
-              
-                                 //self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
-                                 //debugText.setAttr('fontSize','25');
-                                 this.interfaceLayer.draw();
-                               },
-                               error =>  this.errorMessage = <any>error);
+            
+             this._nodeEditorService.getPageById(this.selectedNode)
+                                        .subscribe(
+                                               actualPage => { 
+                                                this.actualPage = actualPage;
+                                                this._nodeEditorService.addNewNode(this.storyID,selected,this.actualPage['level']+1,this.actualPage['outgoingInternLinks'].length+1)
+                                                    .subscribe( 
+                                                       result => {   
+                                                        console.log("DONE");
+                                                        this.startDrawLines(this.storyID);
+                                                        this.startDrawNodes(this.storyID,"");
+                                                        this.debugText.text("Successfully added");
+                                                        this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
+                                                        
+                                                       
+                                                          
+                                      
+                                                         //self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
+                                                         //debugText.setAttr('fontSize','25');
+                                                         this.interfaceLayer.draw();
+                                                       },
+                                                       error =>  this.errorMessage = <any>error);
+                                               },
+                                               error =>  this.errorMessage = <any>error);
+            
+           
             
         }
     
