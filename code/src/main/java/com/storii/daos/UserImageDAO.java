@@ -11,5 +11,6 @@ import com.storii.models.UserImage;
 
 @Transactional
 public interface UserImageDAO extends CrudRepository<UserImage, Long>{
-	 public UserImage findByName(String name);	
+	 public UserImage findByName(String name);
+	 public UserImage findByPath(String path);
 }

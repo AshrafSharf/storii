@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -63,7 +64,7 @@ public class UploadController {
 	@Autowired
 	private PageDAO pageDAO;
 
-
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/addUserImage", headers = "content-type=multipart/*", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<String> addUserImage(@RequestParam("uploadfile") MultipartFile uploadfile) {
@@ -100,23 +101,22 @@ public class UploadController {
 		return ResponseEntity.ok().body("{\"uploaded\":\"true\", \"img_name\":\"" + filename + "\"}");
 	} // method uploadFile
 	
-	@RequestMapping(value = "/getUserImage/{user_image_id}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+	@RequestMapping(value = "/getImage/{image_path}/{image_size}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
 	@ResponseBody
-	public ResponseEntity<byte[]> getUserImage(@PathVariable(value = "user_image_id") Long user_image_id) {
+	public ResponseEntity<byte[]> getUserImage(@PathVariable(value = "image_path") String image_path, @PathVariable(value = "image_size") String image_size) {
 
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		StoriiUser myUser = userDAO.findByName(userDetails.getUsername());
-		String filename = "";
-		
-		UserImage objImage = userImageDAO.findOne(user_image_id);
-		
 		String path = "";
+		/*
 		
 		if(objImage.getUserId().getId() != myUser.getId()){
 			path = "uploadedFiles/bad_connection.jpg";
 		}else{
 			path = "uploadedFiles/"+objImage.getPath();
-		}
+		}*/
+		System.out.println(image_path);
+		path = "uploadedFiles/"+image_path;
+
+		System.out.println();
 		
 		File image = new File(path);
 		byte[] imageContent = null;
@@ -134,7 +134,7 @@ public class UploadController {
 		return ResponseEntity.ok().headers(headers).body(imageContent);
 	} // method uploadFile
 
-
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/deleteUserImage/{user_image_id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public ResponseEntity<String> deleteUserImage(@PathVariable(value = "user_image_id") Long user_image_id) {
@@ -174,6 +174,7 @@ public class UploadController {
 
 	}
 	
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/addStoryImage/{story_id}", headers = "content-type=multipart/*", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<String> addStoryImage(@PathVariable(value = "story_id") Long story_id, @RequestParam("uploadfile") MultipartFile uploadfile) {
@@ -213,6 +214,7 @@ public class UploadController {
 		return ResponseEntity.ok().body("{\"uploaded\":\"true\", \"img_name\":\"" + filename + "\"}");
 	} // method uploadFile
 
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/deleteStoryImage/{story_image_id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public ResponseEntity<String> deleteStoryImage(@PathVariable(value = "story_image_id") Long story_image_id) {
