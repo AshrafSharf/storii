@@ -1,6 +1,6 @@
 $(function () {
     var options = {
-        float:true,
+        float:false,
         staticGrid:true,
         removable: '.trash',
         removeTimeout: 100,

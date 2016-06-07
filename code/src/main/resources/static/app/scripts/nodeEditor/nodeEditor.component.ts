@@ -125,7 +125,7 @@ export class NodeEditorComponent implements OnInit{
     
     
       ngOnInit():any {
-          this.init();
+         
           let self = this;
           this.name = this._routeParams.get('name');  
           this.loggedIn = this._authenticationService.isLoggedIn();
@@ -143,22 +143,25 @@ export class NodeEditorComponent implements OnInit{
                                        }
                                    
                                     if(!this.ownStory ){
-                                         this._router.navigate(['Search']);
+                                         this._router.navigate(['Error']);
+                                    }else{
+                                        this.init(); 
                                     }
         
                                    },
                                    error =>  this.errorMessage = <any>error);
           }else{
-             this._router.navigate(['Search']);
+             this._router.navigate(['Error']);
           }
+          
+          var doit;
            //refresh page on browser resize
-           $(window).bind('resize', function(e)
-            {      
-                $(this).delay(500).queue(function() {
-                    self.init(); 
-                    $(this).dequeue();
-                });
-                   
+           $('#container').bind('resize', function(e)
+            {    
+            //nur wenn vex NICHT offn !! 
+                clearTimeout(doit);
+                doit = setTimeout(self.init(), 500);
+         
             });
 
           
@@ -789,12 +792,9 @@ export class NodeEditorComponent implements OnInit{
                                                         this.startDrawNodes(this.storyID,"");
                                                         this.debugText.text("Successfully added");
                                                         this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
-                                                        
-                                                       
-                                                          
-                                      
-                                                         //self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
-                                                         //debugText.setAttr('fontSize','25');
+
+                                                            this.checkAdditionalNode(this.selectedNode);
+                                                           
                                                          this.interfaceLayer.draw();
                                                        },
                                                        error =>  this.errorMessage = <any>error);
@@ -1418,6 +1418,7 @@ export class NodeEditorComponent implements OnInit{
                 this.checkAdditionalNode(this.firstNode);
             }
            
+            
             
         }
         this.drawToolTip();

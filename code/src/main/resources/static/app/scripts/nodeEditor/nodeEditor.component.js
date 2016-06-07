@@ -91,7 +91,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 }
                 NodeEditorComponent.prototype.ngOnInit = function () {
                     var _this = this;
-                    this.init();
                     var self = this;
                     this.name = this._routeParams.get('name');
                     this.loggedIn = this._authenticationService.isLoggedIn();
@@ -105,19 +104,22 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                 }
                             }
                             if (!_this.ownStory) {
-                                _this._router.navigate(['Search']);
+                                _this._router.navigate(['Error']);
+                            }
+                            else {
+                                _this.init();
                             }
                         }, function (error) { return _this.errorMessage = error; });
                     }
                     else {
-                        this._router.navigate(['Search']);
+                        this._router.navigate(['Error']);
                     }
+                    var doit;
                     //refresh page on browser resize
-                    $(window).bind('resize', function (e) {
-                        $(this).delay(500).queue(function () {
-                            self.init();
-                            $(this).dequeue();
-                        });
+                    $('#container').bind('resize', function (e) {
+                        //nur wenn vex NICHT offn !! 
+                        clearTimeout(doit);
+                        doit = setTimeout(self.init(), 500);
                     });
                 };
                 NodeEditorComponent.prototype.init = function () {
@@ -666,8 +668,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             _this.startDrawNodes(_this.storyID, "");
                             _this.debugText.text("Successfully added");
                             _this.debugText.setAttr('x', (_this.width / 2) - _this.debugText.getAttr('width') / 2);
-                            //self.interfaceLayer.find('#button1Text')[0].setAttr('text','');
-                            //debugText.setAttr('fontSize','25');
+                            _this.checkAdditionalNode(_this.selectedNode);
                             _this.interfaceLayer.draw();
                         }, function (error) { return _this.errorMessage = error; });
                     }, function (error) { return _this.errorMessage = error; });

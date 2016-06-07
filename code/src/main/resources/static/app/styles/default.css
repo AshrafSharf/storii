@@ -67,7 +67,7 @@ a {
 
 }
 
-#editBar .buttonFrameContainerUserStoryContentModule{
+#editBar .buttonFrameContainerUserStoryContentModule, #links .buttonFrameContainerUserStoryContentModule{
 	float:left; 
 	margin-left: 20px; 
 	padding: 2px;
@@ -115,7 +115,8 @@ input.button {
   font-size: 16px;
   font-family: "Architects Daughter", cursive;
   background-color: #D3ECED;
-  border: dotted 2px black; }
+  border: dotted 2px black; 
+  cursor:pointer}
 input.buttonStory {
   width: 145px;
   font-size: 16px;
@@ -177,10 +178,10 @@ input.buttonStoryInfo {
   height: 32px;
   border: black dotted 2px;
   line-height: 2em;
-  text-align: center; }
+  text-align: center; 
+  }
   
 .buttonSizeActions, .buttonSizeDelete{
-	height: 32px;
 	border: black dotted 2px;
 	line-height: 2em;
 	text-align: center;
@@ -191,6 +192,7 @@ input.buttonStoryInfo {
 	text-align: center;
 	width:172px;
 	float:none;
+	cursor:pointer;
 }
 
 
@@ -548,6 +550,7 @@ input.buttonStoryInfo {
     width: 140px; }
   #editBar .buttonSize, .buttonSizeActions, .buttonSizeDelete, #links .buttonSize{
   	width:172px;
+  	cursor:pointer;
   }
 #userStoryPage .storyPageAuthor, #userStoryPage .storyPageCoAuthor {
   font-family: "Architects Daughter", cursive;

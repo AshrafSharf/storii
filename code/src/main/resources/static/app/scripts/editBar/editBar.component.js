@@ -174,6 +174,18 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         }
                     });
                 };
+                EditBarComponent.prototype.openStoryEditor = function () {
+                    var self = this;
+                    vex.open({
+                        showCloseButton: true,
+                        content: "<div id=\"userEditPage\">\n                            <div class=\"userEditFrameContainer\">\n                                <div class=\"userEditContainer\">\n                                    <div id=\"content\">\n                                        <div class=\"h1bgUserEdit\"><h1>EDIT STORY</h1></div>\n                                        \n                                        <form id=\"changeTitle\" class=\"change\" name=\"changeTitle\" class=\"handledAjaxForm\">\n                                                <label>TITLE</label><br>\n                                                <input class=\"inputField loadData title\" type=\"text\" name=\"title\" required=\"\">\n                                                <div class=\"buttonFrameContainer\"><input id=\"title\" class=\"button\" type=\"button\" value=\"CHANGE TITLE\"></div>\n                                        </form>\n                                        \n                                        <form id=\"changeAuthor\" class=\"change\" name=\"changeAuthor\" class=\"handledAjaxForm\">\n                                                <label>AUTHOR</label><br>\n                                                <input class=\"inputField loadData author\" type=\"text\" name=\"author\" required=\"\">\n                                                <div class=\"buttonFrameContainer\"><input id=\"author\" class=\"button\" type=\"button\" value=\"CHANGE AUTHOR\"></div>\n                                        </form>\n\n                                        <form id=\"changeCoAuthor\" class=\"change\" name=\"changeCoAuthor\" class=\"handledAjaxForm\">\n                                                <label>CO-AUTHOR</label><br>\n                                                <input class=\"inputField loadData coauthor\" type=\"text\" name=\"coauthor\" required=\"\">\n                                                <div class=\"buttonFrameContainer\"><input id=\"coauthor\" class=\"button\" type=\"button\" value=\"CHANGE CO-AUTHOR\"></div>\n                                        </form>\n\n                                         <form id=\"changeDescription\" class=\"change\" name=\"changeDescription\" class=\"handledAjaxForm\">\n                                                <label>SHORT DESCRIPTION</label><br>\n                                                <textarea class=\"inputField loadData\" type=\"text\" name=\"shortdescription\" required=\"\" ></textarea>\n                                                <div class=\"buttonFrameContainer\"><input id=\"shortdescription\" class=\"button\" type=\"button\" value=\"CHANGE DESCRIPTION\"></div>\n                                         </form>\n\n                                         <form id=\"changePublished\" class=\"change\" name=\"changePublished\" class=\"handledAjaxForm\">\n                                                <label>PUBLISHED</label>\n                                                <input class=\"loadData\" name=\"published\" type=\"checkbox\" required=\"\">\n                                         </form>\n\n                                         <div class=\"currPicDiv\"><img src=\"\" alt=\"CurrentStoryPicture\" id=\"currentStoryPicture\" class=\"currentStoryPicture\"></div>\n                                         <div class=\"buttonFrameContainer\" id=\"pictureHandling\">\n                                         <input class=\"button ajaxFormTrigger userStoryPicture\" type=\"button\" id=\"changeStoryPictureButton\" value=\"CHANGE PICTURE\"><br>                                       \n                                       \n                                </div>         \n                                        <div class=\"closeFancyBox\"><input onclick=\"vex.close();\"  class=\"button\" type=\"button\" value=\"CLOSE\"></div>\n                                        \n                                    </div>\n                                </div>\n                            </div>\n                        </div>"
+                    });
+                    jQuery('#userEditPage .userEditFrameContainer').css('background-color', '#D3E2D8');
+                    jQuery('#userEditPage .h1bgUserEdit').css('background-color', '#D3E2D8');
+                    jQuery('#userEditPage .userEditContainer').css('background-color', '#D3E2D8');
+                    jQuery('#userEditPage .buttonFrameContainer').css('background', '#879D8E');
+                    jQuery('#userEditPage input.button').css('background', '#879D8E');
+                };
                 EditBarComponent.prototype.openPageEditor = function () {
                     var _this = this;
                     this._editBarService.getPageById(this.actualPage['id'])
@@ -182,7 +194,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         var self = _this;
                         vex.open({
                             showCloseButton: true,
-                            content: "<div class=\"pageEditorFrameContainer\"><div class=\"h1bgPageEditor\"><h1>PAGE-EDITOR</h1></div></div>\n                          <div id=\"links\">\n                             <a id=\"edit\" >EDIT</a>\n                             <a id=\"reset\" class=\"disableButton\">RESET</a>           \n                            </div>\n                            <!--<textarea id=\"saved-data\" cols=\"100\" rows=\"20\" readonly=\"readonly\"></textarea>-->\n                        \n                            <div class=\"sidebar\">\n                                <div>\n                                    <div class=\"widgets\" id=\"imageWidget\">\n                                        <div class=\"image grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD IMAGE</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"textWidget\">\n                                        <div class=\"text grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD TEXT</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"linkWidget\">\n                                        <div class=\"link grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\"><div><a href=\"#\">ADD LINK</a></div></div></div>\n                                    </div>\n                                        <div class=\"trash\"><div>DELETE</div></div>\n                                </div>\n                            </div>       \n                           <div id=\"outer\">\n                                        <div class=\"grid-stack\" id=\"inner\">\n                                        </div>\n                        </div>\n                        \n                        </div>"
+                            content: "<div class=\"pageEditorFrameContainer\"><div class=\"h1bgPageEditor\"><h1>PAGE-EDITOR</h1></div></div>\n                          <div id=\"links\">\n                            <div class=\"center\">\n                             <div class=\"buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\" id=\"edit\" >EDIT</a></div></div>\n                             <div class=\"buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink disableButton\" id=\"floatUp\">FLOAT UP</a></div></div>\n                             <div class=\"buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink disableButton\" id=\"reset\">RESET</a></div></div>\n                            </div>         \n                          </div>\n                            <!--<textarea id=\"saved-data\" cols=\"100\" rows=\"20\" readonly=\"readonly\"></textarea>-->\n                        \n                            <div class=\"sidebar\">\n                                <div>\n                                    <div class=\"widgets\" id=\"imageWidget\">\n                                        <div class=\"image grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD IMAGE</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"textWidget\">\n                                        <div class=\"text grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD TEXT</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"linkWidget\">\n                                        <div class=\"link grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\"><div><a href=\"#\">ADD LINK</a></div></div></div>\n                                    </div>\n                                        <div class=\"trash\"><div>DELETE</div></div>\n                                </div>\n                            </div>       \n                           <div id=\"outer\">\n                                        <div class=\"grid-stack\" id=\"inner\">\n                                        </div>\n                        </div>\n                        \n                        </div>"
                         });
                         _this.loadPageEditor();
                         jQuery('.vex.vex-theme-os .vex-content').css('width', '100%');
@@ -221,9 +233,11 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         var grid = jQuery('#inner').data('gridstack');
                         var editButton = jQuery('#edit');
                         var resetButton = jQuery('#reset');
+                        var floatUp = jQuery('#floatUp');
                         this.newTextWidget = function () {
                             var el = '<div class="text grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content">ADD TEXT</div></div>';
                             jQuery('#textWidget').append(el);
+                            grid.locked(el, true);
                             jQuery('#textWidget .text').draggable({
                                 revert: 'invalid',
                                 handle: '.grid-stack-item-content',
@@ -235,6 +249,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         this.newLinkWidget = function () {
                             var el = '<div class="link grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content"><div><a href="#">ADD LINK</a></div></div></div>';
                             jQuery('#linkWidget').append(el);
+                            grid.locked(el, true);
                             jQuery('#linkWidget .link').draggable({
                                 revert: 'invalid',
                                 handle: '.grid-stack-item-content',
@@ -244,6 +259,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                             jQuery('#linkWidget .link').on('remove', this.newLinkWidget);
                         }.bind(this);
                         makeEditable = function () {
+                            jQuery('.grid-stack .grid-stack-item-content').addClass('editingMode');
                             jQuery('.grid-stack .delete').on('click', this.deleteWidget);
                             jQuery('.grid-stack .delete').each(function () {
                                 if (jQuery('.grid-stack .delete').hasClass('hidden')) {
@@ -271,11 +287,15 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                 makeEditable();
                                 jQuery('#inner').data('gridstack').setStatic(false);
                                 resetButton.removeClass('disableButton');
+                                floatUp.removeClass('disableButton');
                                 editButton.text('SAVE');
+                                jQuery("#outer").animate({ backgroundColor: "#eeeeee" }, 'slow');
                             }
                             else if (editButton.text() == 'SAVE') {
                                 jQuery('.grid-stack .delete').addClass('hidden');
                                 resetButton.addClass('disableButton');
+                                floatUp.addClass('disableButton');
+                                jQuery('.grid-stack .grid-stack-item-content').removeClass('editingMode');
                                 jQuery('.grid-stack .text .grid-stack-item-content textarea').each(function () {
                                     var t = jQuery(this).val();
                                     jQuery(this).parent().text(t);
@@ -290,11 +310,12 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                 this.saveGrid();
                                 jQuery('#inner').data('gridstack').setStatic(true);
                                 editButton.text('EDIT');
+                                jQuery("#outer").animate({ backgroundColor: "white" }, 'slow');
                             }
                             return false;
                         }.bind(this);
                         this.deleteWidget = function (e) {
-                            grid.remove_widget(e.currentTarget.offsetParent);
+                            grid.removeWidget(e.currentTarget.offsetParent);
                         }.bind(this);
                         this.loadGrid = function () {
                             this.loadData();
@@ -371,21 +392,21 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         this.loadImages = function () {
                             var images = GridStackUI.Utils.sort(this.images);
                             _.each(images, function (node) {
-                                grid.addWidget(jQuery('<div class="image"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img src=""><div/><div/>'), node.x, node.y, node.width, node.height);
+                                grid.locked(grid.addWidget(jQuery('<div class="image"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img src=""><div/><div/>'), node.x, node.y, node.width, node.height), true);
                             }, this);
                             return false;
                         }.bind(this);
                         this.loadText = function () {
                             var texts = GridStackUI.Utils.sort(this.texts);
                             _.each(texts, function (node) {
-                                grid.addWidget(jQuery('<div class="text"><button class="delete hidden">X</button><div class="grid-stack-item-content">' + node.content + '<div/><div/>'), node.x, node.y, node.width, node.height);
+                                grid.locked(grid.addWidget(jQuery('<div class="text"><button class="delete hidden">X</button><div class="grid-stack-item-content">' + node.content + '<div/><div/>'), node.x, node.y, node.width, node.height), true);
                             }, this);
                             return false;
                         }.bind(this);
                         this.loadLinks = function () {
                             var links = GridStackUI.Utils.sort(this.links);
                             _.each(links, function (node) {
-                                grid.addWidget(jQuery('<div class="link"><button class="delete hidden">X</button><div class="grid-stack-item-content"><div><a href="#">' + node.content + '</a></div><div/><div/>'), node.x, node.y, node.width, node.height);
+                                grid.locked(grid.addWidget(jQuery('<div class="link"><button class="delete hidden">X</button><div class="grid-stack-item-content"><div><a href="#">' + node.content + '</a></div><div/><div/>'), node.x, node.y, node.width, node.height), true);
                             }, this);
                             return false;
                         }.bind(this);
@@ -437,9 +458,18 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                             grid.removeAll();
                             return false;
                         }.bind(this);
+                        this.floatUp = function () {
+                            jQuery('.grid-stack-item').each(function () {
+                                grid.locked((this), false);
+                                grid.move((this), jQuery(this).attr('data-gs-x'), 0);
+                            });
+                            // grid.locked(el,false);
+                            console.log("DONE");
+                        }.bind(this);
                         jQuery('#save-grid').click(this.saveGrid);
                         jQuery('#reset').click(this.reloadGrid);
                         jQuery('#clear-grid').click(this.clearGrid);
+                        jQuery('#floatUp').click(this.floatUp);
                         editButton.click(this.edit);
                         jQuery('#textWidget .text').on('remove', this.newTextWidget);
                         jQuery('#linkWidget .link').on('remove', this.newLinkWidget);

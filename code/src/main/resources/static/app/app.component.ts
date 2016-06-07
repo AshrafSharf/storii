@@ -8,6 +8,7 @@ import {LogStateComponent} from './scripts/logState/logState.component';
 import {NodeEditorComponent} from './scripts/nodeEditor/nodeEditor.component';
 import {ProfileComponent} from './scripts/profile/profile.component';
 import {AboutComponent} from './scripts/about/about.component';
+import {ErrorComponent} from './scripts/error/error.component';
 
 
     
@@ -20,6 +21,7 @@ import {AboutComponent} from './scripts/about/about.component';
 	{ path: '/', name: 'Search', component: SearchFormComponent},
 	{ path: '/login', name: 'Login', component: LoginComponent},
     { path: '/register', name: 'Register', component: RegisterComponent},
+    { path: '/error', name: 'Error', component: ErrorComponent},
     { path: '/search', name: 'Result', component: ResultComponent},
     { path: '/users/:name/:storyName/node/edit', name: 'NodeEditor', component: NodeEditorComponent},
     { path: '/users/:name', name: 'Profile', component: ProfileComponent},

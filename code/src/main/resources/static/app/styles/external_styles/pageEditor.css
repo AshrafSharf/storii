@@ -24,21 +24,33 @@ textarea{
 
 #links{
     text-align: center;
-    margin: 20px;
+    margin-top: 20px;
+    margin-bottom:80px;
+}
+
+#links .center{
+
+	margin:0 auto;
+	width:600px;
+	
 }
 
 
+.editingMode{
+	 border: 2px dotted black;
+}
+
 
 #outer{
-    background: #eeeeee;
-    padding:10px;
+    background: white;
+    padding:20px;
+    border: 2px dotted black;
+    clear: left;
 }
 
 .grid-stack .grid-stack-item-content {
     text-align: center;
-    background: #eeeeee;
     overflow-y: hidden!important;
-    border: 2px dotted black;
 }
 
 .pageEditorFrameContainer {
