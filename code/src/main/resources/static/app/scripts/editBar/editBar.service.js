@@ -37,7 +37,39 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     this.httpClient = httpClient;
                     this._authenticationService = _authenticationService;
                 }
-                EditBarService.prototype.updateValues = function (key, value, user_id) {
+                EditBarService.prototype.publishStory = function (id) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                        headers.append('Content-Type', 'application/json');
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.delete('Content-Type');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/story/' + id + '/publish';
+                    return this.http.get(_resultUrl, { headers: headers })
+                        .map(this.extractData)
+                        .catch(this.handleError);
+                };
+                EditBarService.prototype.unpublishStory = function (id) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                        headers.append('Content-Type', 'application/json');
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.delete('Content-Type');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/story/' + id + '/unpublish';
+                    return this.http.get(_resultUrl, { headers: headers })
+                        .map(this.extractData)
+                        .catch(this.handleError);
+                };
+                EditBarService.prototype.updateUserValues = function (key, value, user_id) {
                     var headers = new http_2.Headers();
                     if (this._authenticationService.isLoggedIn()) {
                         headers = this.httpClient.createHeader(headers);
@@ -53,7 +85,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                         .map(this.extractData)
                         .catch(this.handleError);
                 };
-                EditBarService.prototype.saveData = function (images, texts, links, id) {
+                EditBarService.prototype.updateStoryValues = function (key, value, story_id) {
                     var headers = new http_2.Headers();
                     if (this._authenticationService.isLoggedIn()) {
                         headers = this.httpClient.createHeader(headers);
@@ -64,11 +96,29 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                         headers.delete('Content-Type');
                         headers.append('Authorization', "");
                     }
+                    var _resultUrl = '/story/' + story_id;
+                    return this.http.put(_resultUrl, JSON.stringify(new function () { this[key] = value; }), { headers: headers })
+                        .map(this.extractData)
+                        .catch(this.handleError);
+                };
+                EditBarService.prototype.saveData = function (images, texts, links, actualPage) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                        headers.append('Content-Type', 'application/json');
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.delete('Content-Type');
+                        headers.append('Authorization', "");
+                    }
+                    var id = actualPage['id'];
                     var object = {};
                     object['images'] = images;
                     object['texts'] = texts;
                     object['links'] = links;
                     var serializedContent = btoa(JSON.stringify(object));
+                    //here update links!!
                     var _resultUrl = '/page/' + id;
                     return this.http.put(_resultUrl, JSON.stringify({ 'serializedContent': serializedContent, 'title': texts[0]['content'], 'description': texts[1]['content'] }), { headers: headers })
                         .map(this.extractData)

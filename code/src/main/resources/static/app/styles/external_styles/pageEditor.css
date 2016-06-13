@@ -6,7 +6,7 @@ body {
     background: none;
 }
 
-textarea{
+.vex textarea{
     width:90%;
     height:100%;
 }
@@ -104,7 +104,7 @@ textarea{
 .sidebar .grid-stack-item .grid-stack-item-content {
     background: none;
     border: 2px dotted black;
-    font-size:1.4em;
+    font-size:18px;
 }
 
 .trash {
@@ -142,13 +142,12 @@ textarea{
     height:100%;
 }
 
-.grid-stack a{
+.grid-stack .link{
     font-size: 18px;
 }
 
-a {
-    text-decoration: none;
+.link a {
     color: #000;
-    cursor: pointer;
-    
+    cursor: pointer;   
 }
+

@@ -18,7 +18,7 @@
 				<div [class.disableButton]="!moveAllowed" class="submenu" ><div ><a (click)="startAppend(true)" class="buttonLookLink">{{append | uppercase}}</a></div> </div>     	
             </div>
             </div>
-            <div *ngIf="nodeEditorPage"  [class.disableButton]="!actualPage" class="buttonFrameContainerUserStoryContentModule" ><div (click)="openPageEditor()" class="buttonSize"><a  class="buttonLookLink">{{editPage | uppercase}}</a></div> </div>
+            <div *ngIf="nodeEditorPage"  [class.disableButton]="!actualPage" (click)="openPageEditor()" class="buttonFrameContainerUserStoryContentModule" ><div  class="buttonSize"><a  class="buttonLookLink">{{editPage | uppercase}}</a></div> </div>
             
               
 			

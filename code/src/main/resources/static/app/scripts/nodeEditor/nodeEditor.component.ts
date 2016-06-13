@@ -18,8 +18,8 @@ declare var Konva:any;
 })
 
 export class NodeEditorComponent implements OnInit{
-    title = 'NodeEditor:';   
-    width = $('#container').width();
+    title = 'Tree-Editor:';   
+    width;
     height = window.innerHeight;
     buttonColor='#96c4cd';
     buttonColorHover='#6b878c';
@@ -77,6 +77,7 @@ export class NodeEditorComponent implements OnInit{
     layerConn;
     layer;
     name;
+    initVar = true; 
     ownStory;
     loggedIn;
     tempLayer;
@@ -144,8 +145,12 @@ export class NodeEditorComponent implements OnInit{
                                    
                                     if(!this.ownStory ){
                                          this._router.navigate(['Error']);
-                                    }else{
-                                        this.init(); 
+                                    }else{  
+                                       // this.initVar = true;
+                                        $('#nodeEditorPage').removeClass('hidden');
+                                        this.init();
+                                           
+                                      
                                     }
         
                                    },
@@ -156,11 +161,13 @@ export class NodeEditorComponent implements OnInit{
           
           var doit;
            //refresh page on browser resize
-           $('#container').bind('resize', function(e)
+           $(window).bind('resize', function(e)
             {    
+           
+               console.log("resize");
             //nur wenn vex NICHT offn !! 
-                clearTimeout(doit);
-                doit = setTimeout(self.init(), 500);
+           /*     clearTimeout(doit);
+                doit = setTimeout(self.init(), 500);*/
          
             });
 

@@ -10,7 +10,43 @@ import { AuthenticationService }    from '../login/authentication.service';
 export class EditBarService {
   constructor (private http: Http, private httpClient: HttpClient, private _authenticationService: AuthenticationService) {}
 
-	updateValues(key, value ,user_id){
+	publishStory(id){
+	    var headers = new Headers();
+	    if (this._authenticationService.isLoggedIn()) {
+	  		headers = this.httpClient.createHeader(headers);
+	 		headers.append('Content-Type', 'application/json');
+  		}else{
+  			headers.delete('Authorization');
+  			headers.delete('Content-Type');
+  			headers.append('Authorization',"");
+  		}
+		var _resultUrl = '/story/'+id+'/publish'; 
+	    return this.http.get(_resultUrl, {headers})
+	            .map(this.extractData)
+	            //.do(data => console.log(data))
+	            .catch(this.handleError);
+	  	
+	}
+	
+	unpublishStory(id){
+	    var headers = new Headers();
+	    if (this._authenticationService.isLoggedIn()) {
+	  		headers = this.httpClient.createHeader(headers);
+	 		headers.append('Content-Type', 'application/json');
+  		}else{
+  			headers.delete('Authorization');
+  			headers.delete('Content-Type');
+  			headers.append('Authorization',"");
+  		}
+		var _resultUrl = '/story/'+id+'/unpublish'; 
+	    return this.http.get(_resultUrl, {headers})
+	            .map(this.extractData)
+	            //.do(data => console.log(data))
+	            .catch(this.handleError);
+	  	
+	}
+
+	updateUserValues(key, value ,user_id){
 	    var headers = new Headers();
 	    if (this._authenticationService.isLoggedIn()) {
 	  		headers = this.httpClient.createHeader(headers);
@@ -27,8 +63,26 @@ export class EditBarService {
 	            .catch(this.handleError);
 	  	
 	}
+	
+	updateStoryValues(key, value ,story_id){
+	    var headers = new Headers();
+	    if (this._authenticationService.isLoggedIn()) {
+	  		headers = this.httpClient.createHeader(headers);
+	 		headers.append('Content-Type', 'application/json');
+  		}else{
+  			headers.delete('Authorization');
+  			headers.delete('Content-Type');
+  			headers.append('Authorization',"");
+  		}
+		var _resultUrl = '/story/'+story_id; 
+	    return this.http.put(_resultUrl, JSON.stringify(new function(){ this[key] = value; }),{headers})
+	            .map(this.extractData)
+	            //.do(data => console.log(data))
+	            .catch(this.handleError);
+	  	
+	}
 
-	saveData(images,texts,links,id){
+	saveData(images,texts,links,actualPage){
 	    var headers = new Headers();
 	    if (this._authenticationService.isLoggedIn()) {
 	  		headers = this.httpClient.createHeader(headers);
@@ -39,11 +93,14 @@ export class EditBarService {
   			headers.append('Authorization',"");
   		}
   		
+  		var id = actualPage['id']
 		var object = {};
 		object['images'] = images; 
 		object['texts'] = texts; 
 		object['links'] = links;
 		var serializedContent =  btoa(JSON.stringify(object));
+		
+		//here update links!!
   		
 		var _resultUrl = '/page/'+id; 
 	    return this.http.put(_resultUrl, JSON.stringify({'serializedContent' : serializedContent ,'title': texts[0]['content'], 'description': texts[1]['content']}),{headers})

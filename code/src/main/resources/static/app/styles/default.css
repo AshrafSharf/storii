@@ -81,7 +81,12 @@ a {
 	left: 8%;
 }
 
-#editBar .disableButton, #links .disableButton{
+.updated{
+	float: right;
+	color: rgb(82, 98, 87);
+}
+
+#editBar .disableButton, #links .disableButton, .sidebar .disableButton{
 	pointer-events: none; 
     opacity: 0.4;
 }
@@ -107,7 +112,7 @@ a {
   left: 10%;
   margin-top: 15px; }
 
-input.inputField {
+input.inputField, #content textarea {
   width: 100%;
   height: 35px; }
 input.button {
@@ -599,7 +604,6 @@ input.buttonStoryInfo {
     background-color: #F3E0E1;
     border: dotted 2px black; }
   #userEditPage input.inputField, #userEditPage textarea.inputField {
-    width: 55%;
     float: left;
     height: 42px;
     margin-right: 20px;

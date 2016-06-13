@@ -46,8 +46,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this._nodeEditorService = _nodeEditorService;
                     this._authenticationService = _authenticationService;
                     this._editBarService = _editBarService;
-                    this.title = 'NodeEditor:';
-                    this.width = $('#container').width();
+                    this.title = 'Tree-Editor:';
                     this.height = window.innerHeight;
                     this.buttonColor = '#96c4cd';
                     this.buttonColorHover = '#6b878c';
@@ -67,6 +66,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         "OR do you want to connect this two pages to reunite the branches?";
                     this.moveText = "Do you want to move only this page or all sub-pages as well?";
                     this.deleteText = "ATTENTION:\n All sub-pages will be deleted as well.\nDo you really want to delete this page?";
+                    this.initVar = true;
                     this.dottedLineAdd = new Konva.Line({
                         points: [5, 5, 175, 5, 175, 45, 5, 45, 5, 5],
                         stroke: 'black',
@@ -107,6 +107,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                 _this._router.navigate(['Error']);
                             }
                             else {
+                                // this.initVar = true;
+                                $('#nodeEditorPage').removeClass('hidden');
                                 _this.init();
                             }
                         }, function (error) { return _this.errorMessage = error; });
@@ -116,10 +118,11 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     }
                     var doit;
                     //refresh page on browser resize
-                    $('#container').bind('resize', function (e) {
+                    $(window).bind('resize', function (e) {
+                        console.log("resize");
                         //nur wenn vex NICHT offn !! 
-                        clearTimeout(doit);
-                        doit = setTimeout(self.init(), 500);
+                        /*     clearTimeout(doit);
+                             doit = setTimeout(self.init(), 500);*/
                     });
                 };
                 NodeEditorComponent.prototype.init = function () {
