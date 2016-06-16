@@ -178,6 +178,20 @@ public class StoriiUserController {
 	}
 	
 	/**
+	 * find single user by given name
+	 * @param user_name
+	 * @return ResponseEntity
+	 * @throws JsonProcessingException
+	 */
+	@RequestMapping(value = "/findByNameSingle/{user_name}", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> findByNameSingle(@PathVariable(value = "user_name") String user_name) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		StoriiUser myUser = userDAO.findUserByName(user_name);
+		return ResponseEntity.ok().body("{\"data\":"+mapper.writeValueAsString(myUser)+"}");
+	}
+	
+	/**
 	 * returns a json if the logged in user is valid
 	 * @return ResponseEntity
 	 * @throws JsonMappingException
