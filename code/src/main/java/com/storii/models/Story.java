@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -54,6 +55,9 @@ public class Story {
 	@NotNull
 	@Column(name  = "is_published")
 	private boolean isPublished;
+	
+	@Lob
+	private String description;
 
 	/**
 	 * defines a one to many relation with the userImage-entity
@@ -88,11 +92,12 @@ public class Story {
 	 * constructors
 	 */
 	
-	public Story(String name, String authorName, String coAuthorName, boolean isPublished) {
+	public Story(String name, String authorName, String coAuthorName, boolean isPublished, String description) {
 		this.name = name;
 		this.authorName = authorName;
 		this.coAuthorName = coAuthorName;
 		this.isPublished = isPublished;
+		this.description = description;
 	}
 
 	public Story() {
@@ -100,6 +105,7 @@ public class Story {
 		this.authorName = "defaultAuthor";
 		this.coAuthorName = "defaultCoAuthor";
 		this.isPublished = false;
+		this.description = "defaultDescription";
 	}
 
 	public long getId() {
@@ -188,6 +194,14 @@ public class Story {
 
 	public void setRatings(Set<Rating> ratings) {
 		this.ratings = ratings;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	
