@@ -41,7 +41,7 @@ a {
 .cropField {
   width: 175px;
   height: 175px; }
-
+  
 #logState {
   margin-top: 150px;
   position: absolute;
@@ -68,17 +68,22 @@ a {
 }
 
 #editBar .buttonFrameContainerUserStoryContentModule, #links .buttonFrameContainerUserStoryContentModule{
-	float:left; 
 	margin-left: 20px; 
 	padding: 2px;
+}
+
+#editBar .buttonFrameContainerUserStoryContentModule .buttonSize, #links .buttonFrameContainerUserStoryContentModule .buttonSize{
 	background-color: #E1AFB1;
 }
 
 #editBar{
-	margin-top: 150px;
-	position: absolute;
-	top: 0px;
-	left: 8%;
+	top: 210px;
+	width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 2px dotted #993300;
+    border-bottom: 2px dotted #993300;
+    background-color: #f8ebec;
 }
 
 .updated{
@@ -92,15 +97,14 @@ a {
 }
 
 .headerContainer {
-  width: 80%;
+  width: 100%;
   border-top: dotted 2px black;
   border-bottom: dotted 2px black;
   text-align: center;
-  left: 10%;
   position: relative; }
 
 #topContentWrapper {
-  margin-bottom: 50px; }
+  margin-bottom: 75px; }
 
 .logo {
   height: 130px;
@@ -1195,7 +1199,7 @@ input.buttonStoryInfo {
     right: 10.5%;
     top: 0;}
   #profilePage {
-    padding-top: 10px; }
+     }
     #profilePage .profileFrameContainer {
       width: 95%; }
     #profilePage .myInfoFrameContainer, #profilePage .myStoryFrameContainer {
@@ -1218,6 +1222,14 @@ input.buttonStoryInfo {
     width: 100%; } }
 @media screen and (max-width: 590px) {
 	
+	.buttonFrameContainerUserStoryContentModule:first-child{
+		margin-bottom: 10px;
+	}
+
+.vex.vex-theme-os .vex-content{
+	width: 100%;
+}
+			
   #searchPage .searchLabel {
     margin: 100 auto 0 auto; }
     .headerContainer{
@@ -1246,9 +1258,12 @@ input.buttonStoryInfo {
     width: 80%;
     margin-left: 25px; }
   #searchResultPage h2 {
-    margin: 0 auto; }
+    margin: 0 auto; 
+    width: 80%;
+    }
   #searchResultPage ul {
-    margin: 0px;
+    margin: 0 auto; 
+    width: 80%;
     padding-left: 0px; }
   #searchResultPage ul li a {
     font-size: 0.6em; } }
