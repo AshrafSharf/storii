@@ -70,6 +70,7 @@ a {
 #editBar .buttonFrameContainerUserStoryContentModule, #links .buttonFrameContainerUserStoryContentModule{
 	margin-left: 20px; 
 	padding: 2px;
+	float: left;
 }
 
 #editBar .buttonFrameContainerUserStoryContentModule .buttonSize, #links .buttonFrameContainerUserStoryContentModule .buttonSize{
@@ -84,6 +85,13 @@ a {
     border-top: 2px dotted #993300;
     border-bottom: 2px dotted #993300;
     background-color: #f8ebec;
+    
+}
+
+#editBar::after{
+	content:"";
+    display:block;
+    clear:both;
 }
 
 .updated{
