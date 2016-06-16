@@ -307,7 +307,7 @@ input.buttonStoryInfo {
   position: relative;
   text-align: center; }
 #profilePage .h1bgProfileStory {
-  width: 230px;
+  width: 190px;
   background-color: #D3ECED;
   margin: 0 auto;
   position: relative;
@@ -1230,12 +1230,16 @@ input.buttonStoryInfo {
     width: 100%; } }
 @media screen and (max-width: 590px) {
 	
+	#profilePage .storyPicFrame{
+		margin-bottom: 20px;
+	}
+	
 	.buttonFrameContainerUserStoryContentModule:first-child{
 		margin-bottom: 10px;
 	}
 
 .vex.vex-theme-os .vex-content{
-	width: 100%;
+	width: 80%;
 }
 			
   #searchPage .searchLabel {
@@ -1262,6 +1266,11 @@ input.buttonStoryInfo {
 	right:auto;
 	margin-left:18%;
 	}
+	
+	#searchResultPage .searchPic{
+		margin-right: 20px;
+	}
+	
   #searchResultPage input.inputField {
     width: 80%;
     margin-left: 25px; }
@@ -1274,7 +1283,7 @@ input.buttonStoryInfo {
     width: 80%;
     padding-left: 0px; }
   #searchResultPage ul li a {
-    font-size: 0.6em; } }
+    font-size: 0.8em !important; } }
 @media screen and (max-width: 420px) {
 	#searchResultPage input.inputField {
     margin-left: 0; }
