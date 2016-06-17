@@ -112,13 +112,19 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             if (_this.loggedInUser['name'] === _this.name) {
                                 _this.allowed = true;
                             }
-                        }, function (error) { return _this.errorMessage = error; });
+                        }, function (error) { _this._router.navigate(['Error']); });
                     }
                     this._profileService.getUserInfo(this.name)
                         .subscribe(function (details) {
-                        _this.details = details;
-                        _this.stories = _this.details[0]['stories'];
-                    }, function (error) { return _this.errorMessage = error; });
+                        if (jQuery.isEmptyObject(details)) {
+                            _this._router.navigate(['Error']);
+                        }
+                        else {
+                            _this.details = details;
+                            _this.stories = _this.details[0]['stories'];
+                            console.log(details);
+                        }
+                    }, function (error) { _this._router.navigate(['Error']); });
                 };
                 ProfileComponent = __decorate([
                     core_1.Component({

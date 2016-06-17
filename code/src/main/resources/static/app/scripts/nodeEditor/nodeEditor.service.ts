@@ -23,7 +23,7 @@ export class NodeEditorService {
         var _resultUrl = '/page/'+id1+"/swapWith/"+id2;
         return this.http.get(_resultUrl, { headers })
             .map(this.extractData)
-            .do(data => console.log(data))
+            //.do(data => console.log(data))
             .catch(this.handleError);  
     }
     

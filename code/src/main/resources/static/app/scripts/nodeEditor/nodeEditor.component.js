@@ -111,7 +111,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                 $('#nodeEditorPage').removeClass('hidden');
                                 _this.init();
                             }
-                        }, function (error) { return _this.errorMessage = error; });
+                        }, function (error) { _this._router.navigate(['Error']); });
                     }
                     else {
                         this._router.navigate(['Error']);
@@ -297,7 +297,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             self.disable(e.target.id()); //check if add node is allowed
                         }
                         else if (self.movementStyle != null && self.movementStyle != 'one') {
-                            console.log("CLICK");
                             self.layer.find('#movingGroup')[0].getChildren(function (n) {
                                 return n.getClassName() === "Circle";
                             }).each(function (shape, n) {
@@ -529,7 +528,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 };
                 NodeEditorComponent.prototype.onEditing = function (editing) {
                     if (editing) {
-                        console.log("TRUE");
                         this.editing = true;
                     }
                     else {
@@ -663,7 +661,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                 });
                             }
                         }
-                        console.log(pages);
                         _this.drawNodes(pages, first);
                     }, function (error) { return _this.errorMessage = error; });
                 };
@@ -675,7 +672,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         _this.actualPage = actualPage;
                         _this._nodeEditorService.addNewNode(_this.storyID, selected, _this.actualPage['level'] + 1, _this.actualPage['outgoingInternLinks'].length + 1)
                             .subscribe(function (result) {
-                            console.log("DONE");
                             _this.startDrawLines(_this.storyID);
                             _this.startDrawNodes(_this.storyID, "");
                             _this.debugText.text("Successfully added");
@@ -691,7 +687,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     var self = this;
                     self._nodeEditorService.deleteBranch(id)
                         .subscribe(function (result) {
-                        console.log("deleted");
                         /* self.interfaceLayer.find('#button1Rect')[0].fill(self.buttonColor);
                          self.popUp.hide();
                          self.pause = false;
@@ -775,7 +770,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     var self = this;
                     self._nodeEditorService.deletePageById(id)
                         .subscribe(function (result) {
-                        console.log(result);
                         if (result['deleted'] == 'false') {
                             self.debugText.text("Delete is not possible - choose DELETE BRANCH");
                         }
@@ -812,7 +806,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this._nodeEditorService.getPageById(id)
                         .subscribe(function (actualPage) {
                         _this.actualPage = actualPage;
-                        console.log("DONE");
                         _this.hasChildren = false;
                         _this.allowed[3] = actualPage;
                         // this.stage.find('#addRect')[0].setAttr('fill', this.buttonColor);//WIEDER WEGMACHEN--> diese zeile
@@ -822,14 +815,12 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         if (actualPage['outgoingInternLinks'].length < 4) {
                             _this.allowed[0] = true;
                             $("#wrapper").trigger("click");
-                            console.log("IS ALLOWED");
                             if (!_this.popUpShown) {
                             }
                         }
                         else {
                             _this.allowed[0] = false;
                             $("#wrapper").trigger("click");
-                            console.log("NOT ALLOWED");
                             if (_this.movementStyle != null) {
                                 _this.button1.off('click tap');
                                 _this.hoverPopUpButtons(['#button1Rect', '#button1Text'], _this.buttonColorDisabled, _this.buttonColorDisabled);
@@ -846,7 +837,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this._nodeEditorService.getPageById(id)
                         .subscribe(function (actualPage) {
                         _this.actualPage = actualPage;
-                        console.log("DONE");
                         //  this.stage.find('#delRect')[0].setAttr('fill', this.buttonColor);//wieder wegmachen!!!
                         if (actualPage['level'] == 0) {
                             _this.allowed[1] = false;
@@ -1060,7 +1050,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                         nextID = nextPageIDinData;
                                     }
                                 }
-                                console.log(nextID); //0
                                 if (this.layer.find('#' + data[nextPageIDinData]['id'])[0] == undefined) {
                                     if (nextID != 0) {
                                         IDs.push(nextID);
@@ -1477,7 +1466,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         e.target.fill('green');
                     }
                     else {
-                        console.log("previousshape" + this.previousShape.id() + "selectednode" + this.selectedNode);
                         this.reorderBranches(this.previousShape.id(), this.selectedNode);
                         this.previousShape.fire('drop', {
                             type: 'drop',
@@ -1489,7 +1477,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 };
                 ;
                 NodeEditorComponent.prototype.append = function (e) {
-                    console.log("previousshape" + this.previousShape.id() + "selectednode" + this.selectedNode);
                     this.appendBranch(this.previousShape.id(), this.selectedNode);
                     this.previousShape.fire('drop', {
                         type: 'drop',

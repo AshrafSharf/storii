@@ -13,7 +13,7 @@
     	<div>
     		<div class="storyPageAuthor">Author: {{detail.authorName}}</div>
        		<div *ngIf="detail.coAuthorName" class="storyPageCoAuthor"> Co-Author:{{detail.coAuthorName}} </div>
-    		<div>Rated: *****</div>
+    		<div>Rated:{{detail.ratings}} </div>
     		<div>Comments: </div>
     			<ul><li>something</li></ul>
     	</div>
@@ -29,12 +29,13 @@
          
         <div class="storyPageInformation">
                 <h2>Short Description:</h2>
-                <div>This is the place where you can describe the content of your story</div>             
+                <div *ngIf="detail.description">{{detail.description}}</div>
+                <div *ngIf="!detail.description"><i>This is the place where you can describe the content of your story</i></div>             
         </div>
         <br>
         <div *ngIf="details.published || allowed" class="buttonFrameContainerUserStoryContentModule">
         	<div class="buttonSize">
-        		<a href="#" class="buttonLookLink">READ</a>
+        		<a (click)="gotoPresentation()" class="buttonLookLink">READ</a>
        		</div>
      	</div>
         </div>

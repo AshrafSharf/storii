@@ -186,7 +186,6 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         if (id == 'password') {
                             var field1 = jQuery(this).parent().find('.inputField').first().val();
                             var field2 = jQuery(this).parent().find('.inputField').last().val();
-                            console.log(field1);
                             if (field1 != field2) {
                                 if (!this.notTheSamePW) {
                                     jQuery('.confirm').append('<div class="errorPW">Passwords are not equal</div>');
@@ -212,7 +211,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     var self = this;
                     vex.open({
                         showCloseButton: true,
-                        content: "<div id=\"userEditPage\">\n                            <div class=\"userEditFrameContainer\">\n                                <div class=\"userEditContainer\">\n                                    <div id=\"content\">\n                                        <div class=\"h1bgUserEdit\"><h1>EDIT STORY</h1></div>\n                                        \n                                        <form id=\"changeTitle\" class=\"change\" name=\"changeTitle\" class=\"handledAjaxForm\">\n                                                <label class=\"name\">TITLE</label><br>\n                                                <input id=\"name\" class=\"inputField saveData\" type=\"text\" name=\"title\" required=\"\">\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"title\" class=\"button\" type=\"button\" value=\"CHANGE TITLE\"></div>-->\n                                        </form>\n                                        \n                                        <form id=\"changeAuthor\" class=\"change\" name=\"changeAuthor\" class=\"handledAjaxForm\">\n                                                <label class=\"authorName\">AUTHOR</label><br>\n                                                <input id=\"authorName\" class=\"inputField saveData\" type=\"text\" name=\"author\" required=\"\">\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"author\" class=\"button\" type=\"button\" value=\"CHANGE AUTHOR\"></div>-->\n                                        </form>\n\n                                        <form id=\"changeCoAuthor\" class=\"change\" name=\"changeCoAuthor\" class=\"handledAjaxForm\">\n                                                <label class=\"coAuthorName\">CO-AUTHOR</label><br>\n                                                <input id=\"coAuthorName\" class=\"inputField saveData\" type=\"text\" name=\"coAuthor\" required=\"\">\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"coAuthor\" class=\"button\" type=\"button\" value=\"CHANGE CO-AUTHOR\"></div>-->\n                                        </form>\n\n                                         <form id=\"changeDescription\" class=\"change\" name=\"changeDescription\" class=\"handledAjaxForm\">\n                                                <label class=\"description\">SHORT DESCRIPTION</label><br>\n                                                <textarea <!--id=\"description\"--> class=\"inputField saveData\" type=\"text\" name=\"description\" required=\"\" ></textarea>\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"description\" class=\"button\" type=\"button\" value=\"CHANGE DESCRIPTION\"></div>-->\n                                         </form>\n\n                                         <form id=\"changePublished\" class=\"change\" name=\"changePublished\" class=\"handledAjaxForm\">\n                                                <label class=\"published\">PUBLISHED</label>\n                                                <input class=\"saveData\" id=\"published\" name=\"isPublished\" type=\"checkbox\" required=\"\">\n                                         </form>\n\n                                         <div class=\"currPicDiv\"><img src=\"\" alt=\"CurrentStoryPicture\" id=\"currentStoryPicture\" class=\"currentStoryPicture\"></div>\n                                         <div class=\"buttonFrameContainer\" id=\"pictureHandling\">\n                                         <input class=\"button ajaxFormTrigger userStoryPicture\" type=\"button\" id=\"changeStoryPictureButton\" value=\"CHANGE PICTURE\"><br>                                       \n                                       \n                                </div>         \n                                        <div class=\"closeFancyBox\"><input onclick=\"vex.close();\"  class=\"button\" type=\"button\" value=\"CLOSE\"></div>\n                                        \n                                    </div>\n                                </div>\n                            </div>\n                        </div>"
+                        content: "<div id=\"userEditPage\">\n                            <div class=\"userEditFrameContainer\">\n                                <div class=\"userEditContainer\">\n                                    <div id=\"content\">\n                                        <div class=\"h1bgUserEdit\"><h1>EDIT STORY</h1></div>\n                                        \n                                        <form id=\"changeTitle\" class=\"change\" name=\"changeTitle\" class=\"handledAjaxForm\">\n                                                <label class=\"name\">TITLE</label><br>\n                                                <input id=\"name\" class=\"inputField saveData\" type=\"text\" name=\"title\" required=\"\">\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"title\" class=\"button\" type=\"button\" value=\"CHANGE TITLE\"></div>-->\n                                        </form>\n                                        \n                                        <form id=\"changeAuthor\" class=\"change\" name=\"changeAuthor\" class=\"handledAjaxForm\">\n                                                <label class=\"authorName\">AUTHOR</label><br>\n                                                <input id=\"authorName\" class=\"inputField saveData\" type=\"text\" name=\"author\" required=\"\">\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"author\" class=\"button\" type=\"button\" value=\"CHANGE AUTHOR\"></div>-->\n                                        </form>\n\n                                        <form id=\"changeCoAuthor\" class=\"change\" name=\"changeCoAuthor\" class=\"handledAjaxForm\">\n                                                <label class=\"coAuthorName\">CO-AUTHOR</label><br>\n                                                <input id=\"coAuthorName\" class=\"inputField saveData\" type=\"text\" name=\"coAuthor\" required=\"\">\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"coAuthor\" class=\"button\" type=\"button\" value=\"CHANGE CO-AUTHOR\"></div>-->\n                                        </form>\n\n                                         <form id=\"changeDescription\" class=\"change\" name=\"changeDescription\" class=\"handledAjaxForm\">\n                                                <label class=\"description\">SHORT DESCRIPTION</label><br>\n                                                <textarea id=\"description\" class=\"inputField saveData\" type=\"text\" name=\"description\" required=\"\" ></textarea>\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"description\" class=\"button\" type=\"button\" value=\"CHANGE DESCRIPTION\"></div>-->\n                                         </form>\n\n                                         <form id=\"changePublished\" class=\"change\" name=\"changePublished\" class=\"handledAjaxForm\">\n                                                <label class=\"published\">PUBLISHED</label>\n                                                <input class=\"saveData\" id=\"published\" name=\"isPublished\" type=\"checkbox\">\n                                         </form>\n\n                                         <div class=\"currPicDiv\"><img src=\"\" alt=\"CurrentStoryPicture\" id=\"currentStoryPicture\" class=\"currentStoryPicture\"></div>\n                                         <div class=\"buttonFrameContainer\" id=\"pictureHandling\">\n                                         <input class=\"button ajaxFormTrigger userStoryPicture\" type=\"button\" id=\"changeStoryPictureButton\" value=\"CHANGE PICTURE\"><br>                                       \n                                       \n                                </div>         \n                                        <div class=\"closeFancyBox\"><input onclick=\"vex.close();\"  class=\"button\" type=\"button\" value=\"CLOSE\"></div>\n                                        \n                                    </div>\n                                </div>\n                            </div>\n                        </div>"
                     });
                     jQuery('#userEditPage .userEditFrameContainer').css('background-color', '#D3E2D8');
                     jQuery('#userEditPage .h1bgUserEdit').css('background-color', '#D3E2D8');
@@ -222,7 +221,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     jQuery('#changeTitle .inputField').attr("value", self.details[0]['name']);
                     jQuery('#changeAuthor .inputField').attr("value", self.details[0]['authorName']);
                     jQuery('#changeCoAuthor .inputField').attr("value", self.details[0]['coAuthorName']);
-                    jQuery('#changeDescription textarea').text("self.details[0]['description']");
+                    jQuery('#changeDescription textarea').text(self.details[0]['description']);
                     jQuery('#changePublished #published').prop("checked", self.details[0]['published']);
                     jQuery('.saveData').on('focus', function (event) {
                         jQuery('.updated').remove();
@@ -321,7 +320,6 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                             jQuery('.grid-stack .grid-stack-item-content').addClass('editingMode');
                             jQuery('.grid-stack .delete').on('click', this.deleteWidget);
                             jQuery('.grid-stack .grid-stack-item').mouseover(function (e) {
-                                console.log("over");
                                 if (jQuery(this).find('.delete').hasClass('hidden') && editing) {
                                     jQuery(this).find('.delete').removeClass('hidden');
                                 }
@@ -408,7 +406,6 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                     self2.loadNextPage(jQuery(this).find('span').text());
                                 }
                             });
-                            console.log("loadgrid");
                             return false;
                         }.bind(this);
                         this.reloadGrid = function () {
@@ -427,7 +424,6 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                 });
                                 var deserializedContent = atob(self.actualPage['serializedContent']);
                                 var object = JSON.parse(deserializedContent);
-                                console.log(object);
                                 this.images = object['images'];
                                 this.texts = object['texts'];
                                 this.links = object['links'];
@@ -493,7 +489,6 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                 .subscribe(function (actualPage) {
                                 self.actualPage = actualPage;
                                 self2.loadGrid();
-                                console.log("DONE");
                             }, function (error) { return self.errorMessage = error; });
                         }.bind(this);
                         this.setUpLinks = function () {
@@ -537,7 +532,6 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         this.save = function () {
                             self._editBarService.saveData(this.images, this.texts, this.links, self.actualPage)
                                 .subscribe(function (update) {
-                                console.log("saved");
                             }, function (error) { return self.errorMessage = error; });
                         }.bind(this);
                         this.loadImages = function () {
@@ -551,10 +545,19 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         }.bind(this);
                         this.loadText = function () {
                             var texts = GridStackUI.Utils.sort(this.texts);
+                            var i = 0;
                             _.each(texts, function (node) {
-                                var el = grid.addWidget(jQuery('<div class="text"><button class="delete hidden">X</button><div class="grid-stack-item-content">' + node.content + '<div/><div/>'), node.x, node.y, node.width, node.height);
-                                grid.locked(el, true);
-                                grid.move(el, node.x, node.y);
+                                if (i == 0) {
+                                    var el = grid.addWidget(jQuery('<div class="text"><div class="grid-stack-item-content">' + node.content + '<div/><div/>'), node.x, node.y, node.width, node.height);
+                                    grid.locked(el, true);
+                                    grid.move(el, node.x, node.y);
+                                }
+                                else if (node.content != "") {
+                                    var el = grid.addWidget(jQuery('<div class="text"><button class="delete hidden">X</button><div class="grid-stack-item-content">' + node.content + '<div/><div/>'), node.x, node.y, node.width, node.height);
+                                    grid.locked(el, true);
+                                    grid.move(el, node.x, node.y);
+                                }
+                                i++;
                             }, this);
                             return false;
                         }.bind(this);

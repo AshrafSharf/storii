@@ -6,7 +6,7 @@ body {
     background: none;
 }
 
-.vex textarea{
+.vex #inner textarea{
     width:90%;
     height:100%;
     border: 2px black dotted;
@@ -50,6 +50,7 @@ body {
     padding:20px;
     border: 2px dotted black;
     clear: left;
+    margin: 20px;
 }
 
 .grid-stack .grid-stack-item-content {

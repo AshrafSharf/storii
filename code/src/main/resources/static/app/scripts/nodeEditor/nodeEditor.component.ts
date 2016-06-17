@@ -152,7 +152,7 @@ export class NodeEditorComponent implements OnInit{
                                     }
         
                                    },
-                                   error =>  this.errorMessage = <any>error);
+                                   error =>  { this._router.navigate(['Error']);});
           }else{
              this._router.navigate(['Error']);
           }
@@ -361,7 +361,7 @@ export class NodeEditorComponent implements OnInit{
             if(self.movementStyle == null) {
                 self.nodeSelection(e.target);
                 self.disable(e.target.id()); //check if add node is allowed
-            }else if(self.movementStyle != null && self.movementStyle != 'one'){ console.log("CLICK");
+            }else if(self.movementStyle != null && self.movementStyle != 'one'){ 
                 self.layer.find('#movingGroup')[0].getChildren(function (n) {
                     return n.getClassName() === "Circle";
                 }).each(function (shape, n) {
@@ -631,7 +631,6 @@ export class NodeEditorComponent implements OnInit{
     
     onEditing(editing: boolean) {      
        if(editing){
-           console.log("TRUE");
                this.editing = true;
        }else{
            this.editing = false;
@@ -783,7 +782,7 @@ export class NodeEditorComponent implements OnInit{
                                     }  
                                 }
                                    
-                                console.log(pages);
+                           
                                this.drawNodes(pages, first);
     
                                },
@@ -800,7 +799,7 @@ export class NodeEditorComponent implements OnInit{
                                                 this._nodeEditorService.addNewNode(this.storyID,selected,this.actualPage['level']+1,this.actualPage['outgoingInternLinks'].length+1)
                                                     .subscribe( 
                                                        result => {   
-                                                        console.log("DONE");
+                      
                                                         this.startDrawLines(this.storyID);
                                                         this.startDrawNodes(this.storyID,"");
                                                         this.debugText.text("Successfully added");
@@ -824,7 +823,7 @@ export class NodeEditorComponent implements OnInit{
         self._nodeEditorService.deleteBranch(id)
                             .subscribe(
                                result => {                                 
-                                console.log("deleted");    
+                           
                                 /* self.interfaceLayer.find('#button1Rect')[0].fill(self.buttonColor);
                                  self.popUp.hide();
                                  self.pause = false;
@@ -917,7 +916,7 @@ export class NodeEditorComponent implements OnInit{
            self._nodeEditorService.deletePageById(id)
                             .subscribe(
                                result => {  
-                               console.log(result); 
+                               
                                if(result['deleted'] == 'false'){
                                    self.debugText.text("Delete is not possible - choose DELETE BRANCH");
                                 
@@ -966,7 +965,7 @@ export class NodeEditorComponent implements OnInit{
                                actualPage => {
                                  
                                 this.actualPage = actualPage;
-                                   console.log("DONE");  
+                              
                                  this.hasChildren = false;
                                  this.allowed[3] = actualPage;
                                 // this.stage.find('#addRect')[0].setAttr('fill', this.buttonColor);//WIEDER WEGMACHEN--> diese zeile
@@ -976,14 +975,14 @@ export class NodeEditorComponent implements OnInit{
                                 if(actualPage['outgoingInternLinks'].length < 4){
                                     this.allowed[0] = true;
                                      $("#wrapper").trigger( "click" );
-                                    console.log("IS ALLOWED"); 
+                                 
                                     if(!this.popUpShown) {
                                        // this.stage.find('#addRect')[0].setAttr('fill', this.buttonColor);
                                     }
                                 } else {
                                      this.allowed[0] = false;
                                      $("#wrapper").trigger( "click" );
-                                    console.log("NOT ALLOWED");
+                                  
                                     if(this.movementStyle != null) {
                                         this.button1.off('click tap');
                                         this.hoverPopUpButtons(['#button1Rect', '#button1Text'], this.buttonColorDisabled, this.buttonColorDisabled);
@@ -1004,7 +1003,7 @@ export class NodeEditorComponent implements OnInit{
                                actualPage => {
                                  
                                 this.actualPage = actualPage;
-                                   console.log("DONE");
+                               
                                   //  this.stage.find('#delRect')[0].setAttr('fill', this.buttonColor);//wieder wegmachen!!!
                                  if (actualPage['level'] == 0) {
                                      
@@ -1257,7 +1256,7 @@ export class NodeEditorComponent implements OnInit{
                   
                     
                 }
-                console.log(nextID);//0
+               
                 
                 if(this.layer.find('#'+data[nextPageIDinData]['id'])[0] == undefined) {
                     if (nextID != 0) {
@@ -1732,7 +1731,7 @@ export class NodeEditorComponent implements OnInit{
             e.target.fill('green');
 
         } else {
-            console.log("previousshape"+this.previousShape.id()+"selectednode"+this.selectedNode);
+      
             this.reorderBranches(this.previousShape.id(), this.selectedNode);
             this.previousShape.fire('drop', {
                 type: 'drop',
@@ -1744,7 +1743,7 @@ export class NodeEditorComponent implements OnInit{
     };
     
     append(e){
-         console.log("previousshape"+this.previousShape.id()+"selectednode"+this.selectedNode);
+     
         this.appendBranch(this.previousShape.id(), this.selectedNode);
         this.previousShape.fire('drop', {
             type: 'drop',

@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './scripts/login/login.component', './scripts/register/register.component', './scripts/search/search-form.component', './scripts/result/result.component', './scripts/nodeEditor/nodeEditor.component', './scripts/profile/profile.component', './scripts/about/about.component', './scripts/error/error.component'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './scripts/login/login.component', './scripts/register/register.component', './scripts/search/search-form.component', './scripts/result/result.component', './scripts/nodeEditor/nodeEditor.component', './scripts/profile/profile.component', './scripts/about/about.component', './scripts/error/error.component', './scripts/presentation/presentation.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './scripts/login/login.comp
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, login_component_1, register_component_1, search_form_component_1, result_component_1, nodeEditor_component_1, profile_component_1, about_component_1, error_component_1;
+    var core_1, router_1, login_component_1, register_component_1, search_form_component_1, result_component_1, nodeEditor_component_1, profile_component_1, about_component_1, error_component_1, presentation_component_1;
     var AppComponent;
     return {
         setters:[
@@ -43,6 +43,9 @@ System.register(['angular2/core', 'angular2/router', './scripts/login/login.comp
             },
             function (error_component_1_1) {
                 error_component_1 = error_component_1_1;
+            },
+            function (presentation_component_1_1) {
+                presentation_component_1 = presentation_component_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
@@ -65,6 +68,7 @@ System.register(['angular2/core', 'angular2/router', './scripts/login/login.comp
                         { path: '/users/:name/:storyName/node/edit', name: 'NodeEditor', component: nodeEditor_component_1.NodeEditorComponent },
                         { path: '/users/:name', name: 'Profile', component: profile_component_1.ProfileComponent },
                         { path: '/users/:name/:storyName', name: 'About', component: about_component_1.AboutComponent },
+                        { path: '/users/:name/:storyName/published', name: 'Presentation', component: presentation_component_1.PresentationComponent }
                     ]), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);
