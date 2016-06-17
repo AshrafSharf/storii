@@ -9,6 +9,7 @@ body {
 .vex textarea{
     width:90%;
     height:100%;
+    border: 2px black dotted;
 }
 .hidden{
     display:none;
@@ -16,7 +17,10 @@ body {
 
 .delete{
     float:left;
-    margin-left:-30px;
+    margin-left:-30px;  
+    border: 1px dotted black;
+    padding: 3px 8px;
+    background-color: rgb(225, 175, 177); 
 }
 .placeholder-content{
     border: 2px black dotted !important;
@@ -37,7 +41,7 @@ body {
 
 
 .editingMode{
-	 border: 2px dotted black;
+	 border: 1px solid grey;
 }
 
 

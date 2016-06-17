@@ -112,6 +112,12 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                         headers.delete('Content-Type');
                         headers.append('Authorization', "");
                     }
+                    if (texts[0] == undefined) {
+                        texts.splice(0, 0, { content: "" });
+                    }
+                    if (texts[1] == undefined) {
+                        texts.splice(1, 0, { content: "" });
+                    }
                     var id = actualPage['id'];
                     var object = {};
                     object['images'] = images;

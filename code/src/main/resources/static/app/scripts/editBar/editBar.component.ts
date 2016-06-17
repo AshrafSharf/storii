@@ -64,6 +64,7 @@ export class EditBarComponent implements OnInit {
      @Output() onDeleteBranch = new EventEmitter<boolean>();
      @Output() onSwapNode = new EventEmitter<boolean>();
      @Output() onSwapBranch = new EventEmitter<boolean>();
+     @Output() onEditing = new EventEmitter<boolean>();
 
 
     constructor(private _elRef: ElementRef, private httpClient: HttpClient, private _router: Router,private _routeParams:RouteParams,private _authenticationService: AuthenticationService,private _editBarService: EditBarService) {
@@ -109,6 +110,8 @@ export class EditBarComponent implements OnInit {
     startDeleteBranch(deleteNode:boolean){
         this.onDeleteBranch.emit(deleteNode);
     }
+    
+  
     
     
     goToNodeEditor(){
@@ -381,7 +384,8 @@ export class EditBarComponent implements OnInit {
         
     }
     
-    openPageEditor(){
+    openPageEditor(editing: boolean){
+    this.onEditing.emit(editing);
     this._editBarService.getPageById(this.actualPage['id'])
                         .subscribe(
                                actualPage => { 
@@ -423,6 +427,7 @@ export class EditBarComponent implements OnInit {
                         </div>`,
                 
                  afterClose: function() {
+                    self.onEditing.emit(false); 
                     self.actualPage = self.savePage;
                   }
                 
@@ -504,10 +509,16 @@ export class EditBarComponent implements OnInit {
          makeEditable = function(){
               jQuery('.grid-stack .grid-stack-item-content').addClass('editingMode');
              jQuery('.grid-stack .delete').on('click',this.deleteWidget);
-            jQuery('.grid-stack .delete').each(function(){
-                if(jQuery('.grid-stack .delete').hasClass('hidden')){
-                    jQuery(this).removeClass('hidden');
-                }
+            jQuery('.grid-stack .grid-stack-item').mouseover(function(e){
+                console.log("over");
+                    if(jQuery(this).find('.delete').hasClass('hidden') && editing){
+                        jQuery(this).find('.delete').removeClass('hidden');
+                    }
+            });
+            jQuery('.grid-stack .grid-stack-item').mouseleave(function(e){
+                    if(!jQuery(this).find('.delete').hasClass('hidden') && editing){
+                        jQuery(this).find('.delete').addClass('hidden');
+                    }
             });
             jQuery('.grid-stack .text .grid-stack-item-content').each(function() {
                 if(jQuery(this).find('textarea').length == 0){
@@ -553,6 +564,7 @@ export class EditBarComponent implements OnInit {
             }else if(editButton.text() == 'SAVE'){
                 editing = false;
                 jQuery('.grid-stack .delete').addClass('hidden');
+                jQuery('.grid-stack-item-content').css('cursor','default');
                 resetButton.addClass('disableButton');
                 floatUp.addClass('disableButton');
                 jQuery('.grid-stack .grid-stack-item-content').removeClass('editingMode');
@@ -579,7 +591,7 @@ export class EditBarComponent implements OnInit {
 
 
         this.deleteWidget = function (e) {
-            grid.removeWidget(e.currentTarget.offsetParent);
+           grid.removeWidget(e.currentTarget.offsetParent);
         }.bind(this);
  
 

@@ -93,12 +93,22 @@ export class EditBarService {
   			headers.append('Authorization',"");
   		}
   		
+  		
+  		if(texts[0]== undefined){
+  			texts.splice(0, 0, {content:""});
+		}
+		if(texts[1] == undefined){
+			texts.splice(1, 0, {content:""});
+		}
+  		
   		var id = actualPage['id']
 		var object = {};
 		object['images'] = images; 
 		object['texts'] = texts; 
 		object['links'] = links;
 		var serializedContent =  btoa(JSON.stringify(object));
+		
+		
 		
 		//here update links!!
   		

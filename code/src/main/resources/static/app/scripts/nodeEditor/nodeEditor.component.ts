@@ -54,6 +54,7 @@ export class NodeEditorComponent implements OnInit{
     hasChildren;
     delText; 
     actualPage;
+    editing = false; 
     action = null;
     firstNode;
     button1;
@@ -145,12 +146,9 @@ export class NodeEditorComponent implements OnInit{
                                    
                                     if(!this.ownStory ){
                                          this._router.navigate(['Error']);
-                                    }else{  
-                                       // this.initVar = true;
+                                    }else{
                                         $('#nodeEditorPage').removeClass('hidden');
                                         this.init();
-                                           
-                                      
                                     }
         
                                    },
@@ -162,24 +160,23 @@ export class NodeEditorComponent implements OnInit{
           var doit;
            //refresh page on browser resize
            $(window).bind('resize', function(e)
-            {    
-           
-               console.log("resize");
-            //nur wenn vex NICHT offn !! 
-           /*     clearTimeout(doit);
-                doit = setTimeout(self.init(), 500);*/
-         
+            {                
+                clearTimeout(doit);
+                doit = setTimeout(self.init(), 500);
+
             });
 
           
       }
     
     init(){
-       this.setVariables();
-       this.buildCanvas();
-       this.mouseEvents();
-       this.dragEvents();
-       this.buttonEvents(); 
+         if(this.editing == false){
+           this.setVariables();
+           this.buildCanvas();
+           this.mouseEvents();
+           this.dragEvents();
+           this.buttonEvents(); 
+         }
     }
     
     setVariables(){
@@ -629,6 +626,15 @@ export class NodeEditorComponent implements OnInit{
    onAdded(added: boolean) {      
        if(added){
                this.addNewNode();
+       }
+  }
+    
+    onEditing(editing: boolean) {      
+       if(editing){
+           console.log("TRUE");
+               this.editing = true;
+       }else{
+           this.editing = false;
        }
   }
     onDeleted(deleted: boolean) {

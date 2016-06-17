@@ -61,6 +61,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.popUpShown = false;
                     this.toolTipText = "";
                     this.found = false;
+                    this.editing = false;
                     this.action = null;
                     this.dropText = "Do you want replace this page with the dragged one, OR do you want to add the moving page as sub-page to this page " +
                         "OR do you want to connect this two pages to reunite the branches?";
@@ -107,7 +108,6 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                 _this._router.navigate(['Error']);
                             }
                             else {
-                                // this.initVar = true;
                                 $('#nodeEditorPage').removeClass('hidden');
                                 _this.init();
                             }
@@ -119,18 +119,18 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     var doit;
                     //refresh page on browser resize
                     $(window).bind('resize', function (e) {
-                        console.log("resize");
-                        //nur wenn vex NICHT offn !! 
-                        /*     clearTimeout(doit);
-                             doit = setTimeout(self.init(), 500);*/
+                        clearTimeout(doit);
+                        doit = setTimeout(self.init(), 500);
                     });
                 };
                 NodeEditorComponent.prototype.init = function () {
-                    this.setVariables();
-                    this.buildCanvas();
-                    this.mouseEvents();
-                    this.dragEvents();
-                    this.buttonEvents();
+                    if (this.editing == false) {
+                        this.setVariables();
+                        this.buildCanvas();
+                        this.mouseEvents();
+                        this.dragEvents();
+                        this.buttonEvents();
+                    }
                 };
                 NodeEditorComponent.prototype.setVariables = function () {
                     this.storyID = this._routeParams.get('id');
@@ -525,6 +525,15 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 NodeEditorComponent.prototype.onAdded = function (added) {
                     if (added) {
                         this.addNewNode();
+                    }
+                };
+                NodeEditorComponent.prototype.onEditing = function (editing) {
+                    if (editing) {
+                        console.log("TRUE");
+                        this.editing = true;
+                    }
+                    else {
+                        this.editing = false;
                     }
                 };
                 NodeEditorComponent.prototype.onDeleted = function (deleted) {

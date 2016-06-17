@@ -65,6 +65,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     this.onDeleteBranch = new core_1.EventEmitter();
                     this.onSwapNode = new core_1.EventEmitter();
                     this.onSwapBranch = new core_1.EventEmitter();
+                    this.onEditing = new core_1.EventEmitter();
                     this.loggedIn = _authenticationService.isLoggedIn();
                     this.name = this._routeParams.get('name');
                     this.storyid = this._routeParams.get('id');
@@ -246,8 +247,9 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         }
                     });
                 };
-                EditBarComponent.prototype.openPageEditor = function () {
+                EditBarComponent.prototype.openPageEditor = function (editing) {
                     var _this = this;
+                    this.onEditing.emit(editing);
                     this._editBarService.getPageById(this.actualPage['id'])
                         .subscribe(function (actualPage) {
                         _this.actualPage = actualPage;
@@ -257,6 +259,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                             showCloseButton: true,
                             content: "<div class=\"pageEditorFrameContainer\"><div class=\"h1bgPageEditor\"><h1>PAGE-EDITOR</h1></div></div>\n                          <div id=\"links\">\n                            <div class=\"center\">\n                             <div id=\"edit\" class=\"buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\"  >EDIT</a></div></div>\n                             <div id=\"floatUp\" class=\"disableButton buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\" >FLOAT UP</a></div></div>\n                             <div id=\"reset\" class=\"disableButton buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\" >RESET</a></div></div>\n                            </div>         \n                          </div>\n                            <!--<textarea id=\"saved-data\" cols=\"100\" rows=\"20\" readonly=\"readonly\"></textarea>-->\n                        \n                            <div class=\"sidebar\">\n                                <div>\n                                    <div class=\"widgets\" id=\"imageWidget\">\n                                        <div class=\"image grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD IMAGE</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"textWidget\">\n                                        <div class=\"text grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD TEXT</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"linkWidget\">\n                                        <div class=\"link grid-stack-item disableButton\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\"><div><a href=\"#\">EXTERN LINK</a></div></div></div>\n                                    </div>\n                                        <!--<div class=\"trash\"><div>DELETE</div></div>-->\n                                </div>\n                            </div>       \n                           <div id=\"outer\">\n                                        <div class=\"grid-stack\" id=\"inner\">\n                                        </div>\n                        </div>\n                        \n                        </div>",
                             afterClose: function () {
+                                self.onEditing.emit(false);
                                 self.actualPage = self.savePage;
                             }
                         });
@@ -317,9 +320,15 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         makeEditable = function () {
                             jQuery('.grid-stack .grid-stack-item-content').addClass('editingMode');
                             jQuery('.grid-stack .delete').on('click', this.deleteWidget);
-                            jQuery('.grid-stack .delete').each(function () {
-                                if (jQuery('.grid-stack .delete').hasClass('hidden')) {
-                                    jQuery(this).removeClass('hidden');
+                            jQuery('.grid-stack .grid-stack-item').mouseover(function (e) {
+                                console.log("over");
+                                if (jQuery(this).find('.delete').hasClass('hidden') && editing) {
+                                    jQuery(this).find('.delete').removeClass('hidden');
+                                }
+                            });
+                            jQuery('.grid-stack .grid-stack-item').mouseleave(function (e) {
+                                if (!jQuery(this).find('.delete').hasClass('hidden') && editing) {
+                                    jQuery(this).find('.delete').addClass('hidden');
                                 }
                             });
                             jQuery('.grid-stack .text .grid-stack-item-content').each(function () {
@@ -363,6 +372,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                             else if (editButton.text() == 'SAVE') {
                                 editing = false;
                                 jQuery('.grid-stack .delete').addClass('hidden');
+                                jQuery('.grid-stack-item-content').css('cursor', 'default');
                                 resetButton.addClass('disableButton');
                                 floatUp.addClass('disableButton');
                                 jQuery('.grid-stack .grid-stack-item-content').removeClass('editingMode');
@@ -681,6 +691,10 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     core_1.Output(), 
                     __metadata('design:type', Object)
                 ], EditBarComponent.prototype, "onSwapBranch", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', Object)
+                ], EditBarComponent.prototype, "onEditing", void 0);
                 EditBarComponent = __decorate([
                     core_1.Component({
                         selector: 'editBar',
