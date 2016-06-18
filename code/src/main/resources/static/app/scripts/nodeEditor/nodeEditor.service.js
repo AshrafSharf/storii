@@ -50,7 +50,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     var _resultUrl = '/page/' + id1 + "/swapWith/" + id2;
                     return this.http.get(_resultUrl, { headers: headers })
                         .map(this.extractData)
-                        .do(function (data) { return console.log(data); })
                         .catch(this.handleError);
                 };
                 NodeEditorService.prototype.reorderBranches = function (id1, id2) {

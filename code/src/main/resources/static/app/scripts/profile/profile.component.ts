@@ -130,19 +130,25 @@ export class ProfileComponent implements OnInit {
 		                        if(this.loggedInUser['name'] === this.name){
 		                        	this.allowed = true; 
 		                        }
-    
+		                     
 		                       },
-		                       error =>  this.errorMessage = <any>error);
+		                       error => { this._router.navigate(['Error']);});
  	 	}
 	 	
 	 this._profileService.getUserInfo(this.name)
 		                     .subscribe(
-		                       details => {    
+		                       details => {
+		                        if(jQuery.isEmptyObject(details)){
+	      							 this._router.navigate(['Error']);
+	      						}else{    
 		                         this.details = details;
 		                         this.stories = this.details[0]['stories'];
+		                         console.log(details);
+		                         }
+		                        
 		                       },
 		                   
-		                       error =>  this.errorMessage = <any>error);
+		                       error => { this._router.navigate(['Error']);});
     	
 	  }
  

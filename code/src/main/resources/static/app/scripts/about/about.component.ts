@@ -55,17 +55,22 @@ export class AboutComponent implements OnInit {
 		                        if(this.loggedInUser['name'] === this.name){
 		                        	this.allowed = true; 
 		                        }
+		                       
     
 		                       },
 		                       error =>  this.errorMessage = <any>error);
 	 	}
 	 	this._aboutService.getStoryById(this.storyid)
-	 						.subscribe((result) => {
-	      							if (result) {
+	 						.subscribe((result) => {	
+	      							if(jQuery.isEmptyObject(result)){
+	      							 this._router.navigate(['Error']);
+	      							}else if(result) {
 	      							   this.details.push(result);
 	      							  // console.log(this.details);
-	      							}},
-                       				error =>  this.errorMessage = <any>error);
+	      							}
+	      							
+	      							},
+                       				error => { this._router.navigate(['Error']);});
 		                       
 	 	
 	 	
@@ -76,6 +81,10 @@ export class AboutComponent implements OnInit {
 	  
 	  gotoProfile(){
 	   	this._router.navigate(['Profile', { name: this.name }]);
+	  }
+	  
+	  gotoPresentation(){
+	   	this._router.navigate(['Presentation', { name: this.name, storyName: this.storyName, id: this.storyid }]);
 	  }
  
 }

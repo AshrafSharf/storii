@@ -271,7 +271,7 @@ export class EditBarComponent implements OnInit {
                 if(id == 'password'){
                     var field1 = jQuery(this).parent().find('.inputField').first().val();
                     var field2 = jQuery(this).parent().find('.inputField').last().val();
-                    console.log(field1);
+                
                     if(field1 != field2){
                         if(!this.notTheSamePW){ //not working 
                             jQuery('.confirm').append('<div class="errorPW">Passwords are not equal</div>');
@@ -322,13 +322,13 @@ export class EditBarComponent implements OnInit {
 
                                          <form id="changeDescription" class="change" name="changeDescription" class="handledAjaxForm">
                                                 <label class="description">SHORT DESCRIPTION</label><br>
-                                                <textarea <!--id="description"--> class="inputField saveData" type="text" name="description" required="" ></textarea>
+                                                <textarea id="description" class="inputField saveData" type="text" name="description" required="" ></textarea>
                                                 <!--<div class="buttonFrameContainer"><input id="description" class="button" type="button" value="CHANGE DESCRIPTION"></div>-->
                                          </form>
 
                                          <form id="changePublished" class="change" name="changePublished" class="handledAjaxForm">
                                                 <label class="published">PUBLISHED</label>
-                                                <input class="saveData" id="published" name="isPublished" type="checkbox" required="">
+                                                <input class="saveData" id="published" name="isPublished" type="checkbox">
                                          </form>
 
                                          <div class="currPicDiv"><img src="" alt="CurrentStoryPicture" id="currentStoryPicture" class="currentStoryPicture"></div>
@@ -354,7 +354,7 @@ export class EditBarComponent implements OnInit {
          jQuery('#changeTitle .inputField').attr("value", self.details[0]['name']);
          jQuery('#changeAuthor .inputField').attr("value", self.details[0]['authorName']);
          jQuery('#changeCoAuthor .inputField').attr("value",self.details[0]['coAuthorName']);
-         jQuery('#changeDescription textarea').text("self.details[0]['description']");
+         jQuery('#changeDescription textarea').text(self.details[0]['description']);
          jQuery('#changePublished #published').prop("checked",self.details[0]['published']);
         
          jQuery('.saveData').on('focus', function(event) {
@@ -510,7 +510,7 @@ export class EditBarComponent implements OnInit {
               jQuery('.grid-stack .grid-stack-item-content').addClass('editingMode');
              jQuery('.grid-stack .delete').on('click',this.deleteWidget);
             jQuery('.grid-stack .grid-stack-item').mouseover(function(e){
-                console.log("over");
+       
                     if(jQuery(this).find('.delete').hasClass('hidden') && editing){
                         jQuery(this).find('.delete').removeClass('hidden');
                     }
@@ -608,7 +608,7 @@ export class EditBarComponent implements OnInit {
                 }
             }); 
             
-            console.log("loadgrid");
+     
             return false;
         }.bind(this);
         
@@ -629,7 +629,7 @@ export class EditBarComponent implements OnInit {
                    });
                   var deserializedContent = atob(self.actualPage['serializedContent']);
                   var object = JSON.parse(deserializedContent);
-                  console.log(object);
+           
                
             this.images = object['images'];
             this.texts = object['texts'];
@@ -699,7 +699,7 @@ export class EditBarComponent implements OnInit {
                                                actualPage => { 
                                                 self.actualPage = actualPage; 
                                                 self2.loadGrid();
-                                                console.log("DONE");
+                                            
                                                },
                                                error =>  self.errorMessage = <any>error);
          
@@ -748,7 +748,7 @@ export class EditBarComponent implements OnInit {
         this.save = function(){
             self._editBarService.saveData(this.images,this.texts,this.links,self.actualPage)
             .subscribe( update => {    
-                                   console.log("saved");
+                          
                                 
                                },
                                error =>  self.errorMessage = <any>error);
@@ -768,11 +768,20 @@ export class EditBarComponent implements OnInit {
  
         this.loadText = function () {
             var texts = GridStackUI.Utils.sort(this.texts);
-            _.each(texts, function (node) {
-                var el = grid.addWidget(jQuery('<div class="text"><button class="delete hidden">X</button><div class="grid-stack-item-content">'+node.content+'<div/><div/>'),
-                    node.x, node.y, node.width, node.height);
-                grid.locked(el,true);
-                grid.move(el,node.x,node.y);
+            var i = 0;
+            _.each(texts, function (node) {           
+                if(i == 0){
+                   var el = grid.addWidget(jQuery('<div class="text"><div class="grid-stack-item-content">'+node.content+'<div/><div/>'),
+                     node.x, node.y, node.width, node.height);
+                     grid.locked(el,true);
+                     grid.move(el,node.x,node.y); 
+                }else if(node.content != ""){
+                     var el = grid.addWidget(jQuery('<div class="text"><button class="delete hidden">X</button><div class="grid-stack-item-content">'+node.content+'<div/><div/>'),
+                     node.x, node.y, node.width, node.height);
+                     grid.locked(el,true);
+                     grid.move(el,node.x,node.y);
+                }
+                i++;             
             }, this);
             return false;
         }.bind(this);

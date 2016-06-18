@@ -9,6 +9,7 @@ import {NodeEditorComponent} from './scripts/nodeEditor/nodeEditor.component';
 import {ProfileComponent} from './scripts/profile/profile.component';
 import {AboutComponent} from './scripts/about/about.component';
 import {ErrorComponent} from './scripts/error/error.component';
+import {PresentationComponent} from './scripts/presentation/presentation.component';
 
 
     
@@ -26,7 +27,7 @@ import {ErrorComponent} from './scripts/error/error.component';
     { path: '/users/:name/:storyName/node/edit', name: 'NodeEditor', component: NodeEditorComponent},
     { path: '/users/:name', name: 'Profile', component: ProfileComponent},
     { path: '/users/:name/:storyName', name: 'About', component: AboutComponent},
-   //{ path: '/users/:name/:storyName/published', name: 'Presentation', component: PresentationComponent} 
+    { path: '/users/:name/:storyName/published', name: 'Presentation', component: PresentationComponent} 
     
   ])
 
