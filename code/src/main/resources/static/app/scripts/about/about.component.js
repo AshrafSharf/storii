@@ -67,14 +67,20 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     }
                     this._aboutService.getStoryById(this.storyid)
                         .subscribe(function (result) {
-                        if (result) {
+                        if (jQuery.isEmptyObject(result)) {
+                            _this._router.navigate(['Error']);
+                        }
+                        else if (result) {
                             _this.details.push(result);
                         }
-                    }, function (error) { return _this.errorMessage = error; });
+                    }, function (error) { _this._router.navigate(['Error']); });
                     //get story by id
                 };
                 AboutComponent.prototype.gotoProfile = function () {
                     this._router.navigate(['Profile', { name: this.name }]);
+                };
+                AboutComponent.prototype.gotoPresentation = function () {
+                    this._router.navigate(['Presentation', { name: this.name, storyName: this.storyName, id: this.storyid }]);
                 };
                 AboutComponent = __decorate([
                     core_1.Component({
