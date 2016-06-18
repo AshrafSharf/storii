@@ -46,6 +46,15 @@
   overflow-y: auto;
 }
 
+.grid-stack > .grid-stack-item > .grid-stack-item-content.editingMode{
+  background-image: url("../../../app/assets/files/stripes.png");
+  background-size: 80px 60px;
+}
+
+.grid-stack .link > .grid-stack-item-content.editingMode{
+	background: #96C3CC;
+}
+
 .grid-stack > .grid-stack-item > .ui-resizable-handle {
   position: absolute;
   font-size: 0.1px;

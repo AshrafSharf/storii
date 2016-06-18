@@ -352,18 +352,19 @@ public class StoryController {
 		
 		List<Rating> ratingList = ratingDAO.findByRatedStory(myStory);
 		
-		long averageRating = 0;
-		int numberOfRatings = 0;
+		double averageRating = 0.0;
+		double numberOfRatings = 0.0;
 		
 		for(Rating rating : ratingList){
 			averageRating += rating.getValue();
 			numberOfRatings++;
 		}
 		
+		
 		if(numberOfRatings != 0){
-			return ResponseEntity.ok().body("{\"data\":" + "{\"average_rating\":\""+averageRating/numberOfRatings+"\", \"number_of_ratings\":\""+numberOfRatings+"\"}" + "}");
+			return ResponseEntity.ok().body("{\"data\":" + "{\"total_value\": \""+averageRating+"\", \"average_rating\":\""+averageRating/numberOfRatings+"\",\"rounded_rating\":\""+(Math.ceil((averageRating/numberOfRatings)*2)/2)+"\", \"number_of_ratings\":\""+numberOfRatings+"\"}" + "}");
 		}else{
-			return ResponseEntity.ok().body("{\"data\":" + "{\"average_rating\":\""+averageRating+"\", \"number_of_ratings\":\""+numberOfRatings+"\"}" + "}");		
+			return ResponseEntity.ok().body("{\"data\":" + "{\"total_value\": \""+averageRating+"\", \"average_rating\":\""+averageRating+"\", ,\"rounded_rating\":\"0\", \"number_of_ratings\":\""+numberOfRatings+"\"}" + "}");		
 		}
 		
 

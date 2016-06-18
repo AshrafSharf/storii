@@ -6,14 +6,14 @@ body {
     background: none;
 }
 
-<<<<<<< HEAD
 .vex textarea{
     width: 85%;
     float: left;
-=======
+    font-family: "Architects Daughter", cursive;
+    font-size: 15px;
+}
+
 .vex #inner textarea{
-    width:90%;
->>>>>>> origin/master
     height:100%;
     border: 2px black dotted;
 }
@@ -21,6 +21,12 @@ body {
     display:none;
 }
 
+.link.grid-stack-item input{
+	font-family: "Architects Daughter", cursive;
+    font-size: 18px;
+    text-align: center;
+    border: black 1px solid;
+}
 
 .delete{
 	position: absolute;
