@@ -43,7 +43,7 @@ a {
   height: 175px; }
   
 #logState {
-  margin-top: 150px;
+  margin-top: 165px;
   position: absolute;
   right: 10.5%;
   top: 0; }
@@ -113,7 +113,7 @@ a {
   }
 
 #topContentWrapper {
-  margin-bottom: 75px; }
+  margin-bottom: 100px; }
 
 .logo {
   height: 130px;
@@ -203,6 +203,7 @@ input.buttonStoryInfo {
 	border: black dotted 2px;
 	line-height: 2em;
 	text-align: center;
+	background-color: #E1AFB1;
 }
 #editBar .toggle1 .submenu, #editBar .toggle2 .submenu{
 	height: 32px;
@@ -260,6 +261,9 @@ input.buttonStoryInfo {
 	margin-left: 15px; 
 }
 
+.pageEditorFrameContainer{
+	background-color: #D3ECED;
+}
 
 .searchLabel {
   text-align: center;
@@ -1203,7 +1207,7 @@ input.buttonStoryInfo {
  	margin-left: 0;
  }
 	#logState {
-    margin-top: 150px;
+    margin-top: 165px;
     position: absolute;
     right: 10.5%;
     top: 0;}

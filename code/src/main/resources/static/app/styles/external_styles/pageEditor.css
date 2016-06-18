@@ -7,7 +7,8 @@ body {
 }
 
 .vex textarea{
-    width:90%;
+    width: 85%;
+    float: left;
     height:100%;
     border: 2px black dotted;
 }
@@ -15,12 +16,18 @@ body {
     display:none;
 }
 
+
 .delete{
-    float:left;
-    margin-left:-30px;  
+	position: absolute;
+    right: 10px;
+    width: 15%;
+    max-width: 45px;
+    z-index: 100;
     border: 1px dotted black;
-    padding: 3px 8px;
     background-color: rgb(225, 175, 177); 
+    font-family: "Architects Daughter", cursive;
+    font-size: 20px;
+    cursor: pointer;
 }
 .placeholder-content{
     border: 2px black dotted !important;
