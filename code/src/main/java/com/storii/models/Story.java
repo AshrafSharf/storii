@@ -105,7 +105,7 @@ public class Story {
 		this.authorName = "defaultAuthor";
 		this.coAuthorName = "defaultCoAuthor";
 		this.isPublished = false;
-		this.description = "defaultDescription";
+		this.description = "";
 	}
 
 	public long getId() {
