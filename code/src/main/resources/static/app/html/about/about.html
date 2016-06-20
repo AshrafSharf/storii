@@ -13,7 +13,14 @@
     	<div>
     		<div class="storyPageAuthor">Author: {{detail.authorName}}</div>
        		<div *ngIf="detail.coAuthorName" class="storyPageCoAuthor"> Co-Author:{{detail.coAuthorName}} </div>
-    		<div>Rated:{{rating}} </div>
+    		<div>Rated:
+    		<div>
+				<div class="inline" *ngFor="#rate of rating">
+					<img src="{{rate}}" alt="star">
+				</div>
+    			
+    		</div>
+    		</div>
     	</div>
    	</div>
    	<div class="storyDetails">
@@ -36,12 +43,15 @@
         		<a (click)="gotoPresentation()" class="buttonLookLink">READ</a>
        		</div>
      	</div>
-        </div>    
-        <div><h2>Comments: </h2>
-        	
-        	<ul><li>something</li></ul>
+     	<div class="storyPageInformation">
+     		<h2>Comments: </h2>   	
+        	<ul *ngFor="#rating of detail.ratings">
+        		<li>{{rating.comment}} - by {{rating.ratingUser}}</li>
+       		</ul>
         
         </div>
+        </div>    
+        
     			
     </div>
 </div>

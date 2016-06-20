@@ -52,6 +52,21 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                         .map(this.extractData)
                         .catch(this.handleError);
                 };
+                AboutService.prototype.getUserById = function (id) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                        headers.append('Content-Type', 'application/json');
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/user/';
+                    return this.http.get(_resultUrl + id, { headers: headers })
+                        .map(this.extractData)
+                        .catch(this.handleError);
+                };
                 AboutService.prototype.getStoryRanking = function (id) {
                     var headers = new http_2.Headers();
                     if (this._authenticationService.isLoggedIn()) {

@@ -121,6 +121,9 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         }
                         else {
                             _this.details = details;
+                            _this.details[0]['stories'].sort(function (a, b) {
+                                return parseFloat(a.id) - parseFloat(b.id);
+                            });
                             _this.stories = _this.details[0]['stories'];
                             console.log(details);
                         }

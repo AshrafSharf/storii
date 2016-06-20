@@ -2,6 +2,7 @@ import {Component,OnInit,ElementRef } from 'angular2/core';
 import {RouteParams, Router} from 'angular2/router';
 import {LogStateComponent} from '../logState/logState.component';
 import { AuthenticationService }    from '../login/authentication.service';
+import {NgForm, FORM_DIRECTIVES, FormBuilder, Validators, ControlGroup, NgIf} from 'angular2/common';
 import {HttpClient}           from '../../headerfct';
 import { AboutService }    from '../about/about.service';
 import { EditBarService }    from '../editBar/editBar.service';
@@ -25,18 +26,25 @@ export class PresentationComponent implements OnInit {
     storyName;
     storyid;
     name; 
+    rating; 
     loggedIn;
     firstPage;
     actualPage;
+    rateAllowed; 
     errorMessage;
+    form: ControlGroup;
     
     constructor(
+    private fb: FormBuilder, 
     private _elRef: ElementRef,
     private _router: Router,
     private _routeParams:RouteParams,
     private _authenticationService: AuthenticationService,
      private _editBarService: EditBarService,
     private _aboutService: AboutService) {  
+    this.form = fb.group({
+          comment:  ['', Validators.required]
+        });
     }
     
       ngOnInit():any {
@@ -69,6 +77,20 @@ export class PresentationComponent implements OnInit {
         
         
       }
+    
+    goToRate(){
+        this.rating = true;
+        this.rateAllowed = false; 
+    }
+    
+    goBackToStory(){ 
+         this._router.navigate(['About', { name: this.name, storyName: this.storyName, id: this.storyid}]);
+
+    }
+    
+    saveComment(){
+        
+    }
     
      loadPageEditor(){
        let self = this;
@@ -111,6 +133,9 @@ export class PresentationComponent implements OnInit {
 
 
         this.loadGrid = function () {
+          if(self.actualPage['outgoingInternLinks'].length == 0){
+              self.rateAllowed = true;                                        
+            }
             this.loadData();
             this.clearGrid();
             this.loadText();
@@ -208,13 +233,15 @@ export class PresentationComponent implements OnInit {
                                         .subscribe(
                                                actualPage => { 
                                                 self.actualPage = actualPage; 
-                                                self2.loadGrid();
-                                            
+                                                self2.loadGrid();                                            
                                                },
                                                error =>  self.errorMessage = <any>error);
          
         
         }.bind(this);
+        
+        
+        
          
          
         this.setUpLinks = function(){

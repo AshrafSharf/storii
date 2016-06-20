@@ -198,6 +198,14 @@ input.buttonStoryInfo {
   line-height: 2em;
   text-align: center; 
   }
+.buttonSizePres{
+	border: 2px dotted black;
+	line-height: 2em;
+	text-align: center;
+	background-color: rgb(225, 175, 177);
+	margin: 20px;
+	padding: ;
+}
   
 .buttonSizeActions, .buttonSizeDelete{
 	border: black dotted 2px;
@@ -255,6 +263,14 @@ input.buttonStoryInfo {
 	width: initial;
 	display: inline-block;
 	margin: 0;
+}
+
+.inline{
+	display: inline;
+}
+
+.inline img{
+	width:20px;
 }
 
 .profileContainer .left{
