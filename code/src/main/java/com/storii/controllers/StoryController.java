@@ -364,11 +364,7 @@ public class StoryController {
 		if(numberOfRatings != 0){
 			return ResponseEntity.ok().body("{\"data\":" + "{\"total_value\": \""+averageRating+"\", \"average_rating\":\""+averageRating/numberOfRatings+"\",\"rounded_rating\":\""+(Math.ceil((averageRating/numberOfRatings)*2)/2)+"\", \"number_of_ratings\":\""+numberOfRatings+"\"}" + "}");
 		}else{
-<<<<<<< HEAD
 			return ResponseEntity.ok().body("{\"data\":" + "{\"total_value\": \""+averageRating+"\", \"average_rating\":\""+averageRating+"\", \"rounded_rating\":\"0\", \"number_of_ratings\":\""+numberOfRatings+"\"}" + "}");		
-=======
-			return ResponseEntity.ok().body("{\"data\":" + "{\"total_value\": \""+averageRating+"\", \"average_rating\":\""+averageRating+"\",\"rounded_rating\":\"0\", \"number_of_ratings\":\""+numberOfRatings+"\"}" + "}");		
->>>>>>> origin/master
 		}
 		
 
