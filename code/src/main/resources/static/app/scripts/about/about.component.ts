@@ -21,12 +21,16 @@ declare var vex: any;
 
 export class AboutComponent implements OnInit {
 	defaultStoryPic = 'app/assets/files/dummyStory.jpg';
+	yellowStar = 'app/assets/files/star.png';
+	halfStar = 'app/assets/files/halfstar.png';
+	grayStar = 'app/assets/files/star2.png';
 	storyName;
 	name; 
 	loggedIn; 
 	storyid; 
 	errorMessage;
 	loggedInUser;
+	rating; 
 	allowed; 
 	coAuthor; 
 	details;
@@ -39,6 +43,7 @@ export class AboutComponent implements OnInit {
 	private _aboutService: AboutService,
 	private _editBarService: EditBarService) {	
 	this.details = [];
+	this.rating = [];
     }
 	
 	  ngOnInit():any {
@@ -46,7 +51,7 @@ export class AboutComponent implements OnInit {
 	  	this.storyid = this._routeParams.get('id');	
 	  	this.name = this._routeParams.get('name');
 	 	this.loggedIn = this._authenticationService.isLoggedIn();
-	 	
+	 	let self = this; 
 	 	if(this.loggedIn){
  		this._editBarService.getLoggedInUser()
 		                     .subscribe(
@@ -60,13 +65,48 @@ export class AboutComponent implements OnInit {
 		                       },
 		                       error =>  this.errorMessage = <any>error);
 	 	}
+	 	
+	
 	 	this._aboutService.getStoryById(this.storyid)
 	 						.subscribe((result) => {	
 	      							if(jQuery.isEmptyObject(result)){
 	      							 this._router.navigate(['Error']);
-	      							}else if(result) {
-	      							   this.details.push(result);
-	      							  // console.log(this.details);
+	      							}else if(result) { 
+	      							 this._aboutService.getStoryRanking(this.storyid)
+	 												.subscribe((done) => {
+	 													
+	 													for(var i = 0; i < parseInt(done['average_rating']); i++){
+	 														self.rating[i]=this.yellowStar;
+	 													}
+	 													if(done['average_rating'] % 2 != 0){
+	 													 	self.rating[parseInt(done['average_rating'])]=this.halfStar;	
+	 														for(var j = parseInt(done['average_rating'])+1; j < 5; j++){
+	 														self.rating[j]=this.grayStar;
+	 														}
+	 													}else{
+	 														for(var j = parseInt(done['average_rating']); j < 5; j++){
+	 														self.rating[j]=this.grayStar;
+	 														}
+	 													}
+ 
+	 												},
+                       								error => { this._router.navigate(['Error']);});	
+                       								
+	      							 for(var key in result['ratings']){
+      							 		this._aboutService.getUserById(result['ratings'][key]['ratingUser'])
+											.subscribe((found) => {
+											 for(var user in result['ratings']){
+											 	if(result['ratings'][user]['ratingUser'] == found['id']){
+											 		console.log(found['name']);
+													result['ratings'][user]['ratingUser'] = found['name'];
+											 	}
+											 }
+												
+											},
+               								error => { this._router.navigate(['Error']);});	
+	      							 }
+	      							 
+	      							 this.details.push(result);
 	      							}
 	      							
 	      							},

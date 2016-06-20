@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../logState/logState.component', '../login/authentication.service', '../../headerfct', '../about/about.service', '../editBar/editBar.service'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../logState/logState.component', '../login/authentication.service', 'angular2/common', '../../headerfct', '../about/about.service', '../editBar/editBar.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, logState_component_1, authentication_service_1, headerfct_1, about_service_1, editBar_service_1;
+    var core_1, router_1, logState_component_1, authentication_service_1, common_1, headerfct_1, about_service_1, editBar_service_1;
     var PresentationComponent;
     return {
         setters:[
@@ -26,6 +26,9 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
             function (authentication_service_1_1) {
                 authentication_service_1 = authentication_service_1_1;
             },
+            function (common_1_1) {
+                common_1 = common_1_1;
+            },
             function (headerfct_1_1) {
                 headerfct_1 = headerfct_1_1;
             },
@@ -37,13 +40,17 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
             }],
         execute: function() {
             PresentationComponent = (function () {
-                function PresentationComponent(_elRef, _router, _routeParams, _authenticationService, _editBarService, _aboutService) {
+                function PresentationComponent(fb, _elRef, _router, _routeParams, _authenticationService, _editBarService, _aboutService) {
+                    this.fb = fb;
                     this._elRef = _elRef;
                     this._router = _router;
                     this._routeParams = _routeParams;
                     this._authenticationService = _authenticationService;
                     this._editBarService = _editBarService;
                     this._aboutService = _aboutService;
+                    this.form = fb.group({
+                        comment: ['', common_1.Validators.required]
+                    });
                 }
                 PresentationComponent.prototype.ngOnInit = function () {
                     var _this = this;
@@ -66,6 +73,15 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         if (!result['data']) {
                         }
                     }, function (error) { return _this.errorMessage = error; });
+                };
+                PresentationComponent.prototype.goToRate = function () {
+                    this.rating = true;
+                    this.rateAllowed = false;
+                };
+                PresentationComponent.prototype.goBackToStory = function () {
+                    this._router.navigate(['About', { name: this.name, storyName: this.storyName, id: this.storyid }]);
+                };
+                PresentationComponent.prototype.saveComment = function () {
                 };
                 PresentationComponent.prototype.loadPageEditor = function () {
                     var self = this;
@@ -95,6 +111,9 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             this.externLinks = [];
                         };
                         this.loadGrid = function () {
+                            if (self.actualPage['outgoingInternLinks'].length == 0) {
+                                self.rateAllowed = true;
+                            }
                             this.loadData();
                             this.clearGrid();
                             this.loadText();
@@ -260,7 +279,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         styles: ['a {cursor: pointer}'],
                         providers: [about_service_1.AboutService, editBar_service_1.EditBarService, authentication_service_1.AuthenticationService, headerfct_1.HttpClient]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, router_1.Router, router_1.RouteParams, authentication_service_1.AuthenticationService, editBar_service_1.EditBarService, about_service_1.AboutService])
+                    __metadata('design:paramtypes', [common_1.FormBuilder, core_1.ElementRef, router_1.Router, router_1.RouteParams, authentication_service_1.AuthenticationService, editBar_service_1.EditBarService, about_service_1.AboutService])
                 ], PresentationComponent);
                 return PresentationComponent;
             }());

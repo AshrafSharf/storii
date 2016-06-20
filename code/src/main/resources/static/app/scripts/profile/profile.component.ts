@@ -142,6 +142,9 @@ export class ProfileComponent implements OnInit {
 	      							 this._router.navigate(['Error']);
 	      						}else{    
 		                         this.details = details;
+		                         this.details[0]['stories'].sort(function(a, b) {
+                                    return parseFloat(a.id) - parseFloat(b.id);
+                                 });
 		                         this.stories = this.details[0]['stories'];
 		                         console.log(details);
 		                         }

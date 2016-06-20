@@ -48,7 +48,11 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this._aboutService = _aboutService;
                     this._editBarService = _editBarService;
                     this.defaultStoryPic = 'app/assets/files/dummyStory.jpg';
+                    this.yellowStar = 'app/assets/files/star.png';
+                    this.halfStar = 'app/assets/files/halfstar.png';
+                    this.grayStar = 'app/assets/files/star2.png';
                     this.details = [];
+                    this.rating = [];
                 }
                 AboutComponent.prototype.ngOnInit = function () {
                     var _this = this;
@@ -56,6 +60,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.storyid = this._routeParams.get('id');
                     this.name = this._routeParams.get('name');
                     this.loggedIn = this._authenticationService.isLoggedIn();
+                    var self = this;
                     if (this.loggedIn) {
                         this._editBarService.getLoggedInUser()
                             .subscribe(function (loggedInUser) {
@@ -71,6 +76,34 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             _this._router.navigate(['Error']);
                         }
                         else if (result) {
+                            _this._aboutService.getStoryRanking(_this.storyid)
+                                .subscribe(function (done) {
+                                for (var i = 0; i < parseInt(done['average_rating']); i++) {
+                                    self.rating[i] = _this.yellowStar;
+                                }
+                                if (done['average_rating'] % 2 != 0) {
+                                    self.rating[parseInt(done['average_rating'])] = _this.halfStar;
+                                    for (var j = parseInt(done['average_rating']) + 1; j < 5; j++) {
+                                        self.rating[j] = _this.grayStar;
+                                    }
+                                }
+                                else {
+                                    for (var j = parseInt(done['average_rating']); j < 5; j++) {
+                                        self.rating[j] = _this.grayStar;
+                                    }
+                                }
+                            }, function (error) { _this._router.navigate(['Error']); });
+                            for (var key in result['ratings']) {
+                                _this._aboutService.getUserById(result['ratings'][key]['ratingUser'])
+                                    .subscribe(function (found) {
+                                    for (var user in result['ratings']) {
+                                        if (result['ratings'][user]['ratingUser'] == found['id']) {
+                                            console.log(found['name']);
+                                            result['ratings'][user]['ratingUser'] = found['name'];
+                                        }
+                                    }
+                                }, function (error) { _this._router.navigate(['Error']); });
+                            }
                             _this.details.push(result);
                         }
                     }, function (error) { _this._router.navigate(['Error']); });

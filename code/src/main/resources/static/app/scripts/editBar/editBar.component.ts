@@ -397,11 +397,11 @@ export class EditBarComponent implements OnInit {
                 showCloseButton: true,
                 content:`<div class="pageEditorFrameContainer"><div class="h1bgPageEditor"><h1>PAGE-EDITOR</h1></div></div>
                           <div id="links">
-                            <div class="center">
+                            <div class="center" id="editBar">
                              <div id="edit" class="buttonFrameContainerUserStoryContentModule"><div class="buttonSizeDelete"><a class="buttonLookLink"  >EDIT</a></div></div>
                              <div id="floatUp" class="disableButton buttonFrameContainerUserStoryContentModule"><div class="buttonSizeDelete"><a class="buttonLookLink" >FLOAT UP</a></div></div>
                              <div id="reset" class="disableButton buttonFrameContainerUserStoryContentModule"><div class="buttonSizeDelete"><a class="buttonLookLink" >RESET</a></div></div>
-                            </div>         
+                            </div>          
                           </div>
                             <!--<textarea id="saved-data" cols="100" rows="20" readonly="readonly"></textarea>-->
                         
