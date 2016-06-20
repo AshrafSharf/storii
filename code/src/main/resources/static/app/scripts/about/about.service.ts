@@ -27,6 +27,23 @@ export class AboutService {
 	            .catch(this.handleError);
   }
   
+  getStoryRanking(id){
+    	var headers = new Headers();
+	    if (this._authenticationService.isLoggedIn()) {
+	  		headers = this.httpClient.createHeader(headers);
+	 		headers.append('Content-Type', 'application/json');
+  		}else{
+  			headers.delete('Authorization');
+  			headers.append('Authorization',"");
+  		}
+  		
+  		var _resultUrl = '/story/'+id+'/averageRating'; 
+	    return this.http.get(_resultUrl, {headers})
+	            .map(this.extractData)
+	          //  .do(data => console.log(data))
+	            .catch(this.handleError);
+  }
+  
   private extractData(res: Response) {
     if (res.status < 200 || res.status >= 300) {
       throw new Error('Bad response status: ' + res.status);

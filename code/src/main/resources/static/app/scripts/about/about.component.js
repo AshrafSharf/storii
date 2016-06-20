@@ -72,6 +72,10 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         }
                         else if (result) {
                             _this.details.push(result);
+                            _this._aboutService.getStoryRanking(_this.storyid)
+                                .subscribe(function (done) {
+                                _this.rating = done['averageRating'];
+                            }, function (error) { _this._router.navigate(['Error']); });
                         }
                     }, function (error) { _this._router.navigate(['Error']); });
                     //get story by id

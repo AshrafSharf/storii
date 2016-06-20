@@ -52,6 +52,21 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                         .map(this.extractData)
                         .catch(this.handleError);
                 };
+                AboutService.prototype.getStoryRanking = function (id) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                        headers.append('Content-Type', 'application/json');
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/story/' + id + '/averageRating';
+                    return this.http.get(_resultUrl, { headers: headers })
+                        .map(this.extractData)
+                        .catch(this.handleError);
+                };
                 AboutService.prototype.extractData = function (res) {
                     if (res.status < 200 || res.status >= 300) {
                         throw new Error('Bad response status: ' + res.status);

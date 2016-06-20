@@ -27,6 +27,7 @@ export class AboutComponent implements OnInit {
 	storyid; 
 	errorMessage;
 	loggedInUser;
+	rating; 
 	allowed; 
 	coAuthor; 
 	details;
@@ -65,7 +66,13 @@ export class AboutComponent implements OnInit {
 	      							if(jQuery.isEmptyObject(result)){
 	      							 this._router.navigate(['Error']);
 	      							}else if(result) {
-	      							   this.details.push(result);
+	      							 this.details.push(result);
+	      									this._aboutService.getStoryRanking(this.storyid)
+	 												.subscribe((done) => {
+	 													this.rating = done['averageRating'];
+	 												},
+                       								error => { this._router.navigate(['Error']);});	
+	      								  
 	      							  // console.log(this.details);
 	      							}
 	      							
