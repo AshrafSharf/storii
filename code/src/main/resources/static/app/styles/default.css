@@ -73,6 +73,8 @@ a {
 	float: left;
 }
 
+
+
 #editBar .buttonFrameContainerUserStoryContentModule .buttonSize, #links .buttonFrameContainerUserStoryContentModule .buttonSize{
 	background-color: #E1AFB1;
 }
@@ -97,6 +99,15 @@ a {
 .updated{
 	float: right;
 	color: rgb(82, 98, 87);
+}
+
+#editBar .backToStory .buttonSize{
+	background-color: #96C3CC;
+}
+
+#editBar .backToStory {
+	float: right;
+	margin-right: 20px;
 }
 
 #editBar .disableButton, #links .disableButton, .sidebar .disableButton{
@@ -204,7 +215,8 @@ input.buttonStoryInfo {
 	text-align: center;
 	background-color: rgb(225, 175, 177);
 	margin: 20px;
-	padding: ;
+	padding:5px;
+	cursor: pointer;
 }
   
 .buttonSizeActions, .buttonSizeDelete{

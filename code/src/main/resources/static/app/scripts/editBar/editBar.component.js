@@ -69,6 +69,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     this.loggedIn = _authenticationService.isLoggedIn();
                     this.name = this._routeParams.get('name');
                     this.storyid = this._routeParams.get('id');
+                    this.storyName = this._routeParams.get('storyName');
                     if (this.loggedIn) {
                         this._editBarService.getLoggedInUser()
                             .subscribe(function (loggedInUser) {
@@ -79,6 +80,9 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         }, function (error) { return _this.errorMessage = error; });
                     }
                 }
+                EditBarComponent.prototype.gotoStory = function () {
+                    this._router.navigate(['About', { name: this.name, storyName: this.storyName, id: this.storyid }]);
+                };
                 EditBarComponent.prototype.startSwapNode = function (swapNode) {
                     this.onSwapNode.emit(swapNode);
                 };
@@ -654,6 +658,9 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     }
                     if (document.getElementById("userStoryPage")) {
                         this.aboutPage = true;
+                    }
+                    if (document.getElementById("commentsStoryPage")) {
+                        this.commentsStoryPage = true;
                     }
                     if (document.getElementById("nodeEditorPage")) {
                         this.nodeEditorPage = true;

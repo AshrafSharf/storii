@@ -49,9 +49,11 @@ export class EditBarComponent implements OnInit {
     notTheSamePW;
     addAllowed;
     actualPage;
+    commentsStoryPage;
     savePage; 
     deleteAllowed;
     moveAllowed;
+    storyName;
 
     loggedIn;
     loggedInUser
@@ -70,7 +72,8 @@ export class EditBarComponent implements OnInit {
     constructor(private _elRef: ElementRef, private httpClient: HttpClient, private _router: Router,private _routeParams:RouteParams,private _authenticationService: AuthenticationService,private _editBarService: EditBarService) {
     this.loggedIn=_authenticationService.isLoggedIn();
     this.name = this._routeParams.get('name');  
-    this.storyid = this._routeParams.get('id');    
+    this.storyid = this._routeParams.get('id');
+    this.storyName = this._routeParams.get('storyName');     
     
         if(this.loggedIn){
         this._editBarService.getLoggedInUser()
@@ -86,6 +89,10 @@ export class EditBarComponent implements OnInit {
         }
  
     
+    }
+    
+   gotoStory() {   
+         this._router.navigate(['About', { name: this.name, storyName: this.storyName, id: this.storyid}]);
     }
     
     startSwapNode(swapNode:boolean){
@@ -899,6 +906,9 @@ export class EditBarComponent implements OnInit {
         }
         if(document.getElementById("userStoryPage")){
             this.aboutPage = true;
+        }
+         if(document.getElementById("commentsStoryPage")){
+            this.commentsStoryPage = true;
         }
         if(document.getElementById("nodeEditorPage")){
             this.nodeEditorPage = true; 

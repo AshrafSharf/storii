@@ -48,7 +48,7 @@
         	<ul *ngFor="#rating of detail.ratings">
         		<li>{{rating.comment}} - by {{rating.ratingUser}}</li>
        		</ul>
-        
+        	<a (click)="openComments()">More comments</a>
         </div>
         </div>    
         

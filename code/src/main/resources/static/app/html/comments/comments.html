@@ -1,0 +1,11 @@
+<editBar [details]="details"></editBar>
+<logState></logState>
+<div class="container">
+<div id="commentsStoryPage">
+<h2>Comments: </h2>   	
+	<ul *ngFor="#rating of ratings">
+		<li>{{rating.comment}} - by {{rating.ratingUser}}</li>
+	</ul>
+	
+</div>
+</div>

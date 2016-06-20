@@ -19,6 +19,7 @@
             </div>
             </div>
             <div *ngIf="nodeEditorPage"  [class.disableButton]="!actualPage" (click)="openPageEditor(true)" class="buttonFrameContainerUserStoryContentModule" ><div  class="buttonSize"><a  class="buttonLookLink">{{editPage | uppercase}}</a></div> </div>
+            <div *ngIf="nodeEditorPage || commentsStoryPage"  (click)="gotoStory()" class="backToStory buttonFrameContainerUserStoryContentModule"><div  class="buttonSize"><a  class="buttonLookLink">BACK TO STORY</a></div> </div>
             
               
 			

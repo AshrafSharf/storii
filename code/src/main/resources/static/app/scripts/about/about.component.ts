@@ -92,8 +92,8 @@ export class AboutComponent implements OnInit {
 	 												},
                        								error => { this._router.navigate(['Error']);});	
                        								
-	      							 for(var key in result['ratings']){
-      							 		this._aboutService.getUserById(result['ratings'][key]['ratingUser'])
+	      							 for(var k = 0; k < 2; k++){
+      							 		this._aboutService.getUserById(result['ratings'][k]['ratingUser'])
 											.subscribe((found) => {
 											 for(var user in result['ratings']){
 											 	if(result['ratings'][user]['ratingUser'] == found['id']){
@@ -125,6 +125,10 @@ export class AboutComponent implements OnInit {
 	  
 	  gotoPresentation(){
 	   	this._router.navigate(['Presentation', { name: this.name, storyName: this.storyName, id: this.storyid }]);
+	  }
+	  
+	  openComments(){	
+		this._router.navigate(['Comments', { name: this.name, storyName: this.storyName, id: this.storyid }]);     
 	  }
  
 }

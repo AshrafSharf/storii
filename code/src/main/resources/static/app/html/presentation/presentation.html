@@ -3,8 +3,8 @@
 <div id="presentationPage">
 
 <div *ngIf="rateAllowed" class="buttonFrameContainerUserStoryContentModule">
-        	<div  class="buttonSizePres">
-        		<a (click)="goToRate()" class="buttonLookLink">RATE THAT STORY</a>
+        	<div (click)="goToRate()" class="buttonSizePres">
+        		<a  class="buttonLookLink">RATE THAT STORY</a>
        		</div>
  </div>
   <div *ngIf="!rating" id="outer">

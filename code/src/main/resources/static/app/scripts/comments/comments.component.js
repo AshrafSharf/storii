@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../logState/logState.component', '../editBar/editBar.component', '../login/authentication.service', './about.service', '../../headerfct', '../editBar/editBar.service'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../logState/logState.component', '../editBar/editBar.component', '../login/authentication.service', '../about/about.service', '../../headerfct', '../editBar/editBar.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -11,7 +11,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, router_1, logState_component_1, editBar_component_1, authentication_service_1, about_service_1, headerfct_1, editBar_service_1;
-    var AboutComponent;
+    var CommentsComponent;
     return {
         setters:[
             function (core_1_1) {
@@ -39,8 +39,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 editBar_service_1 = editBar_service_1_1;
             }],
         execute: function() {
-            AboutComponent = (function () {
-                function AboutComponent(_elRef, _router, _routeParams, _authenticationService, _aboutService, _editBarService) {
+            CommentsComponent = (function () {
+                function CommentsComponent(_elRef, _router, _routeParams, _authenticationService, _aboutService, _editBarService) {
                     this._elRef = _elRef;
                     this._router = _router;
                     this._routeParams = _routeParams;
@@ -51,50 +51,23 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.yellowStar = 'app/assets/files/star.png';
                     this.halfStar = 'app/assets/files/halfstar.png';
                     this.grayStar = 'app/assets/files/star2.png';
-                    this.details = [];
-                    this.rating = [];
+                    this.ratings = [];
                 }
-                AboutComponent.prototype.ngOnInit = function () {
+                CommentsComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     this.storyName = this._routeParams.get('storyName');
                     this.storyid = this._routeParams.get('id');
                     this.name = this._routeParams.get('name');
                     this.loggedIn = this._authenticationService.isLoggedIn();
                     var self = this;
-                    if (this.loggedIn) {
-                        this._editBarService.getLoggedInUser()
-                            .subscribe(function (loggedInUser) {
-                            _this.loggedInUser = loggedInUser;
-                            if (_this.loggedInUser['name'] === _this.name) {
-                                _this.allowed = true;
-                            }
-                        }, function (error) { return _this.errorMessage = error; });
-                    }
                     this._aboutService.getStoryById(this.storyid)
                         .subscribe(function (result) {
                         if (jQuery.isEmptyObject(result)) {
                             _this._router.navigate(['Error']);
                         }
                         else if (result) {
-                            _this._aboutService.getStoryRanking(_this.storyid)
-                                .subscribe(function (done) {
-                                for (var i = 0; i < parseInt(done['average_rating']); i++) {
-                                    self.rating[i] = _this.yellowStar;
-                                }
-                                if (done['average_rating'] % 2 != 0) {
-                                    self.rating[parseInt(done['average_rating'])] = _this.halfStar;
-                                    for (var j = parseInt(done['average_rating']) + 1; j < 5; j++) {
-                                        self.rating[j] = _this.grayStar;
-                                    }
-                                }
-                                else {
-                                    for (var j = parseInt(done['average_rating']); j < 5; j++) {
-                                        self.rating[j] = _this.grayStar;
-                                    }
-                                }
-                            }, function (error) { _this._router.navigate(['Error']); });
-                            for (var k = 0; k < 2; k++) {
-                                _this._aboutService.getUserById(result['ratings'][k]['ratingUser'])
+                            for (var key in result['ratings']) {
+                                _this._aboutService.getUserById(result['ratings'][key]['ratingUser'])
                                     .subscribe(function (found) {
                                     for (var user in result['ratings']) {
                                         if (result['ratings'][user]['ratingUser'] == found['id']) {
@@ -104,34 +77,25 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                     }
                                 }, function (error) { _this._router.navigate(['Error']); });
                             }
-                            _this.details.push(result);
+                            _this.ratings = result['ratings'];
                         }
                     }, function (error) { _this._router.navigate(['Error']); });
                     //get story by id
                 };
-                AboutComponent.prototype.gotoProfile = function () {
-                    this._router.navigate(['Profile', { name: this.name }]);
-                };
-                AboutComponent.prototype.gotoPresentation = function () {
-                    this._router.navigate(['Presentation', { name: this.name, storyName: this.storyName, id: this.storyid }]);
-                };
-                AboutComponent.prototype.openComments = function () {
-                    this._router.navigate(['Comments', { name: this.name, storyName: this.storyName, id: this.storyid }]);
-                };
-                AboutComponent = __decorate([
+                CommentsComponent = __decorate([
                     core_1.Component({
-                        selector: 'about',
-                        templateUrl: "app/html/about/about.html",
+                        selector: 'comments',
+                        templateUrl: "app/html/comments/comments.html",
                         directives: [logState_component_1.LogStateComponent, editBar_component_1.EditBarComponent],
                         styles: ['a {cursor: pointer}'],
                         providers: [editBar_service_1.EditBarService, about_service_1.AboutService, authentication_service_1.AuthenticationService, headerfct_1.HttpClient]
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef, router_1.Router, router_1.RouteParams, authentication_service_1.AuthenticationService, about_service_1.AboutService, editBar_service_1.EditBarService])
-                ], AboutComponent);
-                return AboutComponent;
+                ], CommentsComponent);
+                return CommentsComponent;
             }());
-            exports_1("AboutComponent", AboutComponent);
+            exports_1("CommentsComponent", CommentsComponent);
         }
     }
 });
-//# sourceMappingURL=about.component.js.map
+//# sourceMappingURL=comments.component.js.map
