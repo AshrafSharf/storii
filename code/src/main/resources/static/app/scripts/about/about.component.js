@@ -49,8 +49,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this._editBarService = _editBarService;
                     this.defaultStoryPic = 'app/assets/files/dummyStory.jpg';
                     this.yellowStar = 'app/assets/files/star.png';
-                    this.halfStar = 'app/assets/files/halfstar.png';
-                    this.grayStar = 'app/assets/files/star2.png';
+                    this.halfStar = 'app/assets/files/halfgreystar.png';
+                    this.grayStar = 'app/assets/files/greystar.png';
                     this.details = [];
                     this.rating = [];
                 }
@@ -93,16 +93,21 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                     }
                                 }
                             }, function (error) { _this._router.navigate(['Error']); });
-                            for (var k = 0; k < 2; k++) {
-                                _this._aboutService.getUserById(result['ratings'][k]['ratingUser'])
-                                    .subscribe(function (found) {
-                                    for (var user in result['ratings']) {
-                                        if (result['ratings'][user]['ratingUser'] == found['id']) {
-                                            console.log(found['name']);
-                                            result['ratings'][user]['ratingUser'] = found['name'];
+                            if (result['ratings'].length != 0) {
+                                for (var k = 0; k < 2; k++) {
+                                    _this._aboutService.getUserById(result['ratings'][k]['ratingUser'])
+                                        .subscribe(function (found) {
+                                        for (var user in result['ratings']) {
+                                            if (result['ratings'][user]['ratingUser'] == found['id']) {
+                                                console.log(found['name']);
+                                                result['ratings'][user]['ratingUser'] = found['name'];
+                                            }
                                         }
-                                    }
-                                }, function (error) { _this._router.navigate(['Error']); });
+                                    }, function (error) { _this._router.navigate(['Error']); });
+                                }
+                            }
+                            else {
+                                result['ratings'] = undefined;
                             }
                             _this.details.push(result);
                         }

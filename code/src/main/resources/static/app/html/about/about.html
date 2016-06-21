@@ -44,11 +44,16 @@
        		</div>
      	</div>
      	<div class="storyPageInformation">
-     		<h2>Comments: </h2>   	
+     		<h2>Comments: </h2>  
+     		<div *ngIf="detail.ratings">	
         	<ul *ngFor="#rating of detail.ratings">
         		<li>{{rating.comment}} - by {{rating.ratingUser}}</li>
        		</ul>
         	<a (click)="openComments()">More comments</a>
+        	</div> 
+        	<div *ngIf="!detail.ratings"> 
+        		<i>Send your comment at the end of the story</i>
+        	</div> 
         </div>
         </div>    
         

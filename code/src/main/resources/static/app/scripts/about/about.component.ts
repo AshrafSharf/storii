@@ -22,8 +22,8 @@ declare var vex: any;
 export class AboutComponent implements OnInit {
 	defaultStoryPic = 'app/assets/files/dummyStory.jpg';
 	yellowStar = 'app/assets/files/star.png';
-	halfStar = 'app/assets/files/halfstar.png';
-	grayStar = 'app/assets/files/star2.png';
+	halfStar = 'app/assets/files/halfgreystar.png';
+	grayStar = 'app/assets/files/greystar.png';
 	storyName;
 	name; 
 	loggedIn; 
@@ -91,19 +91,23 @@ export class AboutComponent implements OnInit {
  
 	 												},
                        								error => { this._router.navigate(['Error']);});	
-                       								
-	      							 for(var k = 0; k < 2; k++){
-      							 		this._aboutService.getUserById(result['ratings'][k]['ratingUser'])
-											.subscribe((found) => {
-											 for(var user in result['ratings']){
-											 	if(result['ratings'][user]['ratingUser'] == found['id']){
-											 		console.log(found['name']);
-													result['ratings'][user]['ratingUser'] = found['name'];
-											 	}
-											 }
-												
-											},
-               								error => { this._router.navigate(['Error']);});	
+                       				
+                       				if(result['ratings'].length != 0){			
+		      							 for(var k = 0; k < 2; k++){
+	      							 		this._aboutService.getUserById(result['ratings'][k]['ratingUser'])
+												.subscribe((found) => {
+												 for(var user in result['ratings']){
+												 	if(result['ratings'][user]['ratingUser'] == found['id']){
+												 		console.log(found['name']);
+														result['ratings'][user]['ratingUser'] = found['name'];
+												 	}
+												 }
+													
+												},
+	               								error => { this._router.navigate(['Error']);});	
+		      							 }
+	      							 }else{
+	      							 	result['ratings'] = undefined; 
 	      							 }
 	      							 
 	      							 this.details.push(result);
