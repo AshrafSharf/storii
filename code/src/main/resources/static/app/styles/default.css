@@ -79,6 +79,11 @@ a {
 	background-color: #E1AFB1;
 }
 
+.inline.starRating img{
+	width: 40px;
+	padding-top: 10px;
+}
+
 #editBar{
 	top: 210px;
 	width: 100%;
@@ -291,6 +296,19 @@ input.buttonStoryInfo {
 
 .pageEditorFrameContainer{
 	background-color: #D3ECED;
+}
+
+.userPageContent:after{
+	content: ".";
+    clear: both;
+    display: block;
+    visibility: hidden;
+    height: 0px;
+}
+
+.userPageContent{
+	width: 90%;
+	margin: 0 auto;
 }
 
 .searchLabel {
@@ -563,29 +581,41 @@ input.buttonStoryInfo {
 }
 
 #userStoryPage{
-	width: 75%;
+	padding-top: 40px;
 	margin: 0px auto;
 }
 
-#userStoryPage .shortInfo{
-	float: left;
-	width: 30%;
-	font-family: "Architects Daughter",cursive;
-	margin-top: 50px;
+#userStoryPage .storyTitle{
+	text-align: center;
+	background-color: #F3E0E1;
+    width: 90%;
+    margin: 0 auto;
+    border: dotted 2px black;
+    padding: 10px 0;
 }
 
-#userStoryPage .storyDetails{
+#userStoryPage .storyPageContentPart{
 	float: left;
-	width:70%;
-	margin-top: 50px;
+	width: 450px;
+	height: 450px;
 	font-family: "Architects Daughter",cursive;
+	margin-top: 50px;
+	border: 2px dotted black;
+    background-color: #D3ECED;
+    margin-right: 40px;
 }
+
+#userStoryPage .storyPageContentPart .storyPageInner{
+	padding-top: 10px;
+    padding-left: 30px;
+}
+
 #userStoryPage #content {
  }
 #userStoryPage h2 {
   font-family: "Architects Daughter", cursive;
   font-size: 30px;
-  margin: 8px 0; }
+  margin: 0; }
 #userStoryPage .backLink {
   font-family: "Architects Daughter", cursive;
   font-size: 20px;
@@ -602,16 +632,19 @@ input.buttonStoryInfo {
   	width:172px;
   	cursor:pointer;
   }
-#userStoryPage .storyPageAuthor, #userStoryPage .storyPageCoAuthor {
+#userStoryPage .storyPageAuthor, #userStoryPage .storyPageCoAuthor{
   font-family: "Architects Daughter", cursive;
-  font-size: 14px; }
+  font-size: 18px; }
+#userStoryPage .storyPageRated {
+	padding-top: 10px;
+	font-size: 22px;
+}
+#userStoryPage .storyPageAuthor{
+  font-size: 22px;}
 #userStoryPage .storyPageAuthor {
   margin-top: 20px; }
 #userStoryPage .infoWidth {
   width: 35%; }
-#userStoryPage .storyPageInformation {
-   font-family: "Architects Daughter", cursive;
-   margin-top:50px; }
 #userStoryPage .storyPageInformation h2{
 		font-size:25px;
 	}
@@ -1144,13 +1177,6 @@ input.buttonStoryInfo {
   .libelle {
     left: 0%; } }
 @media screen and (max-width: 990px) {
-    #userStoryPage .storyDetails{
-    	margin-top:10px;
-    	padding: 10px;
-    }
-    #userStoryPage .shortInfo{
-    padding: 10px;
-    }
   #nodeEditorPage {
     /*		.buttons {
     			margin-top: -95px;
@@ -1283,13 +1309,21 @@ input.buttonStoryInfo {
     }
      }
 @media screen and (max-width: 530px) {
+	
+	#userStoryPage .storyPageContentPart{
+		float: none;
+		width: 100%;
+		height: 400px;
+	    margin-right: 0;
+	}
+	
+	#userStoryPage .storyPageContentPart .storyPageInner{
+		padding-top: 10px;
+	    padding-left: 30px;
+	}
+	
 	#userStoryPage{
 	width:100%;}
-	#userStoryPage .shortInfo{
-	width:90%;
-	margin-left:25%;}
-	#userStoryPage .shortDetails{
-	}
 		
 	#searchResultPage .searchLabel span{
 		display:block;
@@ -1325,12 +1359,6 @@ input.buttonStoryInfo {
 	left:0;
 	margin-left:16%;
 	}
-	#userStoryPage .shortInfo{
-	margin-left:15%;}
-	#userStoryPage .shortDetails{
-
-	}
-	
   #userEditPage .userEditContainer h1 {
     font-size: 1.4em; }
   #userEditPage .h1bgUserEdit {

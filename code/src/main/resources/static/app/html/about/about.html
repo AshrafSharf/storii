@@ -3,7 +3,15 @@
 <div class="container">
 <div id="userStoryPage">
     <div *ngFor="#detail of details" id="content">
-    <div class="shortInfo"> 
+    
+    <div class="storyTitle">
+	    <h2>{{storyName | uppercase}}</h2>
+		<span>by </span><a (click)="gotoProfile()" class="backLink">{{name}}</a>		 	
+	</div>
+
+    <div class="userPageContent">
+    <div class="shortInfo storyPageContentPart"> 
+    <div class="storyPageInner">
     	<div>
     		<img *ngIf="!details.storyImage" src="{{defaultStoryPic}}" alt="The story picture">
    			<img *ngIf="details.storyImage" src="" alt="The story picture">
@@ -11,27 +19,21 @@
     		
     	</div>
     	<div>
-    		<div class="storyPageAuthor">Author: {{detail.authorName}}</div>
-       		<div *ngIf="detail.coAuthorName" class="storyPageCoAuthor"> Co-Author:{{detail.coAuthorName}} </div>
-    		<div>Rated:
+    		<div class="storyPageAuthor">Author: <b>{{detail.authorName}}</b></div>
+       		<div *ngIf="detail.coAuthorName" class="storyPageCoAuthor"> Co-Author: <b>{{detail.coAuthorName}}</b> </div>
+    		<div class="storyPageRated">Rated:
     		<div>
-				<div class="inline" *ngFor="#rate of rating">
+				<div class="inline starRating" *ngFor="#rate of rating">
 					<img src="{{rate}}" alt="star">
 				</div>
     			
     		</div>
     		</div>
     	</div>
+    	</div>
    	</div>
-   	<div class="storyDetails">
-   		<div>
-        	<h2>{{storyName | uppercase}}</h2>
-		 	<span>by </span><a (click)="gotoProfile()" class="backLink">{{name}}</a>
-		 	
-		</div>
-   	
-       	
-         
+   	<div class="storyDetails storyPageContentPart">
+   	<div class="storyPageInner">
         <div class="storyPageInformation">
                 <h2>Short Description:</h2>
                 <div *ngIf="detail.description">{{detail.description}}</div>
@@ -43,7 +45,10 @@
         		<a (click)="gotoPresentation()" class="buttonLookLink">READ</a>
        		</div>
      	</div>
-     	<div class="storyPageInformation">
+     	</div>
+        </div>    
+            	<div class="storyCommentSection storyPageContentPart">
+            	<div class="storyPageInner">
      		<h2>Comments: </h2>  
      		<div *ngIf="detail.ratings">	
         	<ul *ngFor="#rating of detail.ratings">
@@ -54,9 +59,9 @@
         	<div *ngIf="!detail.ratings"> 
         		<i>Send your comment at the end of the story</i>
         	</div> 
+        	</div>
         </div>
-        </div>    
-        
+       </div>
     			
     </div>
 </div>
