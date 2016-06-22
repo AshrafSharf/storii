@@ -307,7 +307,6 @@ input.buttonStoryInfo {
 }
 
 .userPageContent{
-	width: 90%;
 	margin: 0 auto;
 }
 
@@ -581,14 +580,14 @@ input.buttonStoryInfo {
 }
 
 #userStoryPage{
-	padding-top: 40px;
 	margin: 0px auto;
+    border: dotted 2px black;
+    width: 75%;
 }
 
 #userStoryPage .storyTitle{
 	text-align: center;
 	background-color: #F3E0E1;
-    width: 90%;
     margin: 0 auto;
     border: dotted 2px black;
     padding: 10px 0;
@@ -610,7 +609,24 @@ input.buttonStoryInfo {
     padding-left: 30px;
 }
 
+.pageContainerName h1{
+	font-family: "Architects Daughter", cursive;
+    margin-top: -22px;
+    font-size: 1.6em;
+}
+
+.pageContainerName{
+    width: 140px;
+    background-color: #fff;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+}
+
 #userStoryPage #content {
+	width: 90%;
+	margin: 0 auto;
+
  }
 #userStoryPage h2 {
   font-family: "Architects Daughter", cursive;
