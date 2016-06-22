@@ -92,8 +92,13 @@ export class AboutComponent implements OnInit {
 	 												},
                        								error => { this._router.navigate(['Error']);});	
                        				
-                       				if(result['ratings'].length != 0){			
-		      							 for(var k = 0; k < 2; k++){
+                       				if(result['ratings'].length != 0){	
+                       					if(result['ratings'].length >=2){
+                       						result['ratings'].length = 2;	
+                       					}else{
+                       						result['ratings'].length = 1;
+                       					}	
+		      							 for(var k = 0; k < result['ratings'].length; k++){	 	
 	      							 		this._aboutService.getUserById(result['ratings'][k]['ratingUser'])
 												.subscribe((found) => {
 												 for(var user in result['ratings']){

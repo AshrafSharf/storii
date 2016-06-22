@@ -24,6 +24,8 @@
                 <form [ngFormModel]="form">
 	                
 					<p class="label">COMMENT: <br> <input #comment ngControl="comment" class="inputField" name="comment" value="" type="text"></p>
+					
+					
 		
 					<p></p><div class="buttonFrameContainer firstButton"><input class="button" value="SEND RATING" type="submit" [disabled]="!form.valid" (click)="saveComment()"></div><p></p>
 		

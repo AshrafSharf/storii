@@ -6,6 +6,7 @@ import {NgForm, FORM_DIRECTIVES, FormBuilder, Validators, ControlGroup, NgIf} fr
 import {HttpClient}           from '../../headerfct';
 import { AboutService }    from '../about/about.service';
 import { EditBarService }    from '../editBar/editBar.service';
+import { PresentationService }    from './presentation.service';
 
 declare var jQuery: any;
 declare var vex: any;
@@ -17,7 +18,7 @@ declare var _: any;
   templateUrl: `app/html/presentation/presentation.html`,
   directives: [LogStateComponent],
   styles:['a {cursor: pointer}'],
-  providers:[AboutService,EditBarService,AuthenticationService,HttpClient]
+  providers:[AboutService,EditBarService,PresentationService, AuthenticationService,HttpClient]
   
 })
 
@@ -41,7 +42,8 @@ export class PresentationComponent implements OnInit {
     private _routeParams:RouteParams,
     private _authenticationService: AuthenticationService,
      private _editBarService: EditBarService,
-    private _aboutService: AboutService) {  
+    private _aboutService: AboutService,
+    private _presentationService: PresentationService) {  
     this.form = fb.group({
           comment:  ['', Validators.required]
         });

@@ -70,6 +70,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     this.name = this._routeParams.get('name');
                     this.storyid = this._routeParams.get('id');
                     this.storyName = this._routeParams.get('storyName');
+                    this.data = {};
                     if (this.loggedIn) {
                         this._editBarService.getLoggedInUser()
                             .subscribe(function (loggedInUser) {
@@ -175,12 +176,21 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     var self = this;
                     vex.open({
                         showCloseButton: true,
-                        content: "<div id=\"userEditPage\">\n                            <div class=\"userEditFrameContainer\">\n                                <div class=\"userEditContainer\">\n                                    <div id=\"content\">\n                                        <div class=\"h1bgUserEdit\"><h1>EDIT MY INFO</h1></div>\n                                        \n                                        <form id=\"changeName\" class=\"change\" name=\"changeName\" class=\"handledAjaxForm\">\n                                                <label class=\"name\">NAME</label><br>\n                                                <input id=\"name\" class=\"inputField saveData name\" type=\"text\" name=\"userName\" required=\"\">\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"name\" class=\"button\" type=\"button\" value=\"CHANGE NAME\"></div>-->\n                                        </form>\n                                        \n                                        <form id=\"changeEmail\" class=\"change\" name=\"changeEmail\" class=\"handledAjaxForm\">\n                                                <label class=\"email\">EMAIL</label><br>\n                                                <input id=\"email\" class=\"inputField saveData email\" type=\"email\" name=\"userMail\" required=\"\">\n                                                 <!--<div class=\"buttonFrameContainer\"><input id=\"email\" class=\"button\" type=\"button\" value=\"CHANGE E-MAIL\"></div>-->\n                                        </form>\n                                        \n                                        <form id=\"changePassword\" class=\"change\" name=\"changePassword\" class=\"handledAjaxForm\">\n                                                <p>\n                                                <label class=\"password\">PASSWORD</label><br>\n                                                <input id=\"password\" class=\"inputField\" type=\"password\" placeholder=\"Enter new password\" name=\"userPassword\" required=\"\"><br>\n                                                </p>  \n                                                <br>\n                                                <label class=\"confirm\">CONFIRM PASSWORD</label><br>\n                                                <input id=\"password\" class=\"inputField saveData\" type=\"password\" placeholder=\"Repeat new password\" name=\"userPasswordAgain\" required=\"\"> \n                                                 <!--<div class=\"buttonFrameContainer\"><input id=\"password\" class=\"button\" type=\"button\" value=\"CHANGE PASSWORD\"></div>-->\n                                        </form>\n                                        \n                                         <form id=\"changeAboutMe\" class=\"change\" name=\"changeAboutMe\" class=\"handledAjaxForm\">\n                                                <label class=\"aboutMe\">ABOUT ME</label><br>\n                                                <textarea id=\"aboutMe\" class=\"inputField saveData\" type=\"text\" name=\"userAboutme\" required=\"\" ></textarea>\n                                                 <!--<div class=\"buttonFrameContainer\"><input id=\"aboutMe\" class=\"button\" type=\"button\" value=\"CHANGE ABOUT ME\"></div>-->\n                                         </form>\n                                         \n                                         <form id=\"changeMyInspiration\" class=\"change\" name=\"changeMyInpiration\" class=\"handledAjaxForm\">\n                                                <label class=\"myInspiration\">MY INSPIRATION</label><br>\n                                                <textarea id=\"myInspiration\" class=\"inputField saveData\" type=\"text\" name=\"userMyInspiration\" required=\"\"></textarea>\n                                                 <!--<div class=\"buttonFrameContainer\"><input id=\"myInspiration\" class=\"button\" type=\"button\" value=\"CHANGE MY INSPIRATION\"></div>-->\n                                         </form>\n                                        \n                                        <div class=\"currPicDiv\"><img src=\"\" alt=\"CurrentPicture\" id=\"currentPicture\" class=\"currentUserPicture\"></div>\n                                        <div class=\"buttonFrameContainer\" id=\"pictureHandling\">\n                                        <input class=\"button ajaxFormTrigger userPicture\" type=\"button\" id=\"changePictureButton\" value=\"CHANGE PICTURE\"><br>\n                                </div>         \n                                        <div class=\"closeFancyBox\"><input onclick=\"vex.close();\"  class=\"button\" type=\"button\" value=\"CLOSE\"></div>\n                                        \n                                    </div>\n                                </div>\n                            </div>\n                        </div>"
+                        content: "<div id=\"userEditPage\">\n                            <div class=\"userEditFrameContainer\">\n                                <div class=\"userEditContainer\">\n                                    <div id=\"content\">\n                                        <div class=\"h1bgUserEdit\"><h1>EDIT MY INFO</h1></div>\n                                        \n                                        <form id=\"changeName\" class=\"change\" name=\"changeName\" class=\"handledAjaxForm\">\n                                                <label class=\"name\">NAME</label><br>\n                                                <input id=\"name\" class=\"inputField saveData name\" type=\"text\" name=\"userName\" required=\"\">\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"name\" class=\"button\" type=\"button\" value=\"CHANGE NAME\"></div>-->\n                                        </form>\n                                        \n                                        <form id=\"changeEmail\" class=\"change\" name=\"changeEmail\" class=\"handledAjaxForm\">\n                                                <label class=\"email\">EMAIL</label><br>\n                                                <input id=\"email\" class=\"inputField saveData email\" type=\"email\" name=\"userMail\" required=\"\">\n                                                 <!--<div class=\"buttonFrameContainer\"><input id=\"email\" class=\"button\" type=\"button\" value=\"CHANGE E-MAIL\"></div>-->\n                                        </form>\n                                        \n                                        <form id=\"changePassword\" class=\"change\" name=\"changePassword\" class=\"handledAjaxForm\">\n                                                <p>\n                                                <label class=\"password\">PASSWORD</label><br>\n                                                <input id=\"password\" class=\"inputField\" type=\"password\" placeholder=\"Enter new password\" name=\"userPassword\" required=\"\"><br>\n                                                </p>  \n                                                <br>\n                                                <label class=\"confirm\">CONFIRM PASSWORD</label><br>\n                                                <input id=\"password\" class=\"inputField saveData\" type=\"password\" placeholder=\"Repeat new password\" name=\"userPasswordAgain\" required=\"\"> \n                                                 <!--<div class=\"buttonFrameContainer\"><input id=\"password\" class=\"button\" type=\"button\" value=\"CHANGE PASSWORD\"></div>-->\n                                        </form>\n                                        \n                                         <form id=\"changeAboutMe\" class=\"change\" name=\"changeAboutMe\" class=\"handledAjaxForm\">\n                                                <label class=\"aboutMe\">ABOUT ME</label><br>\n                                                <textarea id=\"aboutMe\" class=\"inputField saveData\" type=\"text\" name=\"userAboutme\" required=\"\" ></textarea>\n                                                 <!--<div class=\"buttonFrameContainer\"><input id=\"aboutMe\" class=\"button\" type=\"button\" value=\"CHANGE ABOUT ME\"></div>-->\n                                         </form>\n                                         \n                                         <form id=\"changeMyInspiration\" class=\"change\" name=\"changeMyInpiration\" class=\"handledAjaxForm\">\n                                                <label class=\"myInspiration\">MY INSPIRATION</label><br>\n                                                <textarea id=\"myInspiration\" class=\"inputField saveData\" type=\"text\" name=\"userMyInspiration\" required=\"\"></textarea>\n                                                 <!--<div class=\"buttonFrameContainer\"><input id=\"myInspiration\" class=\"button\" type=\"button\" value=\"CHANGE MY INSPIRATION\"></div>-->\n                                         </form>\n                                        \n                                        <div class=\"currPicDiv preview-md\"><img src=\"\" alt=\"CurrentPicture\" id=\"currentPicture\" class=\"currentUserPicture\"></div>\n                                        <div class=\"buttonFrameContainer\" id=\"pictureHandling\">\n                                        <input class=\"button ajaxFormTrigger userPicture\" type=\"button\" id=\"changePictureButton\" value=\"CHANGE PICTURE\"><br>\n                                        \n                                        </div>  \n       \n                                        <div class=\"closeFancyBox\"><input onclick=\"vex.close();\"  class=\"button\" type=\"button\" value=\"CLOSE\"></div>\n                                        \n                                    </div>\n                                </div>\n                            </div>\n                        </div>"
                     });
                     jQuery('#changeName input:text').attr("value", self.details[0]['name']);
                     jQuery('#changeEmail .inputField').attr("value", self.details[0]['email']);
                     jQuery('#changeAboutMe textarea').text(self.details[0]['aboutMe']);
                     jQuery('#changeMyInspiration textarea').text(self.details[0]['myInspiration']);
+                    jQuery('#changePictureButton').click(function () {
+                        jQuery('#pictureHandling').append('<input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');
+                        jQuery('#image').css('max-width', '100%');
+                        jQuery('.currPicDiv > img').css('max-width', '100%');
+                        jQuery('.currPicDiv').css('overflow', 'hidden');
+                        jQuery("#upload").change(function () {
+                            self.readURL(this);
+                        });
+                    });
                     jQuery('.saveData').on('focus', function (event) {
                         jQuery('.updated').remove();
                     });
@@ -210,6 +220,62 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                             }
                         }
                     });
+                };
+                EditBarComponent.prototype.readURL = function (input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            jQuery('#image').attr('src', e.target.result);
+                            var Cropper = window.Cropper;
+                            var image = document.getElementById('image');
+                            console.log(image);
+                            var cropper = new Cropper(image, {
+                                aspectRatio: 1 / 1,
+                                preview: '.currPicDiv',
+                                build: function (e) {
+                                    console.log(e.type);
+                                },
+                                built: function (e) {
+                                    console.log(e.type);
+                                },
+                                cropstart: function (e) {
+                                    console.log(e.type, e.detail.action);
+                                },
+                                cropmove: function (e) {
+                                    console.log(e.type, e.detail.action);
+                                },
+                                cropend: function (e) {
+                                    console.log(e.type, e.detail.action);
+                                },
+                                crop: function (e) {
+                                    var data = e.detail;
+                                    console.log(e.type);
+                                },
+                                zoom: function (e) {
+                                    console.log(e.type, e.detail.ratio);
+                                }
+                            });
+                            jQuery('.crop').click(function () {
+                                /*  cropper.getCroppedCanvas();
+              
+                                  cropper.getCroppedCanvas({
+                                    width: 160,
+                                    height: 90
+                                  });*/
+                                // Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`
+                                cropper.getCroppedCanvas().toBlob(function (blob) {
+                                    var _this = this;
+                                    console.log(blob);
+                                    var formData = new FormData();
+                                    formData.append('croppedImage', blob);
+                                    this._editBarService.setProfileImage(formData)
+                                        .subscribe(function (done) {
+                                    }, function (error) { return _this.errorMessage = error; });
+                                });
+                            });
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
                 };
                 EditBarComponent.prototype.openStoryEditor = function () {
                     var self = this;

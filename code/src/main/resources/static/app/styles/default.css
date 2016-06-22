@@ -223,6 +223,12 @@ input.buttonStoryInfo {
 	padding:5px;
 	cursor: pointer;
 }
+
+
+.preview-md {
+  width: 139px;
+  height: 100px;
+}
   
 .buttonSizeActions, .buttonSizeDelete{
 	border: black dotted 2px;

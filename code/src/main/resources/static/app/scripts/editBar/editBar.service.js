@@ -37,6 +37,35 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     this.httpClient = httpClient;
                     this._authenticationService = _authenticationService;
                 }
+                EditBarService.prototype.uploadFile = function (file) {
+                    /*  let xhr:XMLHttpRequest = new XMLHttpRequest();
+                     
+                          var string = localStorage.getItem("auth_token");
+                          var url = "";
+                      xhr.open('POST', url, true);
+                      xhr.setRequestHeader('Authorization', string);
+              
+                      let formData = new FormData();
+                      formData.append("file", file, file.name);
+                      xhr.send(formData);*/
+                };
+                EditBarService.prototype.setProfileImage = function (formData) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                        headers.append('Content-Type', 'multipart/form-data');
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.delete('Content-Type');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/attachmentUI/addUserImage';
+                    return this.http.post(_resultUrl, formData, { headers: headers })
+                        .map(this.extractData)
+                        .do(function (data) { return console.log(data); })
+                        .catch(this.handleError);
+                };
                 EditBarService.prototype.publishStory = function (id) {
                     var headers = new http_2.Headers();
                     if (this._authenticationService.isLoggedIn()) {

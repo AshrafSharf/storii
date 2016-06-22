@@ -94,7 +94,13 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                 }
                             }, function (error) { _this._router.navigate(['Error']); });
                             if (result['ratings'].length != 0) {
-                                for (var k = 0; k < 2; k++) {
+                                if (result['ratings'].length >= 2) {
+                                    result['ratings'].length = 2;
+                                }
+                                else {
+                                    result['ratings'].length = 1;
+                                }
+                                for (var k = 0; k < result['ratings'].length; k++) {
                                     _this._aboutService.getUserById(result['ratings'][k]['ratingUser'])
                                         .subscribe(function (found) {
                                         for (var user in result['ratings']) {

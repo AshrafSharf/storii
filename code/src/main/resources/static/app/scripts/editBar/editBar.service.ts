@@ -10,6 +10,42 @@ import { AuthenticationService }    from '../login/authentication.service';
 export class EditBarService {
   constructor (private http: Http, private httpClient: HttpClient, private _authenticationService: AuthenticationService) {}
 
+	uploadFile(file:File) {
+   
+
+      /*  let xhr:XMLHttpRequest = new XMLHttpRequest();
+       
+		 	var string = localStorage.getItem("auth_token");
+		 	var url = "";
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Authorization', string); 
+
+        let formData = new FormData();
+        formData.append("file", file, file.name);
+        xhr.send(formData);*/
+   
+	}
+	
+	setProfileImage(formData){
+		 var headers = new Headers();
+	    if (this._authenticationService.isLoggedIn()) {
+	  		headers = this.httpClient.createHeader(headers);
+	 		headers.append('Content-Type', 'multipart/form-data');
+  		}else{
+  			headers.delete('Authorization');
+  			headers.delete('Content-Type');
+  			headers.append('Authorization',"");
+  		}
+		var _resultUrl = '/attachmentUI/addUserImage'; 
+	    return this.http.post(_resultUrl, formData,{headers})
+	            .map(this.extractData)
+	            .do(data => console.log(data))
+	            .catch(this.handleError);
+	
+	
+	}
+	
+	
 	publishStory(id){
 	    var headers = new Headers();
 	    if (this._authenticationService.isLoggedIn()) {

@@ -10,6 +10,8 @@ import {HttpClient}           from '../../headerfct';
 declare var jQuery: any;
 declare var vex: any;
 declare var GridStackUI: any;
+declare var Cropper: any;
+declare var window: any;
 declare var _: any;
     
 @Component({
@@ -23,6 +25,8 @@ declare var _: any;
 
 
 export class EditBarComponent implements OnInit {
+       
+    data: any;
 
     editProfile = "Edit Profile";
     editPages = "Edit Pages";
@@ -73,7 +77,11 @@ export class EditBarComponent implements OnInit {
     this.loggedIn=_authenticationService.isLoggedIn();
     this.name = this._routeParams.get('name');  
     this.storyid = this._routeParams.get('id');
-    this.storyName = this._routeParams.get('storyName');     
+    this.storyName = this._routeParams.get('storyName'); 
+        
+        
+
+        this.data = {};
     
         if(this.loggedIn){
         this._editBarService.getLoggedInUser()
@@ -250,10 +258,12 @@ export class EditBarComponent implements OnInit {
                                                  <!--<div class="buttonFrameContainer"><input id="myInspiration" class="button" type="button" value="CHANGE MY INSPIRATION"></div>-->
                                          </form>
                                         
-                                        <div class="currPicDiv"><img src="" alt="CurrentPicture" id="currentPicture" class="currentUserPicture"></div>
+                                        <div class="currPicDiv preview-md"><img src="" alt="CurrentPicture" id="currentPicture" class="currentUserPicture"></div>
                                         <div class="buttonFrameContainer" id="pictureHandling">
                                         <input class="button ajaxFormTrigger userPicture" type="button" id="changePictureButton" value="CHANGE PICTURE"><br>
-                                </div>         
+                                        
+                                        </div>  
+       
                                         <div class="closeFancyBox"><input onclick="vex.close();"  class="button" type="button" value="CLOSE"></div>
                                         
                                     </div>
@@ -267,6 +277,23 @@ export class EditBarComponent implements OnInit {
             jQuery('#changeEmail .inputField').attr("value", self.details[0]['email']);
             jQuery('#changeAboutMe textarea').text(self.details[0]['aboutMe']);
             jQuery('#changeMyInspiration textarea').text(self.details[0]['myInspiration']);
+        
+            jQuery('#changePictureButton').click(function(){
+                jQuery('#pictureHandling').append('<input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');  
+                jQuery('#image').css('max-width','100%');
+                jQuery('.currPicDiv > img').css('max-width','100%');
+                jQuery('.currPicDiv').css('overflow','hidden');
+                jQuery("#upload").change(function(){
+                    self.readURL(this);
+                });
+                
+                
+               
+             
+
+            });
+        
+            
         
             jQuery('.saveData').on('focus', function(event) {
                  jQuery('.updated').remove();
@@ -298,6 +325,77 @@ export class EditBarComponent implements OnInit {
                 }               
             });
     }
+    
+       readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+        
+                reader.onload = function (e:any) {
+                    jQuery('#image').attr('src', e.target.result);
+                    
+                    var Cropper = window.Cropper;
+                    var image = document.getElementById('image');
+                    console.log(image);
+                    var cropper = new Cropper(image, {
+                      aspectRatio: 1 / 1,
+                      preview: '.currPicDiv',
+                      build: function (e) {
+                          console.log(e.type);
+                        },
+                        built: function (e) {
+                          console.log(e.type);
+                        },
+                        cropstart: function (e) {
+                          console.log(e.type, e.detail.action);
+                        },
+                        cropmove: function (e) {
+                          console.log(e.type, e.detail.action);
+                        },
+                        cropend: function (e) {
+                          console.log(e.type, e.detail.action);
+                        },
+                        crop: function (e) {
+                          var data = e.detail;
+                
+                          console.log(e.type);
+                      
+                        },
+                        zoom: function (e) {
+                          console.log(e.type, e.detail.ratio);
+                        }
+                    });
+                    
+                    jQuery('.crop').click(function(){
+                  /*  cropper.getCroppedCanvas();
+
+                    cropper.getCroppedCanvas({
+                      width: 160,
+                      height: 90
+                    });*/
+                    
+                    // Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`
+                    cropper.getCroppedCanvas().toBlob(function (blob) {
+                        console.log(blob);
+                        var formData = new FormData();
+                    
+                        formData.append('croppedImage', blob);
+                    
+                        this._editBarService.setProfileImage(formData)
+                        .subscribe(
+                               done => { 
+                               
+                                     },
+                               error => this.errorMessage = <any>error);
+                   
+                    });
+                });
+                }
+        
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
     
     openStoryEditor(){
          let self = this;
