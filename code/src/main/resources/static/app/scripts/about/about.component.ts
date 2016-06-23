@@ -75,16 +75,17 @@ export class AboutComponent implements OnInit {
 	      							 this._aboutService.getStoryRanking(this.storyid)
 	 												.subscribe((done) => {
 	 													
-	 													for(var i = 0; i < parseInt(done['average_rating']); i++){
+	 													for(var i = 0; i < parseInt(done['rounded_rating']); i++){
 	 														self.rating[i]=this.yellowStar;
 	 													}
-	 													if(done['average_rating'] % 2 != 0){
-	 													 	self.rating[parseInt(done['average_rating'])]=this.halfStar;	
-	 														for(var j = parseInt(done['average_rating'])+1; j < 5; j++){
+	 													var comma = done['rounded_rating'].toString().split(".")[1];
+	 													if(comma != "0"){
+	 													 	self.rating[parseInt(done['rounded_rating'])]=this.halfStar;	
+	 														for(var j = parseInt(done['rounded_rating'])+1; j < 5; j++){
 	 														self.rating[j]=this.grayStar;
 	 														}
 	 													}else{
-	 														for(var j = parseInt(done['average_rating']); j < 5; j++){
+	 														for(var j = parseInt(done['rounded_rating']); j < 5; j++){
 	 														self.rating[j]=this.grayStar;
 	 														}
 	 													}

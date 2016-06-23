@@ -31,8 +31,11 @@ export class PresentationComponent implements OnInit {
     loggedIn;
     firstPage;
     actualPage;
-    rateAllowed; 
+    allowed;
+    rateAllowed;
+    loggedInUser; 
     errorMessage;
+    notSent = true; 
     form: ControlGroup;
     
     constructor(
@@ -54,9 +57,21 @@ export class PresentationComponent implements OnInit {
         this.storyid = this._routeParams.get('id'); 
         this.name = this._routeParams.get('name');
         this.loggedIn = this._authenticationService.isLoggedIn();
-        
+    
         if(this.loggedIn){
-       
+            this._editBarService.getLoggedInUser()
+                             .subscribe(
+                               loggedInUser => {    
+                                this.loggedInUser = loggedInUser;
+                                if(this.loggedInUser['name'] === this.name){
+                                    this.allowed = false; 
+                                }else{
+                                     this.allowed = true; 
+                                }
+                               
+    
+                               },
+                               error =>  this.errorMessage = <any>error);
         }
         this._aboutService.getStoryById(this.storyid)
                             .subscribe((result) => {
@@ -67,6 +82,8 @@ export class PresentationComponent implements OnInit {
                                                    actualPage => { 
                                                    this.actualPage = actualPage;
                                                    this.loadPageEditor();
+                                               
+                                                       
                                                    },error =>  this.errorMessage = <any>error);
                                       // console.log(this.details);
                                     }
@@ -90,8 +107,15 @@ export class PresentationComponent implements OnInit {
 
     }
     
-    saveComment(){
-        
+    saveComment(comment){
+         this._presentationService.saveComment(this.storyid,comment)
+                            .subscribe((result) => {
+                                    if (result) {
+                                        this.notSent = false; 
+                                    }
+                                 
+                                    },
+                                    error =>  this.errorMessage = <any>error);
     }
     
      loadPageEditor(){

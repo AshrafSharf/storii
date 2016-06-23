@@ -49,8 +49,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this._editBarService = _editBarService;
                     this.defaultStoryPic = 'app/assets/files/dummyStory.jpg';
                     this.yellowStar = 'app/assets/files/star.png';
-                    this.halfStar = 'app/assets/files/halfstar.png';
-                    this.grayStar = 'app/assets/files/star2.png';
+                    this.halfStar = 'app/assets/files/halfgreystar.png';
+                    this.grayStar = 'app/assets/files/greystar.png';
                     this.ratings = [];
                 }
                 CommentsComponent.prototype.ngOnInit = function () {
@@ -66,6 +66,18 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             _this._router.navigate(['Error']);
                         }
                         else if (result) {
+                            var rating = [];
+                            console.log(result);
+                            for (var i = 0; i < result['ratings'].length; i++) {
+                                for (var j = 0; j < result['ratings'][i]['value']; j++) {
+                                    rating[j] = _this.yellowStar;
+                                }
+                                for (var k = result['ratings'][i]['value']; k < 5; k++) {
+                                    rating[k] = _this.grayStar;
+                                }
+                                result['ratings'][i]['stars'] = rating;
+                            }
+                            console.log(result);
                             for (var key in result['ratings']) {
                                 _this._aboutService.getUserById(result['ratings'][key]['ratingUser'])
                                     .subscribe(function (found) {

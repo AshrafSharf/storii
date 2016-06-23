@@ -78,17 +78,18 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         else if (result) {
                             _this._aboutService.getStoryRanking(_this.storyid)
                                 .subscribe(function (done) {
-                                for (var i = 0; i < parseInt(done['average_rating']); i++) {
+                                for (var i = 0; i < parseInt(done['rounded_rating']); i++) {
                                     self.rating[i] = _this.yellowStar;
                                 }
-                                if (done['average_rating'] % 2 != 0) {
-                                    self.rating[parseInt(done['average_rating'])] = _this.halfStar;
-                                    for (var j = parseInt(done['average_rating']) + 1; j < 5; j++) {
+                                var comma = done['rounded_rating'].toString().split(".")[1];
+                                if (comma != "0") {
+                                    self.rating[parseInt(done['rounded_rating'])] = _this.halfStar;
+                                    for (var j = parseInt(done['rounded_rating']) + 1; j < 5; j++) {
                                         self.rating[j] = _this.grayStar;
                                     }
                                 }
                                 else {
-                                    for (var j = parseInt(done['average_rating']); j < 5; j++) {
+                                    for (var j = parseInt(done['rounded_rating']); j < 5; j++) {
                                         self.rating[j] = _this.grayStar;
                                     }
                                 }

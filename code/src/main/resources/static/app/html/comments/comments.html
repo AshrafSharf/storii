@@ -4,7 +4,11 @@
 <div id="commentsStoryPage">
 <h2>Comments: </h2>   	
 	<ul *ngFor="#rating of ratings">
-		<li>{{rating.comment}} - by {{rating.ratingUser}}</li>
+		<li>{{rating.comment}} - by {{rating.ratingUser}}
+			 <div class="inline starRating" *ngFor="#star of rating.stars">
+					<img src="{{star}}" alt="star">
+			</div>
+		</li>
 	</ul>
 	
 </div>

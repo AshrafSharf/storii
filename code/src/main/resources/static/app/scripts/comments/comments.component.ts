@@ -22,8 +22,8 @@ declare var vex: any;
 export class CommentsComponent implements OnInit {
     defaultStoryPic = 'app/assets/files/dummyStory.jpg';
     yellowStar = 'app/assets/files/star.png';
-    halfStar = 'app/assets/files/halfstar.png';
-    grayStar = 'app/assets/files/star2.png';
+    halfStar = 'app/assets/files/halfgreystar.png';
+    grayStar = 'app/assets/files/greystar.png';
     storyName;
     name; 
     loggedIn; 
@@ -54,6 +54,20 @@ export class CommentsComponent implements OnInit {
                                     if(jQuery.isEmptyObject(result)){
                                      this._router.navigate(['Error']);
                                     }else if(result) { 
+                                       var rating = [];
+                                        console.log(result);
+                                    for(var i = 0; i < result['ratings'].length; i++){
+                                           for(var j = 0; j < result['ratings'][i]['value'];j++){
+                                                rating[j]=this.yellowStar;
+                                            }
+                                             for(var k = result['ratings'][i]['value']; k < 5; k++){
+                                                rating[k]=this.grayStar;
+                                            }
+                                            
+                                            result['ratings'][i]['stars'] = rating;
+                                    }
+                                    
+                                    console.log(result);
                   
                                      for(var key in result['ratings']){
                                         this._aboutService.getUserById(result['ratings'][key]['ratingUser'])

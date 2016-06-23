@@ -10,19 +10,24 @@ import { AuthenticationService }    from '../login/authentication.service';
 export class EditBarService {
   constructor (private http: Http, private httpClient: HttpClient, private _authenticationService: AuthenticationService) {}
 
-	uploadFile(file:File) {
-   
-
-      /*  let xhr:XMLHttpRequest = new XMLHttpRequest();
-       
+	uploadFile(formData) {
+     let xhr:XMLHttpRequest = new XMLHttpRequest();
+		    xhr.onreadystatechange = () => { console.log("LALAL");
+		      if(xhr.readyState === 4) {
+		        if(xhr.status === 201) {
+		           console.log("Success");
+		        } else {
+		           console.log("Error");
+		        }
+		      }
+		    }
+         xhr.setRequestHeader("enctype", "multipart/form-data")
 		 	var string = localStorage.getItem("auth_token");
-		 	var url = "";
+		 	var url = "/attachmentUI/addUserImage";
         xhr.open('POST', url, true);
         xhr.setRequestHeader('Authorization', string); 
 
-        let formData = new FormData();
-        formData.append("file", file, file.name);
-        xhr.send(formData);*/
+        xhr.send(formData);
    
 	}
 	
@@ -30,14 +35,17 @@ export class EditBarService {
 		 var headers = new Headers();
 	    if (this._authenticationService.isLoggedIn()) {
 	  		headers = this.httpClient.createHeader(headers);
-	 		headers.append('Content-Type', 'multipart/form-data');
+	 	 	headers.append('Content-Type', 'multipart/form-data; boundary="myBoundary"');
   		}else{
   			headers.delete('Authorization');
   			headers.delete('Content-Type');
   			headers.append('Authorization',"");
   		}
+  		
+  		
 		var _resultUrl = '/attachmentUI/addUserImage'; 
-	    return this.http.post(_resultUrl, formData,{headers})
+		console.log(_resultUrl);
+	    return this.http.post(_resultUrl, formData ,{headers})
 	            .map(this.extractData)
 	            .do(data => console.log(data))
 	            .catch(this.handleError);
@@ -46,7 +54,7 @@ export class EditBarService {
 	}
 	
 	
-	publishStory(id){
+	publishStory(id){ 
 	    var headers = new Headers();
 	    if (this._authenticationService.isLoggedIn()) {
 	  		headers = this.httpClient.createHeader(headers);

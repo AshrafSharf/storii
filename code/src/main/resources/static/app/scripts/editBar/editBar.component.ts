@@ -327,10 +327,10 @@ export class EditBarComponent implements OnInit {
     }
     
        readURL(input) {
-
+        let self = this; 
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-        
+                
                 reader.onload = function (e:any) {
                     jQuery('#image').attr('src', e.target.result);
                     
@@ -379,14 +379,34 @@ export class EditBarComponent implements OnInit {
                         console.log(blob);
                         var formData = new FormData();
                     
-                        formData.append('croppedImage', blob);
+                        formData.append('uploadfile', blob);
+                        
+                        var ajax = new XMLHttpRequest();
+ 
+                        if(ajax!=null){
+                             var string = localStorage.getItem("auth_token");
+                              var url = "/attachmentUI/addUserImage";
+                            ajax.open('POST', url, true);
+                            ajax.setRequestHeader("enctype", "multipart/form-data");
+                            ajax.setRequestHeader('Authorization', string); 
+                            ajax.onreadystatechange = function(){
+                                if(this.readyState == 4){
+                                    if(this.status == 200){
+                                        console.log(this.responseText);
+                                    }
+                                    else{
+                                        console.log(this.statusText);
+                                    }
+                                }
+                            }
+                            ajax.send(formData);
+                        }
+                        else{
+                            alert("Ihr Browser unterstützt kein Ajax!");
+                        }
                     
-                        this._editBarService.setProfileImage(formData)
-                        .subscribe(
-                               done => { 
-                               
-                                     },
-                               error => this.errorMessage = <any>error);
+                    
+                       // self._editBarService.uploadFile(formData);
                    
                     });
                 });

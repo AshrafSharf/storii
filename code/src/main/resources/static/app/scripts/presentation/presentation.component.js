@@ -52,6 +52,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this._editBarService = _editBarService;
                     this._aboutService = _aboutService;
                     this._presentationService = _presentationService;
+                    this.notSent = true;
                     this.form = fb.group({
                         comment: ['', common_1.Validators.required]
                     });
@@ -63,6 +64,16 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.name = this._routeParams.get('name');
                     this.loggedIn = this._authenticationService.isLoggedIn();
                     if (this.loggedIn) {
+                        this._editBarService.getLoggedInUser()
+                            .subscribe(function (loggedInUser) {
+                            _this.loggedInUser = loggedInUser;
+                            if (_this.loggedInUser['name'] === _this.name) {
+                                _this.allowed = false;
+                            }
+                            else {
+                                _this.allowed = true;
+                            }
+                        }, function (error) { return _this.errorMessage = error; });
                     }
                     this._aboutService.getStoryById(this.storyid)
                         .subscribe(function (result) {
@@ -85,7 +96,14 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 PresentationComponent.prototype.goBackToStory = function () {
                     this._router.navigate(['About', { name: this.name, storyName: this.storyName, id: this.storyid }]);
                 };
-                PresentationComponent.prototype.saveComment = function () {
+                PresentationComponent.prototype.saveComment = function (comment) {
+                    var _this = this;
+                    this._presentationService.saveComment(this.storyid, comment)
+                        .subscribe(function (result) {
+                        if (result) {
+                            _this.notSent = false;
+                        }
+                    }, function (error) { return _this.errorMessage = error; });
                 };
                 PresentationComponent.prototype.loadPageEditor = function () {
                     var self = this;

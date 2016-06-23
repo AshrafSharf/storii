@@ -1,16 +1,23 @@
 package com.storii.controllers;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -67,24 +74,30 @@ public class UploadController {
 	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/addUserImage", headers = "content-type=multipart/*", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<String> addUserImage(@RequestParam("uploadfile") MultipartFile uploadfile) {
+	public ResponseEntity<String> addUserImage(@RequestParam("uploadfile") Blob uploadfile) {
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		StoriiUser myUser = userDAO.findByName(userDetails.getUsername());
 		String filename = "";
+		
+		//BufferedImage newImage = convertImage(uploadfile);
 
 		try {
 			// Get the filename and build the local file path (be sure that the
 			// application have write permissions on such directory)
 			java.util.Date date = new java.util.Date();
 
-			filename = new Timestamp(date.getTime()).hashCode() + uploadfile.getOriginalFilename();
+			filename = new Timestamp(date.getTime()).hashCode() + "deree";
 			String directory = "uploadedFiles";
 			String filepath = Paths.get(directory, filename).toString();
 
 			// Save the file locally
 			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
-			stream.write(uploadfile.getBytes());
+			
+			int blobLength = (int) uploadfile.length();  
+			byte[] blobAsBytes = uploadfile.getBytes(1, blobLength);
+			
+			stream.write(blobAsBytes);
 			stream.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -331,5 +344,39 @@ public class UploadController {
 		return ResponseEntity.ok().body("{\"deleted\":\"true\", \"image_name\":\""+imgName+"\"}");
 
 	}
+	
+	public static BufferedImage convertImage(Blob[] blob) {
+	       BufferedImage bufferedImage = null;
+	       OutputStream outputStream = null;
+	        try {
+	            bufferedImage = ImageIO.read(blob[0].getBinaryStream());
+
+	            outputStream = blob[0].setBinaryStream(0);
+
+	            RenderedImage renderedImage = (RenderedImage)bufferedImage;
+
+	            ImageIO.write(renderedImage, "JPG", outputStream);
+
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	        catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        catch(IllegalArgumentException e) {
+	            e.printStackTrace();
+	        }
+	        finally {
+	            try {
+	                if (outputStream != null) {
+	                    outputStream.flush();
+	                    outputStream.close();
+	                }
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
+			return bufferedImage;
+	    }
 	
 }
