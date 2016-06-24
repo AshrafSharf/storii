@@ -11,6 +11,7 @@
 	</div>
 
     <div class="userPageContent">
+    <div class="storyPageOuter">
     <div class="shortInfo storyPageContentPart"> 
     <div class="storyPageInner">
     	<div>
@@ -33,6 +34,8 @@
     	</div>
     	</div>
    	</div>
+   	</div>
+   	<div class="storyPageOuter">
    	<div class="storyDetails storyPageContentPart">
    	<div class="storyPageInner">
         <div class="storyPageInformation">
@@ -47,9 +50,11 @@
        		</div>
      	</div>
      	</div>
-        </div>    
-            	<div class="storyCommentSection storyPageContentPart">
-            	<div class="storyPageInner">
+        </div>  
+        </div>  
+        <div class="storyPageOuter">
+        <div class="storyCommentSection storyPageContentPart">
+        <div class="storyPageInner">
      		<h2>Comments: </h2>  
      		<div *ngIf="detail.ratings">	
         	<ul *ngFor="#rating of detail.ratings">
@@ -60,7 +65,8 @@
         	<div *ngIf="!detail.ratings"> 
         		<i>Send your comment at the end of the story</i>
         	</div> 
-        	</div>
+        </div>
+        </div>
         </div>
        </div>
     			
