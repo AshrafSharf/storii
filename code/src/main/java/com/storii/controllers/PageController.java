@@ -91,7 +91,7 @@ public class PageController {
 	 * DELETE /{user_id} -> delete the user with given ID.
 	 */
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/{page_id}", method = RequestMethod.DELETE, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> destroy(@PathVariable(value = "page_id") Long id) {
@@ -108,7 +108,7 @@ public class PageController {
 	 * PUT /{user_id} -> update the user with given ID.
 	 */
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/{page_id}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> update(@RequestBody String json, @PathVariable(value = "page_id") Long id)
@@ -143,6 +143,7 @@ public class PageController {
 
 	}
 	
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/{page_id}/addInternLink/{next_page_id}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> addInternLink(@RequestBody String json, @PathVariable(value = "page_id") Long page_id, @PathVariable(value = "next_page_id") Long next_page_id) throws IOException {
@@ -168,6 +169,7 @@ public class PageController {
 	 * swap
 	 */
 	
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/{page_id}/swapWith/{target_page_id}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> swapWith(@PathVariable(value = "page_id") Long page_id, @PathVariable(value = "target_page_id") Long target_page_id) {
@@ -224,12 +226,22 @@ public class PageController {
 		return ResponseEntity.ok().body("{\"data\":"+"{\"swapped\":\"true\",\"link1\": \""+page_id+"\",\"link2\": \""+target_page_id+"\"}"+"}");
 	}
 	
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/{page_id}/swapWithBranch/{target_page_id}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> swapWithBranch(@PathVariable(value = "page_id") Long page_id, @PathVariable(value = "target_page_id") Long target_page_id) {
+		System.out.println("IN THIS METHOD");
 		Page page1 = pageDAO.findOne(page_id);
 		Page page2 = pageDAO.findOne(target_page_id);
 		
+		Set<Page> controllPages = new HashSet<Page>();
+		
+		page1.addChildPages(controllPages);
+		
+		if(controllPages.contains(page2)){
+			return ResponseEntity.badRequest().body("{\"data\":"+"{\"swapped\":\"false\",\"exception\": \"swap_with_parent\"}"+"}");
+		}
+				
 		Page dummy = page1.cloneForSwap();
 		
 		int LvlIndicatorForPage1 = page2.getLevel() - page1.getLevel();
@@ -329,6 +341,7 @@ public class PageController {
 		return ResponseEntity.ok().body("{\"data\":"+"{\"swapped\":\"true\",\"link1\": \""+page_id+"\",\"link2\": \""+target_page_id+"\"}"+"}");
 	}*/
 	
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/{page_id}/appendToBranch/{target_page_id}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> appendToBranch(@PathVariable(value = "page_id") Long page_id, @PathVariable(value = "target_page_id") Long target_page_id) {
@@ -370,6 +383,7 @@ public class PageController {
 		return ResponseEntity.ok().body("{\"data\":"+"{\"appended\":\"true\",\"link1\": \""+page_id+"\",\"link2\": \""+target_page_id+"\"}"+"}");
 	}
 	
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/{page_id}/deleteSingle", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> deleteSingle(@PathVariable(value = "page_id") Long page_id) {
@@ -416,6 +430,7 @@ public class PageController {
 		
 	}
 
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/{page_id}/deleteBranch", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> deleteBranch(@PathVariable(value = "page_id") Long page_id) {
@@ -446,7 +461,7 @@ public class PageController {
 		
 	}
 
-
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/{page_id}/getAllOutgoing", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> getAllOutgoing(@PathVariable(value = "page_id") Long page_id) throws JsonProcessingException {
