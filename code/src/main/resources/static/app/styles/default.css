@@ -178,6 +178,62 @@ input.buttonStoryInfo {
   padding: 20px;
   margin-top: 10px;
   background-color: #96C3CC; }
+  
+  #commentsStoryPage{
+  	border: dotted 2px black;
+  	background-color: #D3ECED;
+  	width: 80%;
+  	margin: 20px auto;
+  }
+  
+  #commentsStoryPage h2{
+    text-align: center;
+    padding: 10px;
+  }
+  
+  .shortStoryDescription{
+  	border: dotted 2px black;
+	background-color: white;
+	padding: 7px;
+	width: 85%;
+    max-height: 210px;
+    overflow: hidden;
+  }
+
+.singleRating{
+	border: dotted 2px black;
+	background-color: white;
+	width: 85%;
+    padding: 7px;
+    overflow: hidden;
+    max-height: 90px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.singleRatingPage{
+	border: dotted 2px black;
+    background-color: white;
+    width: 70%;
+    padding: 7px;
+    margin: 20px auto;
+}
+}
+
+.singleRating:last-child{
+	margin-bottom: 16px;
+}
+
+.commentSectionLink{
+	border: dotted 2px black;
+	background-color: #96C3CC;
+	padding: 2px 20px;
+}
+
+.ratingUser a:hover{
+    text-decoration: underline;
+}
+
 
 .loginContainer, .registerContainer {
   background-color: #96C3CC;
@@ -1354,6 +1410,18 @@ input.buttonStoryInfo {
     }
      }
 @media screen and (max-width: 530px) {
+	
+	.singleRatingPage{
+		width: 90%;
+	}
+	
+	#commentsStoryPage{
+		width: 90%;
+	}
+	
+	#commentsStoryPage h2{
+		width: 50%;
+	}
 	
 	#userStoryPage .storyPageContentPart{
 		padding: 0px;

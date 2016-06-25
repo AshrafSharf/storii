@@ -3,13 +3,17 @@
 <div class="container">
 <div id="commentsStoryPage">
 <h2>Comments: </h2>   	
-	<ul *ngFor="#rating of ratings">
-		<li>{{rating.comment}} - by {{rating.ratingUser}}
+	<div *ngFor="#rating of ratings">
+		<div class="allRatings">
+			<div class="singleRatingPage">
+			<div class="ratingUser"><b><a (click)="gotoProfile()">{{rating.ratingUser}}</a></b> said:</div>
+        	<div class="ratingComment">{{rating.comment}}</div>
 			 <div class="inline starRating" *ngFor="#star of rating.stars">
 					<img src="{{star}}" alt="star">
 			</div>
-		</li>
-	</ul>
+			</div>
+		</div>
+	</div>
 	
 </div>
 </div>

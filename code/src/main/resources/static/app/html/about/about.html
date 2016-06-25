@@ -40,8 +40,8 @@
    	<div class="storyPageInner">
         <div class="storyPageInformation">
                 <h2>Short Description:</h2>
-                <div *ngIf="detail.description">{{detail.description}}</div>
-                <div *ngIf="!detail.description"><i>This is the place where you can describe the content of your story</i></div>             
+                <div *ngIf="detail.description" class="shortStoryDescription">{{detail.description}}</div>
+                <div *ngIf="!detail.description" class="shortStoryDescription">This is the place where you can describe the content of your story!</div>             
         </div>
         <br>
         <div *ngIf="detail.published || allowed" class="buttonFrameContainerUserStoryContentModule">
@@ -57,10 +57,13 @@
         <div class="storyPageInner">
      		<h2>Comments: </h2>  
      		<div *ngIf="detail.ratings">	
-        	<ul *ngFor="#rating of detail.ratings">
-        		<li>{{rating.comment}} - by {{rating.ratingUser}}</li>
-       		</ul>
-        	<a (click)="openComments()">More comments</a>
+        	<div class="allRatings" *ngFor="#rating of detail.ratings">
+        		<div class="singleRating">
+        			<div class="ratingUser"><b><a (click)="gotoProfile()">{{rating.ratingUser}}</a></b> said:</div>
+        			<div class="ratingComment">{{rating.comment}}</div>
+        		</div>
+       		</div>
+        	<a class="commentSectionLink" (click)="openComments()">More comments</a>
         	</div> 
         	<div *ngIf="!detail.ratings"> 
         		<i>Send your comment at the end of the story</i>
