@@ -87,7 +87,7 @@ public class UploadController {
 			// application have write permissions on such directory)
 			java.util.Date date = new java.util.Date();
 
-			filename = new Timestamp(date.getTime()).hashCode() + name + ".jpg";
+			filename = new Timestamp(date.getTime()).hashCode() + name.replaceAll("\\s+","") + ".jpg";
 			String directory = "uploadedFiles";
 			String filepath = Paths.get(directory, filename).toString();
 
@@ -101,7 +101,11 @@ public class UploadController {
 		}
 
 		UserImage newImage = new UserImage();
-		newImage.setName("default");
+		if(name.equals("")){
+			newImage.setName("default");	
+		}else{
+			newImage.setName(name);
+		}
 		newImage.setPath(filename);
 		newImage.setUserId(myUser);
 
@@ -200,7 +204,7 @@ public class UploadController {
 			// application have write permissions on such directory)
 			java.util.Date date = new java.util.Date();
 
-			filename = new Timestamp(date.getTime()).hashCode() + name + ".jpg";
+			filename = new Timestamp(date.getTime()).hashCode() + name.replaceAll("\\s+","") + ".jpg";
 			String directory = "uploadedFiles";
 			String filepath = Paths.get(directory, filename).toString();
 
@@ -214,7 +218,11 @@ public class UploadController {
 		}
 
 		StoryImage newImage = new StoryImage();
-		newImage.setName("default");
+		if(name.equals("")){
+			newImage.setName("default");	
+		}else{
+			newImage.setName(name);
+		}
 		newImage.setPath(filename);
 		newImage.setStoryId(myStory);
 
@@ -281,7 +289,7 @@ public class UploadController {
 			// application have write permissions on such directory)
 			java.util.Date date = new java.util.Date();
 
-			filename = new Timestamp(date.getTime()).hashCode() + name + ".jpg";
+			filename = new Timestamp(date.getTime()).hashCode() + name.replaceAll("\\s+","") + ".jpg";
 			String directory = "uploadedFiles";
 			String filepath = Paths.get(directory, filename).toString();
 
@@ -295,7 +303,11 @@ public class UploadController {
 		}
 
 		PageImage newImage = new PageImage();
-		newImage.setName("default");
+		if(name.equals("")){
+			newImage.setName("default");	
+		}else{
+			newImage.setName(name);
+		}
 		newImage.setPath(filename);
 		newImage.setPageId(myPage);
 
