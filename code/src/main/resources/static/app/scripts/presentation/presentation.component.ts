@@ -160,7 +160,7 @@ export class PresentationComponent implements OnInit {
                    jQuery('.inline img').off('mouseout');
                });
                 
-            
+            }
              
         });
         

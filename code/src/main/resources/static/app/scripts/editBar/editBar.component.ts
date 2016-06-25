@@ -279,7 +279,7 @@ export class EditBarComponent implements OnInit {
             jQuery('#changeMyInspiration textarea').text(self.details[0]['myInspiration']);
         
             jQuery('#changePictureButton').click(function(){
-                if(jQuery('.currPicDiv').find('#image').length == 0){
+                if(jQuery('#pictureHandling').find('#image').length == 0){
                     jQuery('#pictureHandling').append('<input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');  
                     jQuery('#image').css('max-width','100%');
                     jQuery('.currPicDiv > img').css('max-width','100%');
@@ -328,7 +328,7 @@ export class EditBarComponent implements OnInit {
         let self = this; 
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-                
+                var f = input.files[0];
                 reader.onload = function (e:any) {
                     jQuery('#image').attr('src', e.target.result);
                     
@@ -378,6 +378,9 @@ export class EditBarComponent implements OnInit {
                         var formData = new FormData();
                     
                         formData.append('uploadfile', blob);
+                         console.log(f.name);
+                        formData.append('name', f.name);
+                        
                         
                         var ajax = new XMLHttpRequest();
  
@@ -481,7 +484,7 @@ export class EditBarComponent implements OnInit {
          jQuery('#changePublished #published').prop("checked",self.details[0]['published']);
         
              jQuery('#changeStoryPictureButton').click(function(){
-                if(jQuery('.currPicDiv').find('#image').length == 0){
+                if(jQuery('pictureHandling').find('#image').length == 0){
                     jQuery('#pictureHandling').append('<input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');  
                     jQuery('#image').css('max-width','100%');
                     jQuery('.currPicDiv > img').css('max-width','100%');
@@ -627,7 +630,7 @@ export class EditBarComponent implements OnInit {
                   
                     var cropper = new Cropper(image, {
                       aspectRatio: 1 / 1,
-                      preview:  parentDiv.find('.currPicDiv')['selector'],
+                      preview:  parentDiv.find('.currPicDiv').attr('id'),
                       build: function (e) {
                           console.log(e.type);
                         },
@@ -851,7 +854,7 @@ export class EditBarComponent implements OnInit {
               jQuery('.grid-stack .image .grid-stack-item-content').each(function() {
                 if(jQuery(this).find('.changePageImage').length == 0){             
                     jQuery(this).append(`
-                                <div class="changePageImage"><div class="currPicDiv preview-md"><img src="" alt="CurrentPicture"  class="currentPagePicture"></div>
+                                <div class="changePageImage"><div class="currPicDiv preview-md" id="preview`+jQuery('#inner').find('.image').length+`"><img src="" alt="CurrentPicture"  class="currentPagePicture"></div>
                                 <div class="buttonFrameContainer pictureHandling">
                                 <input class="button ajaxFormTrigger userPicture changePagePictureButton" type="button" value="CHANGE PICTURE"></div></div><br>
                     `);
