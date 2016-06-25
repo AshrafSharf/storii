@@ -44,7 +44,7 @@
                 <div *ngIf="!detail.description"><i>This is the place where you can describe the content of your story</i></div>             
         </div>
         <br>
-        <div *ngIf="details.published || allowed" class="buttonFrameContainerUserStoryContentModule">
+        <div *ngIf="detail.published || allowed" class="buttonFrameContainerUserStoryContentModule">
         	<div class="buttonSize">
         		<a (click)="gotoPresentation()" class="buttonLookLink">READ</a>
        		</div>

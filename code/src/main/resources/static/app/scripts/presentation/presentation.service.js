@@ -37,7 +37,24 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     this.httpClient = httpClient;
                     this._authenticationService = _authenticationService;
                 }
-                PresentationService.prototype.saveComment = function (id, comment) {
+                PresentationService.prototype.deleteRating = function (id) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                        headers.append('Content-Type', 'application/json');
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.delete('Content-Type');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/story/' + id + '/deleteRating';
+                    return this.http.delete(_resultUrl, { headers: headers })
+                        .map(this.extractData)
+                        .do(function (data) { return console.log(data); })
+                        .catch(this.handleError);
+                };
+                PresentationService.prototype.saveComment = function (id, comment, value) {
                     var headers = new http_2.Headers();
                     if (this._authenticationService.isLoggedIn()) {
                         headers = this.httpClient.createHeader(headers);
@@ -49,7 +66,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                         headers.append('Authorization', "");
                     }
                     var _resultUrl = '/story/' + id + '/addRating';
-                    return this.http.post(_resultUrl, JSON.stringify({ "value": 0, "comment": comment }), { headers: headers })
+                    return this.http.post(_resultUrl, JSON.stringify({ "value": value, "comment": comment }), { headers: headers })
                         .map(this.extractData)
                         .do(function (data) { return console.log(data); })
                         .catch(this.handleError);

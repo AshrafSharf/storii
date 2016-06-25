@@ -19,17 +19,42 @@
   	
   	<div>
   	<div class="loginContainer">
-  	
-  		
-            <div  id="form">
-                <div class="h1bgLogin"><h1>ADD A COMMENT</h1></div>
-                <form [ngFormModel]="form" >
-	                
-					<p *ngIf="notSent || allowed" class="label">COMMENT: <br> <input #comment ngControl="comment" class="inputField" name="comment" value="" type="text"></p>
+
+            <div id="form">
+                <div *ngIf="!alreadyRated" class="h1bgLogin"><h1>ADD A COMMENT</h1></div>
+                <div *ngIf="alreadyRated" class="h1bgLogin"><h1>EDIT YOUR COMMENT</h1></div>
+                <form [ngFormModel]="form" id="myForm">
+	                <div class="notYetRated" >
+					<p  class="label">COMMENT: <br> <input #comment ngControl="comment" class="inputField" name="comment" value="" type="text"></p>
+					<p  class="label rating">RATING:
+					<label class="inline">
+					  <input #radio ngControl="radio" type="radio" name="rating" value="1" />
+					  <img src="app/assets/files/greystar.png">
+					</label>
+					<label class="inline">
+					  <input #radio ngControl="radio" type="radio" name="rating" value="2" />
+					  <img src="app/assets/files/greystar.png">
+					</label>
+					<label class="inline">
+					  <input #radio ngControl="radio" type="radio" name="rating" value="3" />
+					  <img src="app/assets/files/greystar.png">
+					</label>
+					<label class="inline">
+					  <input #radio ngControl="radio" type="radio" name="rating" value="4" />
+					  <img src="app/assets/files/greystar.png">
+					</label>
+					<label class="inline">
+					  <input #radio ngControl="radio" type="radio" name="rating" value="5" />
+					  <img src="app/assets/files/greystar.png">
+					</label>
+        			 </p>
+					 </div>
+       		
+						<div *ngIf="!notSent">Thank you for your comment!</div>
+		 
+					<p></p><div *ngIf="alreadyRated || !alreadyRated" class="buttonFrameContainer firstButton"><input class="button" value="SEND THE RATING" type="submit" [disabled]="!form.valid" (click)="saveComment(comment.value)"></div><p></p>
+					<p></p><div  *ngIf="alreadyRated" class="buttonFrameContainer firstButton"><input class="button" value="DELETE RATING" (click)="deleteRating()"></div><p></p>
 					
-						<div *ngIf="!notSent || !allowed">Thank you for your comment!</div>
-		
-					<p></p><div class="buttonFrameContainer firstButton"><input class="button" value="SEND RATING" type="submit" [disabled]="!form.valid" (click)="saveComment(comment.value)"></div><p></p>
 		
 					<p></p><div class="buttonFrameContainer secondButton"><div class="buttonSize"><a (click)="goBackToStory()" class="buttonLookLink">BACK TO STORY</a></div></div><p></p>
 				</form>

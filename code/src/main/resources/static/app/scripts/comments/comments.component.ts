@@ -55,8 +55,9 @@ export class CommentsComponent implements OnInit {
                                      this._router.navigate(['Error']);
                                     }else if(result) { 
                                        var rating = [];
-                                        console.log(result);
+                                        console.log(result['ratings'].length);
                                     for(var i = 0; i < result['ratings'].length; i++){
+                                        rating = [];
                                            for(var j = 0; j < result['ratings'][i]['value'];j++){
                                                 rating[j]=this.yellowStar;
                                             }

@@ -10,7 +10,25 @@ import { AuthenticationService }    from '../login/authentication.service';
 export class PresentationService {
   constructor (private http: Http, private httpClient: HttpClient, private _authenticationService: AuthenticationService) {}
 
-    saveComment(id, comment){    
+    deleteRating(id){
+         var headers = new Headers();
+        if (this._authenticationService.isLoggedIn()) {
+            headers = this.httpClient.createHeader(headers);
+            headers.append('Content-Type', 'application/json');
+        }else{
+            headers.delete('Authorization');
+            headers.delete('Content-Type');
+            headers.append('Authorization',"");
+        }
+        var _resultUrl = '/story/'+id+'/deleteRating'; 
+        return this.http.delete(_resultUrl, {headers})
+                .map(this.extractData)
+                .do(data => console.log(data))
+                .catch(this.handleError);
+    }
+    
+    
+    saveComment(id, comment,value){    
     var headers = new Headers();
     if (this._authenticationService.isLoggedIn()) {
         headers = this.httpClient.createHeader(headers);
@@ -21,7 +39,7 @@ export class PresentationService {
         headers.append('Authorization',"");
     }
     var _resultUrl = '/story/'+id+'/addRating'; 
-    return this.http.post(_resultUrl, JSON.stringify({ "value": 0 ,"comment": comment}),{headers})
+    return this.http.post(_resultUrl, JSON.stringify({ "value": value ,"comment": comment}),{headers})
             .map(this.extractData)
             .do(data => console.log(data))
             .catch(this.handleError);

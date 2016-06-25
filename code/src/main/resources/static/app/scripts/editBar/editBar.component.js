@@ -183,13 +183,15 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     jQuery('#changeAboutMe textarea').text(self.details[0]['aboutMe']);
                     jQuery('#changeMyInspiration textarea').text(self.details[0]['myInspiration']);
                     jQuery('#changePictureButton').click(function () {
-                        jQuery('#pictureHandling').append('<input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');
-                        jQuery('#image').css('max-width', '100%');
-                        jQuery('.currPicDiv > img').css('max-width', '100%');
-                        jQuery('.currPicDiv').css('overflow', 'hidden');
-                        jQuery("#upload").change(function () {
-                            self.readURL(this);
-                        });
+                        if (jQuery('.currPicDiv').find('#image').length == 0) {
+                            jQuery('#pictureHandling').append('<input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');
+                            jQuery('#image').css('max-width', '100%');
+                            jQuery('.currPicDiv > img').css('max-width', '100%');
+                            jQuery('.currPicDiv').css('overflow', 'hidden');
+                            jQuery("#upload").change(function () {
+                                self.readURL(this);
+                            });
+                        }
                     });
                     jQuery('.saveData').on('focus', function (event) {
                         jQuery('.updated').remove();
@@ -301,7 +303,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     var self = this;
                     vex.open({
                         showCloseButton: true,
-                        content: "<div id=\"userEditPage\">\n                            <div class=\"userEditFrameContainer\">\n                                <div class=\"userEditContainer\">\n                                    <div id=\"content\">\n                                        <div class=\"h1bgUserEdit\"><h1>EDIT STORY</h1></div>\n                                        \n                                        <form id=\"changeTitle\" class=\"change\" name=\"changeTitle\" class=\"handledAjaxForm\">\n                                                <label class=\"name\">TITLE</label><br>\n                                                <input id=\"name\" class=\"inputField saveData\" type=\"text\" name=\"title\" required=\"\">\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"title\" class=\"button\" type=\"button\" value=\"CHANGE TITLE\"></div>-->\n                                        </form>\n                                        \n                                        <form id=\"changeAuthor\" class=\"change\" name=\"changeAuthor\" class=\"handledAjaxForm\">\n                                                <label class=\"authorName\">AUTHOR</label><br>\n                                                <input id=\"authorName\" class=\"inputField saveData\" type=\"text\" name=\"author\" required=\"\">\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"author\" class=\"button\" type=\"button\" value=\"CHANGE AUTHOR\"></div>-->\n                                        </form>\n\n                                        <form id=\"changeCoAuthor\" class=\"change\" name=\"changeCoAuthor\" class=\"handledAjaxForm\">\n                                                <label class=\"coAuthorName\">CO-AUTHOR</label><br>\n                                                <input id=\"coAuthorName\" class=\"inputField saveData\" type=\"text\" name=\"coAuthor\" required=\"\">\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"coAuthor\" class=\"button\" type=\"button\" value=\"CHANGE CO-AUTHOR\"></div>-->\n                                        </form>\n\n                                         <form id=\"changeDescription\" class=\"change\" name=\"changeDescription\" class=\"handledAjaxForm\">\n                                                <label class=\"description\">SHORT DESCRIPTION</label><br>\n                                                <textarea id=\"description\" class=\"inputField saveData\" type=\"text\" name=\"description\" required=\"\" ></textarea>\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"description\" class=\"button\" type=\"button\" value=\"CHANGE DESCRIPTION\"></div>-->\n                                         </form>\n\n                                         <form id=\"changePublished\" class=\"change\" name=\"changePublished\" class=\"handledAjaxForm\">\n                                                <label class=\"published\">PUBLISHED</label>\n                                                <input class=\"saveData\" id=\"published\" name=\"isPublished\" type=\"checkbox\">\n                                         </form>\n\n                                         <div class=\"currPicDiv\"><img src=\"\" alt=\"CurrentStoryPicture\" id=\"currentStoryPicture\" class=\"currentStoryPicture\"></div>\n                                         <div class=\"buttonFrameContainer\" id=\"pictureHandling\">\n                                         <input class=\"button ajaxFormTrigger userStoryPicture\" type=\"button\" id=\"changeStoryPictureButton\" value=\"CHANGE PICTURE\"><br>                                       \n                                       \n                                </div>         \n                                        <div class=\"closeFancyBox\"><input onclick=\"vex.close();\"  class=\"button\" type=\"button\" value=\"CLOSE\"></div>\n                                        \n                                    </div>\n                                </div>\n                            </div>\n                        </div>"
+                        content: "<div id=\"userEditPage\">\n                            <div class=\"userEditFrameContainer\">\n                                <div class=\"userEditContainer\">\n                                    <div id=\"content\">\n                                        <div class=\"h1bgUserEdit\"><h1>EDIT STORY</h1></div>\n                                        \n                                        <form id=\"changeTitle\" class=\"change\" name=\"changeTitle\" class=\"handledAjaxForm\">\n                                                <label class=\"name\">TITLE</label><br>\n                                                <input id=\"name\" class=\"inputField saveData\" type=\"text\" name=\"title\" required=\"\">\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"title\" class=\"button\" type=\"button\" value=\"CHANGE TITLE\"></div>-->\n                                        </form>\n                                        \n                                        <form id=\"changeAuthor\" class=\"change\" name=\"changeAuthor\" class=\"handledAjaxForm\">\n                                                <label class=\"authorName\">AUTHOR</label><br>\n                                                <input id=\"authorName\" class=\"inputField saveData\" type=\"text\" name=\"author\" required=\"\">\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"author\" class=\"button\" type=\"button\" value=\"CHANGE AUTHOR\"></div>-->\n                                        </form>\n\n                                        <form id=\"changeCoAuthor\" class=\"change\" name=\"changeCoAuthor\" class=\"handledAjaxForm\">\n                                                <label class=\"coAuthorName\">CO-AUTHOR</label><br>\n                                                <input id=\"coAuthorName\" class=\"inputField saveData\" type=\"text\" name=\"coAuthor\" required=\"\">\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"coAuthor\" class=\"button\" type=\"button\" value=\"CHANGE CO-AUTHOR\"></div>-->\n                                        </form>\n\n                                         <form id=\"changeDescription\" class=\"change\" name=\"changeDescription\" class=\"handledAjaxForm\">\n                                                <label class=\"description\">SHORT DESCRIPTION</label><br>\n                                                <textarea id=\"description\" class=\"inputField saveData\" type=\"text\" name=\"description\" required=\"\" ></textarea>\n                                                <!--<div class=\"buttonFrameContainer\"><input id=\"description\" class=\"button\" type=\"button\" value=\"CHANGE DESCRIPTION\"></div>-->\n                                         </form>\n\n                                         <form id=\"changePublished\" class=\"change\" name=\"changePublished\" class=\"handledAjaxForm\">\n                                                <label class=\"published\">PUBLISHED</label>\n                                                <input class=\"saveData\" id=\"published\" name=\"isPublished\" type=\"checkbox\">\n                                         </form>\n\n                                        <div class=\"currPicDiv preview-md\"><img src=\"\" alt=\"CurrentPicture\" id=\"currentPicture\" class=\"currentStoryPicture\"></div>\n                                         <div class=\"buttonFrameContainer\" id=\"pictureHandling\">\n                                         <input class=\"button ajaxFormTrigger userStoryPicture\" type=\"button\" id=\"changeStoryPictureButton\" value=\"CHANGE PICTURE\"><br>                                       \n                                       \n                                </div>         \n                                        <div class=\"closeFancyBox\"><input onclick=\"vex.close();\"  class=\"button\" type=\"button\" value=\"CLOSE\"></div>\n                                        \n                                    </div>\n                                </div>\n                            </div>\n                        </div>"
                     });
                     jQuery('#userEditPage .userEditFrameContainer').css('background-color', '#D3E2D8');
                     jQuery('#userEditPage .h1bgUserEdit').css('background-color', '#D3E2D8');
@@ -313,6 +315,17 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     jQuery('#changeCoAuthor .inputField').attr("value", self.details[0]['coAuthorName']);
                     jQuery('#changeDescription textarea').text(self.details[0]['description']);
                     jQuery('#changePublished #published').prop("checked", self.details[0]['published']);
+                    jQuery('#changeStoryPictureButton').click(function () {
+                        if (jQuery('.currPicDiv').find('#image').length == 0) {
+                            jQuery('#pictureHandling').append('<input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');
+                            jQuery('#image').css('max-width', '100%');
+                            jQuery('.currPicDiv > img').css('max-width', '100%');
+                            jQuery('.currPicDiv').css('overflow', 'hidden');
+                            jQuery("#upload").change(function () {
+                                self.readStoryPicURL(this);
+                            });
+                        }
+                    });
                     jQuery('.saveData').on('focus', function (event) {
                         jQuery('.updated').remove();
                     });
@@ -335,6 +348,159 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                             }
                         }
                     });
+                };
+                EditBarComponent.prototype.readStoryPicURL = function (input) {
+                    var self = this;
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            jQuery('#image').attr('src', e.target.result);
+                            var Cropper = window.Cropper;
+                            var image = document.getElementById('image');
+                            var cropper = new Cropper(image, {
+                                aspectRatio: 1 / 1,
+                                preview: '.currPicDiv',
+                                build: function (e) {
+                                    console.log(e.type);
+                                },
+                                built: function (e) {
+                                    console.log(e.type);
+                                },
+                                cropstart: function (e) {
+                                    console.log(e.type, e.detail.action);
+                                },
+                                cropmove: function (e) {
+                                    console.log(e.type, e.detail.action);
+                                },
+                                cropend: function (e) {
+                                    console.log(e.type, e.detail.action);
+                                },
+                                crop: function (e) {
+                                    var data = e.detail;
+                                    console.log(e.type);
+                                },
+                                zoom: function (e) {
+                                    console.log(e.type, e.detail.ratio);
+                                }
+                            });
+                            jQuery('.crop').click(function () {
+                                /*  cropper.getCroppedCanvas();
+              
+                                  cropper.getCroppedCanvas({
+                                    width: 160,
+                                    height: 90
+                                  });*/
+                                // Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`
+                                cropper.getCroppedCanvas().toBlob(function (blob) {
+                                    console.log(blob);
+                                    var formData = new FormData();
+                                    formData.append('uploadfile', blob);
+                                    var ajax = new XMLHttpRequest();
+                                    if (ajax != null) {
+                                        var string = localStorage.getItem("auth_token");
+                                        var url = "/attachmentUI/addStoryImage";
+                                        ajax.open('POST', url, true);
+                                        ajax.setRequestHeader("enctype", "multipart/form-data");
+                                        ajax.setRequestHeader('Authorization', string);
+                                        ajax.onreadystatechange = function () {
+                                            if (this.readyState == 4) {
+                                                if (this.status == 200) {
+                                                    console.log(this.responseText);
+                                                }
+                                                else {
+                                                    console.log(this.statusText);
+                                                }
+                                            }
+                                        };
+                                        ajax.send(formData);
+                                    }
+                                    else {
+                                        alert("Your browser doesn't support AJAX!");
+                                    }
+                                    // self._editBarService.uploadFile(formData);
+                                });
+                            });
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                };
+                EditBarComponent.prototype.readPagePicURL = function (input, parentDiv) {
+                    var self = this;
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            parentDiv.find('.img').attr('src', e.target.result);
+                            var Cropper = window.Cropper;
+                            var id = parentDiv.find('.img').attr('id');
+                            var image = document.getElementById(id);
+                            console.log(id);
+                            var cropper = new Cropper(image, {
+                                aspectRatio: 1 / 1,
+                                preview: parentDiv.find('.currPicDiv')['selector'],
+                                build: function (e) {
+                                    console.log(e.type);
+                                },
+                                built: function (e) {
+                                    console.log(e.type);
+                                },
+                                cropstart: function (e) {
+                                    console.log(e.type, e.detail.action);
+                                },
+                                cropmove: function (e) {
+                                    console.log(e.type, e.detail.action);
+                                },
+                                cropend: function (e) {
+                                    console.log(e.type, e.detail.action);
+                                },
+                                crop: function (e) {
+                                    var data = e.detail;
+                                    console.log(e.type);
+                                },
+                                zoom: function (e) {
+                                    console.log(e.type, e.detail.ratio);
+                                }
+                            });
+                            jQuery('.crop').click(function () {
+                                /*  cropper.getCroppedCanvas();
+              
+                                  cropper.getCroppedCanvas({
+                                    width: 160,
+                                    height: 90
+                                  });*/
+                                // Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`
+                                cropper.getCroppedCanvas().toBlob(function (blob) {
+                                    console.log(blob); //post aufruf noch nicht
+                                    var formData = new FormData();
+                                    formData.append('uploadfile', blob);
+                                    var ajax = new XMLHttpRequest();
+                                    if (ajax != null) {
+                                        var string = localStorage.getItem("auth_token");
+                                        var url = "/attachmentUI/addPageImage/" + self.actualPage['id'];
+                                        ajax.open('POST', url, true);
+                                        ajax.setRequestHeader("enctype", "multipart/form-data");
+                                        ajax.setRequestHeader('Authorization', string);
+                                        ajax.onreadystatechange = function () {
+                                            if (this.readyState == 4) {
+                                                if (this.status == 200) {
+                                                    console.log(this.responseText);
+                                                }
+                                                else {
+                                                    console.log(this.statusText);
+                                                }
+                                            }
+                                        };
+                                        console.log("JJJJJJJ");
+                                        ajax.send(formData);
+                                    }
+                                    else {
+                                        alert("Your browser doesn't support AJAX!");
+                                    }
+                                    // self._editBarService.uploadFile(formData);
+                                });
+                            });
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
                 };
                 EditBarComponent.prototype.openPageEditor = function (editing) {
                     var _this = this;
@@ -426,6 +592,24 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                     jQuery(this).append('<textarea>' + t + '</textarea>');
                                 }
                             });
+                            jQuery('.grid-stack .image .grid-stack-item-content').each(function () {
+                                if (jQuery(this).find('.changePageImage').length == 0) {
+                                    jQuery(this).append("\n                                <div class=\"changePageImage\"><div class=\"currPicDiv preview-md\"><img src=\"\" alt=\"CurrentPicture\"  class=\"currentPagePicture\"></div>\n                                <div class=\"buttonFrameContainer pictureHandling\">\n                                <input class=\"button ajaxFormTrigger userPicture changePagePictureButton\" type=\"button\" value=\"CHANGE PICTURE\"></div></div><br>\n                    ");
+                                }
+                            });
+                            jQuery('.changePagePictureButton').click(function () {
+                                var parentDiv = jQuery(this).parent().parent();
+                                if (parentDiv.find('.img').length == 0) {
+                                    parentDiv.find('.pictureHandling').append('<input class="upload" type="file"><img class="img" id="image' + jQuery('#inner').find('.image').length + '" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');
+                                    parentDiv.find('.img').css('max-width', '100%');
+                                    parentDiv.find('.currPicDiv > img').css('max-width', '100%');
+                                    parentDiv.find('.currPicDiv').css('overflow', 'hidden');
+                                    parentDiv.find(".upload").change(function () {
+                                        console.log("click");
+                                        self.readPagePicURL(this, parentDiv);
+                                    });
+                                }
+                            });
                             jQuery('.grid-stack .link .grid-stack-item-content div:first-of-type').each(function () {
                                 if (jQuery(this).find('input').length == 0) {
                                     var l = jQuery(this).find('a').text();
@@ -468,6 +652,11 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                     var t = jQuery(this).val();
                                     jQuery(this).parent().text(t);
                                     jQuery(this).remove();
+                                });
+                                jQuery('.grid-stack .image .grid-stack-item-content').each(function () {
+                                    /*var t = jQuery(this).val();
+                                    jQuery(this).parent().text(t);*/
+                                    jQuery('.changePageImage').remove();
                                 });
                                 jQuery('.grid-stack .link .grid-stack-item-content input').each(function () {
                                     var l = jQuery(this).val();

@@ -279,17 +279,15 @@ export class EditBarComponent implements OnInit {
             jQuery('#changeMyInspiration textarea').text(self.details[0]['myInspiration']);
         
             jQuery('#changePictureButton').click(function(){
-                jQuery('#pictureHandling').append('<input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');  
-                jQuery('#image').css('max-width','100%');
-                jQuery('.currPicDiv > img').css('max-width','100%');
-                jQuery('.currPicDiv').css('overflow','hidden');
-                jQuery("#upload").change(function(){
-                    self.readURL(this);
-                });
-                
-                
-               
-             
+                if(jQuery('.currPicDiv').find('#image').length == 0){
+                    jQuery('#pictureHandling').append('<input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');  
+                    jQuery('#image').css('max-width','100%');
+                    jQuery('.currPicDiv > img').css('max-width','100%');
+                    jQuery('.currPicDiv').css('overflow','hidden');
+                    jQuery("#upload").change(function(){
+                        self.readURL(this);
+                    }); 
+                }
 
             });
         
@@ -456,7 +454,7 @@ export class EditBarComponent implements OnInit {
                                                 <input class="saveData" id="published" name="isPublished" type="checkbox">
                                          </form>
 
-                                         <div class="currPicDiv"><img src="" alt="CurrentStoryPicture" id="currentStoryPicture" class="currentStoryPicture"></div>
+                                        <div class="currPicDiv preview-md"><img src="" alt="CurrentPicture" id="currentPicture" class="currentStoryPicture"></div>
                                          <div class="buttonFrameContainer" id="pictureHandling">
                                          <input class="button ajaxFormTrigger userStoryPicture" type="button" id="changeStoryPictureButton" value="CHANGE PICTURE"><br>                                       
                                        
@@ -481,6 +479,19 @@ export class EditBarComponent implements OnInit {
          jQuery('#changeCoAuthor .inputField').attr("value",self.details[0]['coAuthorName']);
          jQuery('#changeDescription textarea').text(self.details[0]['description']);
          jQuery('#changePublished #published').prop("checked",self.details[0]['published']);
+        
+             jQuery('#changeStoryPictureButton').click(function(){
+                if(jQuery('.currPicDiv').find('#image').length == 0){
+                    jQuery('#pictureHandling').append('<input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');  
+                    jQuery('#image').css('max-width','100%');
+                    jQuery('.currPicDiv > img').css('max-width','100%');
+                    jQuery('.currPicDiv').css('overflow','hidden');
+                    jQuery("#upload").change(function(){
+                        self.readStoryPicURL(this);
+                    }); 
+                }
+
+            });
         
          jQuery('.saveData').on('focus', function(event) {
                  jQuery('.updated').remove();
@@ -508,6 +519,191 @@ export class EditBarComponent implements OnInit {
             });
         
     }
+    
+     readStoryPicURL(input) {
+        let self = this; 
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function (e:any) {
+                    jQuery('#image').attr('src', e.target.result);
+                    
+                    var Cropper = window.Cropper;
+                    var image = document.getElementById('image');
+                  
+                    var cropper = new Cropper(image, {
+                      aspectRatio: 1 / 1,
+                      preview: '.currPicDiv',
+                      build: function (e) {
+                          console.log(e.type);
+                        },
+                        built: function (e) {
+                          console.log(e.type);
+                        },
+                        cropstart: function (e) {
+                          console.log(e.type, e.detail.action);
+                        },
+                        cropmove: function (e) {
+                          console.log(e.type, e.detail.action);
+                        },
+                        cropend: function (e) {
+                          console.log(e.type, e.detail.action);
+                        },
+                        crop: function (e) {
+                          var data = e.detail;
+                
+                          console.log(e.type);
+                      
+                        },
+                        zoom: function (e) {
+                          console.log(e.type, e.detail.ratio);
+                        }
+                    });
+                    
+                    jQuery('.crop').click(function(){
+                  /*  cropper.getCroppedCanvas();
+
+                    cropper.getCroppedCanvas({
+                      width: 160,
+                      height: 90
+                    });*/
+                    
+                    // Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`
+                    cropper.getCroppedCanvas().toBlob(function (blob) {
+                        console.log(blob);
+                        var formData = new FormData();
+                    
+                        formData.append('uploadfile', blob);
+                        
+                        var ajax = new XMLHttpRequest();
+ 
+                        if(ajax!=null){
+                             var string = localStorage.getItem("auth_token");
+                              var url = "/attachmentUI/addStoryImage";
+                            ajax.open('POST', url, true);
+                            ajax.setRequestHeader("enctype", "multipart/form-data");
+                            ajax.setRequestHeader('Authorization', string); 
+                            ajax.onreadystatechange = function(){
+                                if(this.readyState == 4){
+                                    if(this.status == 200){
+                                        console.log(this.responseText);
+                                    }
+                                    else{
+                                        console.log(this.statusText);
+                                    }
+                                }
+                            }
+                            ajax.send(formData);
+                        }
+                        else{
+                            alert("Your browser doesn't support AJAX!");
+                        }
+                    
+                    
+                       // self._editBarService.uploadFile(formData);
+                   
+                    });
+                });
+                }
+        
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    
+       readPagePicURL(input,parentDiv) {
+        let self = this; 
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function (e:any) {
+                     parentDiv.find('.img').attr('src', e.target.result);
+                    
+                    var Cropper = window.Cropper;
+                    var id =  parentDiv.find('.img').attr('id');
+                      var image = document.getElementById(id);
+                    
+                    console.log(id); 
+
+                  
+                    var cropper = new Cropper(image, {
+                      aspectRatio: 1 / 1,
+                      preview:  parentDiv.find('.currPicDiv')['selector'],
+                      build: function (e) {
+                          console.log(e.type);
+                        },
+                        built: function (e) {
+                          console.log(e.type);
+                        },
+                        cropstart: function (e) {
+                          console.log(e.type, e.detail.action);
+                        },
+                        cropmove: function (e) {
+                          console.log(e.type, e.detail.action);
+                        },
+                        cropend: function (e) {
+                          console.log(e.type, e.detail.action);
+                        },
+                        crop: function (e) {
+                          var data = e.detail;
+                
+                          console.log(e.type);
+                      
+                        },
+                        zoom: function (e) {
+                          console.log(e.type, e.detail.ratio);
+                        }
+                    });
+                    
+                    jQuery('.crop').click(function(){
+                  /*  cropper.getCroppedCanvas();
+
+                    cropper.getCroppedCanvas({
+                      width: 160,
+                      height: 90
+                    });*/
+                    
+                    // Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`
+                    cropper.getCroppedCanvas().toBlob(function (blob) {
+                        console.log(blob); //post aufruf noch nicht
+                        var formData = new FormData();
+                    
+                        formData.append('uploadfile', blob);
+                        
+                        var ajax = new XMLHttpRequest();
+ 
+                        if(ajax!=null){ 
+                             var string = localStorage.getItem("auth_token");
+                              var url = "/attachmentUI/addPageImage/"+ self.actualPage['id'];
+                            ajax.open('POST', url, true);
+                            ajax.setRequestHeader("enctype", "multipart/form-data");
+                            ajax.setRequestHeader('Authorization', string); 
+                            ajax.onreadystatechange = function(){
+                                if(this.readyState == 4){
+                                    if(this.status == 200){
+                                        console.log(this.responseText);
+                                    }
+                                    else{
+                                        console.log(this.statusText);
+                                    }
+                                }
+                            }
+                            console.log("JJJJJJJ");
+                            ajax.send(formData);
+                        }
+                        else{
+                            alert("Your browser doesn't support AJAX!");
+                        }
+                    
+                    
+                       // self._editBarService.uploadFile(formData);
+                   
+                    });
+                });
+                }
+        
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     
     openPageEditor(editing: boolean){
     this.onEditing.emit(editing);
@@ -652,6 +848,31 @@ export class EditBarComponent implements OnInit {
                     jQuery(this).append('<textarea>'+t+'</textarea>');
                 }
             });
+              jQuery('.grid-stack .image .grid-stack-item-content').each(function() {
+                if(jQuery(this).find('.changePageImage').length == 0){             
+                    jQuery(this).append(`
+                                <div class="changePageImage"><div class="currPicDiv preview-md"><img src="" alt="CurrentPicture"  class="currentPagePicture"></div>
+                                <div class="buttonFrameContainer pictureHandling">
+                                <input class="button ajaxFormTrigger userPicture changePagePictureButton" type="button" value="CHANGE PICTURE"></div></div><br>
+                    `);
+                }
+            });
+             
+              jQuery('.changePagePictureButton').click(function(){
+                    var parentDiv = jQuery(this).parent().parent();
+                 
+                if(parentDiv.find('.img').length == 0){   
+                    parentDiv.find('.pictureHandling').append('<input class="upload" type="file"><img class="img" id="image'+jQuery('#inner').find('.image').length+'" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');  
+                    parentDiv.find('.img').css('max-width','100%');
+                    parentDiv.find('.currPicDiv > img').css('max-width','100%');
+                     parentDiv.find('.currPicDiv').css('overflow','hidden');
+                     parentDiv.find(".upload").change(function(){console.log("click");
+                        self.readPagePicURL(this,parentDiv);
+                    }); 
+                }
+
+            });
+
             jQuery('.grid-stack .link .grid-stack-item-content div:first-of-type').each(function() {
                 if(jQuery(this).find('input').length == 0){
                     var l = jQuery(this).find('a').text();
@@ -697,6 +918,11 @@ export class EditBarComponent implements OnInit {
                     var t = jQuery(this).val();
                     jQuery(this).parent().text(t);
                     jQuery(this).remove();
+                });
+                 jQuery('.grid-stack .image .grid-stack-item-content').each(function() {
+                    /*var t = jQuery(this).val();
+                    jQuery(this).parent().text(t);*/
+                    jQuery('.changePageImage').remove();
                 });
                 jQuery('.grid-stack .link .grid-stack-item-content input').each(function() {
                     var l = jQuery(this).val();

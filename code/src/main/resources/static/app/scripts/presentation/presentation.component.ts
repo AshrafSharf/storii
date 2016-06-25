@@ -32,6 +32,7 @@ export class PresentationComponent implements OnInit {
     firstPage;
     actualPage;
     allowed;
+    alreadyRated;
     rateAllowed;
     loggedInUser; 
     errorMessage;
@@ -48,7 +49,8 @@ export class PresentationComponent implements OnInit {
     private _aboutService: AboutService,
     private _presentationService: PresentationService) {  
     this.form = fb.group({
-          comment:  ['', Validators.required]
+          comment:  ['', Validators.required],
+          radio:  ['', Validators.required]
         });
     }
     
@@ -68,22 +70,44 @@ export class PresentationComponent implements OnInit {
                                 }else{
                                      this.allowed = true; 
                                 }
+                                    this._aboutService.getStoryById(this.storyid)
+                                        .subscribe((result) => {
+                                                if (result) {
+                                                 this.firstPage = result['firstPage']['id'];
+                                                 for(var key in result['ratings']){
+                                                     if(this.loggedInUser['id'] == result['ratings'][key]['ratingUser']){
+                                                        this.alreadyRated = true;  
+                                                     }
+                                                 }
+                                                 this._editBarService.getPageById(this.firstPage)
+                                                        .subscribe(
+                                                               actualPage => { 
+                                                               this.actualPage = actualPage;
+                                                               this.loadPageEditor();     
+                                                               },error =>  this.errorMessage = <any>error);
+                                                  // console.log(this.details);
+                                                }
+                                                if(!result['data']){
+                                                   // this._router.navigate(['Error']);
+                                                }
+                                                },
+                                                error =>  this.errorMessage = <any>error);
                                
     
                                },
                                error =>  this.errorMessage = <any>error);
-        }
-        this._aboutService.getStoryById(this.storyid)
+        }else{
+             this._aboutService.getStoryById(this.storyid)
                             .subscribe((result) => {
                                     if (result) {
-                                     this.firstPage = result['firstPage']['id'];
-                                     this._editBarService.getPageById(this.firstPage)
+                                    this.allowed = false; 
+                                    this.firstPage = result['firstPage']['id'];
+                                    this._editBarService.getPageById(this.firstPage)
                                             .subscribe(
                                                    actualPage => { 
                                                    this.actualPage = actualPage;
                                                    this.loadPageEditor();
-                                               
-                                                       
+  
                                                    },error =>  this.errorMessage = <any>error);
                                       // console.log(this.details);
                                     }
@@ -93,13 +117,65 @@ export class PresentationComponent implements OnInit {
                                     },
                                     error =>  this.errorMessage = <any>error);
     
-        
-        
+        }
+
       }
+   
     
     goToRate(){
         this.rating = true;
         this.rateAllowed = false; 
+        
+        var found = 0; 
+        jQuery('#presentationPage').on('mouseenter',function(){
+           
+            if(jQuery(this).find('.rating').length != 0 && found == 0){
+                found = 1;          
+                jQuery('.inline img').on('mouseenter',function(){
+                     jQuery(this).attr('src','app/assets/files/star.png');
+                     jQuery(this).parent().addClass('start'); 
+                     
+                     jQuery('label.start').prevAll().each(function(){
+                         jQuery(this).find('img').attr('src','app/assets/files/star.png');  
+                     });
+                });
+                jQuery('.inline img').on('mouseout',function(){
+                    jQuery('.inline img').each(function(){
+                         jQuery(this).parent().removeClass('start'); 
+                        jQuery(this).attr('src','app/assets/files/greystar.png'); 
+                    });  
+               });
+                
+               jQuery('.inline img').on('click',function(){
+                   jQuery('.inline img').each(function(){
+                         jQuery(this).parent().removeClass('start'); 
+                        jQuery(this).attr('src','app/assets/files/greystar.png'); 
+                    }); 
+                   jQuery(this).attr('src','app/assets/files/star.png'); 
+                    jQuery(this).parent().addClass('start');                   
+                     jQuery('label.start').prevAll().each(function(){
+                         jQuery(this).find('img').attr('src','app/assets/files/star.png');  
+                     });  
+                   jQuery('.inline img').off('mouseenter');
+                   jQuery('.inline img').off('mouseout');
+               });
+                
+            
+             
+        });
+        
+    }
+    
+    deleteRating(){
+        this._presentationService.deleteRating(this.storyid)
+                            .subscribe((result) => {
+                                    if (result) {
+                                        this.notSent = true;  
+                                        this.alreadyRated = false; 
+                                    }
+                                 
+                                    },
+                                    error =>  this.errorMessage = <any>error);
     }
     
     goBackToStory(){ 
@@ -108,10 +184,13 @@ export class PresentationComponent implements OnInit {
     }
     
     saveComment(comment){
-         this._presentationService.saveComment(this.storyid,comment)
+       var value = jQuery('input[name=rating]:checked', '#myForm').val()
+         this._presentationService.saveComment(this.storyid,comment,value)
                             .subscribe((result) => {
                                     if (result) {
                                         this.notSent = false; 
+                                        jQuery('.notYetRated').addClass('hidden');
+                                        jQuery('.firstButton').addClass('hidden');
                                     }
                                  
                                     },
@@ -159,8 +238,8 @@ export class PresentationComponent implements OnInit {
 
 
         this.loadGrid = function () {
-          if(self.actualPage['outgoingInternLinks'].length == 0){
-              self.rateAllowed = true;                                        
+          if(self.actualPage['outgoingInternLinks'].length == 0 && self.allowed){
+              self.rateAllowed = true;                                     
             }
             this.loadData();
             this.clearGrid();

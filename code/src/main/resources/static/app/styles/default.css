@@ -229,6 +229,17 @@ input.buttonStoryInfo {
   width: 139px;
   height: 100px;
 }
+
+.rating input{
+	visibility: hidden; 
+  	position: absolute;
+}
+
+.rating img{ 
+  cursor:pointer;
+  border:2px solid transparent;
+}
+
   
 .buttonSizeActions, .buttonSizeDelete{
 	border: black dotted 2px;

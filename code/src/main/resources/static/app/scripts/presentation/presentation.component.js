@@ -54,7 +54,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this._presentationService = _presentationService;
                     this.notSent = true;
                     this.form = fb.group({
-                        comment: ['', common_1.Validators.required]
+                        comment: ['', common_1.Validators.required],
+                        radio: ['', common_1.Validators.required]
                     });
                 }
                 PresentationComponent.prototype.ngOnInit = function () {
@@ -73,35 +74,101 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             else {
                                 _this.allowed = true;
                             }
+                            _this._aboutService.getStoryById(_this.storyid)
+                                .subscribe(function (result) {
+                                if (result) {
+                                    _this.firstPage = result['firstPage']['id'];
+                                    for (var key in result['ratings']) {
+                                        if (_this.loggedInUser['id'] == result['ratings'][key]['ratingUser']) {
+                                            _this.alreadyRated = true;
+                                        }
+                                    }
+                                    _this._editBarService.getPageById(_this.firstPage)
+                                        .subscribe(function (actualPage) {
+                                        _this.actualPage = actualPage;
+                                        _this.loadPageEditor();
+                                    }, function (error) { return _this.errorMessage = error; });
+                                }
+                                if (!result['data']) {
+                                }
+                            }, function (error) { return _this.errorMessage = error; });
                         }, function (error) { return _this.errorMessage = error; });
                     }
-                    this._aboutService.getStoryById(this.storyid)
-                        .subscribe(function (result) {
-                        if (result) {
-                            _this.firstPage = result['firstPage']['id'];
-                            _this._editBarService.getPageById(_this.firstPage)
-                                .subscribe(function (actualPage) {
-                                _this.actualPage = actualPage;
-                                _this.loadPageEditor();
-                            }, function (error) { return _this.errorMessage = error; });
-                        }
-                        if (!result['data']) {
-                        }
-                    }, function (error) { return _this.errorMessage = error; });
+                    else {
+                        this._aboutService.getStoryById(this.storyid)
+                            .subscribe(function (result) {
+                            if (result) {
+                                _this.allowed = false;
+                                _this.firstPage = result['firstPage']['id'];
+                                _this._editBarService.getPageById(_this.firstPage)
+                                    .subscribe(function (actualPage) {
+                                    _this.actualPage = actualPage;
+                                    _this.loadPageEditor();
+                                }, function (error) { return _this.errorMessage = error; });
+                            }
+                            if (!result['data']) {
+                            }
+                        }, function (error) { return _this.errorMessage = error; });
+                    }
                 };
                 PresentationComponent.prototype.goToRate = function () {
                     this.rating = true;
                     this.rateAllowed = false;
+                    var found = 0;
+                    jQuery('#presentationPage').on('mouseenter', function () {
+                        if (jQuery(this).find('.rating').length != 0 && found == 0) {
+                            found = 1;
+                            jQuery('.inline img').on('mouseenter', function () {
+                                jQuery(this).attr('src', 'app/assets/files/star.png');
+                                jQuery(this).parent().addClass('start');
+                                jQuery('label.start').prevAll().each(function () {
+                                    jQuery(this).find('img').attr('src', 'app/assets/files/star.png');
+                                });
+                            });
+                            jQuery('.inline img').on('mouseout', function () {
+                                jQuery('.inline img').each(function () {
+                                    jQuery(this).parent().removeClass('start');
+                                    jQuery(this).attr('src', 'app/assets/files/greystar.png');
+                                });
+                            });
+                            jQuery('.inline img').on('click', function () {
+                                jQuery('.inline img').each(function () {
+                                    jQuery(this).parent().removeClass('start');
+                                    jQuery(this).attr('src', 'app/assets/files/greystar.png');
+                                });
+                                jQuery(this).attr('src', 'app/assets/files/star.png');
+                                jQuery(this).parent().addClass('start');
+                                jQuery('label.start').prevAll().each(function () {
+                                    jQuery(this).find('img').attr('src', 'app/assets/files/star.png');
+                                });
+                                jQuery('.inline img').off('mouseenter');
+                                jQuery('.inline img').off('mouseout');
+                            });
+                        }
+                    });
+                };
+                PresentationComponent.prototype.deleteRating = function () {
+                    var _this = this;
+                    this._presentationService.deleteRating(this.storyid)
+                        .subscribe(function (result) {
+                        if (result) {
+                            _this.notSent = true;
+                            _this.alreadyRated = false;
+                        }
+                    }, function (error) { return _this.errorMessage = error; });
                 };
                 PresentationComponent.prototype.goBackToStory = function () {
                     this._router.navigate(['About', { name: this.name, storyName: this.storyName, id: this.storyid }]);
                 };
                 PresentationComponent.prototype.saveComment = function (comment) {
                     var _this = this;
-                    this._presentationService.saveComment(this.storyid, comment)
+                    var value = jQuery('input[name=rating]:checked', '#myForm').val();
+                    this._presentationService.saveComment(this.storyid, comment, value)
                         .subscribe(function (result) {
                         if (result) {
                             _this.notSent = false;
+                            jQuery('.notYetRated').addClass('hidden');
+                            jQuery('.firstButton').addClass('hidden');
                         }
                     }, function (error) { return _this.errorMessage = error; });
                 };
@@ -133,7 +200,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             this.externLinks = [];
                         };
                         this.loadGrid = function () {
-                            if (self.actualPage['outgoingInternLinks'].length == 0) {
+                            if (self.actualPage['outgoingInternLinks'].length == 0 && self.allowed) {
                                 self.rateAllowed = true;
                             }
                             this.loadData();

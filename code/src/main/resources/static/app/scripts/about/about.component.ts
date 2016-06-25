@@ -79,7 +79,7 @@ export class AboutComponent implements OnInit {
 	 														self.rating[i]=this.yellowStar;
 	 													}
 	 													var comma = done['rounded_rating'].toString().split(".")[1];
-	 													if(comma != "0"){
+	 													if(comma != "0" && comma != undefined){
 	 													 	self.rating[parseInt(done['rounded_rating'])]=this.halfStar;	
 	 														for(var j = parseInt(done['rounded_rating'])+1; j < 5; j++){
 	 														self.rating[j]=this.grayStar;

@@ -67,8 +67,9 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         }
                         else if (result) {
                             var rating = [];
-                            console.log(result);
+                            console.log(result['ratings'].length);
                             for (var i = 0; i < result['ratings'].length; i++) {
+                                rating = [];
                                 for (var j = 0; j < result['ratings'][i]['value']; j++) {
                                     rating[j] = _this.yellowStar;
                                 }
