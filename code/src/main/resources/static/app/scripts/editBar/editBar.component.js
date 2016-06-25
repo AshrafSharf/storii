@@ -229,9 +229,17 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         var reader = new FileReader();
                         var f = input.files[0];
                         reader.onload = function (e) {
+                            if (jQuery('#image').attr('src') != "") {
+                                jQuery().cropper({
+                                    built: function () {
+                                        jQuery().cropper('destroy');
+                                    }
+                                });
+                            }
                             jQuery('#image').attr('src', e.target.result);
                             var Cropper = window.Cropper;
                             var image = document.getElementById('image');
+                            //cropperImage.cropper('destroy').removeAttr('src');
                             console.log(image);
                             var cropper = new Cropper(image, {
                                 aspectRatio: 1 / 1,
@@ -271,8 +279,8 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                     console.log(blob);
                                     var formData = new FormData();
                                     formData.append('uploadfile', blob);
-                                    console.log(f.name);
-                                    formData.append('name', f.name);
+                                    var name = f.name.split(".")[0];
+                                    formData.append('name', name);
                                     var ajax = new XMLHttpRequest();
                                     if (ajax != null) {
                                         var string = localStorage.getItem("auth_token");
@@ -283,7 +291,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                         ajax.onreadystatechange = function () {
                                             if (this.readyState == 4) {
                                                 if (this.status == 200) {
-                                                    console.log(this.responseText);
+                                                    console.log("SUCCESS");
                                                 }
                                                 else {
                                                     console.log(this.statusText);
@@ -319,7 +327,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     jQuery('#changeDescription textarea').text(self.details[0]['description']);
                     jQuery('#changePublished #published').prop("checked", self.details[0]['published']);
                     jQuery('#changeStoryPictureButton').click(function () {
-                        if (jQuery('pictureHandling').find('#image').length == 0) {
+                        if (jQuery('.currPicDiv').find('#image').length == 0) {
                             jQuery('#pictureHandling').append('<input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');
                             jQuery('#image').css('max-width', '100%');
                             jQuery('.currPicDiv > img').css('max-width', '100%');
