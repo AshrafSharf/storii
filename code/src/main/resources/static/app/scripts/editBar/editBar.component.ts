@@ -332,16 +332,14 @@ export class EditBarComponent implements OnInit {
                 reader.onload = function (e:any) {
                     if(jQuery('#image').attr('src') != ""){
                          
-                        jQuery().cropper({
-                          built: function () {
-                            jQuery().cropper('destroy');
-                          }
-                        });
-                    
+                        //here destroy cropper somehow and change src
+                           // jQuery('#image').cropper('destroy');
+                       
+         
                     }
                     jQuery('#image').attr('src', e.target.result);
                     
-                    
+                     
                     var Cropper = window.Cropper;
                     var image = document.getElementById('image');
                    
@@ -496,7 +494,7 @@ export class EditBarComponent implements OnInit {
          jQuery('#changePublished #published').prop("checked",self.details[0]['published']);
         
              jQuery('#changeStoryPictureButton').click(function(){
-                if(jQuery('.currPicDiv').find('#image').length == 0){
+                if(jQuery('#pictureHandling').find('#image').length == 0){
                     jQuery('#pictureHandling').append('<input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');  
                     jQuery('#image').css('max-width','100%');
                     jQuery('.currPicDiv > img').css('max-width','100%');
@@ -540,7 +538,15 @@ export class EditBarComponent implements OnInit {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 
+                 var f = input.files[0];
                 reader.onload = function (e:any) {
+                    if(jQuery('#image').attr('src') != ""){
+                         
+                        //here destroy cropper somehow and change src
+                           // jQuery('#image').cropper('destroy');
+                       
+         
+                    }
                     jQuery('#image').attr('src', e.target.result);
                     
                     var Cropper = window.Cropper;
@@ -588,7 +594,9 @@ export class EditBarComponent implements OnInit {
                         console.log(blob);
                         var formData = new FormData();
                     
-                        formData.append('uploadfile', blob);
+                       formData.append('uploadfile', blob);
+                        var name = f.name.split(".")[0]
+                        formData.append('name', name);
                         
                         var ajax = new XMLHttpRequest();
  

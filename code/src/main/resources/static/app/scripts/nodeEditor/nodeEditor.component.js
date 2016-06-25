@@ -871,9 +871,9 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     var _this = this;
                     this._nodeEditorService.reorderBranches(ID01, ID02)
                         .subscribe(function (result) {
+                        _this.debugText.text("Successfully reordered");
                         _this.startDrawLines(_this.storyID);
                         _this.startDrawNodes(_this.storyID, "");
-                        _this.debugText.text("Successfully reordered");
                         _this.debugText.setAttr('x', (_this.width / 2) - _this.debugText.getAttr('width') / 2);
                         _this.selectedNode = null;
                         _this.allowed[0] = false;
@@ -883,7 +883,20 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         $("#wrapper").trigger("click");
                         //debugText.setAttr('fontSize','25');
                         _this.interfaceLayer.draw();
-                    }, function (error) { return _this.errorMessage = error; });
+                    }, function (error) {
+                        _this.debugText.text("REORDER not possible - change another option");
+                        _this.startDrawLines(_this.storyID);
+                        _this.startDrawNodes(_this.storyID, "");
+                        _this.debugText.setAttr('x', (_this.width / 2) - _this.debugText.getAttr('width') / 2);
+                        _this.selectedNode = null;
+                        _this.allowed[0] = false;
+                        _this.allowed[1] = false;
+                        _this.allowed[2] = false;
+                        _this.allowed[3] = false;
+                        $("#wrapper").trigger("click");
+                        _this.interfaceLayer.draw();
+                        _this.errorMessage = error;
+                    });
                 };
                 ;
                 NodeEditorComponent.prototype.appendBranch = function (ID01, ID02) {
@@ -1231,7 +1244,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             this.debugText.setAttr('x', (this.width / 2) - this.debugText.getAttr('width') / 2);
                             this.selectedNode = elem.id();
                         }
-                        else if (fill == this.buttonColorHover) {
+                        else if (fill == this.buttonColorHover && this.errorMessage == undefined) {
                             this.allowed[0] = false;
                             this.allowed[1] = false;
                             this.allowed[2] = false;
@@ -1242,6 +1255,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             this.interfaceLayer.draw();
                             this.selectedNode = null;
                         }
+                        this.errorMessage = undefined;
                         this.interfaceLayer.draw();
                         this.layer.draw();
                         this.backgroundLayer.draw();

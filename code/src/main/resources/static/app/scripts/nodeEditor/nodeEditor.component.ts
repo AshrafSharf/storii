@@ -1047,10 +1047,12 @@ export class NodeEditorComponent implements OnInit{
               this._nodeEditorService.reorderBranches(ID01, ID02)
                             .subscribe(
                                result => {
+
+                                        this.debugText.text("Successfully reordered");
                                     this.startDrawLines(this.storyID); 
                                
                                      this.startDrawNodes(this.storyID,"");
-                                    this.debugText.text("Successfully reordered");
+                                   
                                     this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
                                     this.selectedNode = null;
                                      this.allowed[0]= false;
@@ -1061,7 +1063,24 @@ export class NodeEditorComponent implements OnInit{
                                     //debugText.setAttr('fontSize','25');
                                     this.interfaceLayer.draw();
                                    },
-                               error =>  this.errorMessage = <any>error);
+                               error =>{  
+                               
+                                     this.debugText.text("REORDER not possible - change another option");
+                                     this.startDrawLines(this.storyID); 
+                               
+                                     this.startDrawNodes(this.storyID,"");
+                                   
+                                    this.debugText.setAttr('x', (this.width/2)-this.debugText.getAttr('width')/2);
+                                    this.selectedNode = null;
+                                     this.allowed[0]= false;
+                                     this.allowed[1] = false;
+                                     this.allowed[2] = false;
+                                     this.allowed[3] = false;
+                                     $("#wrapper").trigger( "click" );
+                               
+                                    this.interfaceLayer.draw();
+                                   
+                                   this.errorMessage = <any>error});
         };
     
     
@@ -1469,7 +1488,7 @@ export class NodeEditorComponent implements OnInit{
                 //HIER geklickter node in die session
             
 
-            } else if (fill == this.buttonColorHover) {
+            } else if (fill == this.buttonColorHover && this.errorMessage == undefined) {
                 this.allowed[0]= false;
                 this.allowed[1] = false;
                 this.allowed[2] = false;
@@ -1487,6 +1506,7 @@ export class NodeEditorComponent implements OnInit{
        
 
             }
+            this.errorMessage = undefined; 
             this.interfaceLayer.draw();
             this.layer.draw();
             this.backgroundLayer.draw();
