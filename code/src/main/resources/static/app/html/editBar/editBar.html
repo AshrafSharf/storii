@@ -5,14 +5,14 @@
 			<div *ngIf="aboutPage" class="buttonFrameContainerUserStoryContentModule"><div (click)="openStoryEditor()"  class="buttonSize"><a class="buttonLookLink">{{editStory | uppercase}}</a></div></div>
 			
             <div *ngIf="nodeEditorPage"  class="buttonFrameContainerUserStoryContentModule"><div #a3 (click)="invert(a3)"   class="buttonSizeDelete" ><a class="buttonLookLink">{{addDelete | uppercase}}<i class="fa fa-angle-down"></i></a></div>
-            <div style="display:none"  class="toggle1">
+            <div style="display:none"  class="toggle1 toggleStyle">
             	<div [class.disableButton]="!addAllowed"  (click)="addNewNode(true)"   class="submenu" ><div ><a class="buttonLookLink">{{addPage | uppercase}}</a></div> </div>
              	<div [class.disableButton]="!deleteAllowed" (click)="deleteNode(true)"  class="submenu"><div ><a class="buttonLookLink">{{deletePage | uppercase}}</a></div> </div>
 				<div [class.disableButton]="!deleteAllowed"(click)="startDeleteBranch(true)"  class="submenu"><div ><a   class="buttonLookLink">{{deleteBranch | uppercase}}</a></div> </div>        	
             </div>
             </div>
             <div *ngIf="nodeEditorPage"  class="buttonFrameContainerUserStoryContentModule"><div #a4 (click)="invert(a4)"  class="buttonSizeActions" ><a class="buttonLookLink">{{actions | uppercase}}<i class="fa fa-angle-down"></i></a></div>
-            <div style="display:none"  class="toggle2">
+            <div style="display:none"  class="toggle2 toggleStyle">
              	<div [class.disableButton]="!moveAllowed" class="submenu"><div ><a (click)="startSwapNode(true)" class="buttonLookLink">{{swapNode | uppercase}}</a></div> </div>
 				<div [class.disableButton]="!moveAllowed" class="submenu" ><div ><a  (click)="startSwapBranch(true)" class="buttonLookLink">{{swapBranch | uppercase}}</a></div> </div>    
 				<div [class.disableButton]="!moveAllowed" class="submenu" ><div ><a (click)="startAppend(true)" class="buttonLookLink">{{append | uppercase}}</a></div> </div>     	
