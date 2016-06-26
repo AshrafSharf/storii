@@ -10,26 +10,9 @@ import { AuthenticationService }    from '../login/authentication.service';
 export class EditBarService {
   constructor (private http: Http, private httpClient: HttpClient, private _authenticationService: AuthenticationService) {}
 
-	uploadFile(formData) {
-     let xhr:XMLHttpRequest = new XMLHttpRequest();
-		    xhr.onreadystatechange = () => { console.log("LALAL");
-		      if(xhr.readyState === 4) {
-		        if(xhr.status === 201) {
-		           console.log("Success");
-		        } else {
-		           console.log("Error");
-		        }
-		      }
-		    }
-         xhr.setRequestHeader("enctype", "multipart/form-data")
-		 	var string = localStorage.getItem("auth_token");
-		 	var url = "/attachmentUI/addUserImage";
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Authorization', string); 
+	
 
-        xhr.send(formData);
-   
-	}
+	
 	
 	setProfileImage(formData){
 		 var headers = new Headers();
