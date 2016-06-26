@@ -110,6 +110,11 @@ a {
 	color: rgb(82, 98, 87);
 }
 
+.backToStory .commentsBack{
+	width: 70%;
+	margin: 0 auto;
+}
+
 #editBar .backToStory .buttonSize{
 	background-color: #96C3CC;
 }
@@ -222,7 +227,6 @@ input.buttonStoryInfo {
     padding: 7px;
     margin: 20px auto;
 }
-}
 
 .singleRating:last-child{
 	margin-bottom: 16px;
@@ -291,6 +295,7 @@ input.buttonStoryInfo {
 	margin: 20px;
 	padding:5px;
 	cursor: pointer;
+	background-color: #F3E0E1;
 }
 
 
@@ -1423,6 +1428,10 @@ input.buttonStoryInfo {
     }
      }
 @media screen and (max-width: 530px) {
+	
+	.backToStory .commentsBack{
+		width: 90%;
+	}
 	
 	.singleRatingPage{
 		width: 90%;
