@@ -112,7 +112,10 @@ public class UploadController {
 
 		userImageDAO.save(newImage);
 
-		return ResponseEntity.ok().body("{\"uploaded\":\"true\", \"img_name\":\"" + filename + "\"}");
+		HttpHeaders headers = new HttpHeaders();
+	    headers.add("Content-Type", "application/json");
+		
+		return ResponseEntity.ok().headers(headers).body("{\"uploaded\":\"true\", \"img_id\":\"" + newImage.getId() + "\", \"img_name\":\"" + newImage.getName() + "\"}");
 	} // method uploadFile
 
 	@RequestMapping(value = "/getImage/{image_path}/{image_size}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
@@ -228,7 +231,10 @@ public class UploadController {
 
 		storyImageDAO.save(newImage);
 
-		return ResponseEntity.ok().body("{\"uploaded\":\"true\", \"img_name\":\"" + filename + "\"}");
+		HttpHeaders headers = new HttpHeaders();
+	    headers.add("Content-Type", "application/json");
+		
+		return ResponseEntity.ok().headers(headers).body("{\"uploaded\":\"true\", \"img_id\":\"" + newImage.getId() + "\", \"img_name\":\"" + newImage.getName() + "\"}");
 	} // method
 																								// uploadFile
 
@@ -312,7 +318,10 @@ public class UploadController {
 
 		pageImageDAO.save(newImage);
 
-		return ResponseEntity.ok().body("{\"uploaded\":\"true\", \"img_name\":\"" + filename + "\"}");
+		HttpHeaders headers = new HttpHeaders();
+	    headers.add("Content-Type", "application/json");
+		
+		return ResponseEntity.ok().headers(headers).body("{\"uploaded\":\"true\", \"img_id\":\"" + newImage.getId() + "\", \"img_name\":\"" + newImage.getName() + "\"}");
 	} // method uploadFile
 
 	@RequestMapping(value = "/deletePageImage/{page_image_id}", method = RequestMethod.DELETE)
