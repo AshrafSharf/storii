@@ -19,7 +19,7 @@
   <h2>How did you like it?</h2>
   	
   	<div>
-  	<div class="loginContainer">
+  	<div class="loginContainer rateStory">
 
             <div id="form">
                 <div *ngIf="!alreadyRated" class="h1bgLogin"><h1>ADD A COMMENT</h1></div>
@@ -27,7 +27,8 @@
                 <form [ngFormModel]="form" id="myForm">
 	                <div class="notYetRated" >
 					<p  class="label">COMMENT: <br> <input #comment ngControl="comment" class="inputField" name="comment" value="" type="text"></p>
-					<p  class="label rating">RATING:
+					<div>RATING:</div>
+					<p  class="label rating">
 					<label class="inline">
 					  <input #radio ngControl="radio" type="radio" name="rating" value="1" />
 					  <img src="app/assets/files/greystar.png">

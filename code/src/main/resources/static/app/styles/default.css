@@ -358,6 +358,32 @@ input.buttonStoryInfo {
   margin-left: 20px;
   height: 46px;
   border-style: dotted; }
+  
+  .loginContainer.rateStory{
+  	height: 240px;
+    padding: 0;
+    padding: 15px;
+    padding-top: 40px;
+  }
+  
+ .loginContainer.rateStory .h1bgLogin{
+ 	width: 50%;
+ }
+ 
+ .loginContainer.rateStory .buttonFrameContainer{
+ 	padding: 7px;
+    margin-right: 10px;
+    width: 170px;
+ }
+ 
+ .loginContainer.rateStory .buttonFrameContainer input.button{
+ 	width: 100%;
+ 	text-align: center;
+ }
+ 
+.loginContainer.rateStory .buttonFrameContainer  .buttonSize{
+	width: auto;
+}
 
 .lastLabel {
   margin-bottom: 40px; }
@@ -1374,6 +1400,16 @@ input.buttonStoryInfo {
   #searchResultPage input.inputField {
     width: 40%; } }
 @media screen and (max-width: 768px) {
+	
+	.loginContainer.rateStory .buttonFrameContainer{
+		width: 90%;
+		margin: 5px auto;
+		float: none;
+	}
+	
+	.loginContainer.rateStory{
+		height: 400px;
+	}
  
  #searchPage input.inputField {
  	width:80%;
@@ -1428,6 +1464,14 @@ input.buttonStoryInfo {
     }
      }
 @media screen and (max-width: 530px) {
+
+	.loginContainer.rateStory .h1bgLogin{
+		width: 100%;
+	}
+	
+	.loginContainer.rateStory h1{
+		font-size: 1.2em;
+	}
 	
 	.backToStory .commentsBack{
 		width: 90%;
