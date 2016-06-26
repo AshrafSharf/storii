@@ -71,25 +71,31 @@ export class PresentationComponent implements OnInit {
                                      this.allowed = true; 
                                 }
                                     this._aboutService.getStoryById(this.storyid)
-                                        .subscribe((result) => {
-                                                if (result) {
-                                                 this.firstPage = result['firstPage']['id'];
-                                                 for(var key in result['ratings']){
-                                                     if(this.loggedInUser['id'] == result['ratings'][key]['ratingUser']){
-                                                        this.alreadyRated = true;  
-                                                     }
-                                                 }
-                                                 this._editBarService.getPageById(this.firstPage)
-                                                        .subscribe(
-                                                               actualPage => { 
-                                                               this.actualPage = actualPage;
-                                                               this.loadPageEditor();     
-                                                               },error =>  this.errorMessage = <any>error);
-                                                  // console.log(this.details);
-                                                }
-                                                if(!result['data']){
-                                                   // this._router.navigate(['Error']);
-                                                }
+                                        .subscribe((result) => {                       
+                                                     if(jQuery.isEmptyObject(result)){
+                                                         this._router.navigate(['Error']);
+                                                    }else{
+                                                    if(result['published'] == false && this.loggedInUser['name'] != this.name){
+                                                   
+                                                        this._router.navigate(['Error']);
+                                                    }else{
+                                                        jQuery('#presentationPage').removeClass('hidden');
+                                                        this.firstPage = result['firstPage']['id'];
+                                                         for(var key in result['ratings']){
+                                                             if(this.loggedInUser['id'] == result['ratings'][key]['ratingUser']){
+                                                                this.alreadyRated = true;  
+                                                             }
+                                                         }
+                                                         this._editBarService.getPageById(this.firstPage)
+                                                                .subscribe(
+                                                                       actualPage => { 
+                                                                       this.actualPage = actualPage;
+                                                                       this.loadPageEditor();     
+                                                                       },error =>  this.errorMessage = <any>error);
+                                                          // console.log(this.details);
+                                                    } 
+                                                    }
+                                                
                                                 },
                                                 error =>  this.errorMessage = <any>error);
                                

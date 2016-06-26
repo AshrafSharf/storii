@@ -96,6 +96,15 @@ export class CommentsComponent implements OnInit {
         
         
       }
+    
+     gotoProfile(name){
+        this._router.navigate(['Profile', { name: name }]);
+      }
+    
+     
+   gotoStory() {   
+         this._router.navigate(['About', { name: this.name, storyName: this.storyName, id: this.storyid}]);
+    }
       
 
 }

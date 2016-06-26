@@ -133,6 +133,10 @@ export class AboutComponent implements OnInit {
 	   	this._router.navigate(['Profile', { name: this.name }]);
 	  }
 	  
+	  gotoUser(name){
+	   	this._router.navigate(['Profile', { name: name }]);
+	  }
+	  
 	  gotoPresentation(){
 	   	this._router.navigate(['Presentation', { name: this.name, storyName: this.storyName, id: this.storyid }]);
 	  }

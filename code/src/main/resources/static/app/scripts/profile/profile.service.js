@@ -46,7 +46,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                         headers.delete('Authorization');
                         headers.append('Authorization', "");
                     }
-                    var _resultUrl = '/user/findByName/';
+                    var _resultUrl = '/user/findByNameSingle/';
                     return this.http.get(_resultUrl + name, { headers: headers })
                         .map(this.extractData)
                         .do(function (data) { return console.log(data); })

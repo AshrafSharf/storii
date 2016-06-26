@@ -1,6 +1,7 @@
 <logState></logState>
 <div class="container">
-<div id="presentationPage">
+<div id="presentationPage" class="hidden">
+<div *ngIf="!rateAllowed" (click)="goBackToStory()" class="backToStory buttonFrameContainerUserStoryContentModule"><div  class="buttonSizeBack"><a  class="buttonLookLink">BACK TO STORY</a></div> </div>
 
 <div *ngIf="rateAllowed" class="buttonFrameContainerUserStoryContentModule">
         	<div (click)="goToRate()" class="buttonSizePres">

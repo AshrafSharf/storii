@@ -73,6 +73,10 @@ a {
 	float: left;
 }
 
+.currPicDiv > img{
+	max-width:100%;
+}
+
 
 
 #editBar .buttonFrameContainerUserStoryContentModule .buttonSize, #links .buttonFrameContainerUserStoryContentModule .buttonSize{
@@ -275,6 +279,15 @@ input.buttonStoryInfo {
 	line-height: 2em;
 	text-align: center;
 	background-color: rgb(225, 175, 177);
+	margin: 20px;
+	padding:5px;
+	cursor: pointer;
+}
+
+.buttonSizeBack{
+	border: 2px dotted black;
+	line-height: 2em;
+	text-align: center;
 	margin: 20px;
 	padding:5px;
 	cursor: pointer;

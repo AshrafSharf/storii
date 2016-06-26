@@ -124,6 +124,9 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 AboutComponent.prototype.gotoProfile = function () {
                     this._router.navigate(['Profile', { name: this.name }]);
                 };
+                AboutComponent.prototype.gotoUser = function (name) {
+                    this._router.navigate(['Profile', { name: name }]);
+                };
                 AboutComponent.prototype.gotoPresentation = function () {
                     this._router.navigate(['Presentation', { name: this.name, storyName: this.storyName, id: this.storyid }]);
                 };

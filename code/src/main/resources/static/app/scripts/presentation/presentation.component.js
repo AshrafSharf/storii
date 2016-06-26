@@ -76,20 +76,27 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             }
                             _this._aboutService.getStoryById(_this.storyid)
                                 .subscribe(function (result) {
-                                if (result) {
-                                    _this.firstPage = result['firstPage']['id'];
-                                    for (var key in result['ratings']) {
-                                        if (_this.loggedInUser['id'] == result['ratings'][key]['ratingUser']) {
-                                            _this.alreadyRated = true;
-                                        }
-                                    }
-                                    _this._editBarService.getPageById(_this.firstPage)
-                                        .subscribe(function (actualPage) {
-                                        _this.actualPage = actualPage;
-                                        _this.loadPageEditor();
-                                    }, function (error) { return _this.errorMessage = error; });
+                                if (jQuery.isEmptyObject(result)) {
+                                    _this._router.navigate(['Error']);
                                 }
-                                if (!result['data']) {
+                                else {
+                                    if (result['published'] == false && _this.loggedInUser['name'] != _this.name) {
+                                        _this._router.navigate(['Error']);
+                                    }
+                                    else {
+                                        jQuery('#presentationPage').removeClass('hidden');
+                                        _this.firstPage = result['firstPage']['id'];
+                                        for (var key in result['ratings']) {
+                                            if (_this.loggedInUser['id'] == result['ratings'][key]['ratingUser']) {
+                                                _this.alreadyRated = true;
+                                            }
+                                        }
+                                        _this._editBarService.getPageById(_this.firstPage)
+                                            .subscribe(function (actualPage) {
+                                            _this.actualPage = actualPage;
+                                            _this.loadPageEditor();
+                                        }, function (error) { return _this.errorMessage = error; });
+                                    }
                                 }
                             }, function (error) { return _this.errorMessage = error; });
                         }, function (error) { return _this.errorMessage = error; });

@@ -11,6 +11,7 @@ declare var jQuery: any;
 declare var vex: any;
 declare var GridStackUI: any;
 declare var Cropper: any;
+declare var cropper: any;
 declare var window: any;
 declare var _: any;
     
@@ -277,12 +278,13 @@ export class EditBarComponent implements OnInit {
             jQuery('#changeEmail .inputField').attr("value", self.details[0]['email']);
             jQuery('#changeAboutMe textarea').text(self.details[0]['aboutMe']);
             jQuery('#changeMyInspiration textarea').text(self.details[0]['myInspiration']);
+            jQuery('#currentPicture').attr('src', 'uploadedFiles/'+self.details[0]['allUserImages'][0]['path']);
         
             jQuery('#changePictureButton').click(function(){
                 if(jQuery('#pictureHandling').find('#image').length == 0){
-                    jQuery('#pictureHandling').append('<input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');  
+                    jQuery('#pictureHandling').append('<div><input id="upload" type="file"><img id="image" src=""><div class="close inline">X </div> <div class="crop inline"> CROP</div></div>');  
                     jQuery('#image').css('max-width','100%');
-                    jQuery('.currPicDiv > img').css('max-width','100%');
+                
                     jQuery('.currPicDiv').css('overflow','hidden');
                     jQuery("#upload").change(function(){
                         self.readURL(this);
@@ -330,18 +332,18 @@ export class EditBarComponent implements OnInit {
                 var reader = new FileReader();
                 var f = input.files[0];
                 reader.onload = function (e:any) {
+                     var image = document.getElementById('image');
                     if(jQuery('#image').attr('src') != ""){
                          
-                        //here destroy cropper somehow and change src
-                           // jQuery('#image').cropper('destroy');
-                       
+                       //jQuery('#image').cropper('destroy');
+                      
          
                     }
                     jQuery('#image').attr('src', e.target.result);
                     
                      
                     var Cropper = window.Cropper;
-                    var image = document.getElementById('image');
+                   
                    
                      //cropperImage.cropper('destroy').removeAttr('src');
                     console.log(image);
@@ -374,6 +376,11 @@ export class EditBarComponent implements OnInit {
                         }
                     });
                     
+                    jQuery('.close').click(function(){
+                        jQuery('#upload').parent().remove();
+                       // jQuery('#image').cropper('destroy');
+                    });
+                    
                     jQuery('.crop').click(function(){
                   /*  cropper.getCroppedCanvas();
 
@@ -402,7 +409,11 @@ export class EditBarComponent implements OnInit {
                             ajax.onreadystatechange = function(){
                                 if(this.readyState == 4){
                                     if(this.status == 200){
-                                        
+                                      // jQuery('#image').cropper('destroy');
+                                          jQuery('#upload').parent().remove();
+                                         var myArr = JSON.parse(ajax.responseText);
+                                        console.log(myArr);
+                                        jQuery('#currentPicture').attr('src','uploadedFiles/'+myArr[0]['img_path']);
                                         console.log("SUCCESS");
                                     }
                                     else{
@@ -540,17 +551,17 @@ export class EditBarComponent implements OnInit {
                 
                  var f = input.files[0];
                 reader.onload = function (e:any) {
+                    var image = document.getElementById('image');
                     if(jQuery('#image').attr('src') != ""){
                          
-                        //here destroy cropper somehow and change src
-                           // jQuery('#image').cropper('destroy');
+                       //jQuery('#image').cropper('destroy');
                        
          
                     }
                     jQuery('#image').attr('src', e.target.result);
                     
                     var Cropper = window.Cropper;
-                    var image = document.getElementById('image');
+                   
                   
                     var cropper = new Cropper(image, {
                       aspectRatio: 1 / 1,
@@ -581,6 +592,11 @@ export class EditBarComponent implements OnInit {
                         }
                     });
                     
+                      jQuery('.close').click(function(){
+                        jQuery('#upload').parent().remove();
+                       // jQuery('#image').cropper('destroy');
+                    });
+                    
                     jQuery('.crop').click(function(){
                   /*  cropper.getCroppedCanvas();
 
@@ -609,7 +625,11 @@ export class EditBarComponent implements OnInit {
                             ajax.onreadystatechange = function(){
                                 if(this.readyState == 4){
                                     if(this.status == 200){
-                                        console.log(this.responseText);
+                                          jQuery('#upload').parent().remove();
+                                         var myArr = JSON.parse(ajax.responseText);
+                                        console.log(myArr);
+                                        jQuery('#currentPicture').attr('src','uploadedFiles/'+myArr[0]['img_path']);
+                                        console.log("SUCCESS");
                                     }
                                     else{
                                         console.log(this.statusText);
@@ -639,14 +659,17 @@ export class EditBarComponent implements OnInit {
                 var reader = new FileReader();
                 
                 reader.onload = function (e:any) {
-                     parentDiv.find('.img').attr('src', e.target.result);
+                   var id =  parentDiv.find('.img').attr('id');
+                   var image = document.getElementById(id);
+                    if(jQuery('#'+id).attr('src') != ""){
+                         
+                      // jQuery('#'+id).cropper('destroy');
+                       
+         
+                    }
+                      parentDiv.find('.img').attr('src', e.target.result);
                     
                     var Cropper = window.Cropper;
-                    var id =  parentDiv.find('.img').attr('id');
-                      var image = document.getElementById(id);
-                    
-                    console.log(id); 
-
                   
                     var cropper = new Cropper(image, {
                       aspectRatio: 1 / 1,

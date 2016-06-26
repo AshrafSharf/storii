@@ -141,7 +141,7 @@ export class ProfileComponent implements OnInit {
 		                        if(jQuery.isEmptyObject(details)){
 	      							 this._router.navigate(['Error']);
 	      						}else{    
-		                         this.details = details;
+		                         this.details[0] = details;
 		                         this.details[0]['stories'].sort(function(a, b) {
                                     return parseFloat(a.id) - parseFloat(b.id);
                                  });

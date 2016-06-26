@@ -95,6 +95,12 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     }, function (error) { _this._router.navigate(['Error']); });
                     //get story by id
                 };
+                CommentsComponent.prototype.gotoProfile = function (name) {
+                    this._router.navigate(['Profile', { name: name }]);
+                };
+                CommentsComponent.prototype.gotoStory = function () {
+                    this._router.navigate(['About', { name: this.name, storyName: this.storyName, id: this.storyid }]);
+                };
                 CommentsComponent = __decorate([
                     core_1.Component({
                         selector: 'comments',

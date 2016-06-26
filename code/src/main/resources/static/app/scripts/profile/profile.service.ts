@@ -18,7 +18,7 @@ export class ProfileService {
   		headers.delete('Authorization');
   		headers.append('Authorization',"");
   	}
-	var _resultUrl = '/user/findByName/'; 
+	var _resultUrl = '/user/findByNameSingle/'; 
     return this.http.get(_resultUrl+name,{headers})
             .map(this.extractData)
             .do(data => console.log(data))

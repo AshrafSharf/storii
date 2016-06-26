@@ -120,7 +120,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             _this._router.navigate(['Error']);
                         }
                         else {
-                            _this.details = details;
+                            _this.details[0] = details;
                             _this.details[0]['stories'].sort(function (a, b) {
                                 return parseFloat(a.id) - parseFloat(b.id);
                             });
