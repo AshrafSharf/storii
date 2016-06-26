@@ -84,13 +84,15 @@ public class UploadController {
 
 		// BufferedImage newImage = convertImage(uploadfile);
 
+		String filepath = "";
+		
 		try {
 			// Get the filename and build the local file path (be sure that the
 			// application have write permissions on such directory)
 			java.util.Date date = new java.util.Date();
 
 			filename = new Timestamp(date.getTime()).hashCode() + name.replaceAll("\\s+","") + ".jpg";
-			String filepath = Paths.get(directory, filename).toString();
+			filepath = Paths.get(directory, filename).toString();
 
 			// Save the file locally
 			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
@@ -115,7 +117,7 @@ public class UploadController {
 		HttpHeaders headers = new HttpHeaders();
 	    headers.add("Content-Type", "application/json");
 		
-		return ResponseEntity.ok().headers(headers).body("{\"uploaded\":\"true\", \"img_id\":\"" + newImage.getId() + "\", \"img_name\":\"" + newImage.getName() + "\"}");
+		return ResponseEntity.ok().headers(headers).body("{\"uploaded\":\"true\", \"img_id\":\"" + newImage.getId() + "\", \"img_path\":\"" + filepath + "\"}");
 	} // method uploadFile
 
 	@RequestMapping(value = "/getImage/{image_path}/{image_size}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
@@ -203,13 +205,15 @@ public class UploadController {
 
 		String filename = "";
 
+		String filepath = "";
+		
 		try {
 			// Get the filename and build the local file path (be sure that the
 			// application have write permissions on such directory)
 			java.util.Date date = new java.util.Date();
 
 			filename = new Timestamp(date.getTime()).hashCode() + name.replaceAll("\\s+","") + ".jpg";
-			String filepath = Paths.get(directory, filename).toString();
+			filepath = Paths.get(directory, filename).toString();
 
 			// Save the file locally
 			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
@@ -234,7 +238,7 @@ public class UploadController {
 		HttpHeaders headers = new HttpHeaders();
 	    headers.add("Content-Type", "application/json");
 		
-		return ResponseEntity.ok().headers(headers).body("{\"uploaded\":\"true\", \"img_id\":\"" + newImage.getId() + "\", \"img_name\":\"" + newImage.getName() + "\"}");
+		return ResponseEntity.ok().headers(headers).body("{\"uploaded\":\"true\", \"img_id\":\"" + newImage.getId() + "\", \"img_path\":\"" + filepath + "\"}");
 	} // method
 																								// uploadFile
 
@@ -289,6 +293,8 @@ public class UploadController {
 		Page myPage = pageDAO.findOne(page_id);
 
 		String filename = "";
+		
+		String filepath = "";
 
 		try {
 			// Get the filename and build the local file path (be sure that the
@@ -296,7 +302,7 @@ public class UploadController {
 			java.util.Date date = new java.util.Date();
 
 			filename = new Timestamp(date.getTime()).hashCode() + name.replaceAll("\\s+","") + ".jpg";
-			String filepath = Paths.get(directory, filename).toString();
+			filepath = Paths.get(directory, filename).toString();
 
 			// Save the file locally
 			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
@@ -321,7 +327,7 @@ public class UploadController {
 		HttpHeaders headers = new HttpHeaders();
 	    headers.add("Content-Type", "application/json");
 		
-		return ResponseEntity.ok().headers(headers).body("{\"uploaded\":\"true\", \"img_id\":\"" + newImage.getId() + "\", \"img_name\":\"" + newImage.getName() + "\"}");
+		return ResponseEntity.ok().headers(headers).body("{\"uploaded\":\"true\", \"img_id\":\"" + newImage.getId() + "\", \"img_path\":\"" + filepath + "\"}");
 	} // method uploadFile
 
 	@RequestMapping(value = "/deletePageImage/{page_image_id}", method = RequestMethod.DELETE)
