@@ -196,6 +196,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                             jQuery('.currPicDiv').css('overflow', 'hidden');
                             jQuery("#upload").change(function () {
                                 self.readURL(this);
+                                jQuery("#upload").addClass('hidden');
                             });
                             jQuery('.close').click(function () {
                                 jQuery('#upload').parent().remove();
@@ -244,45 +245,37 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         reader.onload = function (e) {
                             var image = document.getElementById('image');
                             if (jQuery('#image').attr('src') != "") {
-                                jQuery('#upload').parent().remove();
-                                jQuery('.currPicDiv img').remove();
-                                jQuery('#pictureHandling').append('<div><input id="upload" type="file"><img id="image" src=""><div class="close inline">X </div> <div class="crop inline"> CROP</div></div>');
-                                jQuery('#image').css('max-width', '100%');
-                                jQuery('.currPicDiv').css('overflow', 'hidden');
-                                jQuery('#image').attr('src', e.target.result);
                             }
-                            else {
-                                var Cropper = window.Cropper;
-                                jQuery('#image').attr('src', e.target.result);
-                                //cropperImage.cropper('destroy').removeAttr('src');
-                                console.log(image);
-                                var cropper = new Cropper(image, {
-                                    aspectRatio: 1 / 1,
-                                    preview: '.currPicDiv',
-                                    build: function (e) {
-                                        console.log(e.type);
-                                    },
-                                    built: function (e) {
-                                        console.log(e.type);
-                                    },
-                                    cropstart: function (e) {
-                                        console.log(e.type, e.detail.action);
-                                    },
-                                    cropmove: function (e) {
-                                        console.log(e.type, e.detail.action);
-                                    },
-                                    cropend: function (e) {
-                                        console.log(e.type, e.detail.action);
-                                    },
-                                    crop: function (e) {
-                                        var data = e.detail;
-                                        console.log(e.type);
-                                    },
-                                    zoom: function (e) {
-                                        console.log(e.type, e.detail.ratio);
-                                    }
-                                });
-                            }
+                            var Cropper = window.Cropper;
+                            jQuery('#image').attr('src', e.target.result);
+                            //cropperImage.cropper('destroy').removeAttr('src');
+                            console.log(image);
+                            var cropper = new Cropper(image, {
+                                aspectRatio: 1 / 1,
+                                preview: '.currPicDiv',
+                                build: function (e) {
+                                    console.log(e.type);
+                                },
+                                built: function (e) {
+                                    console.log(e.type);
+                                },
+                                cropstart: function (e) {
+                                    console.log(e.type, e.detail.action);
+                                },
+                                cropmove: function (e) {
+                                    console.log(e.type, e.detail.action);
+                                },
+                                cropend: function (e) {
+                                    console.log(e.type, e.detail.action);
+                                },
+                                crop: function (e) {
+                                    var data = e.detail;
+                                    console.log(e.type);
+                                },
+                                zoom: function (e) {
+                                    console.log(e.type, e.detail.ratio);
+                                }
+                            });
                             jQuery('.crop').click(function () {
                                 /*  cropper.getCroppedCanvas();
               
@@ -310,13 +303,18 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                                     // jQuery('#image').cropper('destroy');
                                                     jQuery('#upload').parent().remove();
                                                     var myArr = JSON.parse(ajax.responseText);
-                                                    self._editBarService.setPic(myArr['img_id'])
+                                                    console.log(myArr);
+                                                    self._editBarService.setPic(myArr['data']['img_id'])
                                                         .subscribe(function (done) {
                                                     }, function (error) { return self.errorMessage = error; });
                                                     jQuery('.currPicDiv img').remove();
                                                     jQuery('.currPicDiv').removeAttr('style');
                                                     jQuery('.currPicDiv').append('<img src="" alt="CurrentPicture" id="currentPicture" class="currentUserPicture">');
-                                                    jQuery('#currentPicture').attr('src', '/attachmentUI/getImage/' + myArr['img_path'] + '/small');
+                                                    jQuery('#currentPicture').attr('src', '/attachmentUI/getImage/' + myArr['data']['img_path'] + '/small');
+                                                    var img = [];
+                                                    img['path'] = myArr['data']['img_path'];
+                                                    self.details[0]['setUserImage'] = img;
+                                                    console.log(self.details[0]['setUserImage']);
                                                 }
                                                 else {
                                                     console.log(this.statusText);
@@ -360,11 +358,12 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     jQuery('#changeStoryPictureButton').click(function () {
                         if (jQuery('#pictureHandling').find('#image').length == 0) {
                             var oldPic = jQuery('#currentPicture').attr('src');
-                            jQuery('#pictureHandling').append('<div><input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div></div>');
+                            jQuery('#pictureHandling').append('<div><input id="upload" type="file"><img id="image" src=""><div class="close inline">X </div> <div class="crop inline"> CROP</div></div>');
                             jQuery('#image').css('max-width', '100%');
                             jQuery('.currPicDiv').css('overflow', 'hidden');
                             jQuery("#upload").change(function () {
                                 self.readStoryPicURL(this);
+                                jQuery("#upload").addClass('hidden');
                             });
                             jQuery('.close').click(function () {
                                 jQuery('#upload').parent().remove();
@@ -406,11 +405,6 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         reader.onload = function (e) {
                             var image = document.getElementById('image');
                             if (jQuery('#image').attr('src') != "") {
-                                jQuery('#upload').parent().remove();
-                                jQuery('.currPicDiv img').remove();
-                                jQuery('#pictureHandling').append('<div><input id="upload" type="file"><img id="image" src=""><div class="close inline">X </div> <div class="crop inline"> CROP</div></div>');
-                                jQuery('#image').css('max-width', '100%');
-                                jQuery('.currPicDiv').css('overflow', 'hidden');
                             }
                             jQuery('#image').attr('src', e.target.result);
                             var Cropper = window.Cropper;
@@ -457,25 +451,28 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                     var ajax = new XMLHttpRequest();
                                     if (ajax != null) {
                                         var string = localStorage.getItem("auth_token");
-                                        var url = "/attachmentUI/addStoryImage";
+                                        var url = "/attachmentUI/addStoryImage/" + self.storyid;
+                                        console.log(url);
                                         ajax.open('POST', url, true);
                                         ajax.setRequestHeader("enctype", "multipart/form-data");
                                         ajax.setRequestHeader('Authorization', string);
                                         ajax.onreadystatechange = function () {
                                             if (this.readyState == 4) {
+                                                console.log(url);
                                                 if (this.status == 200) {
                                                     jQuery('#upload').parent().remove();
                                                     var myArr = JSON.parse(ajax.responseText);
-                                                    /* self._editBarService.setPic(myArr['img_id'])
-                                                             .subscribe(
-                                                            done => {
-             
-                                                            },
-                                                            error =>  self.errorMessage = <any>error);*/
+                                                    self._editBarService.setStoryPic(self.storyid, myArr['data']['img_id'])
+                                                        .subscribe(function (done) {
+                                                    }, function (error) { return self.errorMessage = error; });
                                                     jQuery('.currPicDiv img').remove();
                                                     jQuery('.currPicDiv').removeAttr('style');
                                                     jQuery('.currPicDiv').append('<img src="" alt="CurrentPicture" id="currentPicture" class="currentStoryPicture">');
-                                                    jQuery('#currentPicture').attr('src', '/attachmentUI/getImage/' + myArr['img_name'] + '/small');
+                                                    jQuery('#currentPicture').attr('src', '/attachmentUI/getImage/' + myArr['data']['img_path'] + '/small');
+                                                    var img = [];
+                                                    img['path'] = myArr['data']['img_path'];
+                                                    self.details[0]['setStoryImage'] = img;
+                                                    console.log(self.details[0]['setStoryImage']);
                                                 }
                                                 else {
                                                     console.log(this.statusText);

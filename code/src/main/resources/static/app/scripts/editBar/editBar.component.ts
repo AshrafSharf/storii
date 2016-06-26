@@ -271,9 +271,10 @@ export class EditBarComponent implements OnInit {
                                 </div>
                             </div>
                         </div>`
-                    
-            }); 
-            
+                
+                }); 
+
+         
             jQuery('#changeName input:text').attr("value", self.details[0]['name']);
             jQuery('#changeEmail .inputField').attr("value", self.details[0]['email']);
             jQuery('#changeAboutMe textarea').text(self.details[0]['aboutMe']);
@@ -294,8 +295,10 @@ export class EditBarComponent implements OnInit {
                     jQuery('.currPicDiv').css('overflow','hidden');
                     jQuery("#upload").change(function(){
                         self.readURL(this);
-                    }); 
-                     
+                         jQuery("#upload").addClass('hidden');
+                        
+                    });
+                  
                     jQuery('.close').click(function(){
                         jQuery('#upload').parent().remove();
                         jQuery('.currPicDiv img').remove();
@@ -349,16 +352,10 @@ export class EditBarComponent implements OnInit {
                      var image = document.getElementById('image');
                     if(jQuery('#image').attr('src') != ""){
                          
-                        jQuery('#upload').parent().remove();
-                        jQuery('.currPicDiv img').remove();
-                        
-                        jQuery('#pictureHandling').append('<div><input id="upload" type="file"><img id="image" src=""><div class="close inline">X </div> <div class="crop inline"> CROP</div></div>');  
-                        jQuery('#image').css('max-width','100%');
-                        jQuery('.currPicDiv').css('overflow','hidden');
                       
-                        jQuery('#image').attr('src', e.target.result);
+                                
                         
-                    }else{
+                    }
                         var Cropper = window.Cropper;
                    
                     jQuery('#image').attr('src', e.target.result);
@@ -392,7 +389,7 @@ export class EditBarComponent implements OnInit {
                           console.log(e.type, e.detail.ratio);
                         }
                     }); 
-                    }
+                    
                    
                     
                      
@@ -430,19 +427,26 @@ export class EditBarComponent implements OnInit {
                                       // jQuery('#image').cropper('destroy');
                                           jQuery('#upload').parent().remove();
                                           var myArr = JSON.parse(ajax.responseText);
-                                        self._editBarService.setPic(myArr['img_id'])
+                                          console.log(myArr);
+                                       
+                                        self._editBarService.setPic(myArr['data']['img_id'])
                                                 .subscribe(
                                                done => { 
-
+ 
                                                },
                                                error =>  self.errorMessage = <any>error);
-                                        
+                                      
                                          jQuery('.currPicDiv img').remove();
                                          jQuery('.currPicDiv').removeAttr('style');
                                          jQuery('.currPicDiv').append('<img src="" alt="CurrentPicture" id="currentPicture" class="currentUserPicture">');
-                                        
-                                          jQuery('#currentPicture').attr('src','/attachmentUI/getImage/'+myArr['img_path']+'/small');
-       
+                                       
+                                          jQuery('#currentPicture').attr('src','/attachmentUI/getImage/'+myArr['data']['img_path']+'/small');
+                                          
+                                        var img = [];
+                                        img['path']= myArr['data']['img_path'];
+                                          
+                                          self.details[0]['setUserImage']= img;
+                                         console.log(self.details[0]['setUserImage']);
                                       
                                     }
                                     else{
@@ -542,12 +546,13 @@ export class EditBarComponent implements OnInit {
              jQuery('#changeStoryPictureButton').click(function(){
                 if(jQuery('#pictureHandling').find('#image').length == 0){
                     var oldPic = jQuery('#currentPicture').attr('src');
-                    jQuery('#pictureHandling').append('<div><input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div></div>');  
+                    jQuery('#pictureHandling').append('<div><input id="upload" type="file"><img id="image" src=""><div class="close inline">X </div> <div class="crop inline"> CROP</div></div>');  
                     jQuery('#image').css('max-width','100%');
              
                     jQuery('.currPicDiv').css('overflow','hidden');
                     jQuery("#upload").change(function(){
                         self.readStoryPicURL(this);
+                        jQuery("#upload").addClass('hidden');
                     });
                      
                      jQuery('.close').click(function(){
@@ -598,12 +603,12 @@ export class EditBarComponent implements OnInit {
                     var image = document.getElementById('image');
                     if(jQuery('#image').attr('src') != ""){
                          
-                       jQuery('#upload').parent().remove();
+                     /*  jQuery('#upload').parent().remove();
                         jQuery('.currPicDiv img').remove();
                         
                         jQuery('#pictureHandling').append('<div><input id="upload" type="file"><img id="image" src=""><div class="close inline">X </div> <div class="crop inline"> CROP</div></div>');  
                         jQuery('#image').css('max-width','100%');
-                        jQuery('.currPicDiv').css('overflow','hidden');
+                        jQuery('.currPicDiv').css('overflow','hidden');*/
                        
          
                     }
@@ -664,28 +669,35 @@ export class EditBarComponent implements OnInit {
  
                         if(ajax!=null){
                              var string = localStorage.getItem("auth_token");
-                              var url = "/attachmentUI/addStoryImage";
+                              var url = "/attachmentUI/addStoryImage/"+self.storyid;
+                               console.log(url);
                             ajax.open('POST', url, true);
                             ajax.setRequestHeader("enctype", "multipart/form-data");
                             ajax.setRequestHeader('Authorization', string); 
                             ajax.onreadystatechange = function(){
-                                if(this.readyState == 4){
+                                if(this.readyState == 4){   console.log(url);
                                     if(this.status == 200){
                                             jQuery('#upload').parent().remove();
                                           var myArr = JSON.parse(ajax.responseText);
-                                       /* self._editBarService.setPic(myArr['img_id'])
+                                         
+                                        
+                                        self._editBarService.setStoryPic(self.storyid,myArr['data']['img_id'])
                                                 .subscribe(
                                                done => { 
 
                                                },
-                                               error =>  self.errorMessage = <any>error);*/
+                                               error =>  self.errorMessage = <any>error);
                                         
                                          jQuery('.currPicDiv img').remove();
                                          jQuery('.currPicDiv').removeAttr('style');
                                          jQuery('.currPicDiv').append('<img src="" alt="CurrentPicture" id="currentPicture" class="currentStoryPicture">');
                         
-                                          jQuery('#currentPicture').attr('src','/attachmentUI/getImage/'+myArr['img_name']+'/small');
-       
+                                          jQuery('#currentPicture').attr('src','/attachmentUI/getImage/'+myArr['data']['img_path']+'/small');
+                                        
+                                        var img = [];
+                                        img['path'] = myArr['data']['img_path'];
+                                        self.details[0]['setStoryImage'] = img; 
+                                        console.log(self.details[0]['setStoryImage']);
                                     }
                                     else{
                                         console.log(this.statusText);

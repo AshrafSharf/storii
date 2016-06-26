@@ -29,6 +29,24 @@ export class EditBarService {
 	  	
 	}
 	
+	setStoryPic(storyid,id){
+	    var headers = new Headers();
+	    if (this._authenticationService.isLoggedIn()) {
+	  		headers = this.httpClient.createHeader(headers);
+	 		headers.append('Content-Type', 'application/json');
+  		}else{
+  			headers.delete('Authorization');
+  			headers.delete('Content-Type');
+  			headers.append('Authorization',"");
+  		}
+		var _resultUrl = '/story/'+storyid+'/setPic/'+id; 
+	    return this.http.get(_resultUrl, {headers})
+	            .map(this.extractData)
+	            //.do(data => console.log(data))
+	            .catch(this.handleError);
+	  	
+	}
+	
 	
 	setProfileImage(formData){
 		 var headers = new Headers();

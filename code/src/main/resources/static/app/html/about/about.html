@@ -15,8 +15,8 @@
     <div class="shortInfo storyPageContentPart"> 
     <div class="storyPageInner">
     	<div>
-    		<img *ngIf="!details.setStoryImage" src="{{defaultStoryPic}}" alt="The story picture">
-   			<img *ngIf="details.setStoryImage" src="/attachmentUI/getImage/{{detail.setStoryImage['path']}}/small" alt="The story picture">
+    		<img *ngIf="!detail.setStoryImage" src="{{defaultStoryPic}}" alt="The story picture">
+   			<img *ngIf="detail.setStoryImage" src="/attachmentUI/getImage/{{detail.setStoryImage['path']}}/small" alt="The story picture">
     		
     		
     	</div>
