@@ -11,7 +11,23 @@ export class EditBarService {
   constructor (private http: Http, private httpClient: HttpClient, private _authenticationService: AuthenticationService) {}
 
 	
-
+	setPic(id){
+	    var headers = new Headers();
+	    if (this._authenticationService.isLoggedIn()) {
+	  		headers = this.httpClient.createHeader(headers);
+	 		headers.append('Content-Type', 'application/json');
+  		}else{
+  			headers.delete('Authorization');
+  			headers.delete('Content-Type');
+  			headers.append('Authorization',"");
+  		}
+		var _resultUrl = '/user/setPic/'+id; 
+	    return this.http.get(_resultUrl, {headers})
+	            .map(this.extractData)
+	            //.do(data => console.log(data))
+	            .catch(this.handleError);
+	  	
+	}
 	
 	
 	setProfileImage(formData){

@@ -182,8 +182,8 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     jQuery('#changeEmail .inputField').attr("value", self.details[0]['email']);
                     jQuery('#changeAboutMe textarea').text(self.details[0]['aboutMe']);
                     jQuery('#changeMyInspiration textarea').text(self.details[0]['myInspiration']);
-                    if (self.details[0]['allUserImages'][0] != undefined) {
-                        jQuery('#currentPicture').attr('src', 'uploadedFiles/' + self.details[0]['allUserImages'][0]['path']);
+                    if (self.details[0]['setUserImage'] != undefined) {
+                        jQuery('#currentPicture').attr('src', '/attachmentUI/getImage/' + self.details[0]['setUserImage']['path'] + '/small');
                     }
                     else {
                         jQuery('#currentPicture').attr('src', 'app/assets/files/dummyProfile.jpg');
@@ -244,6 +244,11 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         reader.onload = function (e) {
                             var image = document.getElementById('image');
                             if (jQuery('#image').attr('src') != "") {
+                                jQuery('#upload').parent().remove();
+                                jQuery('.currPicDiv img').remove();
+                                jQuery('#pictureHandling').append('<div><input id="upload" type="file"><img id="image" src=""><div class="close inline">X </div> <div class="crop inline"> CROP</div></div>');
+                                jQuery('#image').css('max-width', '100%');
+                                jQuery('.currPicDiv').css('overflow', 'hidden');
                             }
                             jQuery('#image').attr('src', e.target.result);
                             var Cropper = window.Cropper;
@@ -302,6 +307,9 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                                     // jQuery('#image').cropper('destroy');
                                                     jQuery('#upload').parent().remove();
                                                     var myArr = JSON.parse(ajax.responseText);
+                                                    self._editBarService.setPic(myArr['img_id'])
+                                                        .subscribe(function (done) {
+                                                    }, function (error) { return self.errorMessage = error; });
                                                     jQuery('.currPicDiv img').remove();
                                                     jQuery('.currPicDiv').removeAttr('style');
                                                     jQuery('.currPicDiv').append('<img src="" alt="CurrentPicture" id="currentPicture" class="currentUserPicture">');
@@ -340,8 +348,8 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     jQuery('#changeCoAuthor .inputField').attr("value", self.details[0]['coAuthorName']);
                     jQuery('#changeDescription textarea').text(self.details[0]['description']);
                     jQuery('#changePublished #published').prop("checked", self.details[0]['published']);
-                    if (self.details[0]['allStoryImages'][0] != undefined) {
-                        jQuery('#currentPicture').attr('src', 'uploadedFiles/' + self.details[0]['allStoryImages'][0]['path']);
+                    if (self.details[0]['setStoryImage'] != undefined) {
+                        jQuery('#currentPicture').attr('src', '/attachmentUI/getImage/' + self.details[0]['setStoryImage']['path'] + '/small');
                     }
                     else {
                         jQuery('#currentPicture').attr('src', 'app/assets/files/dummyStory.jpg');
@@ -349,15 +357,17 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     jQuery('#changeStoryPictureButton').click(function () {
                         if (jQuery('#pictureHandling').find('#image').length == 0) {
                             var oldPic = jQuery('#currentPicture').attr('src');
-                            jQuery('#pictureHandling').append('<input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');
+                            jQuery('#pictureHandling').append('<div><input id="upload" type="file"><img id="image" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div></div>');
                             jQuery('#image').css('max-width', '100%');
-                            jQuery('.currPicDiv > img').css('max-width', '100%');
                             jQuery('.currPicDiv').css('overflow', 'hidden');
                             jQuery("#upload").change(function () {
                                 self.readStoryPicURL(this);
                             });
                             jQuery('.close').click(function () {
                                 jQuery('#upload').parent().remove();
+                                jQuery('.currPicDiv img').remove();
+                                jQuery('.currPicDiv').removeAttr('style');
+                                jQuery('.currPicDiv').append('<img src="" alt="CurrentPicture" id="currentPicture" class="currentStoryPicture">');
                                 jQuery('#currentPicture').attr('src', oldPic);
                             });
                         }
@@ -393,6 +403,11 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         reader.onload = function (e) {
                             var image = document.getElementById('image');
                             if (jQuery('#image').attr('src') != "") {
+                                jQuery('#upload').parent().remove();
+                                jQuery('.currPicDiv img').remove();
+                                jQuery('#pictureHandling').append('<div><input id="upload" type="file"><img id="image" src=""><div class="close inline">X </div> <div class="crop inline"> CROP</div></div>');
+                                jQuery('#image').css('max-width', '100%');
+                                jQuery('.currPicDiv').css('overflow', 'hidden');
                             }
                             jQuery('#image').attr('src', e.target.result);
                             var Cropper = window.Cropper;
@@ -422,10 +437,6 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                     console.log(e.type, e.detail.ratio);
                                 }
                             });
-                            jQuery('.close').click(function () {
-                                jQuery('#upload').parent().remove();
-                                // jQuery('#image').cropper('destroy');
-                            });
                             jQuery('.crop').click(function () {
                                 /*  cropper.getCroppedCanvas();
               
@@ -452,9 +463,16 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                                 if (this.status == 200) {
                                                     jQuery('#upload').parent().remove();
                                                     var myArr = JSON.parse(ajax.responseText);
-                                                    console.log(myArr);
-                                                    jQuery('#currentPicture').attr('src', 'uploadedFiles/' + myArr['img_path']);
-                                                    console.log("SUCCESS");
+                                                    /* self._editBarService.setPic(myArr['img_id'])
+                                                             .subscribe(
+                                                            done => {
+             
+                                                            },
+                                                            error =>  self.errorMessage = <any>error);*/
+                                                    jQuery('.currPicDiv img').remove();
+                                                    jQuery('.currPicDiv').removeAttr('style');
+                                                    jQuery('.currPicDiv').append('<img src="" alt="CurrentPicture" id="currentPicture" class="currentStoryPicture">');
+                                                    jQuery('#currentPicture').attr('src', '/attachmentUI/getImage/' + myArr['img_name'] + '/small');
                                                 }
                                                 else {
                                                     console.log(this.statusText);

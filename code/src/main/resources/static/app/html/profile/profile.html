@@ -23,8 +23,8 @@
                    
                         <div class="left">
                             <p><span>{{profilepic | uppercase}}</span></p>                       
-                           <img *ngIf="!detail.allUserImages[0]"  class="profilePic" src="{{defaultUserPic}}" alt="profile">
-                           <img *ngIf="detail.allUserImages[0]"  class="profilePic" src="/attachmentUI/getImage/{{detail.allUserImages[0]['path']}}/small" alt="profile">
+                           <img *ngIf="!detail.setUserImage"  class="profilePic" src="{{defaultUserPic}}" alt="profile">
+                           <img *ngIf="detail.setUserImage"  class="profilePic" src="/attachmentUI/getImage/{{detail.setUserImage['path']}}/small" alt="profile">
                         </div>
                         </div>
                     </div>

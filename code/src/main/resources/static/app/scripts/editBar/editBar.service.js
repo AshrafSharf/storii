@@ -37,6 +37,22 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable', '../../hea
                     this.httpClient = httpClient;
                     this._authenticationService = _authenticationService;
                 }
+                EditBarService.prototype.setPic = function (id) {
+                    var headers = new http_2.Headers();
+                    if (this._authenticationService.isLoggedIn()) {
+                        headers = this.httpClient.createHeader(headers);
+                        headers.append('Content-Type', 'application/json');
+                    }
+                    else {
+                        headers.delete('Authorization');
+                        headers.delete('Content-Type');
+                        headers.append('Authorization', "");
+                    }
+                    var _resultUrl = '/user/setPic/' + id;
+                    return this.http.get(_resultUrl, { headers: headers })
+                        .map(this.extractData)
+                        .catch(this.handleError);
+                };
                 EditBarService.prototype.setProfileImage = function (formData) {
                     var headers = new http_2.Headers();
                     if (this._authenticationService.isLoggedIn()) {

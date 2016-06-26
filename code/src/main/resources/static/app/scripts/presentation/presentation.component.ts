@@ -105,7 +105,13 @@ export class PresentationComponent implements OnInit {
         }else{
              this._aboutService.getStoryById(this.storyid)
                             .subscribe((result) => {
-                                    if (result) {
+                                   if(jQuery.isEmptyObject(result)){
+                                         this._router.navigate(['Error']);
+                                    }else{
+                                    if(result['published'] == false){
+                                        this._router.navigate(['Error']);
+                                    }else{
+                                    jQuery('#presentationPage').removeClass('hidden');
                                     this.allowed = false; 
                                     this.firstPage = result['firstPage']['id'];
                                     this._editBarService.getPageById(this.firstPage)
@@ -117,8 +123,6 @@ export class PresentationComponent implements OnInit {
                                                    },error =>  this.errorMessage = <any>error);
                                       // console.log(this.details);
                                     }
-                                    if(!result['data']){
-                                       // this._router.navigate(['Error']);
                                     }
                                     },
                                     error =>  this.errorMessage = <any>error);
