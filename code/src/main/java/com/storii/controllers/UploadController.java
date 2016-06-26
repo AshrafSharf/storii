@@ -69,6 +69,8 @@ public class UploadController {
 
 	@Autowired
 	private PageDAO pageDAO;
+	
+	private String directory = "src/main/resources/static/uploadedFiles";
 
 	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/addUserImage", headers = "content-type=multipart/*", method = RequestMethod.POST)
@@ -88,7 +90,6 @@ public class UploadController {
 			java.util.Date date = new java.util.Date();
 
 			filename = new Timestamp(date.getTime()).hashCode() + name.replaceAll("\\s+","") + ".jpg";
-			String directory = "uploadedFiles";
 			String filepath = Paths.get(directory, filename).toString();
 
 			// Save the file locally
@@ -127,7 +128,7 @@ public class UploadController {
 		 * "uploadedFiles/"+objImage.getPath(); }
 		 */
 		System.out.println(image_path);
-		path = "uploadedFiles/" + image_path;
+		path = directory+ "/" + image_path;
 
 		System.out.println();
 
@@ -163,7 +164,7 @@ public class UploadController {
 
 		try {
 
-			File file = new File("uploadedFiles/" + imgName);
+			File file = new File(directory+"/" + imgName);
 
 			System.out.println(file.getAbsolutePath());
 
@@ -205,7 +206,6 @@ public class UploadController {
 			java.util.Date date = new java.util.Date();
 
 			filename = new Timestamp(date.getTime()).hashCode() + name.replaceAll("\\s+","") + ".jpg";
-			String directory = "uploadedFiles";
 			String filepath = Paths.get(directory, filename).toString();
 
 			// Save the file locally
@@ -249,7 +249,7 @@ public class UploadController {
 
 		try {
 
-			File file = new File("uploadedFiles/" + imgName);
+			File file = new File(directory+"/" + imgName);
 
 			System.out.println(file.getAbsolutePath());
 
@@ -290,7 +290,6 @@ public class UploadController {
 			java.util.Date date = new java.util.Date();
 
 			filename = new Timestamp(date.getTime()).hashCode() + name.replaceAll("\\s+","") + ".jpg";
-			String directory = "uploadedFiles";
 			String filepath = Paths.get(directory, filename).toString();
 
 			// Save the file locally
@@ -332,7 +331,7 @@ public class UploadController {
 
 		try {
 
-			File file = new File("uploadedFiles/" + imgName);
+			File file = new File(directory+"/" + imgName);
 
 			System.out.println(file.getAbsolutePath());
 
