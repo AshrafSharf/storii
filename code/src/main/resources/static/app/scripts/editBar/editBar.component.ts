@@ -356,14 +356,12 @@ export class EditBarComponent implements OnInit {
                         jQuery('#image').css('max-width','100%');
                         jQuery('.currPicDiv').css('overflow','hidden');
                       
-         
-                    }
+                        jQuery('#image').attr('src', e.target.result);
+                        
+                    }else{
+                        var Cropper = window.Cropper;
+                   
                     jQuery('#image').attr('src', e.target.result);
-                    
-                     
-                    var Cropper = window.Cropper;
-                   
-                   
                      //cropperImage.cropper('destroy').removeAttr('src');
                     console.log(image);
                     var cropper = new Cropper(image, {
@@ -393,7 +391,12 @@ export class EditBarComponent implements OnInit {
                         zoom: function (e) {
                           console.log(e.type, e.detail.ratio);
                         }
-                    });
+                    }); 
+                    }
+                   
+                    
+                     
+                   
                    
                     
                     jQuery('.crop').click(function(){
@@ -437,8 +440,8 @@ export class EditBarComponent implements OnInit {
                                          jQuery('.currPicDiv img').remove();
                                          jQuery('.currPicDiv').removeAttr('style');
                                          jQuery('.currPicDiv').append('<img src="" alt="CurrentPicture" id="currentPicture" class="currentUserPicture">');
-                        
-                                          jQuery('#currentPicture').attr('src','/attachmentUI/getImage/'+myArr['img_name']+'/small');
+                                        
+                                          jQuery('#currentPicture').attr('src','/attachmentUI/getImage/'+myArr['img_path']+'/small');
        
                                       
                                     }

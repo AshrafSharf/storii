@@ -104,16 +104,23 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     else {
                         this._aboutService.getStoryById(this.storyid)
                             .subscribe(function (result) {
-                            if (result) {
-                                _this.allowed = false;
-                                _this.firstPage = result['firstPage']['id'];
-                                _this._editBarService.getPageById(_this.firstPage)
-                                    .subscribe(function (actualPage) {
-                                    _this.actualPage = actualPage;
-                                    _this.loadPageEditor();
-                                }, function (error) { return _this.errorMessage = error; });
+                            if (jQuery.isEmptyObject(result)) {
+                                _this._router.navigate(['Error']);
                             }
-                            if (!result['data']) {
+                            else {
+                                if (result['published'] == false) {
+                                    _this._router.navigate(['Error']);
+                                }
+                                else {
+                                    jQuery('#presentationPage').removeClass('hidden');
+                                    _this.allowed = false;
+                                    _this.firstPage = result['firstPage']['id'];
+                                    _this._editBarService.getPageById(_this.firstPage)
+                                        .subscribe(function (actualPage) {
+                                        _this.actualPage = actualPage;
+                                        _this.loadPageEditor();
+                                    }, function (error) { return _this.errorMessage = error; });
+                                }
                             }
                         }, function (error) { return _this.errorMessage = error; });
                     }

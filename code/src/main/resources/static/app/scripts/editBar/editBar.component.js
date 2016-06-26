@@ -249,37 +249,40 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                 jQuery('#pictureHandling').append('<div><input id="upload" type="file"><img id="image" src=""><div class="close inline">X </div> <div class="crop inline"> CROP</div></div>');
                                 jQuery('#image').css('max-width', '100%');
                                 jQuery('.currPicDiv').css('overflow', 'hidden');
+                                jQuery('#image').attr('src', e.target.result);
                             }
-                            jQuery('#image').attr('src', e.target.result);
-                            var Cropper = window.Cropper;
-                            //cropperImage.cropper('destroy').removeAttr('src');
-                            console.log(image);
-                            var cropper = new Cropper(image, {
-                                aspectRatio: 1 / 1,
-                                preview: '.currPicDiv',
-                                build: function (e) {
-                                    console.log(e.type);
-                                },
-                                built: function (e) {
-                                    console.log(e.type);
-                                },
-                                cropstart: function (e) {
-                                    console.log(e.type, e.detail.action);
-                                },
-                                cropmove: function (e) {
-                                    console.log(e.type, e.detail.action);
-                                },
-                                cropend: function (e) {
-                                    console.log(e.type, e.detail.action);
-                                },
-                                crop: function (e) {
-                                    var data = e.detail;
-                                    console.log(e.type);
-                                },
-                                zoom: function (e) {
-                                    console.log(e.type, e.detail.ratio);
-                                }
-                            });
+                            else {
+                                var Cropper = window.Cropper;
+                                jQuery('#image').attr('src', e.target.result);
+                                //cropperImage.cropper('destroy').removeAttr('src');
+                                console.log(image);
+                                var cropper = new Cropper(image, {
+                                    aspectRatio: 1 / 1,
+                                    preview: '.currPicDiv',
+                                    build: function (e) {
+                                        console.log(e.type);
+                                    },
+                                    built: function (e) {
+                                        console.log(e.type);
+                                    },
+                                    cropstart: function (e) {
+                                        console.log(e.type, e.detail.action);
+                                    },
+                                    cropmove: function (e) {
+                                        console.log(e.type, e.detail.action);
+                                    },
+                                    cropend: function (e) {
+                                        console.log(e.type, e.detail.action);
+                                    },
+                                    crop: function (e) {
+                                        var data = e.detail;
+                                        console.log(e.type);
+                                    },
+                                    zoom: function (e) {
+                                        console.log(e.type, e.detail.ratio);
+                                    }
+                                });
+                            }
                             jQuery('.crop').click(function () {
                                 /*  cropper.getCroppedCanvas();
               
@@ -313,7 +316,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                                     jQuery('.currPicDiv img').remove();
                                                     jQuery('.currPicDiv').removeAttr('style');
                                                     jQuery('.currPicDiv').append('<img src="" alt="CurrentPicture" id="currentPicture" class="currentUserPicture">');
-                                                    jQuery('#currentPicture').attr('src', '/attachmentUI/getImage/' + myArr['img_name'] + '/small');
+                                                    jQuery('#currentPicture').attr('src', '/attachmentUI/getImage/' + myArr['img_path'] + '/small');
                                                 }
                                                 else {
                                                     console.log(this.statusText);
