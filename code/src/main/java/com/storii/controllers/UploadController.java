@@ -100,7 +100,7 @@ public class UploadController {
 			stream.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().body("{\"uploaded\":\"false\"}");
+			return ResponseEntity.badRequest().body("{\"data\":" + "{\"uploaded\":\"false\"}" + "}");
 		}
 
 		UserImage newImage = new UserImage();
@@ -117,7 +117,7 @@ public class UploadController {
 		HttpHeaders headers = new HttpHeaders();
 	    headers.add("Content-Type", "application/json");
 		
-		return ResponseEntity.ok().headers(headers).body("{\"uploaded\":\"true\", \"img_id\":\"" + newImage.getId() + "\", \"img_path\":\"" + filepath + "\"}");
+		return ResponseEntity.ok().headers(headers).body("{\"data\":" + "{\"uploaded\":\"true\", \"img_id\":\"" + newImage.getId() + "\", \"img_path\":\"" + filename + "\"}" + "}");
 	} // method uploadFile
 
 	@RequestMapping(value = "/getImage/{image_path}/{image_size}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
@@ -162,7 +162,7 @@ public class UploadController {
 		UserImage image = userImageDAO.findOne(user_image_id);
 
 		if (image.getUserId().getId() != myUser.getId()) {
-			return ResponseEntity.badRequest().body("{\"deleted\":\"false\", \"exception\":\"not_existing\"}");
+			return ResponseEntity.badRequest().body("{\"data\":" + "{\"deleted\":\"false\", \"exception\":\"not_existing\"}" + "}");
 		}
 
 		String imgName = image.getPath();
@@ -182,13 +182,13 @@ public class UploadController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			return ResponseEntity.badRequest().body("{\"deleted\":\"false\", \"exception\":\"delete_failed\"}");
+			return ResponseEntity.badRequest().body("{\"data\":" + "{\"deleted\":\"false\", \"exception\":\"delete_failed\"}" + "}");
 
 		}
 
 		userImageDAO.delete(image);
 
-		return ResponseEntity.ok().body("{\"deleted\":\"true\", \"image_name\":\"" + imgName + "\"}");
+		return ResponseEntity.ok().body("{\"data\":" + "{\"deleted\":\"true\", \"image_name\":\"" + imgName + "\"}" + "}");
 
 	}
 
@@ -221,7 +221,7 @@ public class UploadController {
 			stream.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().body("{\"uploaded\":\"false\"}");
+			return ResponseEntity.badRequest().body("{\"data\":" + "{\"uploaded\":\"false\"}" + "}");
 		}
 
 		StoryImage newImage = new StoryImage();
@@ -238,7 +238,7 @@ public class UploadController {
 		HttpHeaders headers = new HttpHeaders();
 	    headers.add("Content-Type", "application/json");
 		
-		return ResponseEntity.ok().headers(headers).body("{\"uploaded\":\"true\", \"img_id\":\"" + newImage.getId() + "\", \"img_path\":\"" + filepath + "\"}");
+		return ResponseEntity.ok().headers(headers).body("{\"data\":" + "{\"uploaded\":\"true\", \"img_id\":\"" + newImage.getId() + "\", \"img_path\":\"" + filename + "\"}" + "}");
 	} // method
 																								// uploadFile
 
@@ -252,7 +252,7 @@ public class UploadController {
 		StoryImage image = storyImageDAO.findOne(story_image_id);
 
 		if (image.getStoryId().getParentUser().getId() != myUser.getId()) {
-			return ResponseEntity.badRequest().body("{\"deleted\":\"false\", \"exception\":\"not_existing\"}");
+			return ResponseEntity.badRequest().body("{\"data\":" + "{\"deleted\":\"false\", \"exception\":\"not_existing\"}" + "}");
 		}
 
 		String imgName = image.getPath();
@@ -272,13 +272,13 @@ public class UploadController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			return ResponseEntity.badRequest().body("{\"deleted\":\"false\", \"exception\":\"delete_failed\"}");
+			return ResponseEntity.badRequest().body("{\"data\":" + "{\"deleted\":\"false\", \"exception\":\"delete_failed\"}" + "}");
 
 		}
 
 		storyImageDAO.delete(image);
 
-		return ResponseEntity.ok().body("{\"deleted\":\"true\", \"image_name\":\"" + imgName + "\"}");
+		return ResponseEntity.ok().body("{\"data\":" + "{\"deleted\":\"true\", \"image_name\":\"" + imgName + "\"}" + "}");
 
 	}
 
@@ -310,7 +310,7 @@ public class UploadController {
 			stream.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().body("{\"uploaded\":\"false\"}");
+			return ResponseEntity.badRequest().body("{\"data\":" + "{\"uploaded\":\"false\"}" + "}");
 		}
 
 		PageImage newImage = new PageImage();
@@ -327,7 +327,7 @@ public class UploadController {
 		HttpHeaders headers = new HttpHeaders();
 	    headers.add("Content-Type", "application/json");
 		
-		return ResponseEntity.ok().headers(headers).body("{\"uploaded\":\"true\", \"img_id\":\"" + newImage.getId() + "\", \"img_path\":\"" + filepath + "\"}");
+		return ResponseEntity.ok().headers(headers).body("{\"data\":" + "{\"uploaded\":\"true\", \"img_id\":\"" + newImage.getId() + "\", \"img_path\":\"" + filename + "\"}" + "}");
 	} // method uploadFile
 
 	@RequestMapping(value = "/deletePageImage/{page_image_id}", method = RequestMethod.DELETE)
@@ -339,7 +339,7 @@ public class UploadController {
 		PageImage image = pageImageDAO.findOne(page_image_id);
 
 		if (image.getPageId().getParentStory().getParentUser().getId() != myUser.getId()) {
-			return ResponseEntity.badRequest().body("{\"deleted\":\"false\", \"exception\":\"not_existing\"}");
+			return ResponseEntity.badRequest().body("{\"data\":" + "{\"deleted\":\"false\", \"exception\":\"not_existing\"}" + "}");
 		}
 
 		String imgName = image.getPath();
@@ -359,45 +359,14 @@ public class UploadController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			return ResponseEntity.badRequest().body("{\"deleted\":\"false\", \"exception\":\"delete_failed\"}");
+			return ResponseEntity.badRequest().body("{\"data\":" + "{\"deleted\":\"false\", \"exception\":\"delete_failed\"}" + "}");
 
 		}
 
 		pageImageDAO.delete(image);
 
-		return ResponseEntity.ok().body("{\"deleted\":\"true\", \"image_name\":\"" + imgName + "\"}");
+		return ResponseEntity.ok().body("{\"data\":" + "{\"deleted\":\"true\", \"image_name\":\"" + imgName + "\"}" + "}");
 
-	}
-
-	public static BufferedImage convertImage(Blob[] blob) {
-		BufferedImage bufferedImage = null;
-		OutputStream outputStream = null;
-		try {
-			bufferedImage = ImageIO.read(blob[0].getBinaryStream());
-
-			outputStream = blob[0].setBinaryStream(0);
-
-			RenderedImage renderedImage = (RenderedImage) bufferedImage;
-
-			ImageIO.write(renderedImage, "JPG", outputStream);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (outputStream != null) {
-					outputStream.flush();
-					outputStream.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return bufferedImage;
 	}
 
 }
