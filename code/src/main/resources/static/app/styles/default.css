@@ -67,9 +67,12 @@ a {
 
 }
 
-	.toggleStyle{
-		border: 2px dotted black;
-	}
+.toggleStyle{
+	border: 2px dotted black;
+	background-color: #E1AFB1;
+	position: absolute;
+	width: 170px;
+}
 	
 
 #editBar .buttonFrameContainerUserStoryContentModule, #links .buttonFrameContainerUserStoryContentModule{
@@ -330,14 +333,13 @@ input.buttonStoryInfo {
 	height: 32px;
 	line-height: 2em;
 	text-align: center;
-	width:172px;
 	float:none;
 	cursor:pointer;
 }
 
 
 #editBar .toggle1 .submenu:hover, #editBar .toggle2 .submenu:hover{
-	background-color:#CE9B9D;
+	background-color:#f8ebec;
 }
 
 
