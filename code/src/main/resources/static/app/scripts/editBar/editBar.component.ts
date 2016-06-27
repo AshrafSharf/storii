@@ -1520,6 +1520,8 @@ export class EditBarComponent implements OnInit {
     }
     
     ngOnInit():any {
+        
+    var self = this; 
         if(document.getElementById("profilePage")){
             this.profilePage = true;
         }
@@ -1528,6 +1530,16 @@ export class EditBarComponent implements OnInit {
             if(jQuery(window).width() <= 900){
                this.mobile = true;  
             } 
+             
+             jQuery(window).bind('resize', function(e)
+            {                
+               if(jQuery(window).width() <= 900){ console.log("small");
+                    self.mobile = true;  
+                }else{
+                  self.mobile = false;  
+               } 
+
+            });
         }
          if(document.getElementById("commentsStoryPage")){
             this.commentsStoryPage = true;

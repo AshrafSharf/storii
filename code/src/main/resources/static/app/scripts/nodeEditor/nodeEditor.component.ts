@@ -154,7 +154,7 @@ export class NodeEditorComponent implements OnInit{
                                        }
                                        
                                   if($(window).width() <= 900){
-                                        
+                                         this._router.navigate(['Mobile']); 
                                   }
                                        
                                     if(!this.ownStory ){
@@ -1663,7 +1663,7 @@ export class NodeEditorComponent implements OnInit{
         if(this.selectedNode == null) {
             this.debugText.setAttr('x', (this.width/2)-this.stage.find('#tooltext')[0].getAttr('width')/2);
             this.debugText.setAttr('fontSize','20');
-            this.debugText.text('"'+toolText+'"');
+            //this.debugText.text('"'+toolText+'"');
             this.interfaceLayer.draw();
         }
         this.tooltip.show();
