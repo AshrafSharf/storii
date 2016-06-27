@@ -383,27 +383,32 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                             }
                         }
                     });
-                    this.emptyRectangle.on('click tap', function (e) {
-                        self.zoomOut();
+                    /*  this.emptyRectangle.on('click tap', function(e) {
+                           self.zoomOut();
                     });
-                    this.stage.off('mousewheel').on('mousewheel', function (e) {
+                    
+                   this.stage.off('mousewheel').on('mousewheel', function(e) {
                         self.disableScroll();
+            
                         var deltaY = e.evt.deltaY;
                         if (deltaY != undefined) {
                             if (deltaY > 0) {
-                                self.zoomOut();
-                            }
-                            else {
-                                self.zoomIn(e, self.layer.scaleX() + 0.1);
+                              self.zoomOut();
+                            } else {
+                               
+                                    self.zoomIn(e,self.layer.scaleX()+0.1);
+                                
                             }
                         }
+            
                     });
-                    this.emptyRectangle.on("mouseout", function (e) {
-                        self.enableScroll();
+                    
+                     this.emptyRectangle.on("mouseout", function (e) {
+                            self.enableScroll();
                     });
                     this.emptyRectangle.on("mouseenter", function (e) {
                         self.disableScroll();
-                    });
+                    });*/
                 };
                 NodeEditorComponent.prototype.dragEvents = function () {
                     var self = this;

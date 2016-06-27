@@ -470,11 +470,11 @@ export class NodeEditorComponent implements OnInit{
 
         }); 
         
-         this.emptyRectangle.on('click tap', function(e) {
+        /*  this.emptyRectangle.on('click tap', function(e) {
                self.zoomOut();
         });
         
-        this.stage.off('mousewheel').on('mousewheel', function(e) {
+       this.stage.off('mousewheel').on('mousewheel', function(e) {
             self.disableScroll();
 
             var deltaY = e.evt.deltaY;
@@ -495,7 +495,7 @@ export class NodeEditorComponent implements OnInit{
         });
         this.emptyRectangle.on("mouseenter", function (e) {
             self.disableScroll();
-        });
+        });*/
     }
     
    dragEvents(){
