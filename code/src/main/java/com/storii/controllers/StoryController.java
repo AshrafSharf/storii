@@ -127,7 +127,7 @@ public class StoryController {
 	 * PUT /{user_id} -> update the story with given ID.
 	 */
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
 	@RequestMapping(value = "/{story_id}", method = RequestMethod.PUT, produces = "application/json", consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> update(@RequestBody String json, @PathVariable(value = "story_id") Long id)
