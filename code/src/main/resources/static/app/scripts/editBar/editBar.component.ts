@@ -1413,7 +1413,7 @@ export class EditBarComponent implements OnInit {
         this.loadLinks = function () {
             var links = GridStackUI.Utils.sort(this.links);
             _.each(links, function (node) {
-                var el = grid.addWidget(jQuery('<div class="link"><!--<button class="delete hidden">X</button>--><div class="grid-stack-item-content"><div><span style="display:none; visibility:hidden;">'+node.id+'</span><a>'+node.content+'</a></div><div/><div/>'),
+                var el = grid.addWidget(jQuery('<div class="link"><!--<button class="delete hidden">X</button>--><div class="grid-stack-item-content internLinkBox"><div><span style="display:none; visibility:hidden;">'+node.id+'</span><a>'+node.content+'</a></div><div/><div/>'),
                     node.x, node.y, node.width, node.height);
                 grid.locked(el,true);
                 grid.move(el,node.x,node.y);
