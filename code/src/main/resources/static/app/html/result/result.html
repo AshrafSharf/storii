@@ -20,7 +20,8 @@
 	 	<ul>
       		<li *ngFor="#user of users">
       			<a (click)="gotoUser(user)">						
-					<img *ngIf="!user.userImage" class="searchPic" src="{{defaultUserPic}}" alt="profil">
+					<img *ngIf="!user.setUserImage" class="searchPic" src="{{defaultUserPic}}" alt="profil">
+					 <img *ngIf="user.setUserImage"  class="searchPic" src="/attachmentUI/getImage/{{user.setUserImage['path']}}/small" alt="profile">
 				</a>
 				<a (click)="gotoUser(user)" class="searchLink">{{user.name}}</a>
       		</li>
@@ -38,7 +39,8 @@
 	 	<ul>
       		<li *ngFor="#story of stories">
       			<a (click)="gotoStory(story)">						
-					<img *ngIf="!story.storyImage" class="searchPic" src="{{defaultStoryPic}}" alt="story">
+					<img *ngIf="!story.setStoryImage" class="searchPic" src="{{defaultStoryPic}}" alt="story">
+					<img *ngIf="story.setStoryImage"  class="searchPic" src="/attachmentUI/getImage/{{story.setStoryImage['path']}}/small" alt="The story picture">
 				</a>
 				<a (click)="gotoStory(story)" class="searchLink">{{story.name}}</a>
 				

@@ -838,7 +838,7 @@ export class EditBarComponent implements OnInit {
                                         <div class="image grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img class="savedPic hidden" src=""><span>ADD IMAGE</span><div/></div></div>
                                     </div>
                                     <div class="widgets" id="textWidget">
-                                        <div class="text grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content">ADD TEXT</div></div>
+                                        <div class="text grid-stack-item"><button class="delete hidden">X</button><button class="delete hidden">X</button><div class="grid-stack-item-content">ADD TEXT</div></div>
                                     </div>
                                     <div class="widgets" id="linkWidget">
                                         <div class="link grid-stack-item disableButton"><button class="delete hidden">X</button><div class="grid-stack-item-content"><div><a href="#">EXTERN LINK</a></div></div></div>
@@ -953,6 +953,7 @@ export class EditBarComponent implements OnInit {
        
                     if(jQuery(this).find('.delete').hasClass('hidden') && editing){
                         jQuery(this).find('.delete').removeClass('hidden');
+                        jQuery(this).find('.font').removeClass('hidden');
                     }
             });
             jQuery('.grid-stack .grid-stack-item').mouseleave(function(e){
@@ -962,6 +963,7 @@ export class EditBarComponent implements OnInit {
             });
             jQuery('.grid-stack .text .grid-stack-item-content').each(function() {
                 if(jQuery(this).find('textarea').length == 0){
+             
                     var t = jQuery(this).text();
                     jQuery(this).text('');
                     jQuery(this).append('<textarea>'+t+'</textarea>');
@@ -1260,12 +1262,33 @@ export class EditBarComponent implements OnInit {
             var i = 0;
             _.each(texts, function (node) {           
                 if(i == 0){
-                   var el = grid.addWidget(jQuery('<div class="text"><div class="grid-stack-item-content">'+node.content+'<div/><div/>'),
+                   var el = grid.addWidget(jQuery(`
+                    <div class="text"> 
+                    <div class="fontsize"><button class="font hidden">F</button>
+                    <label class="hidden size">Font Size: <select name="size" size="5"> 
+                    <option>12</option> 
+                    <option>18</option> 
+                    <option>20</option> 
+                    <option>25</option> 
+                    <option>30</option> 
+                    </select> 
+                    </label></div><div class="grid-stack-item-content">`+node.content+`<div/><div/>`),
                      node.x, node.y, node.width, node.height);
                      grid.locked(el,true);
                      grid.move(el,node.x,node.y); 
                 }else if(node.content != ""){
-                     var el = grid.addWidget(jQuery('<div class="text"><button class="delete hidden">X</button><div class="grid-stack-item-content">'+node.content+'<div/><div/>'),
+                     var el = grid.addWidget(jQuery(`<div class="text">
+                     <button class="delete hidden">X</button>
+                     <div class="fontsize"><button class="font hidden">F</button>
+                    <label class="hidden size">Font Size: <select name="size" size="5"> 
+                    <option>12</option> 
+                    <option>18</option> 
+                    <option>20</option> 
+                    <option>25</option> 
+                    <option>30</option> 
+                    </select> 
+                    </label></div>
+                    <div class="grid-stack-item-content">`+node.content+`<div/><div/>`),
                      node.x, node.y, node.width, node.height);
                      grid.locked(el,true);
                      grid.move(el,node.x,node.y);

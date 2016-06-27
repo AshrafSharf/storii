@@ -25,6 +25,7 @@ export class NodeEditorComponent implements OnInit{
     buttonColorHover='#6b878c';
     buttonColorDisabled='white';
     levelY = 100;
+     zoom = 1.8;
     levelX;
     startY = 0;
     offset = 0.0;
@@ -67,8 +68,8 @@ export class NodeEditorComponent implements OnInit{
     button3;
     button4;
     emptyRectangle; 
-    resetScale; 
     movingGroup;
+    zooming = false; 
     popUp;
     popUpRect;
     button1Rect;
@@ -84,6 +85,7 @@ export class NodeEditorComponent implements OnInit{
     levelTextLayer;
     layerConn;
     layer;
+    zoomSc;
     name;
     initVar = true; 
     ownStory;
@@ -465,7 +467,30 @@ export class NodeEditorComponent implements OnInit{
         }); 
         
          this.emptyRectangle.on('click tap', function(e) {
-               this.zoomOut();
+               self.zoomOut();
+        });
+        
+        this.stage.off('mousewheel').on('mousewheel', function(e) {
+            self.disableScroll();
+
+            var deltaY = e.evt.deltaY;
+            if (deltaY != undefined) {
+                if (deltaY > 0) {
+                  self.zoomOut();
+                } else {
+                   
+                        self.zoomIn(e,self.layer.scaleX()+0.1);
+                    
+                }
+            }
+
+        });
+        
+         this.emptyRectangle.on("mouseout", function (e) {
+                self.enableScroll();
+        });
+        this.emptyRectangle.on("mouseenter", function (e) {
+            self.disableScroll();
         });
     }
     
@@ -1783,8 +1808,7 @@ export class NodeEditorComponent implements OnInit{
     };
     
     zoomOut(){
-      
-     /*  this.stage.setAttr('draggable', false);
+        this.stage.setAttr('draggable', false);
         this.interfaceLayer.setAttr('x',0);
         this.interfaceLayer.setAttr('y',0);
         this.stage.setAttr('x',0);
@@ -1799,29 +1823,30 @@ export class NodeEditorComponent implements OnInit{
         this.diffX = (this.startOffsetX-this.layer.offsetX().toFixed(2))*-1;
         this.diffY = (this.startOffsetY-this.layer.offsetY().toFixed(2))*-1;
 
+        var self = this; 
         var anim = new Konva.Animation(function(frame) {
             var scale = 0;
             var diff = 0;
-            if(this.layer.scaleX().toFixed(2) > zoomout ){
+            if(self.layer.scaleX().toFixed(2) > zoomout ){
                 diff =  0.02;
-                scale = this.layer.scaleX().toFixed(2) - diff;
-                this.layer.scale({
+                scale = self.layer.scaleX().toFixed(2) - diff;
+                self.layer.scale({
                     x : scale,
                     y : scale
                 });
-                this.layerConn.scale({
+                self.layerConn.scale({
                     x : scale,
                     y : scale
                 });
-                this.backgroundLayer.scale({
+                self.backgroundLayer.scale({
                     x : 1.0,
                     y : scale
                 });
-                this.levelTextLayer.scale({
+                self.levelTextLayer.scale({
                     x: scale,
                     y: scale
                 });
-                this.layerTEXT.scale({
+                self.layerTEXT.scale({
                     x : scale,
                     y : scale
                 });
@@ -1829,143 +1854,144 @@ export class NodeEditorComponent implements OnInit{
 
 
            var moveX = 0;
-            if(this.layer.offsetX().toFixed(2) != this.startOffsetX.toFixed(2)){
-                moveX = this.layer.offsetX().toFixed(2) - (this.diffX/((zoomin-zoomout)/diff));
-                this.layer.offsetX(moveX);
-                this.layerConn.offsetX(moveX);
+            if(self.layer.offsetX().toFixed(2) != self.startOffsetX.toFixed(2)){
+                moveX = self.layer.offsetX().toFixed(2) - (self.diffX/((zoomin-zoomout)/diff));
+                self.layer.offsetX(moveX);
+                self.layerConn.offsetX(moveX);
                // backgroundLayer.offsetX(moveX);
-                this.layerTEXT.offsetX(moveX);
+                self.layerTEXT.offsetX(moveX);
             }
 
             var moveY = 0;
-            if(this.layer.offsetY().toFixed(2)!= this.startOffsetY.toFixed(2)){
-                moveY = this.layer.offsetY().toFixed(2) - (this.diffY/((zoomin-zoomout)/diff));
-                this.layer.offsetY(moveY);
-                this.layerConn.offsetY(moveY);
-                this.backgroundLayer.offsetY(moveY);
-                this.levelTextLayer.offsetY(moveY);
-                this.layerTEXT.offsetY(moveY);
+            if(self.layer.offsetY().toFixed(2)!= self.startOffsetY.toFixed(2)){
+                moveY = self.layer.offsetY().toFixed(2) - (self.diffY/((zoomin-zoomout)/diff));
+                self.layer.offsetY(moveY);
+                self.layerConn.offsetY(moveY);
+                self.backgroundLayer.offsetY(moveY);
+                self.levelTextLayer.offsetY(moveY);
+                self.layerTEXT.offsetY(moveY);
             }
 
-           if (this.layer.scaleX().toFixed(2) <= zoomout || this.zooming == true) {
+           if (self.layer.scaleX().toFixed(2) <= zoomout || self.zooming == true) {
                 anim.stop();
 
              //  alert(startScale + "....."+ startOffsetX + "....."+startOffsetY );
                var offset = 0;
-               if(this.startScale != 1.0) {
+               if(self.startScale != 1.0) {
                    offset = 20;
                }else{
                    offset = 0;
                }
-               this.layer.offsetX(this.startOffsetX);
-               this.layer.offsetY(this.startOffsetY);
-               this.layerConn.offsetX(this.startOffsetX);
-               this.layerConn.offsetY(this.startOffsetY);
-               this.layerTEXT.offsetX(this.startOffsetX);
-               this.layerTEXT.offsetY(this.startOffsetY);
+               self.layer.offsetX(self.startOffsetX);
+               self.layer.offsetY(self.startOffsetY);
+               self.layerConn.offsetX(self.startOffsetX);
+               self.layerConn.offsetY(self.startOffsetY);
+               self.layerTEXT.offsetX(self.startOffsetX);
+               self.layerTEXT.offsetY(self.startOffsetY);
               //   backgroundLayer.offsetX(this.startOffsetX);
-               this.backgroundLayer.offsetY(this.startOffsetY);
+               self.backgroundLayer.offsetY(self.startOffsetY);
         }
 
 
-        }, [this.layer,this.layerConn,this.layerTEXT,this.backgroundLayer,this.levelTextLayer]);
+        }, [self.layer,self.layerConn,self.layerTEXT,self.backgroundLayer,self.levelTextLayer]);
 
         anim.start();
 
-   */
+   
     };
     
-    /*
-     zoomIn = function(e,zoomin){
-        stage.setAttr('draggable', true);
-        zooming = true;
+    
+     zoomIn(e,zoomin){
+        this.stage.setAttr('draggable', true);
+        this.zooming = true;
         var zoomInit = zoomin;
         if(zoomin == null){
-            zoomin = zoom;
+            zoomin = this.zoom;
         }else if(zoomin == 'default'){
-            zoomin = layer.scaleX()+0.05;
+            zoomin = this.layer.scaleX()+0.05;
         }
 
-        zoomSc = zoomin;
+        this.zoomSc = zoomin;
         var clickX;
         var clickY;
         if(zoomInit == null){
              clickX = e.target.x();
              clickY = e.target.y();
         }else if(zoomInit == 'default'){
-            clickX = stage.getAttr('width')/2;
-            clickY = stage.getAttr('height')/2;
+            clickX = this.stage.getAttr('width')/2;
+            clickY = this.stage.getAttr('height')/2;
         }else{
-             clickX = stage.getPointerPosition().x;
-             clickY = stage.getPointerPosition().y;
+             clickX = this.stage.getPointerPosition().x;
+             clickY = this.stage.getPointerPosition().y;
         }
 
-        var distX = (width/2)-clickX;
-        var distY = (height/2)-clickY;
-        var oldWidth = layer.width()*layer.getAttr('scale').x;
-        var oldHeight = layer.height()*layer.getAttr('scale').y;
-        var newWidth = layer.width()*zoomin;
-        var newHeight = layer.height()*zoomin;
-        diffX = ((newWidth-oldWidth)/3)-distX;
-        diffY = ((newHeight-oldHeight)/3)-distY;
+        var distX = (this.width/2)-clickX;
+        var distY = (this.height/2)-clickY;
+        var oldWidth = this.layer.width()*this.layer.getAttr('scale').x;
+        var oldHeight = this.layer.height()*this.layer.getAttr('scale').y;
+        var newWidth = this.layer.width()*zoomin;
+        var newHeight = this.layer.height()*zoomin;
+        this.diffX = ((newWidth-oldWidth)/3)-distX;
+        this.diffY = ((newHeight-oldHeight)/3)-distY;
 
+         var self = this; 
         var anim = new Konva.Animation(function(frame) {
             var scale = 0;
             var diff = 0;
-            if(layer.scaleX().toFixed(2) < zoomin && layer.scaleX().toFixed(2) < zoom ){
+            if(self.layer.scaleX().toFixed(2) < zoomin && self.layer.scaleX().toFixed(2) < self.zoom ){
                 diff = 0.01;
-                scale = layer.scaleX() + diff;
-                layer.scale({
+                scale = self.layer.scaleX() + diff;
+                self.layer.scale({
                     x : scale,
                     y : scale
                 });
-                layerConn.scale({
+                self.layerConn.scale({
                     x : scale,
                     y : scale
                 });
-                backgroundLayer.scale({
+                self.backgroundLayer.scale({
                     x : 1.0,
                     y : scale
                 });
-                levelTextLayer.scale({
+                self.levelTextLayer.scale({
                     x: scale,
                     y: scale
                 });
-                layerTEXT.scale({
+                self.layerTEXT.scale({
                     x : scale,
                     y : scale
                 });
             }
 
            var moveX = 0;
-            if(layer.offsetX().toFixed(2) != diffX.toFixed(2) && layer.scaleX().toFixed(2) < zoom){
-                moveX = layer.offsetX() + diffX/((zoomin-startScale)/diff);
-                layer.offsetX(moveX);
-                layerConn.offsetX(moveX);
+            if(self.layer.offsetX().toFixed(2) != self.diffX.toFixed(2) && self.layer.scaleX().toFixed(2) < self.zoom){
+                moveX = self.layer.offsetX() + self.diffX/((zoomin-self.startScale)/diff);
+                self.layer.offsetX(moveX);
+                self.layerConn.offsetX(moveX);
                // backgroundLayer.offsetX(moveX);
-                layerTEXT.offsetX(moveX);
+                self.layerTEXT.offsetX(moveX);
             }
             var moveY = 0;
-            if(layer.offsetY().toFixed(2)!= diffY.toFixed(2) && layer.scaleX().toFixed(2) < zoom ){
-                moveY = layer.offsetY() + diffY/((zoomin-startScale)/diff);
-                layer.offsetY(moveY);
-                layerConn.offsetY(moveY);
-                backgroundLayer.offsetY(moveY);
-                levelTextLayer.offsetY(moveY);
-                layerTEXT.offsetY(moveY);
+            if(self.layer.offsetY().toFixed(2)!= self.diffY.toFixed(2) && self.layer.scaleX().toFixed(2) < self.zoom ){
+                moveY = self.layer.offsetY() + self.diffY/((zoomin-self.startScale)/diff);
+                self.layer.offsetY(moveY);
+                self.layerConn.offsetY(moveY);
+                self.backgroundLayer.offsetY(moveY);
+                self.levelTextLayer.offsetY(moveY);
+                self.layerTEXT.offsetY(moveY);
             }
 
 
-                if (layer.scaleX().toFixed(2) >= zoomin || layer.scaleX().toFixed(2) >= zoom) {
+                if (self.layer.scaleX().toFixed(2) >= zoomin || self.layer.scaleX().toFixed(2) >= self.zoom) {
                     anim.stop();
                 }
 
-        }, [layer,layerConn,layerTEXT,backgroundLayer,levelTextLayer]);
+        }, [self.layer,self.layerConn,self.layerTEXT,self.backgroundLayer,self.levelTextLayer]);
 
         anim.start();
 
     };
-    */
+    
     
     
     append(e){
@@ -1978,6 +2004,29 @@ export class NodeEditorComponent implements OnInit{
         }, true);
         
       this.dropReset(e);
+    };
+    
+     preventDefault(e) {
+        e = e || window.event;
+        if (e.preventDefault)
+            e.preventDefault();
+        e.returnValue = false;
+    };
+
+    
+    disableScroll() {
+        if (window.addEventListener) // older FF
+            window.addEventListener('DOMMouseScroll', this.preventDefault, false);
+        window.onwheel = this.preventDefault; // modern standard
+        window.onmousewheel = document.onmousewheel = this.preventDefault; // older browsers, IE
+    
+    };
+
+    enableScroll () {
+        if (window.removeEventListener)
+            window.removeEventListener('DOMMouseScroll', this.preventDefault, false);
+        window.onmousewheel = document.onmousewheel = null;
+       window.onwheel = null;
     };
     
     firstBy=(function(){function e(f){f.thenBy=t;return f}function t(y,x){x=this;return e(function(a,b){return x(a,b)||y(a,b)})}return e})();

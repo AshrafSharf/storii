@@ -62,6 +62,20 @@ body {
     font-size: 20px;
     cursor: pointer;
 }
+
+.font{
+	position: absolute;
+    right: 10px;
+    width: 15%;
+    max-width: 45px;
+    z-index: 100;
+    border: 1px dotted black;
+    background-color: white; 
+    font-family: "Architects Daughter", cursive;
+    font-size: 20px;
+    cursor: pointer;
+}
+
 .placeholder-content{
     border: 2px black dotted !important;
 }

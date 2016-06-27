@@ -52,6 +52,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.buttonColorHover = '#6b878c';
                     this.buttonColorDisabled = 'white';
                     this.levelY = 100;
+                    this.zoom = 1.8;
                     this.startY = 0;
                     this.offset = 0.0;
                     this.movementStyle = null;
@@ -66,6 +67,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.found = false;
                     this.editing = false;
                     this.action = null;
+                    this.zooming = false;
                     this.dropText = "Do you want replace this page with the dragged one, OR do you want to add the moving page as sub-page to this page " +
                         "OR do you want to connect this two pages to reunite the branches?";
                     this.moveText = "Do you want to move only this page or all sub-pages as well?";
@@ -379,7 +381,25 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         }
                     });
                     this.emptyRectangle.on('click tap', function (e) {
-                        this.zoomOut();
+                        self.zoomOut();
+                    });
+                    this.stage.off('mousewheel').on('mousewheel', function (e) {
+                        self.disableScroll();
+                        var deltaY = e.evt.deltaY;
+                        if (deltaY != undefined) {
+                            if (deltaY > 0) {
+                                self.zoomOut();
+                            }
+                            else {
+                                self.zoomIn(e, self.layer.scaleX() + 0.1);
+                            }
+                        }
+                    });
+                    this.emptyRectangle.on("mouseout", function (e) {
+                        self.enableScroll();
+                    });
+                    this.emptyRectangle.on("mouseenter", function (e) {
+                        self.disableScroll();
                     });
                 };
                 NodeEditorComponent.prototype.dragEvents = function () {
@@ -1503,188 +1523,169 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 };
                 ;
                 NodeEditorComponent.prototype.zoomOut = function () {
-                    /*  this.stage.setAttr('draggable', false);
-                       this.interfaceLayer.setAttr('x',0);
-                       this.interfaceLayer.setAttr('y',0);
-                       this.stage.setAttr('x',0);
-                       this.stage.setAttr('y',0);
-                      
-               
-               
-                       var zoomout = this.startScale;
-                       this.zooming = false;
-                       var zoomin = this.layer.scaleX().toFixed(2);
-               
-                       this.diffX = (this.startOffsetX-this.layer.offsetX().toFixed(2))*-1;
-                       this.diffY = (this.startOffsetY-this.layer.offsetY().toFixed(2))*-1;
-               
-                       var anim = new Konva.Animation(function(frame) {
-                           var scale = 0;
-                           var diff = 0;
-                           if(this.layer.scaleX().toFixed(2) > zoomout ){
-                               diff =  0.02;
-                               scale = this.layer.scaleX().toFixed(2) - diff;
-                               this.layer.scale({
-                                   x : scale,
-                                   y : scale
-                               });
-                               this.layerConn.scale({
-                                   x : scale,
-                                   y : scale
-                               });
-                               this.backgroundLayer.scale({
-                                   x : 1.0,
-                                   y : scale
-                               });
-                               this.levelTextLayer.scale({
-                                   x: scale,
-                                   y: scale
-                               });
-                               this.layerTEXT.scale({
-                                   x : scale,
-                                   y : scale
-                               });
-                           }
-               
-               
-                          var moveX = 0;
-                           if(this.layer.offsetX().toFixed(2) != this.startOffsetX.toFixed(2)){
-                               moveX = this.layer.offsetX().toFixed(2) - (this.diffX/((zoomin-zoomout)/diff));
-                               this.layer.offsetX(moveX);
-                               this.layerConn.offsetX(moveX);
-                              // backgroundLayer.offsetX(moveX);
-                               this.layerTEXT.offsetX(moveX);
-                           }
-               
-                           var moveY = 0;
-                           if(this.layer.offsetY().toFixed(2)!= this.startOffsetY.toFixed(2)){
-                               moveY = this.layer.offsetY().toFixed(2) - (this.diffY/((zoomin-zoomout)/diff));
-                               this.layer.offsetY(moveY);
-                               this.layerConn.offsetY(moveY);
-                               this.backgroundLayer.offsetY(moveY);
-                               this.levelTextLayer.offsetY(moveY);
-                               this.layerTEXT.offsetY(moveY);
-                           }
-               
-                          if (this.layer.scaleX().toFixed(2) <= zoomout || this.zooming == true) {
-                               anim.stop();
-               
-                            //  alert(startScale + "....."+ startOffsetX + "....."+startOffsetY );
-                              var offset = 0;
-                              if(this.startScale != 1.0) {
-                                  offset = 20;
-                              }else{
-                                  offset = 0;
-                              }
-                              this.layer.offsetX(this.startOffsetX);
-                              this.layer.offsetY(this.startOffsetY);
-                              this.layerConn.offsetX(this.startOffsetX);
-                              this.layerConn.offsetY(this.startOffsetY);
-                              this.layerTEXT.offsetX(this.startOffsetX);
-                              this.layerTEXT.offsetY(this.startOffsetY);
-                             //   backgroundLayer.offsetX(this.startOffsetX);
-                              this.backgroundLayer.offsetY(this.startOffsetY);
-                       }
-               
-               
-                       }, [this.layer,this.layerConn,this.layerTEXT,this.backgroundLayer,this.levelTextLayer]);
-               
-                       anim.start();
-               
-                  */
-                };
-                ;
-                /*
-                 zoomIn = function(e,zoomin){
-                    stage.setAttr('draggable', true);
-                    zooming = true;
-                    var zoomInit = zoomin;
-                    if(zoomin == null){
-                        zoomin = zoom;
-                    }else if(zoomin == 'default'){
-                        zoomin = layer.scaleX()+0.05;
-                    }
-            
-                    zoomSc = zoomin;
-                    var clickX;
-                    var clickY;
-                    if(zoomInit == null){
-                         clickX = e.target.x();
-                         clickY = e.target.y();
-                    }else if(zoomInit == 'default'){
-                        clickX = stage.getAttr('width')/2;
-                        clickY = stage.getAttr('height')/2;
-                    }else{
-                         clickX = stage.getPointerPosition().x;
-                         clickY = stage.getPointerPosition().y;
-                    }
-            
-                    var distX = (width/2)-clickX;
-                    var distY = (height/2)-clickY;
-                    var oldWidth = layer.width()*layer.getAttr('scale').x;
-                    var oldHeight = layer.height()*layer.getAttr('scale').y;
-                    var newWidth = layer.width()*zoomin;
-                    var newHeight = layer.height()*zoomin;
-                    diffX = ((newWidth-oldWidth)/3)-distX;
-                    diffY = ((newHeight-oldHeight)/3)-distY;
-            
-                    var anim = new Konva.Animation(function(frame) {
+                    this.stage.setAttr('draggable', false);
+                    this.interfaceLayer.setAttr('x', 0);
+                    this.interfaceLayer.setAttr('y', 0);
+                    this.stage.setAttr('x', 0);
+                    this.stage.setAttr('y', 0);
+                    var zoomout = this.startScale;
+                    this.zooming = false;
+                    var zoomin = this.layer.scaleX().toFixed(2);
+                    this.diffX = (this.startOffsetX - this.layer.offsetX().toFixed(2)) * -1;
+                    this.diffY = (this.startOffsetY - this.layer.offsetY().toFixed(2)) * -1;
+                    var self = this;
+                    var anim = new Konva.Animation(function (frame) {
                         var scale = 0;
                         var diff = 0;
-                        if(layer.scaleX().toFixed(2) < zoomin && layer.scaleX().toFixed(2) < zoom ){
-                            diff = 0.01;
-                            scale = layer.scaleX() + diff;
-                            layer.scale({
-                                x : scale,
-                                y : scale
-                            });
-                            layerConn.scale({
-                                x : scale,
-                                y : scale
-                            });
-                            backgroundLayer.scale({
-                                x : 1.0,
-                                y : scale
-                            });
-                            levelTextLayer.scale({
+                        if (self.layer.scaleX().toFixed(2) > zoomout) {
+                            diff = 0.02;
+                            scale = self.layer.scaleX().toFixed(2) - diff;
+                            self.layer.scale({
                                 x: scale,
                                 y: scale
                             });
-                            layerTEXT.scale({
-                                x : scale,
-                                y : scale
+                            self.layerConn.scale({
+                                x: scale,
+                                y: scale
+                            });
+                            self.backgroundLayer.scale({
+                                x: 1.0,
+                                y: scale
+                            });
+                            self.levelTextLayer.scale({
+                                x: scale,
+                                y: scale
+                            });
+                            self.layerTEXT.scale({
+                                x: scale,
+                                y: scale
                             });
                         }
-            
-                       var moveX = 0;
-                        if(layer.offsetX().toFixed(2) != diffX.toFixed(2) && layer.scaleX().toFixed(2) < zoom){
-                            moveX = layer.offsetX() + diffX/((zoomin-startScale)/diff);
-                            layer.offsetX(moveX);
-                            layerConn.offsetX(moveX);
-                           // backgroundLayer.offsetX(moveX);
-                            layerTEXT.offsetX(moveX);
+                        var moveX = 0;
+                        if (self.layer.offsetX().toFixed(2) != self.startOffsetX.toFixed(2)) {
+                            moveX = self.layer.offsetX().toFixed(2) - (self.diffX / ((zoomin - zoomout) / diff));
+                            self.layer.offsetX(moveX);
+                            self.layerConn.offsetX(moveX);
+                            // backgroundLayer.offsetX(moveX);
+                            self.layerTEXT.offsetX(moveX);
                         }
                         var moveY = 0;
-                        if(layer.offsetY().toFixed(2)!= diffY.toFixed(2) && layer.scaleX().toFixed(2) < zoom ){
-                            moveY = layer.offsetY() + diffY/((zoomin-startScale)/diff);
-                            layer.offsetY(moveY);
-                            layerConn.offsetY(moveY);
-                            backgroundLayer.offsetY(moveY);
-                            levelTextLayer.offsetY(moveY);
-                            layerTEXT.offsetY(moveY);
+                        if (self.layer.offsetY().toFixed(2) != self.startOffsetY.toFixed(2)) {
+                            moveY = self.layer.offsetY().toFixed(2) - (self.diffY / ((zoomin - zoomout) / diff));
+                            self.layer.offsetY(moveY);
+                            self.layerConn.offsetY(moveY);
+                            self.backgroundLayer.offsetY(moveY);
+                            self.levelTextLayer.offsetY(moveY);
+                            self.layerTEXT.offsetY(moveY);
                         }
-            
-            
-                            if (layer.scaleX().toFixed(2) >= zoomin || layer.scaleX().toFixed(2) >= zoom) {
-                                anim.stop();
+                        if (self.layer.scaleX().toFixed(2) <= zoomout || self.zooming == true) {
+                            anim.stop();
+                            //  alert(startScale + "....."+ startOffsetX + "....."+startOffsetY );
+                            var offset = 0;
+                            if (self.startScale != 1.0) {
+                                offset = 20;
                             }
-            
-                    }, [layer,layerConn,layerTEXT,backgroundLayer,levelTextLayer]);
-            
+                            else {
+                                offset = 0;
+                            }
+                            self.layer.offsetX(self.startOffsetX);
+                            self.layer.offsetY(self.startOffsetY);
+                            self.layerConn.offsetX(self.startOffsetX);
+                            self.layerConn.offsetY(self.startOffsetY);
+                            self.layerTEXT.offsetX(self.startOffsetX);
+                            self.layerTEXT.offsetY(self.startOffsetY);
+                            //   backgroundLayer.offsetX(this.startOffsetX);
+                            self.backgroundLayer.offsetY(self.startOffsetY);
+                        }
+                    }, [self.layer, self.layerConn, self.layerTEXT, self.backgroundLayer, self.levelTextLayer]);
                     anim.start();
-            
                 };
-                */
+                ;
+                NodeEditorComponent.prototype.zoomIn = function (e, zoomin) {
+                    this.stage.setAttr('draggable', true);
+                    this.zooming = true;
+                    var zoomInit = zoomin;
+                    if (zoomin == null) {
+                        zoomin = this.zoom;
+                    }
+                    else if (zoomin == 'default') {
+                        zoomin = this.layer.scaleX() + 0.05;
+                    }
+                    this.zoomSc = zoomin;
+                    var clickX;
+                    var clickY;
+                    if (zoomInit == null) {
+                        clickX = e.target.x();
+                        clickY = e.target.y();
+                    }
+                    else if (zoomInit == 'default') {
+                        clickX = this.stage.getAttr('width') / 2;
+                        clickY = this.stage.getAttr('height') / 2;
+                    }
+                    else {
+                        clickX = this.stage.getPointerPosition().x;
+                        clickY = this.stage.getPointerPosition().y;
+                    }
+                    var distX = (this.width / 2) - clickX;
+                    var distY = (this.height / 2) - clickY;
+                    var oldWidth = this.layer.width() * this.layer.getAttr('scale').x;
+                    var oldHeight = this.layer.height() * this.layer.getAttr('scale').y;
+                    var newWidth = this.layer.width() * zoomin;
+                    var newHeight = this.layer.height() * zoomin;
+                    this.diffX = ((newWidth - oldWidth) / 3) - distX;
+                    this.diffY = ((newHeight - oldHeight) / 3) - distY;
+                    var self = this;
+                    var anim = new Konva.Animation(function (frame) {
+                        var scale = 0;
+                        var diff = 0;
+                        if (self.layer.scaleX().toFixed(2) < zoomin && self.layer.scaleX().toFixed(2) < self.zoom) {
+                            diff = 0.01;
+                            scale = self.layer.scaleX() + diff;
+                            self.layer.scale({
+                                x: scale,
+                                y: scale
+                            });
+                            self.layerConn.scale({
+                                x: scale,
+                                y: scale
+                            });
+                            self.backgroundLayer.scale({
+                                x: 1.0,
+                                y: scale
+                            });
+                            self.levelTextLayer.scale({
+                                x: scale,
+                                y: scale
+                            });
+                            self.layerTEXT.scale({
+                                x: scale,
+                                y: scale
+                            });
+                        }
+                        var moveX = 0;
+                        if (self.layer.offsetX().toFixed(2) != self.diffX.toFixed(2) && self.layer.scaleX().toFixed(2) < self.zoom) {
+                            moveX = self.layer.offsetX() + self.diffX / ((zoomin - self.startScale) / diff);
+                            self.layer.offsetX(moveX);
+                            self.layerConn.offsetX(moveX);
+                            // backgroundLayer.offsetX(moveX);
+                            self.layerTEXT.offsetX(moveX);
+                        }
+                        var moveY = 0;
+                        if (self.layer.offsetY().toFixed(2) != self.diffY.toFixed(2) && self.layer.scaleX().toFixed(2) < self.zoom) {
+                            moveY = self.layer.offsetY() + self.diffY / ((zoomin - self.startScale) / diff);
+                            self.layer.offsetY(moveY);
+                            self.layerConn.offsetY(moveY);
+                            self.backgroundLayer.offsetY(moveY);
+                            self.levelTextLayer.offsetY(moveY);
+                            self.layerTEXT.offsetY(moveY);
+                        }
+                        if (self.layer.scaleX().toFixed(2) >= zoomin || self.layer.scaleX().toFixed(2) >= self.zoom) {
+                            anim.stop();
+                        }
+                    }, [self.layer, self.layerConn, self.layerTEXT, self.backgroundLayer, self.levelTextLayer]);
+                    anim.start();
+                };
+                ;
                 NodeEditorComponent.prototype.append = function (e) {
                     this.appendBranch(this.previousShape.id(), this.selectedNode);
                     this.previousShape.fire('drop', {
@@ -1693,6 +1694,27 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         evt: e.evt
                     }, true);
                     this.dropReset(e);
+                };
+                ;
+                NodeEditorComponent.prototype.preventDefault = function (e) {
+                    e = e || window.event;
+                    if (e.preventDefault)
+                        e.preventDefault();
+                    e.returnValue = false;
+                };
+                ;
+                NodeEditorComponent.prototype.disableScroll = function () {
+                    if (window.addEventListener)
+                        window.addEventListener('DOMMouseScroll', this.preventDefault, false);
+                    window.onwheel = this.preventDefault; // modern standard
+                    window.onmousewheel = document.onmousewheel = this.preventDefault; // older browsers, IE
+                };
+                ;
+                NodeEditorComponent.prototype.enableScroll = function () {
+                    if (window.removeEventListener)
+                        window.removeEventListener('DOMMouseScroll', this.preventDefault, false);
+                    window.onmousewheel = document.onmousewheel = null;
+                    window.onwheel = null;
                 };
                 ;
                 //######## HELPER FUNCTIONS END ########

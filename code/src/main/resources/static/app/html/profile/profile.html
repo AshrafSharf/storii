@@ -40,7 +40,8 @@
                     <div *ngIf="stories" >
                     <div *ngFor="#story of stories" class="storyPicFrame clearfix">
 						<a (click)="gotoStory(story)">						
-							<img *ngIf="!story.storyImage" class="storyPic" src="{{defaultStoryPic}}" alt="story">
+							<img *ngIf="!story.setStoryImage" class="storyPic" src="{{defaultStoryPic}}" alt="story">
+							<img *ngIf="story.setStoryImage"  class="storyPic" src="/attachmentUI/getImage/{{story.setStoryImage['path']}}/small" alt="The story picture">
 							<p class="storyTitle">{{story.name}}</p>
 						</a>
 						
