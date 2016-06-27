@@ -525,7 +525,8 @@ input.buttonStoryInfo {
   width: 145px;
   float: left; }
 #profilePage .storyPic, #profilePage .profilePic {
-  width: 130px; }
+  width: 130px; 
+  height: 130px;}
 #profilePage .storyPicFrame {
   width: 130px;
   height: 150px;
@@ -746,6 +747,11 @@ input.buttonStoryInfo {
     padding-left: 30px;
 }
 
+#userStoryPage .storyPageContentPart .storyPageInner>div>img{
+		width: 130px;
+	    height: 130px;
+	}
+
 .pageContainerName h1{
 	font-family: "Architects Daughter", cursive;
     margin-top: -22px;
@@ -939,8 +945,8 @@ input.buttonStoryInfo {
   #userEditPage #currentPicture {
     margin-bottom: 50px;
     margin-right: 10px;
-    width: 140px;
-    height: 140px; }
+    width: 130px;
+    height: 130px; }
 
 #newStoryPage {
   font-family: "Architects Daughter", cursive;
@@ -1535,10 +1541,7 @@ input.buttonStoryInfo {
 	    padding-left: 30px;
 	}
 	
-	#userStoryPage .storyPageContentPart .storyPageInner img{
-		width: 140px;
-	    height: 140px;
-	}
+	
 	
 	
 	#userStoryPage{
