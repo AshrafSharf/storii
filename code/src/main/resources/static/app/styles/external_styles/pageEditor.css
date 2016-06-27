@@ -21,6 +21,28 @@ body {
     display:none;
 }
 
+.grid-stack .image .grid-stack-item-content img{
+	max-width:100%;
+}
+
+.changePageImage{
+	width: 200px;
+	margin: 10px auto;
+}
+
+.changePageImage .pictureHandling{
+	width:100%;
+}
+
+.changePageImage .close{
+	margin-right:20px;
+}
+
+
+.changePageImage .button{
+	width:auto;
+}
+
 .link.grid-stack-item input{
 	font-family: "Architects Daughter", cursive;
     font-size: 18px;

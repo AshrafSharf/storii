@@ -601,17 +601,7 @@ export class EditBarComponent implements OnInit {
                  var f = input.files[0];
                 reader.onload = function (e:any) {
                     var image = document.getElementById('image');
-                    if(jQuery('#image').attr('src') != ""){
-                         
-                     /*  jQuery('#upload').parent().remove();
-                        jQuery('.currPicDiv img').remove();
-                        
-                        jQuery('#pictureHandling').append('<div><input id="upload" type="file"><img id="image" src=""><div class="close inline">X </div> <div class="crop inline"> CROP</div></div>');  
-                        jQuery('#image').css('max-width','100%');
-                        jQuery('.currPicDiv').css('overflow','hidden');*/
-                       
-         
-                    }
+                  
                     jQuery('#image').attr('src', e.target.result);
                     
                     var Cropper = window.Cropper;
@@ -725,22 +715,17 @@ export class EditBarComponent implements OnInit {
         let self = this; 
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-                
+                 var f = input.files[0];
                 reader.onload = function (e:any) {
                    var id =  parentDiv.find('.img').attr('id');
                    var image = document.getElementById(id);
-                    if(jQuery('#'+id).attr('src') != ""){
-                         
-                      // jQuery('#'+id).cropper('destroy');
-                       
-         
-                    }
+                    
                       parentDiv.find('.img').attr('src', e.target.result);
                     
                     var Cropper = window.Cropper;
                   
                     var cropper = new Cropper(image, {
-                      aspectRatio: 1 / 1,
+                      aspectRatio: NaN,
                       preview:  '#'+parentDiv.find('.currPicDiv').attr('id'),
                       build: function (e) {
                           console.log(e.type);
@@ -778,10 +763,12 @@ export class EditBarComponent implements OnInit {
                     
                     // Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`
                     cropper.getCroppedCanvas().toBlob(function (blob) {
-                        console.log(blob); //post aufruf noch nicht
+                       console.log(blob);
                         var formData = new FormData();
                     
-                        formData.append('uploadfile', blob);
+                       formData.append('uploadfile', blob);
+                        var name = f.name.split(".")[0]
+                        formData.append('name', name);
                         
                         var ajax = new XMLHttpRequest();
  
@@ -794,7 +781,12 @@ export class EditBarComponent implements OnInit {
                             ajax.onreadystatechange = function(){
                                 if(this.readyState == 4){
                                     if(this.status == 200){
-                                        console.log(this.responseText);
+                                      parentDiv.find('.upload').parent().remove();
+                                          var myArr = JSON.parse(ajax.responseText);
+                                         console.log(parentDiv.parent());
+                                        
+                                         parentDiv.parent().find('.savedPic').attr('src','/attachmentUI/getImage/'+myArr['data']['img_path']+'/small');
+
                                     }
                                     else{
                                         console.log(this.statusText);
@@ -843,7 +835,7 @@ export class EditBarComponent implements OnInit {
                             <div class="sidebar">
                                 <div>
                                     <div class="widgets" id="imageWidget">
-                                        <div class="image grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content">ADD IMAGE</div></div>
+                                        <div class="image grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img class="savedPic hidden" src=""><span>ADD IMAGE</span><div/></div></div>
                                     </div>
                                     <div class="widgets" id="textWidget">
                                         <div class="text grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content">ADD TEXT</div></div>
@@ -914,6 +906,19 @@ export class EditBarComponent implements OnInit {
         var editButton = jQuery('#edit');
         var resetButton = jQuery('#reset');
         var floatUp = jQuery('#floatUp');
+        
+         this.newImageWidget = function(){
+            var el = '<div class="image grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img class="savedPic" src="">ADD IMAGE<div/></div></div>';
+            jQuery('#imageWidget').append(el);
+            grid.locked(el,true);
+            jQuery('#imageWidget .image').draggable({
+                revert: 'invalid',
+                handle: '.grid-stack-item-content',
+                scroll: false,
+                appendTo: '#inner'
+            });
+            jQuery('#imageWidget .image').on('remove',this.newTextWidget);
+        }.bind(this);
 
         this.newTextWidget = function(){
             var el = '<div class="text grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content">ADD TEXT</div></div>';
@@ -963,9 +968,15 @@ export class EditBarComponent implements OnInit {
                 }
             });
               jQuery('.grid-stack .image .grid-stack-item-content').each(function() {
-                if(jQuery(this).find('.changePageImage').length == 0){             
+                     
+                jQuery(this).find('span').text('');
+                jQuery(this).find('.savedPic').removeClass('hidden');
+                  
+                if(jQuery(this).find('.changePageImage').length == 0){  
+                var src = jQuery(this).find('.savedPic').attr('src');
+                jQuery(this).find('.savedPic').attr('src', "");           
                     jQuery(this).append(`
-                                <div class="changePageImage"><div class="currPicDiv preview-md" id="preview`+jQuery('#inner').find('.image').length+`"><img src="" alt="CurrentPicture"  class="currentPagePicture"></div>
+                                <div class="changePageImage"><div class="currPicDiv preview-md" id="preview`+jQuery('#inner').find('.image').length+`"><img src="`+src+`" alt="CurrentPicture"  class="currentPagePicture"></div>
                                 <div class="buttonFrameContainer pictureHandling">
                                 <input class="button ajaxFormTrigger userPicture changePagePictureButton" type="button" value="CHANGE PICTURE"></div></div><br>
                     `);
@@ -975,14 +986,27 @@ export class EditBarComponent implements OnInit {
               jQuery('.changePagePictureButton').click(function(){
                     var parentDiv = jQuery(this).parent().parent();
                  
-                if(parentDiv.find('.img').length == 0){   
-                    parentDiv.find('.pictureHandling').append('<input class="upload" type="file"><img class="img" id="image'+jQuery('#inner').find('.image').length+'" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');  
+                if(parentDiv.find('.img').length == 0){ 
+                    var oldPic = parentDiv.find('.currentPagePicture').attr('src');  
+                    parentDiv.find('.pictureHandling').append('<div><input class="upload" type="file"><img class="img" id="image'+jQuery('#inner').find('.image').length+'" src=""><div style="cursor:pointer;" class="close inline">X </div> <div style="cursor:pointer;" class="crop inline"> CROP</div></div>');  
                     parentDiv.find('.img').css('max-width','100%');
                     parentDiv.find('.currPicDiv > img').css('max-width','100%');
                      parentDiv.find('.currPicDiv').css('overflow','hidden');
                      parentDiv.find(".upload").change(function(){console.log("click");
                         self.readPagePicURL(this,parentDiv);
+                         parentDiv.find(".upload").addClass('hidden');
                     }); 
+
+                     
+                      parentDiv.find(".close").click(function(){
+                         parentDiv.find(".upload").parent().remove();
+                         parentDiv.find('.currPicDiv img').remove();
+                         parentDiv.find('.currPicDiv').removeAttr('style');
+                         parentDiv.find('.currPicDiv').append('<img src="" alt="CurrentPicture"  class="currentPagePicture">');
+                         parentDiv.find('.currPicDiv').attr('src',oldPic);
+                    });
+                    
+                    
                 }
 
             });
@@ -1222,7 +1246,7 @@ export class EditBarComponent implements OnInit {
         this.loadImages = function () {
             var images = GridStackUI.Utils.sort(this.images);
             _.each(images, function (node) {
-               var el = grid.addWidget(jQuery('<div class="image"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img src=""><div/><div/>'),
+               var el = grid.addWidget(jQuery('<div class="image"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img class="savedPic" src="'+node.src+'"><div/><div/>'),
                     node.x, node.y, node.width, node.height);
                 grid.locked(el,true);
                 grid.move(el,node.x,node.y);
@@ -1270,7 +1294,8 @@ export class EditBarComponent implements OnInit {
                     x: node.x,
                     y: node.y,
                     width: node.width,
-                    height: node.height
+                    height: node.height,
+                    src: el.find('.grid-stack-item-content img').attr('src')
                 };
             }, this);
             jQuery('#saved-data').val(JSON.stringify(this.images, null, '    '));

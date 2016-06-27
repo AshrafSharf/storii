@@ -58,6 +58,9 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.selectedNode = null;
                     this.dropStyle = null;
                     this.pause = false;
+                    this.startScale = 1.0;
+                    this.startOffsetX = 0.0;
+                    this.startOffsetY = 0.0;
                     this.popUpShown = false;
                     this.toolTipText = "";
                     this.found = false;
@@ -232,6 +235,17 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     });
                     this.emptyLayer = this.tempLayer.clone();
                     this.interfaceLayer = this.tempLayer.clone();
+                    this.emptyRectangle = new Konva.Rect({
+                        x: 0,
+                        y: 0,
+                        width: this.stage.getAttr('width') * 100,
+                        height: this.stage.getAttr('height') * 100,
+                        id: "emptyRectangle",
+                        fill: 'green',
+                        opacity: 0
+                    });
+                    this.emptyLayer.add(this.emptyRectangle);
+                    this.emptyRectangle.moveToBottom();
                 };
                 NodeEditorComponent.prototype.buildCanvas = function () {
                     this.debugText.setAttr('x', this.width / 2 - 30);
@@ -363,6 +377,9 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                 self.setToolTip(self.toolTipText, e);
                             }
                         }
+                    });
+                    this.emptyRectangle.on('click tap', function (e) {
+                        this.zoomOut();
                     });
                 };
                 NodeEditorComponent.prototype.dragEvents = function () {
@@ -690,6 +707,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                          self.popUpShown = false;
                          self.setDraggable(true);*/
                         if (self.layer.getAttr('scale') < 1.0) {
+                            self.resetScale();
                         }
                         self.startDrawLines(self.storyID);
                         self.startDrawNodes(self.storyID, "");
@@ -779,6 +797,7 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                          self.popUpShown = false;
                          self.setDraggable(true);*/
                         if (self.layer.getAttr('scale') < 1.0) {
+                            self.resetScale();
                         }
                         self.startDrawLines(self.storyID);
                         self.startDrawNodes(self.storyID, "");
@@ -1094,109 +1113,105 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                             strokeWidth: 2
                                         });
                                         this.layer.add(star);
-                                        /* if ((star.getAbsolutePosition().x < 20 || star.getAbsolutePosition().x > width - 20 || star.getAbsolutePosition().y > height - 20) && layer.getAttr('scale').x <= 1) {
-                                             toBig = true;
-                                             startScale = layer.scaleX().toFixed(2) - 0.02;
-                                             if (window.innerWidth < 850) {
-                                                 offset = 50;
-                                             }
-                                            if(layer.getAttr('scale').y < 1.0){
-                                                 startY = 10 *(1+(1-layer.getAttr('scale').y));
-                                                 offset = -10 *(1+(1-layer.getAttr('scale').x));
-                                             }
-                                             //offset weiter rechts
-                                             //offset= -10*(1+(1-layer.getAttr('scale').x));
-                 
-                                             layer.scale({
-                                                 x: startScale,
-                                                 y: startScale
-                                             });
-                                             layerConn.scale({
-                                                 x: startScale,
-                                                 y: startScale
-                                             });
-                                             backgroundLayer.scale({
-                                                 x: 1.0,
-                                                 y: startScale
-                                             });
-                                             levelTextLayer.scale({
-                                                 x: startScale,
-                                                 y: startScale
-                                             });
-                                             layerTEXT.scale({
-                                                 x: startScale,
-                                                 y: startScale
-                                             });
-                                             tempLayer.scale({
-                                                 x: startScale,
-                                                 y: startScale
-                                             });
-                 
-                                             layerConn.offset({
-                                                 x: layer.offsetX() - 20,
-                                                 y: 0
-                                             });
-                                             layerTEXT.offset({
-                                                 x: layer.offsetX() - 20,
-                                                 y: 0
-                                             });
-                 
-                                             tempLayer.offset({
-                                                 x: layer.offsetX() - 20,
-                                                 y: 0
-                                             });
-                                             layer.offset({
-                                                 x: layer.offsetX() - 20,
-                                                 y: 0
-                                             });
-                 
-                 
-                                             startOffsetX = layer.offsetX();
-                 
-                                             startDrawLines();
-                                             startDrawNodes();
-                                         } else {*/
-                                        //TITLE
-                                        toBig = false;
-                                        idText = new Konva.Text({
-                                            x: star.getAttr('x') - (6),
-                                            y: star.getAttr('y') - 6,
-                                            text: star.getAttr('id'),
-                                            fontSize: 20,
-                                            fill: 'black'
-                                        });
-                                        this.layerTEXT.add(idText);
-                                        //connection saving
-                                        if (data[nextPageIDinData]['outgoingInternLinks'][0]) {
-                                            points[z] = [];
-                                            points[z]['pointX'] = star.getAttr('x');
-                                            points[z]['pointY'] = star.getAttr('y');
-                                            points[z][0] = data[nextPageIDinData]['outgoingInternLinks'][0]['nextPage'];
-                                            if (data[nextPageIDinData]['outgoingInternLinks'][1]) {
-                                                points[z][1] = data[nextPageIDinData]['outgoingInternLinks'][1]['nextPage'];
+                                        if ((star.getAbsolutePosition().x < 20 || star.getAbsolutePosition().x > this.width - 20 || star.getAbsolutePosition().y > this.height - 20) && this.layer.getAttr('scale').x <= 1) {
+                                            toBig = true;
+                                            this.startScale = this.layer.scaleX().toFixed(2) - 0.02;
+                                            if (window.innerWidth < 850) {
+                                                this.offset = 50;
                                             }
-                                            if (data[nextPageIDinData]['outgoingInternLinks'][2]) {
-                                                points[z][2] = data[nextPageIDinData]['outgoingInternLinks'][2]['nextPage'];
+                                            if (this.layer.getAttr('scale').y < 1.0) {
+                                                this.startY = 10 * (1 + (1 - this.layer.getAttr('scale').y));
+                                                this.offset = -10 * (1 + (1 - this.layer.getAttr('scale').x));
                                             }
-                                            if (data[nextPageIDinData]['outgoingInternLinks'][3]) {
-                                                points[z][3] = data[nextPageIDinData]['outgoingInternLinks'][3]['nextPage'];
-                                            }
-                                            z++;
+                                            //offset weiter rechts
+                                            //offset= -10*(1+(1-layer.getAttr('scale').x));
+                                            this.layer.scale({
+                                                x: this.startScale,
+                                                y: this.startScale
+                                            });
+                                            this.layerConn.scale({
+                                                x: this.startScale,
+                                                y: this.startScale
+                                            });
+                                            this.backgroundLayer.scale({
+                                                x: 1.0,
+                                                y: this.startScale
+                                            });
+                                            this.levelTextLayer.scale({
+                                                x: this.startScale,
+                                                y: this.startScale
+                                            });
+                                            this.layerTEXT.scale({
+                                                x: this.startScale,
+                                                y: this.startScale
+                                            });
+                                            this.tempLayer.scale({
+                                                x: this.startScale,
+                                                y: this.startScale
+                                            });
+                                            this.layerConn.offset({
+                                                x: this.layer.offsetX() - 20,
+                                                y: 0
+                                            });
+                                            this.layerTEXT.offset({
+                                                x: this.layer.offsetX() - 20,
+                                                y: 0
+                                            });
+                                            this.tempLayer.offset({
+                                                x: this.layer.offsetX() - 20,
+                                                y: 0
+                                            });
+                                            this.layer.offset({
+                                                x: this.layer.offsetX() - 20,
+                                                y: 0
+                                            });
+                                            this.startOffsetX = this.layer.offsetX();
+                                            this.startDrawLines(this.storyID);
+                                            this.startDrawNodes(this.storyID, "first");
                                         }
-                                        //connection drawing
-                                        for (var j = 0; j < points.length; j++) {
-                                            for (var k = 0; k < 4; k++) {
-                                                if (points[j][k] == data[nextPageIDinData]['id']) {
-                                                    this.drawConnection(points[j][k], data[i]['id'], points[j]['pointX'], points[j]['pointY'], star.getAttr('x'), star.getAttr('y'));
+                                        else {
+                                            //TITLE
+                                            toBig = false;
+                                            idText = new Konva.Text({
+                                                x: star.getAttr('x') - (6),
+                                                y: star.getAttr('y') - 6,
+                                                text: star.getAttr('id'),
+                                                fontSize: 20,
+                                                fill: 'black'
+                                            });
+                                            this.layerTEXT.add(idText);
+                                            //connection saving
+                                            if (data[nextPageIDinData]['outgoingInternLinks'][0]) {
+                                                points[z] = [];
+                                                points[z]['pointX'] = star.getAttr('x');
+                                                points[z]['pointY'] = star.getAttr('y');
+                                                points[z][0] = data[nextPageIDinData]['outgoingInternLinks'][0]['nextPage'];
+                                                if (data[nextPageIDinData]['outgoingInternLinks'][1]) {
+                                                    points[z][1] = data[nextPageIDinData]['outgoingInternLinks'][1]['nextPage'];
+                                                }
+                                                if (data[nextPageIDinData]['outgoingInternLinks'][2]) {
+                                                    points[z][2] = data[nextPageIDinData]['outgoingInternLinks'][2]['nextPage'];
+                                                }
+                                                if (data[nextPageIDinData]['outgoingInternLinks'][3]) {
+                                                    points[z][3] = data[nextPageIDinData]['outgoingInternLinks'][3]['nextPage'];
+                                                }
+                                                z++;
+                                            }
+                                            //connection drawing
+                                            for (var j = 0; j < points.length; j++) {
+                                                for (var k = 0; k < 4; k++) {
+                                                    if (points[j][k] == data[nextPageIDinData]['id']) {
+                                                        this.drawConnection(points[j][k], data[i]['id'], points[j]['pointX'], points[j]['pointY'], star.getAttr('x'), star.getAttr('y'));
+                                                    }
                                                 }
                                             }
                                         }
                                     }
-                                }
-                                if (nodeCounter == numb) {
-                                    nodeCounter = 0;
-                                    center = 0;
-                                    multiple = this.levelX;
+                                    if (nodeCounter == numb) {
+                                        nodeCounter = 0;
+                                        center = 0;
+                                        multiple = this.levelX;
+                                    }
                                 }
                             }
                         }
@@ -1437,6 +1452,239 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.dropReset(e);
                 };
                 ;
+                NodeEditorComponent.prototype.resetScale = function () {
+                    this.offset = 0;
+                    this.startY = 0;
+                    this.startScale = 1.0;
+                    var scale = 1;
+                    var offset = 0.0;
+                    this.layer.scale({
+                        x: scale,
+                        y: scale
+                    });
+                    this.layerConn.scale({
+                        x: scale,
+                        y: scale
+                    });
+                    this.backgroundLayer.scale({
+                        x: scale,
+                        y: scale
+                    });
+                    this.levelTextLayer.scale({
+                        x: scale,
+                        y: scale
+                    });
+                    this.layerTEXT.scale({
+                        x: scale,
+                        y: scale
+                    });
+                    this.tempLayer.scale({
+                        x: scale,
+                        y: scale
+                    });
+                    this.layerConn.offset({
+                        x: offset,
+                        y: offset
+                    });
+                    this.layerTEXT.offset({
+                        x: offset,
+                        y: offset
+                    });
+                    this.tempLayer.offset({
+                        x: offset,
+                        y: offset
+                    });
+                    this.layer.offset({
+                        x: offset,
+                        y: offset
+                    });
+                    this.startOffsetX = offset;
+                    this.startOffsetY = offset;
+                };
+                ;
+                NodeEditorComponent.prototype.zoomOut = function () {
+                    /*  this.stage.setAttr('draggable', false);
+                       this.interfaceLayer.setAttr('x',0);
+                       this.interfaceLayer.setAttr('y',0);
+                       this.stage.setAttr('x',0);
+                       this.stage.setAttr('y',0);
+                      
+               
+               
+                       var zoomout = this.startScale;
+                       this.zooming = false;
+                       var zoomin = this.layer.scaleX().toFixed(2);
+               
+                       this.diffX = (this.startOffsetX-this.layer.offsetX().toFixed(2))*-1;
+                       this.diffY = (this.startOffsetY-this.layer.offsetY().toFixed(2))*-1;
+               
+                       var anim = new Konva.Animation(function(frame) {
+                           var scale = 0;
+                           var diff = 0;
+                           if(this.layer.scaleX().toFixed(2) > zoomout ){
+                               diff =  0.02;
+                               scale = this.layer.scaleX().toFixed(2) - diff;
+                               this.layer.scale({
+                                   x : scale,
+                                   y : scale
+                               });
+                               this.layerConn.scale({
+                                   x : scale,
+                                   y : scale
+                               });
+                               this.backgroundLayer.scale({
+                                   x : 1.0,
+                                   y : scale
+                               });
+                               this.levelTextLayer.scale({
+                                   x: scale,
+                                   y: scale
+                               });
+                               this.layerTEXT.scale({
+                                   x : scale,
+                                   y : scale
+                               });
+                           }
+               
+               
+                          var moveX = 0;
+                           if(this.layer.offsetX().toFixed(2) != this.startOffsetX.toFixed(2)){
+                               moveX = this.layer.offsetX().toFixed(2) - (this.diffX/((zoomin-zoomout)/diff));
+                               this.layer.offsetX(moveX);
+                               this.layerConn.offsetX(moveX);
+                              // backgroundLayer.offsetX(moveX);
+                               this.layerTEXT.offsetX(moveX);
+                           }
+               
+                           var moveY = 0;
+                           if(this.layer.offsetY().toFixed(2)!= this.startOffsetY.toFixed(2)){
+                               moveY = this.layer.offsetY().toFixed(2) - (this.diffY/((zoomin-zoomout)/diff));
+                               this.layer.offsetY(moveY);
+                               this.layerConn.offsetY(moveY);
+                               this.backgroundLayer.offsetY(moveY);
+                               this.levelTextLayer.offsetY(moveY);
+                               this.layerTEXT.offsetY(moveY);
+                           }
+               
+                          if (this.layer.scaleX().toFixed(2) <= zoomout || this.zooming == true) {
+                               anim.stop();
+               
+                            //  alert(startScale + "....."+ startOffsetX + "....."+startOffsetY );
+                              var offset = 0;
+                              if(this.startScale != 1.0) {
+                                  offset = 20;
+                              }else{
+                                  offset = 0;
+                              }
+                              this.layer.offsetX(this.startOffsetX);
+                              this.layer.offsetY(this.startOffsetY);
+                              this.layerConn.offsetX(this.startOffsetX);
+                              this.layerConn.offsetY(this.startOffsetY);
+                              this.layerTEXT.offsetX(this.startOffsetX);
+                              this.layerTEXT.offsetY(this.startOffsetY);
+                             //   backgroundLayer.offsetX(this.startOffsetX);
+                              this.backgroundLayer.offsetY(this.startOffsetY);
+                       }
+               
+               
+                       }, [this.layer,this.layerConn,this.layerTEXT,this.backgroundLayer,this.levelTextLayer]);
+               
+                       anim.start();
+               
+                  */
+                };
+                ;
+                /*
+                 zoomIn = function(e,zoomin){
+                    stage.setAttr('draggable', true);
+                    zooming = true;
+                    var zoomInit = zoomin;
+                    if(zoomin == null){
+                        zoomin = zoom;
+                    }else if(zoomin == 'default'){
+                        zoomin = layer.scaleX()+0.05;
+                    }
+            
+                    zoomSc = zoomin;
+                    var clickX;
+                    var clickY;
+                    if(zoomInit == null){
+                         clickX = e.target.x();
+                         clickY = e.target.y();
+                    }else if(zoomInit == 'default'){
+                        clickX = stage.getAttr('width')/2;
+                        clickY = stage.getAttr('height')/2;
+                    }else{
+                         clickX = stage.getPointerPosition().x;
+                         clickY = stage.getPointerPosition().y;
+                    }
+            
+                    var distX = (width/2)-clickX;
+                    var distY = (height/2)-clickY;
+                    var oldWidth = layer.width()*layer.getAttr('scale').x;
+                    var oldHeight = layer.height()*layer.getAttr('scale').y;
+                    var newWidth = layer.width()*zoomin;
+                    var newHeight = layer.height()*zoomin;
+                    diffX = ((newWidth-oldWidth)/3)-distX;
+                    diffY = ((newHeight-oldHeight)/3)-distY;
+            
+                    var anim = new Konva.Animation(function(frame) {
+                        var scale = 0;
+                        var diff = 0;
+                        if(layer.scaleX().toFixed(2) < zoomin && layer.scaleX().toFixed(2) < zoom ){
+                            diff = 0.01;
+                            scale = layer.scaleX() + diff;
+                            layer.scale({
+                                x : scale,
+                                y : scale
+                            });
+                            layerConn.scale({
+                                x : scale,
+                                y : scale
+                            });
+                            backgroundLayer.scale({
+                                x : 1.0,
+                                y : scale
+                            });
+                            levelTextLayer.scale({
+                                x: scale,
+                                y: scale
+                            });
+                            layerTEXT.scale({
+                                x : scale,
+                                y : scale
+                            });
+                        }
+            
+                       var moveX = 0;
+                        if(layer.offsetX().toFixed(2) != diffX.toFixed(2) && layer.scaleX().toFixed(2) < zoom){
+                            moveX = layer.offsetX() + diffX/((zoomin-startScale)/diff);
+                            layer.offsetX(moveX);
+                            layerConn.offsetX(moveX);
+                           // backgroundLayer.offsetX(moveX);
+                            layerTEXT.offsetX(moveX);
+                        }
+                        var moveY = 0;
+                        if(layer.offsetY().toFixed(2)!= diffY.toFixed(2) && layer.scaleX().toFixed(2) < zoom ){
+                            moveY = layer.offsetY() + diffY/((zoomin-startScale)/diff);
+                            layer.offsetY(moveY);
+                            layerConn.offsetY(moveY);
+                            backgroundLayer.offsetY(moveY);
+                            levelTextLayer.offsetY(moveY);
+                            layerTEXT.offsetY(moveY);
+                        }
+            
+            
+                            if (layer.scaleX().toFixed(2) >= zoomin || layer.scaleX().toFixed(2) >= zoom) {
+                                anim.stop();
+                            }
+            
+                    }, [layer,layerConn,layerTEXT,backgroundLayer,levelTextLayer]);
+            
+                    anim.start();
+            
+                };
+                */
                 NodeEditorComponent.prototype.append = function (e) {
                     this.appendBranch(this.previousShape.id(), this.selectedNode);
                     this.previousShape.fire('drop', {

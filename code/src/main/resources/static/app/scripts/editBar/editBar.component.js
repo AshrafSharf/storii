@@ -404,8 +404,6 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         var f = input.files[0];
                         reader.onload = function (e) {
                             var image = document.getElementById('image');
-                            if (jQuery('#image').attr('src') != "") {
-                            }
                             jQuery('#image').attr('src', e.target.result);
                             var Cropper = window.Cropper;
                             var cropper = new Cropper(image, {
@@ -495,15 +493,14 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     var self = this;
                     if (input.files && input.files[0]) {
                         var reader = new FileReader();
+                        var f = input.files[0];
                         reader.onload = function (e) {
                             var id = parentDiv.find('.img').attr('id');
                             var image = document.getElementById(id);
-                            if (jQuery('#' + id).attr('src') != "") {
-                            }
                             parentDiv.find('.img').attr('src', e.target.result);
                             var Cropper = window.Cropper;
                             var cropper = new Cropper(image, {
-                                aspectRatio: 1 / 1,
+                                aspectRatio: NaN,
                                 preview: '#' + parentDiv.find('.currPicDiv').attr('id'),
                                 build: function (e) {
                                     console.log(e.type);
@@ -537,9 +534,11 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                   });*/
                                 // Upload cropped image to server if the browser supports `HTMLCanvasElement.toBlob`
                                 cropper.getCroppedCanvas().toBlob(function (blob) {
-                                    console.log(blob); //post aufruf noch nicht
+                                    console.log(blob);
                                     var formData = new FormData();
                                     formData.append('uploadfile', blob);
+                                    var name = f.name.split(".")[0];
+                                    formData.append('name', name);
                                     var ajax = new XMLHttpRequest();
                                     if (ajax != null) {
                                         var string = localStorage.getItem("auth_token");
@@ -550,7 +549,10 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                         ajax.onreadystatechange = function () {
                                             if (this.readyState == 4) {
                                                 if (this.status == 200) {
-                                                    console.log(this.responseText);
+                                                    parentDiv.find('.upload').parent().remove();
+                                                    var myArr = JSON.parse(ajax.responseText);
+                                                    console.log(parentDiv.parent());
+                                                    parentDiv.parent().find('.savedPic').attr('src', '/attachmentUI/getImage/' + myArr['data']['img_path'] + '/small');
                                                 }
                                                 else {
                                                     console.log(this.statusText);
@@ -580,7 +582,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         var self = _this;
                         vex.open({
                             showCloseButton: true,
-                            content: "<div class=\"pageEditorFrameContainer\"><div class=\"h1bgPageEditor\"><h1>PAGE-EDITOR</h1></div></div>\n                          <div id=\"links\">\n                            <div class=\"center\" id=\"editBar\">\n                             <div id=\"edit\" class=\"buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\"  >EDIT</a></div></div>\n                             <div id=\"floatUp\" class=\"disableButton buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\" >FLOAT UP</a></div></div>\n                             <div id=\"reset\" class=\"disableButton buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\" >RESET</a></div></div>\n                            </div>          \n                          </div>\n                            <!--<textarea id=\"saved-data\" cols=\"100\" rows=\"20\" readonly=\"readonly\"></textarea>-->\n                        \n                            <div class=\"sidebar\">\n                                <div>\n                                    <div class=\"widgets\" id=\"imageWidget\">\n                                        <div class=\"image grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD IMAGE</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"textWidget\">\n                                        <div class=\"text grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD TEXT</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"linkWidget\">\n                                        <div class=\"link grid-stack-item disableButton\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\"><div><a href=\"#\">EXTERN LINK</a></div></div></div>\n                                    </div>\n                                        <!--<div class=\"trash\"><div>DELETE</div></div>-->\n                                </div>\n                            </div>       \n                           <div id=\"outer\">\n                                        <div class=\"grid-stack\" id=\"inner\">\n                                        </div>\n                        </div>\n                        \n                        </div>",
+                            content: "<div class=\"pageEditorFrameContainer\"><div class=\"h1bgPageEditor\"><h1>PAGE-EDITOR</h1></div></div>\n                          <div id=\"links\">\n                            <div class=\"center\" id=\"editBar\">\n                             <div id=\"edit\" class=\"buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\"  >EDIT</a></div></div>\n                             <div id=\"floatUp\" class=\"disableButton buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\" >FLOAT UP</a></div></div>\n                             <div id=\"reset\" class=\"disableButton buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\" >RESET</a></div></div>\n                            </div>          \n                          </div>\n                            <!--<textarea id=\"saved-data\" cols=\"100\" rows=\"20\" readonly=\"readonly\"></textarea>-->\n                        \n                            <div class=\"sidebar\">\n                                <div>\n                                    <div class=\"widgets\" id=\"imageWidget\">\n                                        <div class=\"image grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\"><img class=\"savedPic hidden\" src=\"\"><span>ADD IMAGE</span><div/></div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"textWidget\">\n                                        <div class=\"text grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD TEXT</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"linkWidget\">\n                                        <div class=\"link grid-stack-item disableButton\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\"><div><a href=\"#\">EXTERN LINK</a></div></div></div>\n                                    </div>\n                                        <!--<div class=\"trash\"><div>DELETE</div></div>-->\n                                </div>\n                            </div>       \n                           <div id=\"outer\">\n                                        <div class=\"grid-stack\" id=\"inner\">\n                                        </div>\n                        </div>\n                        \n                        </div>",
                             afterClose: function () {
                                 self.onEditing.emit(false);
                                 self.actualPage = self.savePage;
@@ -616,6 +618,18 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         var editButton = jQuery('#edit');
                         var resetButton = jQuery('#reset');
                         var floatUp = jQuery('#floatUp');
+                        this.newImageWidget = function () {
+                            var el = '<div class="image grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img class="savedPic" src="">ADD IMAGE<div/></div></div>';
+                            jQuery('#imageWidget').append(el);
+                            grid.locked(el, true);
+                            jQuery('#imageWidget .image').draggable({
+                                revert: 'invalid',
+                                handle: '.grid-stack-item-content',
+                                scroll: false,
+                                appendTo: '#inner'
+                            });
+                            jQuery('#imageWidget .image').on('remove', this.newTextWidget);
+                        }.bind(this);
                         this.newTextWidget = function () {
                             var el = '<div class="text grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content">ADD TEXT</div></div>';
                             jQuery('#textWidget').append(el);
@@ -661,20 +675,33 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                 }
                             });
                             jQuery('.grid-stack .image .grid-stack-item-content').each(function () {
+                                jQuery(this).find('span').text('');
+                                jQuery(this).find('.savedPic').removeClass('hidden');
                                 if (jQuery(this).find('.changePageImage').length == 0) {
-                                    jQuery(this).append("\n                                <div class=\"changePageImage\"><div class=\"currPicDiv preview-md\" id=\"preview" + jQuery('#inner').find('.image').length + "\"><img src=\"\" alt=\"CurrentPicture\"  class=\"currentPagePicture\"></div>\n                                <div class=\"buttonFrameContainer pictureHandling\">\n                                <input class=\"button ajaxFormTrigger userPicture changePagePictureButton\" type=\"button\" value=\"CHANGE PICTURE\"></div></div><br>\n                    ");
+                                    var src = jQuery(this).find('.savedPic').attr('src');
+                                    jQuery(this).find('.savedPic').attr('src', "");
+                                    jQuery(this).append("\n                                <div class=\"changePageImage\"><div class=\"currPicDiv preview-md\" id=\"preview" + jQuery('#inner').find('.image').length + "\"><img src=\"" + src + "\" alt=\"CurrentPicture\"  class=\"currentPagePicture\"></div>\n                                <div class=\"buttonFrameContainer pictureHandling\">\n                                <input class=\"button ajaxFormTrigger userPicture changePagePictureButton\" type=\"button\" value=\"CHANGE PICTURE\"></div></div><br>\n                    ");
                                 }
                             });
                             jQuery('.changePagePictureButton').click(function () {
                                 var parentDiv = jQuery(this).parent().parent();
                                 if (parentDiv.find('.img').length == 0) {
-                                    parentDiv.find('.pictureHandling').append('<input class="upload" type="file"><img class="img" id="image' + jQuery('#inner').find('.image').length + '" src=""><div class="inline">X </div> <div class="crop inline"> CROP</div>');
+                                    var oldPic = parentDiv.find('.currentPagePicture').attr('src');
+                                    parentDiv.find('.pictureHandling').append('<div><input class="upload" type="file"><img class="img" id="image' + jQuery('#inner').find('.image').length + '" src=""><div style="cursor:pointer;" class="close inline">X </div> <div style="cursor:pointer;" class="crop inline"> CROP</div></div>');
                                     parentDiv.find('.img').css('max-width', '100%');
                                     parentDiv.find('.currPicDiv > img').css('max-width', '100%');
                                     parentDiv.find('.currPicDiv').css('overflow', 'hidden');
                                     parentDiv.find(".upload").change(function () {
                                         console.log("click");
                                         self.readPagePicURL(this, parentDiv);
+                                        parentDiv.find(".upload").addClass('hidden');
+                                    });
+                                    parentDiv.find(".close").click(function () {
+                                        parentDiv.find(".upload").parent().remove();
+                                        parentDiv.find('.currPicDiv img').remove();
+                                        parentDiv.find('.currPicDiv').removeAttr('style');
+                                        parentDiv.find('.currPicDiv').append('<img src="" alt="CurrentPicture"  class="currentPagePicture">');
+                                        parentDiv.find('.currPicDiv').attr('src', oldPic);
                                     });
                                 }
                             });
@@ -884,7 +911,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         this.loadImages = function () {
                             var images = GridStackUI.Utils.sort(this.images);
                             _.each(images, function (node) {
-                                var el = grid.addWidget(jQuery('<div class="image"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img src=""><div/><div/>'), node.x, node.y, node.width, node.height);
+                                var el = grid.addWidget(jQuery('<div class="image"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img class="savedPic" src="' + node.src + '"><div/><div/>'), node.x, node.y, node.width, node.height);
                                 grid.locked(el, true);
                                 grid.move(el, node.x, node.y);
                             }, this);
@@ -925,7 +952,8 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                     x: node.x,
                                     y: node.y,
                                     width: node.width,
-                                    height: node.height
+                                    height: node.height,
+                                    src: el.find('.grid-stack-item-content img').attr('src')
                                 };
                             }, this);
                             jQuery('#saved-data').val(JSON.stringify(this.images, null, '    '));
