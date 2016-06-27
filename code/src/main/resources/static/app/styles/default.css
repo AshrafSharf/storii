@@ -310,7 +310,7 @@ input.buttonStoryInfo {
 
 .preview-md {
   width: 139px;
-  height: 100px;
+  height: 140px;
 }
 
 .rating input{
@@ -927,12 +927,20 @@ input.buttonStoryInfo {
     margin-top: -40px; }
   #userEditPage #pictureHandling {
    
-    float: left;
     width: 174px;
+    margin-top: 60px;
+    float: left;
+    width: 250;
    }
+   .close.inline, .crop.inline{
+   	cursor: pointer;
+   }
+   
   #userEditPage #currentPicture {
     margin-bottom: 50px;
-    margin-right: 10px; }
+    margin-right: 10px;
+    width: 140px;
+    height: 140px; }
 
 #newStoryPage {
   font-family: "Architects Daughter", cursive;
@@ -1526,6 +1534,12 @@ input.buttonStoryInfo {
 		padding-top: 10px;
 	    padding-left: 30px;
 	}
+	
+	#userStoryPage .storyPageContentPart .storyPageInner img{
+		width: 140px;
+	    height: 140px;
+	}
+	
 	
 	#userStoryPage{
 	width:100%;}
