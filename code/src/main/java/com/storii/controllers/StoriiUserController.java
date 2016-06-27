@@ -292,9 +292,14 @@ public class StoriiUserController {
 		
 		//user.setSetUserImage(image);
 		
+		UserImage previous = user.getSetUserImage();
+		
+		previous.setUserIdSet(null);
+		
 		image.setUserIdSet(user);
 		
 		userImageDAO.save(image);
+		userImageDAO.save(previous);
 		return ResponseEntity.ok().body("{\"data\":" + "{\"user\":\"" + user.getName() + "\",\"image_change\":\"true\"}" + "}");
 	}
 

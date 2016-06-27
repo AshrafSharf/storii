@@ -479,10 +479,15 @@ public class PageController {
 		PageImage image = pageImageDAO.findOne(img_id);
 		
 		Page page = pageDAO.findOne(page_id);
+		
+		PageImage previous = page.getSetPageImage();
+		
+		previous.setPageIdSet(null);
 				
 		image.setPageIdSet(page);
 		
 		pageImageDAO.save(image);
+		pageImageDAO.save(previous);
 		return ResponseEntity.ok().body("{\"data\":" + "{\"page\":\"" + page.getTitle() + "\",\"image_change\":\"true\"}" + "}");
 	}
 	

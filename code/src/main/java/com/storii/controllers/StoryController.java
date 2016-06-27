@@ -377,10 +377,15 @@ public class StoryController {
 		StoryImage image = storyImageDAO.findOne(img_id);
 		
 		Story story = storyDAO.findOne(story_id);
+		
+		StoryImage previous = story.getSetStoryImage();
+		
+		previous.setStoryIdSet(null);
 				
 		image.setStoryIdSet(story);
 		
 		storyImageDAO.save(image);
+		storyImageDAO.save(previous);
 		return ResponseEntity.ok().body("{\"data\":" + "{\"story\":\"" + story.getName() + "\",\"image_change\":\"true\"}" + "}");
 	}
 
