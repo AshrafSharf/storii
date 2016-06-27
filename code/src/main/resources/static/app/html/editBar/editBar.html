@@ -1,7 +1,7 @@
 <div *ngIf="allowed" id="editBar" >
 			<div *ngIf="profilePage" class="buttonFrameContainerUserStoryContentModule"><div (click)="openVex()" class="buttonSize"><a id="editProfile"  class="buttonLookLink">{{editProfile | uppercase}}</a></div></div>
 			
-			<div *ngIf="aboutPage" class="buttonFrameContainerUserStoryContentModule"><div (click)="goToNodeEditor()" class="buttonSize"><a  class="buttonLookLink">{{editPages | uppercase}}</a></div></div>
+			<div *ngIf="aboutPage && !mobile" class="buttonFrameContainerUserStoryContentModule"><div (click)="goToNodeEditor()" class="buttonSize"><a  class="buttonLookLink">{{editPages | uppercase}}</a></div></div>
 			<div *ngIf="aboutPage" class="buttonFrameContainerUserStoryContentModule"><div (click)="openStoryEditor()"  class="buttonSize"><a class="buttonLookLink">{{editStory | uppercase}}</a></div></div>
 			
             <div *ngIf="nodeEditorPage"  class="buttonFrameContainerUserStoryContentModule"><div #a3 (click)="invert(a3)"   class="buttonSizeDelete" ><a class="buttonLookLink">{{addDelete | uppercase}}<i class="fa fa-angle-down"></i></a></div>

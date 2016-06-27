@@ -152,7 +152,11 @@ export class NodeEditorComponent implements OnInit{
                                                this.ownStory = true;
                                            }
                                        }
-                                   
+                                       
+                                  if($(window).width() <= 900){
+                                        
+                                  }
+                                       
                                     if(!this.ownStory ){
                                          this._router.navigate(['Error']);
                                     }else{

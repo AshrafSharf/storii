@@ -54,6 +54,7 @@ export class EditBarComponent implements OnInit {
     notTheSamePW;
     addAllowed;
     actualPage;
+    mobile = false;
     commentsStoryPage;
     savePage; 
     deleteAllowed;
@@ -851,7 +852,12 @@ export class EditBarComponent implements OnInit {
                                             <option>50</option> 
                                             <option>70</option> 
                                             <option>90</option> 
-                                            <option>110</option> 
+                                            <option>110</option>
+                                            <option>130</option> 
+                                            <option>150</option> 
+                                            <option>170</option> 
+                                            <option>190</option> 
+                                            <option>210</option>  
                                             </select> 
                         
                                          </div>
@@ -954,6 +960,11 @@ export class EditBarComponent implements OnInit {
                     <option>70</option> 
                     <option>90</option> 
                     <option>110</option>  
+                    <option>130</option> 
+                    <option>150</option> 
+                    <option>170</option> 
+                    <option>190</option> 
+                    <option>210</option> 
                     </select> 
 
             </div>
@@ -1352,7 +1363,12 @@ export class EditBarComponent implements OnInit {
                     <option>50</option> 
                     <option>70</option> 
                     <option>90</option> 
-                    <option>110</option> 
+                    <option>110</option>
+                    <option>130</option> 
+                    <option>150</option> 
+                    <option>170</option> 
+                    <option>190</option> 
+                    <option>210</option>  
                     </select> 
 
                    </div><div style="`+node.fontsize+`" class="grid-stack-item-content">`+node.content+`<div/><div/>`),
@@ -1374,7 +1390,12 @@ export class EditBarComponent implements OnInit {
                     <option>50</option> 
                     <option>70</option> 
                     <option>90</option> 
-                    <option>110</option> 
+                    <option>110</option>
+                    <option>130</option> 
+                    <option>150</option> 
+                    <option>170</option> 
+                    <option>190</option> 
+                    <option>210</option>  
                     </select> 
 
                     </div>
@@ -1504,6 +1525,9 @@ export class EditBarComponent implements OnInit {
         }
         if(document.getElementById("userStoryPage")){
             this.aboutPage = true;
+            if(jQuery(window).width() <= 900){
+               this.mobile = true;  
+            } 
         }
          if(document.getElementById("commentsStoryPage")){
             this.commentsStoryPage = true;

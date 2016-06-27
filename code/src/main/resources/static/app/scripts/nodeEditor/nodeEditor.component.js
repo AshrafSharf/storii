@@ -109,6 +109,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                     _this.ownStory = true;
                                 }
                             }
+                            if ($(window).width() <= 900) {
+                            }
                             if (!_this.ownStory) {
                                 _this._router.navigate(['Error']);
                             }
