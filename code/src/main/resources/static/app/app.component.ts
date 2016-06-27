@@ -9,6 +9,7 @@ import {NodeEditorComponent} from './scripts/nodeEditor/nodeEditor.component';
 import {ProfileComponent} from './scripts/profile/profile.component';
 import {AboutComponent} from './scripts/about/about.component';
 import {ErrorComponent} from './scripts/error/error.component';
+import {MobileComponent} from './scripts/mobile/mobile.component';
 import {PresentationComponent} from './scripts/presentation/presentation.component';
 import {CommentsComponent} from './scripts/comments/comments.component';
 
@@ -24,6 +25,7 @@ import {CommentsComponent} from './scripts/comments/comments.component';
 	{ path: '/login', name: 'Login', component: LoginComponent},
     { path: '/register', name: 'Register', component: RegisterComponent},
     { path: '/error', name: 'Error', component: ErrorComponent},
+    { path: '/mobile', name: 'Mobile', component: MobileComponent},
     { path: '/search', name: 'Result', component: ResultComponent},
     { path: '/users/:name/:storyName/node/edit', name: 'NodeEditor', component: NodeEditorComponent},
     { path: '/users/:name', name: 'Profile', component: ProfileComponent},

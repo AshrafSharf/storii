@@ -708,14 +708,16 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                     jQuery(this).append('<textarea style="' + fontsize + '">' + t + '</textarea>');
                                 }
                             });
+                            var i = 0;
                             jQuery('.grid-stack .image .grid-stack-item-content').each(function () {
+                                i = i + 1;
                                 jQuery(this).find('span').text('');
                                 if (!jQuery(this).find('.savedPic').hasClass('hidden')) {
                                     jQuery(this).find('.savedPic').addClass('hidden');
                                 }
                                 if (jQuery(this).find('.changePageImage').length == 0) {
                                     var src = jQuery(this).find('.savedPic').attr('src');
-                                    jQuery(this).append("\n                                <div class=\"changePageImage\"><div class=\"currPicDiv preview-md\" id=\"preview" + jQuery('#inner').find('.image').length + "\"><img src=\"" + src + "\" alt=\"CurrentPicture\"  class=\"currentPagePicture\"></div>\n                                <div class=\"buttonFrameContainer pictureHandling\">\n                                <input class=\"button ajaxFormTrigger userPicture changePagePictureButton\" type=\"button\" value=\"CHANGE PICTURE\"></div></div><br>\n                    ");
+                                    jQuery(this).append("\n                                <div class=\"changePageImage\"><div class=\"currPicDiv preview-md\" id=\"preview" + i + "\"><img src=\"" + src + "\" alt=\"CurrentPicture\"  class=\"currentPagePicture\"></div>\n                                <div class=\"buttonFrameContainer pictureHandling\">\n                                <input class=\"button ajaxFormTrigger userPicture changePagePictureButton\" type=\"button\" value=\"CHANGE PICTURE\"></div></div><br>\n                    ");
                                 }
                             });
                             jQuery('.changePagePictureButton').click(function () {
@@ -1062,6 +1064,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     });
                 };
                 EditBarComponent.prototype.ngOnInit = function () {
+                    var self = this;
                     if (document.getElementById("profilePage")) {
                         this.profilePage = true;
                     }
@@ -1070,6 +1073,15 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         if (jQuery(window).width() <= 900) {
                             this.mobile = true;
                         }
+                        jQuery(window).bind('resize', function (e) {
+                            if (jQuery(window).width() <= 900) {
+                                console.log("small");
+                                self.mobile = true;
+                            }
+                            else {
+                                self.mobile = false;
+                            }
+                        });
                     }
                     if (document.getElementById("commentsStoryPage")) {
                         this.commentsStoryPage = true;
