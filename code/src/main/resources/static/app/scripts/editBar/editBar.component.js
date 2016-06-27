@@ -552,6 +552,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                                     parentDiv.find('.upload').parent().remove();
                                                     var myArr = JSON.parse(ajax.responseText);
                                                     console.log(parentDiv.parent());
+                                                    parentDiv.parent().find('.savedPic').removeClass('hidden');
                                                     parentDiv.parent().find('.savedPic').attr('src', '/attachmentUI/getImage/' + myArr['data']['img_path'] + '/small');
                                                 }
                                                 else {
@@ -582,7 +583,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         var self = _this;
                         vex.open({
                             showCloseButton: true,
-                            content: "<div class=\"pageEditorFrameContainer\"><div class=\"h1bgPageEditor\"><h1>PAGE-EDITOR</h1></div></div>\n                          <div id=\"links\">\n                            <div class=\"center\" id=\"editBar\">\n                             <div id=\"edit\" class=\"buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\"  >EDIT</a></div></div>\n                             <div id=\"floatUp\" class=\"disableButton buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\" >FLOAT UP</a></div></div>\n                             <div id=\"reset\" class=\"disableButton buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\" >RESET</a></div></div>\n                            </div>          \n                          </div>\n                            <!--<textarea id=\"saved-data\" cols=\"100\" rows=\"20\" readonly=\"readonly\"></textarea>-->\n                        \n                            <div class=\"sidebar\">\n                                <div>\n                                    <div class=\"widgets\" id=\"imageWidget\">\n                                        <div class=\"image grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\"><img class=\"savedPic hidden\" src=\"\"><span>ADD IMAGE</span><div/></div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"textWidget\">\n                                        <div class=\"text grid-stack-item\"><button class=\"delete hidden\">X</button><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\">ADD TEXT</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"linkWidget\">\n                                        <div class=\"link grid-stack-item disableButton\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\"><div><a href=\"#\">EXTERN LINK</a></div></div></div>\n                                    </div>\n                                        <!--<div class=\"trash\"><div>DELETE</div></div>-->\n                                </div>\n                            </div>       \n                           <div id=\"outer\">\n                                        <div class=\"grid-stack\" id=\"inner\">\n                                        </div>\n                        </div>\n                        \n                        </div>",
+                            content: "<div class=\"pageEditorFrameContainer\"><div class=\"h1bgPageEditor\"><h1>PAGE-EDITOR</h1></div></div>\n                          <div id=\"links\">\n                            <div class=\"center\" id=\"editBar\">\n                             <div id=\"edit\" class=\"buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\"  >EDIT</a></div></div>\n                             <div id=\"floatUp\" class=\"disableButton buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\" >FLOAT UP</a></div></div>\n                             <div id=\"reset\" class=\"disableButton buttonFrameContainerUserStoryContentModule\"><div class=\"buttonSizeDelete\"><a class=\"buttonLookLink\" >RESET</a></div></div>\n                            </div>          \n                          </div>\n                            <!--<textarea id=\"saved-data\" cols=\"100\" rows=\"20\" readonly=\"readonly\"></textarea>-->\n                        \n                            <div class=\"sidebar\">\n                                <div>\n                                    <div class=\"widgets\" id=\"imageWidget\">\n                                        <div class=\"image grid-stack-item\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\"><img class=\"savedPic hidden\" src=\"\"><span>ADD IMAGE</span><div/></div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"textWidget\">\n                                        <div class=\"text grid-stack-item\"><button class=\"delete hidden\">X</button>\n                                         <div class=\"fontsize\"><button class=\"font hidden\"></button>\n\n                                            <select class=\"hidden size\" name=\"size\" size=\"5\"> \n                                            <option selected disabled>Font Size</option>\n                                            <option>12</option> \n                                            <option>18</option> \n                                            <option>20</option> \n                                            <option>25</option> \n                                            <option>30</option> \n                                            </select> \n                        \n                                         </div>\n                                        <div style=\"font-size:15px;\" class=\"grid-stack-item-content\">ADD TEXT</div></div>\n                                    </div>\n                                    <div class=\"widgets\" id=\"linkWidget\">\n                                        <div class=\"link grid-stack-item disableButton\"><button class=\"delete hidden\">X</button><div class=\"grid-stack-item-content\"><div><a href=\"#\">EXTERN LINK</a></div></div></div>\n                                    </div>\n                                        <!--<div class=\"trash\"><div>DELETE</div></div>-->\n                                </div>\n                            </div>       \n                           <div id=\"outer\">\n                                        <div class=\"grid-stack\" id=\"inner\">\n                                        </div>\n                        </div>\n                        \n                        </div>",
                             afterClose: function () {
                                 self.onEditing.emit(false);
                                 self.actualPage = self.savePage;
@@ -608,6 +609,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                     var makeEditable;
                     gridStack.gridstack(options);
                     var editing = false;
+                    var selecting = false;
                     new function () {
                         this.texts = [];
                         this.images = [];
@@ -631,7 +633,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                             jQuery('#imageWidget .image').on('remove', this.newTextWidget);
                         }.bind(this);
                         this.newTextWidget = function () {
-                            var el = '<div class="text grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content">ADD TEXT</div></div>';
+                            var el = "<div class=\"text grid-stack-item\"><button class=\"delete hidden\">X</button>\n             <div class=\"fontsize\"><button class=\"font hidden\"></button>\n\n                    <select class=\"hidden size\" name=\"size\" size=\"5\"> \n                    <option selected disabled>Font Size</option>\n                    <option>12</option> \n                    <option>18</option> \n                    <option>20</option> \n                    <option>25</option> \n                    <option>30</option> \n                    </select> \n\n            </div>\n            <div style=\"font-size:15px;\" class=\"grid-stack-item-content\">ADD TEXT</div></div>";
                             jQuery('#textWidget').append(el);
                             grid.locked(el, true);
                             jQuery('#textWidget .text').draggable({
@@ -657,15 +659,42 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                         makeEditable = function () {
                             jQuery('.grid-stack .grid-stack-item-content').addClass('editingMode');
                             jQuery('.grid-stack .delete').on('click', this.deleteWidget);
+                            jQuery('.grid-stack .font').off('click').on('click', function () {
+                                var fontDiv = jQuery(this);
+                                if (jQuery(this).attr('data-selecting') == 'false' || !jQuery(this).attr('data-selecting')) {
+                                    fontDiv.parent().find('.size').removeClass('hidden');
+                                    fontDiv.parent().find('option').each(function () {
+                                        jQuery(this).off('click').on('click', function () {
+                                            fontDiv.parent().parent().find('.grid-stack-item-content textarea').attr('style', 'font-size:' + jQuery(this).val() + 'px;');
+                                            fontDiv.parent().parent().find('.grid-stack-item-content').attr('style', 'font-size:' + jQuery(this).val() + 'px;');
+                                        });
+                                    });
+                                    jQuery(this).attr('data-selecting', 'true');
+                                }
+                                else {
+                                    fontDiv.parent().find('.size').addClass('hidden');
+                                    jQuery(this).attr('data-selecting', 'false');
+                                }
+                                console.log(jQuery(this).attr('data-selecting'));
+                            });
                             jQuery('.grid-stack .grid-stack-item').mouseover(function (e) {
                                 if (jQuery(this).find('.delete').hasClass('hidden') && editing) {
                                     jQuery(this).find('.delete').removeClass('hidden');
+                                }
+                                if (jQuery(this).find('.font').hasClass('hidden') && editing) {
                                     jQuery(this).find('.font').removeClass('hidden');
+                                    if (jQuery(this).find('.font').attr('data-selecting') == 'true') {
+                                        jQuery(this).find('.size').removeClass('hidden');
+                                    }
                                 }
                             });
                             jQuery('.grid-stack .grid-stack-item').mouseleave(function (e) {
                                 if (!jQuery(this).find('.delete').hasClass('hidden') && editing) {
                                     jQuery(this).find('.delete').addClass('hidden');
+                                }
+                                if (!jQuery(this).find('.font').hasClass('hidden') && editing) {
+                                    jQuery(this).find('.font').addClass('hidden');
+                                    jQuery(this).find('.size').addClass('hidden');
                                 }
                             });
                             jQuery('.grid-stack .text .grid-stack-item-content').each(function () {
@@ -677,10 +706,11 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                             });
                             jQuery('.grid-stack .image .grid-stack-item-content').each(function () {
                                 jQuery(this).find('span').text('');
-                                jQuery(this).find('.savedPic').removeClass('hidden');
+                                if (!jQuery(this).find('.savedPic').hasClass('hidden')) {
+                                    jQuery(this).find('.savedPic').addClass('hidden');
+                                }
                                 if (jQuery(this).find('.changePageImage').length == 0) {
                                     var src = jQuery(this).find('.savedPic').attr('src');
-                                    jQuery(this).find('.savedPic').attr('src', "");
                                     jQuery(this).append("\n                                <div class=\"changePageImage\"><div class=\"currPicDiv preview-md\" id=\"preview" + jQuery('#inner').find('.image').length + "\"><img src=\"" + src + "\" alt=\"CurrentPicture\"  class=\"currentPagePicture\"></div>\n                                <div class=\"buttonFrameContainer pictureHandling\">\n                                <input class=\"button ajaxFormTrigger userPicture changePagePictureButton\" type=\"button\" value=\"CHANGE PICTURE\"></div></div><br>\n                    ");
                                 }
                             });
@@ -752,6 +782,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                 jQuery('.grid-stack .image .grid-stack-item-content').each(function () {
                                     /*var t = jQuery(this).val();
                                     jQuery(this).parent().text(t);*/
+                                    jQuery(this).find('.savedPic').removeClass('hidden');
                                     jQuery('.changePageImage').remove();
                                 });
                                 jQuery('.grid-stack .link .grid-stack-item-content input').each(function () {
@@ -923,12 +954,12 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                             var i = 0;
                             _.each(texts, function (node) {
                                 if (i == 0) {
-                                    var el = grid.addWidget(jQuery("\n                    <div class=\"text\"> \n                    <div class=\"fontsize\"><button class=\"font hidden\">F</button>\n                    <label class=\"hidden size\">Font Size: <select name=\"size\" size=\"5\"> \n                    <option>12</option> \n                    <option>18</option> \n                    <option>20</option> \n                    <option>25</option> \n                    <option>30</option> \n                    </select> \n                    </label></div><div class=\"grid-stack-item-content\">" + node.content + "<div/><div/>"), node.x, node.y, node.width, node.height);
+                                    var el = grid.addWidget(jQuery("\n                    <div class=\"text\"> \n                    <div class=\"fontsize\"><button class=\"font fontTitle hidden\"></button>\n\n                    <select class=\"hidden size sizeTitle\" name=\"size\" size=\"5\"> \n                    <option selected disabled>Font Size</option>\n                    <option>12</option> \n                    <option>18</option> \n                    <option>20</option> \n                    <option>25</option> \n                    <option>30</option> \n                    </select> \n\n                   </div><div style=\"" + node.fontsize + "\" class=\"grid-stack-item-content\">" + node.content + "<div/><div/>"), node.x, node.y, node.width, node.height);
                                     grid.locked(el, true);
                                     grid.move(el, node.x, node.y);
                                 }
                                 else if (node.content != "") {
-                                    var el = grid.addWidget(jQuery("<div class=\"text\">\n                     <button class=\"delete hidden\">X</button>\n                     <div class=\"fontsize\"><button class=\"font hidden\">F</button>\n                    <label class=\"hidden size\">Font Size: <select name=\"size\" size=\"5\"> \n                    <option>12</option> \n                    <option>18</option> \n                    <option>20</option> \n                    <option>25</option> \n                    <option>30</option> \n                    </select> \n                    </label></div>\n                    <div class=\"grid-stack-item-content\">" + node.content + "<div/><div/>"), node.x, node.y, node.width, node.height);
+                                    var el = grid.addWidget(jQuery("<div class=\"text\">\n                     <button class=\"delete hidden\">X</button>\n                     <div class=\"fontsize\"><button class=\"font hidden\"></button>\n                \n                    <select class=\"hidden size\" name=\"size\" size=\"5\"> \n                    <option selected disabled>Font Size</option>\n                    <option>12</option> \n                    <option>18</option> \n                    <option>20</option> \n                    <option>25</option> \n                    <option>30</option> \n                    </select> \n\n                    </div>\n                    <div style=\"" + node.fontsize + "\" class=\"grid-stack-item-content\">" + node.content + "<div/><div/>"), node.x, node.y, node.width, node.height);
                                     grid.locked(el, true);
                                     grid.move(el, node.x, node.y);
                                 }
@@ -969,7 +1000,8 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                     y: node.y,
                                     width: node.width,
                                     height: node.height,
-                                    content: el.find('.grid-stack-item-content').text()
+                                    content: el.find('.grid-stack-item-content').text(),
+                                    fontsize: el.find('.grid-stack-item-content').attr('style')
                                 };
                             }, this);
                             jQuery('#saved-data').val(jQuery('#saved-data').val() + JSON.stringify(this.texts, null, '    '));

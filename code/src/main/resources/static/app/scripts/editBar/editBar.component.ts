@@ -784,7 +784,7 @@ export class EditBarComponent implements OnInit {
                                       parentDiv.find('.upload').parent().remove();
                                           var myArr = JSON.parse(ajax.responseText);
                                          console.log(parentDiv.parent());
-                                        
+                                         parentDiv.parent().find('.savedPic').removeClass('hidden');
                                          parentDiv.parent().find('.savedPic').attr('src','/attachmentUI/getImage/'+myArr['data']['img_path']+'/small');
 
                                     }
@@ -838,7 +838,20 @@ export class EditBarComponent implements OnInit {
                                         <div class="image grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img class="savedPic hidden" src=""><span>ADD IMAGE</span><div/></div></div>
                                     </div>
                                     <div class="widgets" id="textWidget">
-                                        <div class="text grid-stack-item"><button class="delete hidden">X</button><button class="delete hidden">X</button><div class="grid-stack-item-content">ADD TEXT</div></div>
+                                        <div class="text grid-stack-item"><button class="delete hidden">X</button>
+                                         <div class="fontsize"><button class="font hidden"></button>
+
+                                            <select class="hidden size" name="size" size="5"> 
+                                            <option selected disabled>Font Size</option>
+                                            <option>12</option> 
+                                            <option>18</option> 
+                                            <option>20</option> 
+                                            <option>25</option> 
+                                            <option>30</option> 
+                                            </select> 
+                        
+                                         </div>
+                                        <div style="font-size:15px;" class="grid-stack-item-content">ADD TEXT</div></div>
                                     </div>
                                     <div class="widgets" id="linkWidget">
                                         <div class="link grid-stack-item disableButton"><button class="delete hidden">X</button><div class="grid-stack-item-content"><div><a href="#">EXTERN LINK</a></div></div></div>
@@ -889,6 +902,7 @@ export class EditBarComponent implements OnInit {
     var makeEditable;
     gridStack.gridstack(options);
     var editing = false; 
+    var selecting = false; 
         
 
 
@@ -921,7 +935,20 @@ export class EditBarComponent implements OnInit {
         }.bind(this);
 
         this.newTextWidget = function(){
-            var el = '<div class="text grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content">ADD TEXT</div></div>';
+            var el = `<div class="text grid-stack-item"><button class="delete hidden">X</button>
+             <div class="fontsize"><button class="font hidden"></button>
+
+                    <select class="hidden size" name="size" size="5"> 
+                    <option selected disabled>Font Size</option>
+                    <option>12</option> 
+                    <option>18</option> 
+                    <option>20</option> 
+                    <option>25</option> 
+                    <option>30</option> 
+                    </select> 
+
+            </div>
+            <div style="font-size:15px;" class="grid-stack-item-content">ADD TEXT</div></div>`;
             jQuery('#textWidget').append(el);
             grid.locked(el,true);
             jQuery('#textWidget .text').draggable({
@@ -945,20 +972,52 @@ export class EditBarComponent implements OnInit {
             });
             jQuery('#linkWidget .link').on('remove',this.newLinkWidget);
         }.bind(this);
+        
+       
 
          makeEditable = function(){
               jQuery('.grid-stack .grid-stack-item-content').addClass('editingMode');
              jQuery('.grid-stack .delete').on('click',this.deleteWidget);
+             jQuery('.grid-stack .font').off('click').on('click',function(){
+                    var fontDiv = jQuery(this);
+                    if(jQuery(this).attr('data-selecting') == 'false' || !jQuery(this).attr('data-selecting')){
+                          fontDiv.parent().find('.size').removeClass('hidden'); 
+                          fontDiv.parent().find('option').each(function(){
+                             jQuery(this).off('click').on('click',function(){
+                                 fontDiv.parent().parent().find('.grid-stack-item-content textarea').attr('style','font-size:'+jQuery(this).val()+'px;');
+                                 fontDiv.parent().parent().find('.grid-stack-item-content').attr('style','font-size:'+jQuery(this).val()+'px;');
+                                
+                             });
+                          });
+                        jQuery(this).attr('data-selecting','true');
+                    }else{
+                         fontDiv.parent().find('.size').addClass('hidden');  
+                         jQuery(this).attr('data-selecting','false');
+                    }
+                  
+                 console.log(jQuery(this).attr('data-selecting'));
+             });
             jQuery('.grid-stack .grid-stack-item').mouseover(function(e){
        
                     if(jQuery(this).find('.delete').hasClass('hidden') && editing){
                         jQuery(this).find('.delete').removeClass('hidden');
-                        jQuery(this).find('.font').removeClass('hidden');
+                       
                     }
+                  if(jQuery(this).find('.font').hasClass('hidden') && editing){
+                       jQuery(this).find('.font').removeClass('hidden');
+                       if(jQuery(this).find('.font').attr('data-selecting') == 'true'){
+                            jQuery(this).find('.size').removeClass('hidden');
+                       }
+                  }
             });
             jQuery('.grid-stack .grid-stack-item').mouseleave(function(e){
                     if(!jQuery(this).find('.delete').hasClass('hidden') && editing){
                         jQuery(this).find('.delete').addClass('hidden');
+                        
+                    }
+                    if(!jQuery(this).find('.font').hasClass('hidden') && editing){
+                        jQuery(this).find('.font').addClass('hidden');
+                        jQuery(this).find('.size').addClass('hidden');
                     }
             });
             jQuery('.grid-stack .text .grid-stack-item-content').each(function() {
@@ -972,11 +1031,14 @@ export class EditBarComponent implements OnInit {
               jQuery('.grid-stack .image .grid-stack-item-content').each(function() {
                      
                 jQuery(this).find('span').text('');
-                jQuery(this).find('.savedPic').removeClass('hidden');
+                  if(!jQuery(this).find('.savedPic').hasClass('hidden')){
+                        jQuery(this).find('.savedPic').addClass('hidden');
+                  }
+              
                   
                 if(jQuery(this).find('.changePageImage').length == 0){  
                 var src = jQuery(this).find('.savedPic').attr('src');
-                jQuery(this).find('.savedPic').attr('src', "");           
+                        
                     jQuery(this).append(`
                                 <div class="changePageImage"><div class="currPicDiv preview-md" id="preview`+jQuery('#inner').find('.image').length+`"><img src="`+src+`" alt="CurrentPicture"  class="currentPagePicture"></div>
                                 <div class="buttonFrameContainer pictureHandling">
@@ -1062,6 +1124,7 @@ export class EditBarComponent implements OnInit {
                  jQuery('.grid-stack .image .grid-stack-item-content').each(function() {
                     /*var t = jQuery(this).val();
                     jQuery(this).parent().text(t);*/
+                     jQuery(this).find('.savedPic').removeClass('hidden');
                     jQuery('.changePageImage').remove();
                 });
                 jQuery('.grid-stack .link .grid-stack-item-content input').each(function() {
@@ -1264,31 +1327,37 @@ export class EditBarComponent implements OnInit {
                 if(i == 0){
                    var el = grid.addWidget(jQuery(`
                     <div class="text"> 
-                    <div class="fontsize"><button class="font hidden">F</button>
-                    <label class="hidden size">Font Size: <select name="size" size="5"> 
+                    <div class="fontsize"><button class="font fontTitle hidden"></button>
+
+                    <select class="hidden size sizeTitle" name="size" size="5"> 
+                    <option selected disabled>Font Size</option>
                     <option>12</option> 
                     <option>18</option> 
                     <option>20</option> 
                     <option>25</option> 
                     <option>30</option> 
                     </select> 
-                    </label></div><div class="grid-stack-item-content">`+node.content+`<div/><div/>`),
+
+                   </div><div style="`+node.fontsize+`" class="grid-stack-item-content">`+node.content+`<div/><div/>`),
                      node.x, node.y, node.width, node.height);
                      grid.locked(el,true);
                      grid.move(el,node.x,node.y); 
                 }else if(node.content != ""){
                      var el = grid.addWidget(jQuery(`<div class="text">
                      <button class="delete hidden">X</button>
-                     <div class="fontsize"><button class="font hidden">F</button>
-                    <label class="hidden size">Font Size: <select name="size" size="5"> 
+                     <div class="fontsize"><button class="font hidden"></button>
+                
+                    <select class="hidden size" name="size" size="5"> 
+                    <option selected disabled>Font Size</option>
                     <option>12</option> 
                     <option>18</option> 
                     <option>20</option> 
                     <option>25</option> 
                     <option>30</option> 
                     </select> 
-                    </label></div>
-                    <div class="grid-stack-item-content">`+node.content+`<div/><div/>`),
+
+                    </div>
+                    <div style="`+node.fontsize+`" class="grid-stack-item-content">`+node.content+`<div/><div/>`),
                      node.x, node.y, node.width, node.height);
                      grid.locked(el,true);
                      grid.move(el,node.x,node.y);
@@ -1334,7 +1403,8 @@ export class EditBarComponent implements OnInit {
                     y: node.y,
                     width: node.width,
                     height: node.height,
-                    content: el.find('.grid-stack-item-content').text()
+                    content: el.find('.grid-stack-item-content').text(),
+                    fontsize: el.find('.grid-stack-item-content').attr('style')
                 };
             }, this);
             jQuery('#saved-data').val(jQuery('#saved-data').val()+JSON.stringify(this.texts, null, '    '));
