@@ -380,12 +380,15 @@ public class StoryController {
 		
 		StoryImage previous = story.getSetStoryImage();
 		
-		previous.setStoryIdSet(null);
+		if(previous != null){
+			previous.setStoryIdSet(null);
+			storyImageDAO.save(previous);
+		}	
 				
 		image.setStoryIdSet(story);
 		
 		storyImageDAO.save(image);
-		storyImageDAO.save(previous);
+		
 		return ResponseEntity.ok().body("{\"data\":" + "{\"story\":\"" + story.getName() + "\",\"image_change\":\"true\"}" + "}");
 	}
 
