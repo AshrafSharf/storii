@@ -285,6 +285,7 @@ input.buttonStoryInfo {
   border: black dotted 2px;
   line-height: 2em;
   text-align: center; 
+  cursor: pointer;
   }
 .buttonSizePres{
 	border: 2px dotted black;
@@ -981,6 +982,7 @@ input.buttonStoryInfo {
     	height: 50px;
     	padding-left: 15px;
     	padding-top: 15px;
+    	cursor: pointer;
     }
     
   #newStoryPage .buttonFrameContainer {
