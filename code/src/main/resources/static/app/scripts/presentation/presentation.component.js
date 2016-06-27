@@ -132,12 +132,14 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     if (screenfull.enabled) {
                         if (!screenfull.isFullscreen) {
                             target.style.width = '100%';
+                            target.style.height = '100%';
                             inner.css('border', 'none');
                             buttonF.src = 'app/assets/files/dartdown.png';
                         }
                         else {
                             inner.css('border', '2px dotted black');
                             buttonF.src = 'app/assets/files/dartup.png';
+                            target.style.height = 'auto';
                         }
                         screenfull.toggle(target);
                     }

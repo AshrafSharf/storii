@@ -44,6 +44,7 @@
   z-index: 0 !important;
   overflow-x: hidden;
   overflow-y: auto;
+  text-align: left;
 }
 
 .grid-stack > .grid-stack-item > .grid-stack-item-content.editingMode{
