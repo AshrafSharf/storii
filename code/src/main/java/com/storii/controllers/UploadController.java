@@ -90,8 +90,14 @@ public class UploadController {
 			// Get the filename and build the local file path (be sure that the
 			// application have write permissions on such directory)
 			java.util.Date date = new java.util.Date();
+			
+			int hashStamp = new Timestamp(date.getTime()).hashCode();
+			
+			if(hashStamp < 0){
+				hashStamp *= -1;
+			}
 
-			filename = new Timestamp(date.getTime()).hashCode() + name.replaceAll("\\s+","") + ".jpg";
+			filename = hashStamp + name.replaceAll("\\s+","") + ".jpg";
 			filepath = Paths.get(directory, filename).toString();
 
 			// Save the file locally
@@ -212,7 +218,13 @@ public class UploadController {
 			// application have write permissions on such directory)
 			java.util.Date date = new java.util.Date();
 
-			filename = new Timestamp(date.getTime()).hashCode() + name.replaceAll("\\s+","") + ".jpg";
+			int hashStamp = new Timestamp(date.getTime()).hashCode();
+			
+			if(hashStamp < 0){
+				hashStamp *= -1;
+			}
+
+			filename = hashStamp + name.replaceAll("\\s+","") + ".jpg";
 			filepath = Paths.get(directory, filename).toString();
 
 			// Save the file locally
@@ -301,7 +313,13 @@ public class UploadController {
 			// application have write permissions on such directory)
 			java.util.Date date = new java.util.Date();
 
-			filename = new Timestamp(date.getTime()).hashCode() + name.replaceAll("\\s+","") + ".jpg";
+			int hashStamp = new Timestamp(date.getTime()).hashCode();
+			
+			if(hashStamp < 0){
+				hashStamp *= -1;
+			}
+
+			filename = hashStamp + name.replaceAll("\\s+","") + ".jpg";
 			filepath = Paths.get(directory, filename).toString();
 
 			// Save the file locally
