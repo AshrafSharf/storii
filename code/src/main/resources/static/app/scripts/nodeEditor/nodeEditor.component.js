@@ -342,8 +342,8 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                     this.layer.on("mouseover", function (e) {
                         var fill = e.target.fill() == 'yellow' ? 'yellow' : 'orange';
                         e.target.fill(fill);
-                        self.debugText.text(e.target.getAttr('id'));
-                        self.debugText.setAttr('x', (self.width / 2) - self.debugText.getAttr('width') / 2);
+                        //self.debugText.text(e.target.getAttr('id'));
+                        //self.debugText.setAttr('x', (self.width/2)-self.debugText.getAttr('width')/2);
                         //highLight = null;
                         self.layer.draw();
                         self.interfaceLayer.draw();
@@ -1042,14 +1042,14 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                 strokeWidth: 2
                             });
                             this.layer.add(star);
-                            var idText = new Konva.Text({
-                                x: star.getAttr('x') - (6),
-                                y: star.getAttr('y') - 6,
-                                text: star.getAttr('id'),
-                                fontSize: 20,
-                                fill: 'black'
-                            });
-                            this.layerTEXT.add(idText);
+                            /* var idText = new Konva.Text({
+                                         x: star.getAttr('x') - (6),
+                                         y: star.getAttr('y') - 6,
+                                         text: star.getAttr('id'),
+                                         fontSize: 20,
+                                         fill: 'black'
+                                         });
+                                         this.layerTEXT.add(idText);*/
                             //connection saving
                             if (data[i]['outgoingInternLinks'][0]) {
                                 points[z] = [];
@@ -1192,14 +1192,14 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                                         else {
                                             //TITLE
                                             toBig = false;
-                                            idText = new Konva.Text({
-                                                x: star.getAttr('x') - (6),
-                                                y: star.getAttr('y') - 6,
-                                                text: star.getAttr('id'),
-                                                fontSize: 20,
-                                                fill: 'black'
-                                            });
-                                            this.layerTEXT.add(idText);
+                                            /*idText = new Konva.Text({
+                                             x: star.getAttr('x') - (6),
+                                             y: star.getAttr('y') - 6,
+                                             text: star.getAttr('id'),
+                                             fontSize: 20,
+                                             fill: 'black'
+                                             });
+                                             this.layerTEXT.add(idText);*/
                                             //connection saving
                                             if (data[nextPageIDinData]['outgoingInternLinks'][0]) {
                                                 points[z] = [];

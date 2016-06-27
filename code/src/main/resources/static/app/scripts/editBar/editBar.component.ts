@@ -835,7 +835,7 @@ export class EditBarComponent implements OnInit {
                             <div class="sidebar">
                                 <div>
                                     <div class="widgets" id="imageWidget">
-                                        <div class="image grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img class="savedPic hidden" src=""><span>ADD IMAGE</span><div/></div></div>
+                                        <div class="image grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img class="savedPic hidden" src="app/assets/files/not-available.png"><span>ADD IMAGE</span><div/></div></div>
                                     </div>
                                     <div class="widgets" id="textWidget">
                                         <div class="text grid-stack-item"><button class="delete hidden">X</button>
@@ -847,11 +847,15 @@ export class EditBarComponent implements OnInit {
                                             <option>18</option> 
                                             <option>20</option> 
                                             <option>25</option> 
-                                            <option>30</option> 
+                                            <option>30</option>
+                                            <option>50</option> 
+                                            <option>70</option> 
+                                            <option>90</option> 
+                                            <option>110</option> 
                                             </select> 
                         
                                          </div>
-                                        <div style="font-size:15px;" class="grid-stack-item-content">ADD TEXT</div></div>
+                                        <div style="font-size:18px;" class="grid-stack-item-content">ADD TEXT</div></div>
                                     </div>
                                     <div class="widgets" id="linkWidget">
                                         <div class="link grid-stack-item disableButton"><button class="delete hidden">X</button><div class="grid-stack-item-content"><div><a href="#">EXTERN LINK</a></div></div></div>
@@ -902,7 +906,7 @@ export class EditBarComponent implements OnInit {
     var makeEditable;
     gridStack.gridstack(options);
     var editing = false; 
-    var selecting = false; 
+   
         
 
 
@@ -922,16 +926,17 @@ export class EditBarComponent implements OnInit {
         var floatUp = jQuery('#floatUp');
         
          this.newImageWidget = function(){
-            var el = '<div class="image grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img class="savedPic" src="">ADD IMAGE<div/></div></div>';
-            jQuery('#imageWidget').append(el);
-            grid.locked(el,true);
+            var el = '<div class="image grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img class="savedPic hidden" src="app/assets/files/not-available.png">ADD IMAGE<div/></div></div>';
+             grid.locked(el,true);       
+             jQuery('#imageWidget').append(el);
             jQuery('#imageWidget .image').draggable({
                 revert: 'invalid',
+                locked:true,
                 handle: '.grid-stack-item-content',
                 scroll: false,
                 appendTo: '#inner'
             });
-            jQuery('#imageWidget .image').on('remove',this.newTextWidget);
+            jQuery('#imageWidget .image').on('remove',this.newImageWidget);
         }.bind(this);
 
         this.newTextWidget = function(){
@@ -944,17 +949,23 @@ export class EditBarComponent implements OnInit {
                     <option>18</option> 
                     <option>20</option> 
                     <option>25</option> 
-                    <option>30</option> 
+                    <option>30</option>
+                    <option>50</option> 
+                    <option>70</option> 
+                    <option>90</option> 
+                    <option>110</option>  
                     </select> 
 
             </div>
-            <div style="font-size:15px;" class="grid-stack-item-content">ADD TEXT</div></div>`;
-            jQuery('#textWidget').append(el);
+            <div style="font-size:18px;" class="grid-stack-item-content">ADD TEXT</div></div>`;
             grid.locked(el,true);
+            jQuery('#textWidget').append(el);
+            
             jQuery('#textWidget .text').draggable({
                 revert: 'invalid',
                 handle: '.grid-stack-item-content',
                 scroll: false,
+                locked:true,
                 appendTo: '#inner'
             });
             jQuery('#textWidget .text').on('remove',this.newTextWidget);
@@ -962,12 +973,14 @@ export class EditBarComponent implements OnInit {
 
         this.newLinkWidget = function(){
             var el = '<div class="link grid-stack-item"><button class="delete hidden">X</button><div class="grid-stack-item-content"><div><a href="#">ADD LINK</a></div></div></div>';
+            grid.locked(el,true);
             jQuery('#linkWidget').append(el);
-             grid.locked(el,true);
+            
             jQuery('#linkWidget .link').draggable({
                 revert: 'invalid',
                 handle: '.grid-stack-item-content',
                 scroll: false,
+                locked:true,
                 appendTo: '#inner'
             });
             jQuery('#linkWidget .link').on('remove',this.newLinkWidget);
@@ -1022,10 +1035,10 @@ export class EditBarComponent implements OnInit {
             });
             jQuery('.grid-stack .text .grid-stack-item-content').each(function() {
                 if(jQuery(this).find('textarea').length == 0){
-             
+                    var fontsize = jQuery(this).attr('style');
                     var t = jQuery(this).text();
                     jQuery(this).text('');
-                    jQuery(this).append('<textarea>'+t+'</textarea>');
+                    jQuery(this).append('<textarea style="'+fontsize+'">'+t+'</textarea>');
                 }
             });
               jQuery('.grid-stack .image .grid-stack-item-content').each(function() {
@@ -1086,7 +1099,7 @@ export class EditBarComponent implements OnInit {
         
         this.setUpArrays = function(){
              this.images = [
-                {x: 3, y: 1, width: 6, height: 6}
+                {x: 3, y: 1, width: 6, height: 6, src: 'app/assets/files/not-available.png'}
             ];
             this.texts = [
                 {x: 3, y: 0, width: 6, height: 1, content:"defaultTitle"},
@@ -1335,7 +1348,11 @@ export class EditBarComponent implements OnInit {
                     <option>18</option> 
                     <option>20</option> 
                     <option>25</option> 
-                    <option>30</option> 
+                    <option>30</option>
+                    <option>50</option> 
+                    <option>70</option> 
+                    <option>90</option> 
+                    <option>110</option> 
                     </select> 
 
                    </div><div style="`+node.fontsize+`" class="grid-stack-item-content">`+node.content+`<div/><div/>`),
@@ -1353,7 +1370,11 @@ export class EditBarComponent implements OnInit {
                     <option>18</option> 
                     <option>20</option> 
                     <option>25</option> 
-                    <option>30</option> 
+                    <option>30</option>
+                    <option>50</option> 
+                    <option>70</option> 
+                    <option>90</option> 
+                    <option>110</option> 
                     </select> 
 
                     </div>
@@ -1450,6 +1471,7 @@ export class EditBarComponent implements OnInit {
         //this.loadNextPage(jQuery(this).find('span').text())
         editButton.click(this.edit);
         jQuery('#textWidget .text').on('remove',this.newTextWidget);
+        jQuery('#imageWidget .image').on('remove',this.newImageWidget);
         jQuery('#linkWidget .link').on('remove',this.newLinkWidget);
       
 

@@ -251,7 +251,7 @@ export class PresentationComponent implements OnInit {
 
         this.setUpArrays = function(){
              this.images = [
-                {x: 3, y: 1, width: 6, height: 6}
+                {x: 3, y: 1, width: 6, height: 6, src: 'app/assets/files/not-available.png'}
             ];
             this.texts = [
                 {x: 3, y: 0, width: 6, height: 1, content:"defaultTitle"},
@@ -408,7 +408,7 @@ export class PresentationComponent implements OnInit {
         this.loadImages = function () {
             var images = GridStackUI.Utils.sort(this.images);
             _.each(images, function (node) {
-               var el = grid.addWidget(jQuery('<div class="image"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img src=""><div/><div/>'),
+               var el = grid.addWidget(jQuery('<div class="image"><button class="delete hidden">X</button><div class="grid-stack-item-content"><img class="savedPic" src="'+node.src+'"><div/><div/>'),
                     node.x, node.y, node.width, node.height);
                 grid.locked(el,true);
                 grid.move(el,node.x,node.y);
@@ -424,12 +424,12 @@ export class PresentationComponent implements OnInit {
             _.each(texts, function (node) {
                 console.log(node);
                 if(node == 0){
-                   var el = grid.addWidget(jQuery('<div class="text"><div class="grid-stack-item-content">'+node.content+'<div/><div/>'),
+                   var el = grid.addWidget(jQuery('<div class="text"><div style="'+node.fontsize+'" class="grid-stack-item-content">'+node.content+'<div/><div/>'),
                      node.x, node.y, node.width, node.height);
                      grid.locked(el,true);
                      grid.move(el,node.x,node.y); 
                 }else if(node.content != ""){
-                     var el = grid.addWidget(jQuery('<div class="text"><button class="delete hidden">X</button><div class="grid-stack-item-content">'+node.content+'<div/><div/>'),
+                     var el = grid.addWidget(jQuery('<div class="text"><button class="delete hidden">X</button><div style="'+node.fontsize+'" class="grid-stack-item-content">'+node.content+'<div/><div/>'),
                      node.x, node.y, node.width, node.height);
                      grid.locked(el,true);
                      grid.move(el,node.x,node.y);
