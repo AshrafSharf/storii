@@ -708,14 +708,16 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                     jQuery(this).append('<textarea style="' + fontsize + '">' + t + '</textarea>');
                                 }
                             });
+                            var i = 0;
                             jQuery('.grid-stack .image .grid-stack-item-content').each(function () {
+                                i = i + 1;
                                 jQuery(this).find('span').text('');
                                 if (!jQuery(this).find('.savedPic').hasClass('hidden')) {
                                     jQuery(this).find('.savedPic').addClass('hidden');
                                 }
                                 if (jQuery(this).find('.changePageImage').length == 0) {
                                     var src = jQuery(this).find('.savedPic').attr('src');
-                                    jQuery(this).append("\n                                <div class=\"changePageImage\"><div class=\"currPicDiv preview-md\" id=\"preview" + jQuery('#inner').find('.image').length + "\"><img src=\"" + src + "\" alt=\"CurrentPicture\"  class=\"currentPagePicture\"></div>\n                                <div class=\"buttonFrameContainer pictureHandling\">\n                                <input class=\"button ajaxFormTrigger userPicture changePagePictureButton\" type=\"button\" value=\"CHANGE PICTURE\"></div></div><br>\n                    ");
+                                    jQuery(this).append("\n                                <div class=\"changePageImage\"><div class=\"currPicDiv preview-md\" id=\"preview" + i + "\"><img src=\"" + src + "\" alt=\"CurrentPicture\"  class=\"currentPagePicture\"></div>\n                                <div class=\"buttonFrameContainer pictureHandling\">\n                                <input class=\"button ajaxFormTrigger userPicture changePagePictureButton\" type=\"button\" value=\"CHANGE PICTURE\"></div></div><br>\n                    ");
                                 }
                             });
                             jQuery('.changePagePictureButton').click(function () {

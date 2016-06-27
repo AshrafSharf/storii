@@ -1052,8 +1052,9 @@ export class EditBarComponent implements OnInit {
                     jQuery(this).append('<textarea style="'+fontsize+'">'+t+'</textarea>');
                 }
             });
+             var i = 0; 
               jQuery('.grid-stack .image .grid-stack-item-content').each(function() {
-                     
+                   i = i+1; 
                 jQuery(this).find('span').text('');
                   if(!jQuery(this).find('.savedPic').hasClass('hidden')){
                         jQuery(this).find('.savedPic').addClass('hidden');
@@ -1064,7 +1065,7 @@ export class EditBarComponent implements OnInit {
                 var src = jQuery(this).find('.savedPic').attr('src');
                         
                     jQuery(this).append(`
-                                <div class="changePageImage"><div class="currPicDiv preview-md" id="preview`+jQuery('#inner').find('.image').length+`"><img src="`+src+`" alt="CurrentPicture"  class="currentPagePicture"></div>
+                                <div class="changePageImage"><div class="currPicDiv preview-md" id="preview`+i+`"><img src="`+src+`" alt="CurrentPicture"  class="currentPagePicture"></div>
                                 <div class="buttonFrameContainer pictureHandling">
                                 <input class="button ajaxFormTrigger userPicture changePagePictureButton" type="button" value="CHANGE PICTURE"></div></div><br>
                     `);
