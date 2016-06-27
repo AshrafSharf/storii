@@ -127,9 +127,19 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                 };
                 PresentationComponent.prototype.toggleFullScreen = function () {
                     var target = jQuery('.fullScreenBox')[0];
+                    var inner = jQuery('#outer');
+                    var buttonF = jQuery('.fullScreenToggle')[0];
                     if (screenfull.enabled) {
+                        if (!screenfull.isFullscreen) {
+                            target.style.width = '100%';
+                            inner.css('border', 'none');
+                            buttonF.src = 'app/assets/files/dartdown.png';
+                        }
+                        else {
+                            inner.css('border', '2px dotted black');
+                            buttonF.src = 'app/assets/files/dartup.png';
+                        }
                         screenfull.toggle(target);
-                        target.style.width = '100%';
                     }
                 };
                 PresentationComponent.prototype.goToRate = function () {
