@@ -125,6 +125,13 @@ System.register(['angular2/core', 'angular2/router', '../logState/logState.compo
                         }, function (error) { return _this.errorMessage = error; });
                     }
                 };
+                PresentationComponent.prototype.toggleFullScreen = function () {
+                    var target = jQuery('.fullScreenBox')[0];
+                    if (screenfull.enabled) {
+                        screenfull.toggle(target);
+                        target.style.width = '100%';
+                    }
+                };
                 PresentationComponent.prototype.goToRate = function () {
                     this.rating = true;
                     this.rateAllowed = false;

@@ -8,12 +8,13 @@
         		<a  class="buttonLookLink">RATE THAT STORY</a>
        		</div>
  </div>
+ <div class="fullScreenBox">
+  <button class="fullScreenToggle" (click)="toggleFullScreen()">click for fs</button>
   <div *ngIf="!rating" id="outer">
                  <div class="grid-stack" id="inner">
                  </div>
  </div>
- 
-  
+  </div>
  
  <div *ngIf="rating" id="outer">
   <h2>How did you like it?</h2>

@@ -12,6 +12,7 @@ declare var jQuery: any;
 declare var vex: any;
 declare var GridStackUI: any;
 declare var _: any;
+declare var screenfull: any;
 
 @Component({
   selector: 'presentation',
@@ -131,6 +132,14 @@ export class PresentationComponent implements OnInit {
 
       }
    
+   toggleFullScreen(){
+   		var target = jQuery('.fullScreenBox')[0];
+		if (screenfull.enabled) {
+		    screenfull.toggle(target);
+		    target.style.width = '100%';
+		}
+
+   }
     
     goToRate(){
         this.rating = true;
