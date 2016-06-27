@@ -22,7 +22,8 @@ body {
 }
 
 .grid-stack .image .grid-stack-item-content img{
-	max-width:100%;
+	width:100%;
+	height: 100%;
 }
 
 .changePageImage{
@@ -74,10 +75,13 @@ body {
     border: 1px dotted black;
     background-image: url('../../assets/files/edit.png');
     cursor: pointer;
-    top:50px;
+    top:32px;
     background-size: 45px 45px;
-    background-color:white;
-    height:45px;
+    background-color: rgb(255, 206, 115);
+    height:32px;
+    background-size: 25px 25px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .fontTitle{
@@ -90,11 +94,13 @@ body {
     z-index: 100;
     border: 1px dotted black;
     cursor: pointer;
-    top:100px;
+    top: 63px;
+    font-family: "Architects Daughter", cursive;
+    font-size: 17px;
 }
 
 .sizeTitle{
-    top:50px;
+    top: 31px;
 }
 
 .placeholder-content{
