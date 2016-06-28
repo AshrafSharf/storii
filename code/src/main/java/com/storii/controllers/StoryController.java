@@ -147,6 +147,10 @@ public class StoryController {
 		if(!updatedStory.getCoAuthorName().equals("defaultCoAuthor") && !updatedStory.getCoAuthorName().equals("")){
 			oldStory.setCoAuthorName(updatedStory.getCoAuthorName());
 		}
+		
+		if(!updatedStory.getDescription().equals("defaultDescription") && !updatedStory.getCoAuthorName().equals("")){
+			oldStory.setDescription(updatedStory.getDescription());
+		}
 				
 		storyDAO.save(oldStory);
 

@@ -836,6 +836,7 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                 });
                                 var deserializedContent = atob(self.actualPage['serializedContent']);
                                 var object = JSON.parse(deserializedContent);
+                                //var internLinks = self.actualPage['outgoingInternLinks'];
                                 this.images = object['images'];
                                 this.texts = object['texts'];
                                 this.links = object['links'];
@@ -880,6 +881,9 @@ System.register(['angular2/core', 'angular2/router', '../login/authentication.se
                                             }
                                         }
                                     }
+                                }
+                                for (var i = 0; i < this.links.length; i++) {
+                                    this.links[i]['id'] = self.actualPage['outgoingInternLinks'][i]['nextPage'];
                                 }
                             }
                             else {

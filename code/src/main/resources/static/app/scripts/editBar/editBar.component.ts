@@ -1209,6 +1209,9 @@ export class EditBarComponent implements OnInit {
                   var deserializedContent = atob(self.actualPage['serializedContent']);
                   var object = JSON.parse(deserializedContent);
            
+           	//var internLinks = self.actualPage['outgoingInternLinks'];
+           	
+           	
                
             this.images = object['images'];
             this.texts = object['texts'];
@@ -1252,6 +1255,10 @@ export class EditBarComponent implements OnInit {
                     }
                  }
             }   
+               
+            for(var i = 0; i < this.links.length; i++){
+           	 	this.links[i]['id'] = self.actualPage['outgoingInternLinks'][i]['nextPage'];
+           	}  
                
            // this.externLinks = object['externLinks'];          
            }else{

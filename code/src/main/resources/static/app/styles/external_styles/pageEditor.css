@@ -88,6 +88,10 @@ body {
 	top:0;
 }
 
+.grid-stack > .grid-stack-item > .grid-stack-item-content.internLinkBox{
+	text-align: center;
+}
+
 .size{
 	position: absolute;
     right: 10px;
